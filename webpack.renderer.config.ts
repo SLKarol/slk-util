@@ -1,8 +1,8 @@
-import type { Configuration } from "webpack";
 import path from "path";
+import type { Configuration } from "webpack";
 
-import { rules } from "./webpack.rules";
 import { plugins } from "./webpack.plugins";
+import { rules } from "./webpack.rules";
 
 rules.push({
   test: /\.css$/,
@@ -19,6 +19,7 @@ export const rendererConfig: Configuration = {
     alias: {
       "@renderer": path.resolve(__dirname, "src/renderer"),
       "@shared": path.resolve(__dirname, "src/shared"),
+      "@widgets": path.resolve(__dirname, "src/widgets"),
     },
   },
 };

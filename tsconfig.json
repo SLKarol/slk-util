@@ -25,9 +25,12 @@
       "@renderer/*": [
         "./src/renderer/*"
       ],
+      "@widgets/*": [
+        "./src/widgets/*"
+      ],
     }
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
   ]
 }

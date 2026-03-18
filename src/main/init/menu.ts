@@ -7,6 +7,10 @@ import {
 
 import { CHANNELS } from "@shared/ipc/channels";
 
+/**
+ * Создать меню для приложения
+ * @param mainWindow процесс главного окна
+ */
 export const createAppMenu = (mainWindow: BrowserWindow | null) => {
   const menuTemplate = [
     {
@@ -25,14 +29,6 @@ export const createAppMenu = (mainWindow: BrowserWindow | null) => {
           click: () => {
             if (mainWindow) {
               mainWindow.webContents.send(CHANNELS.NAVIGATE, "/stihiru");
-            }
-          },
-        },
-        {
-          label: "О программе",
-          click: () => {
-            if (mainWindow) {
-              mainWindow.webContents.send(CHANNELS.NAVIGATE, "/about");
             }
           },
         },

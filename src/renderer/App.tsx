@@ -1,24 +1,17 @@
-import '@mantine/core/styles.css';
-import '@mantine/dates/styles.css';
+import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
 
-import { MantineProvider } from '@mantine/core';
-import { configure } from 'mobx';
-import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router';
+import { MantineProvider } from "@mantine/core";
 
-/** mobx configure */
-configure({
-  enforceActions: 'always',
-  computedRequiresReaction: true,
-  reactionRequiresObservable: true,
-  observableRequiresReaction: true,
-});
+import { Routing } from "./pages/Routing";
 
-const root = createRoot(document.body);
-root.render(
-  <MantineProvider>
-    <BrowserRouter>
-      <div>div</div>
-    </BrowserRouter>
-  </MantineProvider>,
-);
+/**
+ * Точка входа в приложение
+ */
+export const App = () => {
+  return (
+    <MantineProvider>
+      <Routing />
+    </MantineProvider>
+  );
+};

@@ -1,4 +1,8 @@
 import { app, BrowserWindow } from "electron";
+import {
+  installExtension,
+  REACT_DEVELOPER_TOOLS,
+} from "electron-devtools-installer";
 
 import { createAppMenu } from "@main/init/menu";
 
@@ -52,6 +56,13 @@ app.on("activate", () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
+});
+
+app.whenReady().then(() => {
+  installExtension([REACT_DEVELOPER_TOOLS]).catch((err) =>
+    // eslint-disable-next-line no-console
+    console.log("An error occurred: ", err),
+  );
 });
 
 // In this file you can include the rest of your app's specific main process

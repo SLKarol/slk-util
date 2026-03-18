@@ -5,7 +5,8 @@
     "node": true
   },
   "plugins": [
-    "simple-import-sort"
+    "simple-import-sort",
+    "prettier"
   ],
   "extends": [
     "eslint:recommended",
@@ -14,6 +15,7 @@
     "plugin:import/recommended",
     "plugin:import/electron",
     "plugin:prettier/recommended",
+    "prettier",
     "plugin:import/typescript"
   ],
   "parser": "@typescript-eslint/parser",
@@ -50,6 +52,9 @@
           [
             "^@shared/(.*)$"
           ],
+          [
+            "^@widgets/(.*)$"
+          ],
           // 4. relative imports from same folder "./" (I like to have them grouped together)
           [
             "^\\./"
@@ -63,6 +68,14 @@
             "^.+\\.(gif|png|svg|jpg)$"
           ]
         ]
+      }
+    ],
+    "prettier/prettier": [
+      "warn",
+      {
+        "trailingComma": "all",
+        "singleQuote": false,
+        "endOfLine": "auto"
       }
     ]
   }
