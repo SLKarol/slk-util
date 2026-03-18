@@ -1,8 +1,10 @@
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 
-import { createRoot } from "react-dom/client";
+import { MantineProvider } from "@mantine/core";
 import { configure } from "mobx";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router";
 
 /** mobx configure */
 configure({
@@ -13,4 +15,10 @@ configure({
 });
 
 const root = createRoot(document.body);
-root.render(<div>App</div>);
+root.render(
+  <MantineProvider>
+    <BrowserRouter>
+      <div>div</div>
+    </BrowserRouter>
+  </MantineProvider>,
+);

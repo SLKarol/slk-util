@@ -1,8 +1,8 @@
 import {
-  Menu,
   BrowserWindow,
-  type MenuItemConstructorOptions,
+  Menu,
   type MenuItem,
+  type MenuItemConstructorOptions,
 } from "electron";
 
 import { CHANNELS } from "@shared/ipc/channels";
