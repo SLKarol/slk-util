@@ -1,14 +1,14 @@
-import "@mantine/core/styles.css";
-import "@mantine/dates/styles.css";
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
 
-import { MantineProvider } from "@mantine/core";
-import { configure } from "mobx";
-import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router";
+import { MantineProvider } from '@mantine/core';
+import { configure } from 'mobx';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router';
 
 /** mobx configure */
 configure({
-  enforceActions: "always",
+  enforceActions: 'always',
   computedRequiresReaction: true,
   reactionRequiresObservable: true,
   observableRequiresReaction: true,
