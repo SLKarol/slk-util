@@ -1,0 +1,36 @@
+src/
+├── app/
+│   ├── main/
+│   │   └── index.ts # Точка входа main процесса
+│   ├── preload/
+│   │   └── index.ts # Точка входа preload
+│   └── renderer/
+│       └── index.html # Точка входа renderer процесса
+├── main/
+│   ├── features/
+│   │   └── user/
+│   │       └── ipc/
+│   │           ├── get-user.ts
+│   │           └── send-user.ts
+│   ├── entities/
+│   └── shared/
+├── renderer/
+│   ├── pages/
+│   │   ├── settings/
+│   │   │   ├── ipc/
+│   │   │   │   ├── get-user.ts
+│   │   │   │   └── save-user.ts
+│   │   │   ├── ui/
+│   │   │   │   └── user.tsx
+│   │   │   └── index.ts
+│   │   └── home/
+│   │       ├── ui/
+│   │       │   └── home.tsx
+│   │       └── index.ts
+│   ├── widgets/
+│   ├── features/
+│   ├── entities/
+│   └── shared/
+└── shared/
+    └── ipc/
+        └── channels.ts
