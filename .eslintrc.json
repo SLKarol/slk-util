@@ -47,13 +47,16 @@
             "^@main/(.*)$"
           ],
           [
-            "^@renderer/(.*)$"
+            "^@pages/(.*)$"
           ],
           [
             "^@shared/(.*)$"
           ],
           [
             "^@widgets/(.*)$"
+          ],
+          [
+            "^@renderer/(.*)$"
           ],
           // 4. relative imports from same folder "./" (I like to have them grouped together)
           [

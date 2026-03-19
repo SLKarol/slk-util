@@ -22,11 +22,17 @@
       "@shared/*": [
         "./src/shared/*"
       ],
+      "@pages/*": [
+        "./src/renderer/pages/*"
+      ],
+      "@renderer-features/*": [
+        "./src/renderer/features/*"
+      ],
       "@renderer/*": [
         "./src/renderer/*"
       ],
       "@widgets/*": [
-        "./src/widgets/*"
+        "./src/renderer/widgets/*"
       ],
     }
   },

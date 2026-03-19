@@ -19,7 +19,9 @@ export const rendererConfig: Configuration = {
     alias: {
       "@renderer": path.resolve(__dirname, "src/renderer"),
       "@shared": path.resolve(__dirname, "src/shared"),
-      "@widgets": path.resolve(__dirname, "src/widgets"),
+      "@widgets": path.resolve(__dirname, "src/renderer/widgets"),
+      "@pages": path.resolve(__dirname, "src/renderer/pages"),
+      "@renderer-features": path.resolve(__dirname, "src/renderer/features"),
     },
   },
 };
