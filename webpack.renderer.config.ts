@@ -22,6 +22,7 @@ export const rendererConfig: Configuration = {
       "@widgets": path.resolve(__dirname, "src/renderer/widgets"),
       "@pages": path.resolve(__dirname, "src/renderer/pages"),
       "@renderer-features": path.resolve(__dirname, "src/renderer/features"),
+      "@renderer-shared": path.resolve(__dirname, "src/renderer/shared"),
     },
   },
 };

@@ -50,10 +50,14 @@
             "^@pages/(.*)$"
           ],
           [
-            "^@shared/(.*)$"
+            "^@shared/(.*)$",
+            "@renderer-shared"
           ],
           [
             "^@widgets/(.*)$"
+          ],
+          [
+            "@renderer-features"
           ],
           [
             "^@renderer/(.*)$"

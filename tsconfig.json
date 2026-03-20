@@ -28,6 +28,9 @@
       "@renderer-features/*": [
         "./src/renderer/features/*"
       ],
+      "@renderer-shared/*": [
+        "./src/renderer/shared/*"
+      ],
       "@renderer/*": [
         "./src/renderer/*"
       ],

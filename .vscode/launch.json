@@ -1,0 +1,48 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Main Process",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
+      "windows": {
+        "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
+      },
+      "args": [
+        "."
+      ],
+      "outputCapture": "std"
+    },
+    {
+      "name": "(Windows) Launch",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}\\out\\your-executable-location\\electron.exe",
+      "args": [
+        "your-electron-project-path"
+      ],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [
+        {
+          "name": "ELECTRON_ENABLE_LOGGING",
+          "value": "true"
+        },
+        {
+          "name": "ELECTRON_ENABLE_STACK_DUMPING",
+          "value": "true"
+        },
+        {
+          "name": "ELECTRON_RUN_AS_NODE",
+          "value": ""
+        },
+      ],
+      "externalConsole": false,
+      "sourceFileMap": {
+        "o:\\": "${workspaceFolder}",
+      },
+    },
+  ]
+}

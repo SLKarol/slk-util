@@ -1,6 +1,7 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from "electron";
 
 import { CHANNELS } from "@shared/ipc/channels";
+import { type ReceiveText } from "@shared/lib/types/electron-api";
 
 contextBridge.exposeInMainWorld("electronAPI", {
   /**
@@ -20,20 +21,30 @@ contextBridge.exposeInMainWorld("electronAPI", {
     };
   },
 
-  // Более расширенный пример:
-  // onMessage: (
-  //   channel: string,
-  //   callback: (event: Electron.IpcRendererEvent, data: unknown) => void,
-  // ) => {
-  //   const subscription = (
-  //     event: Electron.IpcRendererEvent,
-  //     ...args: unknown[]
-  //   ) => callback(event, args[0]);
-  //   ipcRenderer.on(channel, subscription);
-  //   return () => {
-  //     ipcRenderer.removeListener(channel, subscription);
-  //   };
-  // },
+  /**
+   * Запрос текста по URL
+   * @param url - URL для запроса
+   */
+  fetchText: (url: string) => {
+    ipcRenderer.send(CHANNELS.REQUEST_TEXT, url);
+  },
+
+  /**
+   * Обработчик события получения текста
+   */
+  onReceiveText: (callback: (receiveData: ReceiveText) => void) => {
+    // Создаём функцию‑обёртку для подписки
+    const subscription = (event: IpcRendererEvent, ...args: unknown[]) =>
+      callback(args[0] as ReceiveText);
+
+    // Подписываемся на событие
+    ipcRenderer.on(CHANNELS.RECEIVE_TEXT, subscription);
+
+    // Возвращаем функцию отписки
+    return () => {
+      ipcRenderer.removeListener(CHANNELS.RECEIVE_TEXT, subscription);
+    };
+  },
 });
 
 // See the Electron documentation for details on how to use preload scripts:

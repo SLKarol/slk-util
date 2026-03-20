@@ -1,6 +1,7 @@
 import { MemoryRouter, Route, Routes } from "react-router";
 
 import { HomePage } from "@pages/Home/HomePage";
+import { StihiRu } from "@pages/StihiRu/StihiRu";
 
 import { MainLayout } from "@widgets/main-layout/ui/MainLayout";
 
@@ -16,7 +17,7 @@ export const Routing = () => {
             path="stihiru"
             element={
               <StihiRuRootProvider>
-                <div>St</div>
+                <StihiRu />
               </StihiRuRootProvider>
             }
           />

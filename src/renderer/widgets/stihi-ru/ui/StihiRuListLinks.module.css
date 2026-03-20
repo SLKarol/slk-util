@@ -1,0 +1,8 @@
+.container {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 9rem);
+  align-items: center;
+  justify-items: center;
+  row-gap: 0.1rem;
+}

@@ -1,14 +1,7 @@
-import {
-  action,
-  computed,
-  makeObservable,
-  observable,
-  runInAction,
-} from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 
-import { generateUrlForDate } from "../lib/generateUrlForDate";
+import { generateUrlStihiListForDate } from "@renderer-features/stihi-ru/lib/generateUrlStihiListForDate";
 
-// import { getListGroupsLinks } from "@widgets/stihi-ru/lib/getListGroupsLinks";
 import type { StihiRuRootStore } from "./stihi-ru-root-store";
 
 /**
@@ -56,41 +49,34 @@ export class StihiRuListChapersStore {
       selectedLinkIndex: observable,
       // action
       clearSelectedLinkIndex: action,
-      // loadChapters: action,
+      loadChapters: action,
       setSelectedLinkIndex: action,
       selectRandomChapter: action,
+      handleChaptersData: action,
       // computed
       arrayLinks: computed,
     });
   }
 
   /**
-   * Асинхронно загружает список глав (групп стихов) по выбранной дате.
-   *
-   * Очищает текущий список, устанавливает флаг загрузки в `true`, получает данные
-   * через `getListGroupsLinks`, затем обновляет состояние с новыми данными.
-   *
-   * @remarks
-   * Использует `runInAction` для группировки изменений состояния после завершения асинхронной операции,
-   * чтобы гарантировать реактивное обновление компонентов.
+   * Загружает список глав для текущей даты.
+   * Ставит флаг загрузки. Очищает текущий список глав. Запрашивает данные с сайта.
    */
-  // loadChapters = async () => {
-  //   this.chapters = [];
-  //   this.loading = true;
-  //   const selectedDate = this.stihiRuRootStore.calendarStore.selectedDate;
-  //   const data = await getListGroupsLinks(selectedDate ?? "");
-
-  //   return runInAction(() => {
-  //     this.chapters = data;
-  //     this.loading = false;
-  //   });
-  // };
+  loadChapters = () => {
+    this.chapters = [];
+    this.loading = true;
+    window.electronAPI.fetchText(
+      generateUrlStihiListForDate(
+        this.stihiRuRootStore.calendarStore.selectedDate,
+      ),
+    );
+  };
 
   /**
    * Возвращает массив ссылок на разделы стихов, сгенерированных из текущего списка глав.
    */
   get arrayLinks() {
-    const urlSelectedDate = generateUrlForDate(
+    const urlSelectedDate = generateUrlStihiListForDate(
       this.stihiRuRootStore.calendarStore.selectedDate ?? "",
     );
 
@@ -139,5 +125,14 @@ export class StihiRuListChapersStore {
    */
   clearSelectedLinkIndex = () => {
     this.selectedLinkIndex = null;
+  };
+
+  /**
+   * Сохранить в стор список глав
+   * @param сhaptersData массив глав
+   */
+  handleChaptersData = (сhaptersData: string[]) => {
+    this.chapters = сhaptersData;
+    this.loading = false;
   };
 }

@@ -10,7 +10,7 @@ import dayjs from "dayjs";
  * @param {string} dateString - Строка с датой в формате, поддерживаемом `dayjs` (например, '2023-10-05').
  * @returns {string} Сформированный URL с параметрами года, месяца и дня.
  */
-export const generateUrlForDate = (dateString: string) => {
+export const generateUrlStihiListForDate = (dateString: string) => {
   const dateJS = dayjs(dateString);
   return `https://stihi.ru/poems/list.html?topic=all&year=${dateJS.year()}&month=${dateJS.format("MM")}&day=${dateJS.format("D")}`;
 };
