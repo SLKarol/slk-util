@@ -62,6 +62,7 @@
     "@tabler/icons-react": "^3.40.0",
     "dayjs": "^1.11.20",
     "electron-squirrel-startup": "^1.0.1",
+    "electron-window-state": "^5.0.3",
     "mobx": "^6.15.0",
     "mobx-react-lite": "^4.1.1",
     "react": "^19.2.4",

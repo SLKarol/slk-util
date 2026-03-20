@@ -3,6 +3,7 @@ import {
   installExtension,
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer";
+import windowStateKeeper, { State } from "electron-window-state";
 
 import { registerHandlers } from "@main/features/handlers";
 import { createAppMenu } from "@main/init/menu";
@@ -18,15 +19,20 @@ if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
-const createWindow = (): void => {
+const createWindow = (windowState: State): void => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    height: 600,
-    width: 800,
+    // height: 600,
+    // width: 800,
+    x: windowState.x,
+    y: windowState.y,
+    width: windowState.width,
+    height: windowState.height,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
   });
+  windowState.manage(mainWindow);
 
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
@@ -45,10 +51,14 @@ app.on("ready", () => {
     // eslint-disable-next-line no-console
     console.log("An error occurred: ", err),
   );
+  const mainWindowState = windowStateKeeper({
+    defaultWidth: 1000,
+    defaultHeight: 800,
+  });
+
+  createWindow(mainWindowState);
   // Регистрируем обработчики после создания окна
   registerHandlers();
-
-  createWindow();
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -64,7 +74,12 @@ app.on("activate", () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
+    const mainWindowState = windowStateKeeper({
+      defaultWidth: 1000,
+      defaultHeight: 800,
+    });
+
+    createWindow(mainWindowState);
   }
 });
 
