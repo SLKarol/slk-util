@@ -11,7 +11,7 @@ import styles from "./StihiRuListLinks.module.css";
  */
 export const StihiRuListLinks = observer(() => {
   const {
-    listChaptersStore: { arrayLinks, selectedLinkIndex, setSelectedLinkIndex },
+    listChaptersStore: { chapters, selectedLinkIndex, setSelectedLinkIndex },
   } = useStihiRuRootStore();
 
   const onClick = (mouseEvent: MouseEvent<HTMLElement>) => {
@@ -20,16 +20,17 @@ export const StihiRuListLinks = observer(() => {
 
   return (
     <div className={styles.container}>
-      {arrayLinks.map((chap, indexSelectedLink) => (
+      {chapters.map((chap, indexSelectedLink) => (
         <Button
-          key={chap.link}
+          key={chap.href}
           data-index={indexSelectedLink}
+          data-link={chap.href}
           variant={
             indexSelectedLink === selectedLinkIndex ? "outline" : "white"
           }
           onClick={onClick}
         >
-          {chap.caption}
+          {chap.textContent}
         </Button>
       ))}
     </div>

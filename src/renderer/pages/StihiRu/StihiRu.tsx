@@ -1,23 +1,16 @@
 import { useEffect } from "react";
-import { Flex } from "@mantine/core";
 
+import { type AppSettings } from "@shared/lib/types/app-settings";
 import { type ReceiveText } from "@shared/lib/types/electron-api";
 
-import { StihiRuAddBan } from "@widgets/stihi-ru/ui/buttons/StihiRuAddBan";
-import { StihiRuButtonGetRandom } from "@widgets/stihi-ru/ui/buttons/StihiRuButtonGetRandom";
-import { StihiRuButtonLoadList } from "@widgets/stihi-ru/ui/buttons/StihiRuButtonLoadList";
-import { StihiRuButtonLodSelected } from "@widgets/stihi-ru/ui/buttons/StihiRuButtonLodSelected";
-import { StihiRuCalendar } from "@widgets/stihi-ru/ui/StihiRuCalendar";
-import { StihiRuListLinks } from "@widgets/stihi-ru/ui/StihiRuListLinks";
-import { StihiRuListListVerse } from "@widgets/stihi-ru/ui/StihiRuListListVerse";
-import { StihiRuListRandomeNumber } from "@widgets/stihi-ru/ui/StihiRuListRandomeNumber";
-
 import { checkUrlStihiList } from "@renderer-features/stihi-ru/lib/checkUrlStihiList";
+import { checkUrlStihiPoems } from "@renderer-features/stihi-ru/lib/checkUrlStihiPoems";
 import { getGroupListFromHtmlString } from "@renderer-features/stihi-ru/lib/getGroupListFromHtmlString";
+import { getPoemsListFromHtmlString } from "@renderer-features/stihi-ru/lib/getPoemsListFromHtmlString";
 
 import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRootStore";
-
-import styles from "./StihiRu.module.css";
+import { StihiRuTabContent } from "@renderer/widgets/stihi-ru/ui/StihiRuTabContent";
+import { StihiRuTabs } from "@renderer/widgets/stihi-ru/ui/StihiRuTabs/StihiRuTabs";
 
 /**
  * Страница работы со списком стихов
@@ -25,6 +18,8 @@ import styles from "./StihiRu.module.css";
 export const StihiRu = () => {
   const {
     listChaptersStore: { handleChaptersData },
+    stihiRuPoemsStore: { handlePoemsData },
+    stihiRuLoginStore: { setSettings },
   } = useStihiRuRootStore();
 
   useEffect(() => {
@@ -33,31 +28,30 @@ export const StihiRu = () => {
         if (checkUrlStihiList(requestParam as string)) {
           handleChaptersData(getGroupListFromHtmlString(textContent));
         }
+        if (checkUrlStihiPoems(requestParam as string)) {
+          handlePoemsData(getPoemsListFromHtmlString(textContent));
+        }
+      },
+    );
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    window.electronAPI.fetchSettings();
+
+    const unsubscribe = window.electronAPI.onReceiveSetting(
+      (settings: AppSettings) => {
+        console.log("settings :>> ", settings);
+        setSettings(settings.stihiRu);
       },
     );
     return unsubscribe;
   }, []);
 
   return (
-    <div>
-      <Flex>
-        <div>
-          <StihiRuCalendar />
-          <StihiRuButtonLoadList />
-        </div>
-        <StihiRuListLinks />
-      </Flex>
-      <Flex gap="md" mt="lg">
-        <StihiRuButtonGetRandom />
-        <StihiRuButtonLodSelected />
-      </Flex>
-      <Flex>
-        <StihiRuListRandomeNumber />
-        <div className={styles.block}>
-          <StihiRuListListVerse />
-          <StihiRuAddBan />
-        </div>
-      </Flex>
-    </div>
+    <>
+      <StihiRuTabs />
+      <StihiRuTabContent />
+    </>
   );
 };

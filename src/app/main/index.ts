@@ -47,10 +47,6 @@ const createWindow = (windowState: State): void => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", () => {
-  installExtension([REACT_DEVELOPER_TOOLS]).catch((err) =>
-    // eslint-disable-next-line no-console
-    console.log("An error occurred: ", err),
-  );
   const mainWindowState = windowStateKeeper({
     defaultWidth: 1000,
     defaultHeight: 800,
@@ -81,6 +77,12 @@ app.on("activate", () => {
 
     createWindow(mainWindowState);
   }
+});
+
+app.whenReady().then(() => {
+  installExtension(REACT_DEVELOPER_TOOLS)
+    .then((ext) => console.log(`Added Extension:  ${ext.name}`))
+    .catch((err) => console.log("An error occurred: ", err));
 });
 
 // In this file you can include the rest of your app's specific main process

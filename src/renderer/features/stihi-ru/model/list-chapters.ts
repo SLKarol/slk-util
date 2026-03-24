@@ -3,6 +3,7 @@ import { action, computed, makeObservable, observable } from "mobx";
 import { generateUrlStihiListForDate } from "@renderer-features/stihi-ru/lib/generateUrlStihiListForDate";
 
 import type { StihiRuRootStore } from "./stihi-ru-root-store";
+import { type SihiChapter } from "./types";
 
 /**
  * Хранилище для управления списком глав (групп стихов) на сайте "Стихи.ру".
@@ -16,7 +17,7 @@ export class StihiRuListChapersStore {
    *
    * @observable
    */
-  chapters: string[] = [];
+  chapters: SihiChapter[] = [];
 
   /**
    * Флаг, указывающий, находится ли хранилище в состоянии загрузки данных.
@@ -49,18 +50,21 @@ export class StihiRuListChapersStore {
       selectedLinkIndex: observable,
       // action
       clearSelectedLinkIndex: action,
-      loadChapters: action,
-      setSelectedLinkIndex: action,
-      selectRandomChapter: action,
       handleChaptersData: action,
+      loadChapters: action,
+      selectRandomChapter: action,
+      setSelectedLinkIndex: action,
       // computed
-      arrayLinks: computed,
+      haveSelectedChapter: computed,
+      selectedChapter: computed,
     });
   }
 
   /**
-   * Загружает список глав для текущей даты.
-   * Ставит флаг загрузки. Очищает текущий список глав. Запрашивает данные с сайта.
+   * Загружает список глав для текущей выбранной даты.
+   *
+   * Очищает предыдущий список глав, устанавливает флаг загрузки в `true`,
+   * затем инициирует запрос к API Electron для получения HTML-данных по сгенерированному URL.
    */
   loadChapters = () => {
     this.chapters = [];
@@ -73,21 +77,12 @@ export class StihiRuListChapersStore {
   };
 
   /**
-   * Возвращает массив ссылок на разделы стихов, сгенерированных из текущего списка глав.
-   */
-  get arrayLinks() {
-    const urlSelectedDate = generateUrlStihiListForDate(
-      this.stihiRuRootStore.calendarStore.selectedDate ?? "",
-    );
-
-    return this.chapters.map((chap) => {
-      const baseLink = chap.split("-")[0];
-      return { caption: chap, link: `${urlSelectedDate}&start=${baseLink}` };
-    });
-  }
-
-  /**
-   * Задает выбранный раздел
+   * Устанавливает индекс выбранной главы.
+   *
+   * Если передано `undefined`, сбрасывает выбор. Если индекс уже выбран — снимает выбор.
+   * В противном случае устанавливает новый индекс.
+   *
+   * @param {string | undefined} selectedLinkIndex - Индекс выбранной главы в виде строки или `undefined`.
    */
   setSelectedLinkIndex = (selectedLinkIndex: string | undefined) => {
     if (!selectedLinkIndex) {
@@ -105,14 +100,24 @@ export class StihiRuListChapersStore {
   };
 
   /**
-   * Загружены ли разделы.
+   * Проверяет, были ли загружены главы.
+   *
+   * @returns {boolean} `true`, если список глав не пустой, иначе — `false`.
+   *
+   * @computed
    */
   get chaptersLoaded() {
     return this.chapters.length > 0;
   }
 
   /**
-   * Выбрать случайный раздел
+   * Выбирает случайную главу из загруженного списка.
+   *
+   * Устанавливает `selectedLinkIndex` в случайное значение в допустимом диапазоне.
+   *
+   * @returns {void}
+   *
+   * @action
    */
   selectRandomChapter = () => {
     const randomIndex = Math.floor(Math.random() * this.chapters.length);
@@ -121,18 +126,49 @@ export class StihiRuListChapersStore {
   };
 
   /**
-   * Очистить выбранный раздел
+   * Сбрасывает выбор текущей главы.
+   *
+   * Устанавливает `selectedLinkIndex` в `null`.
+   *
+   * @action
    */
   clearSelectedLinkIndex = () => {
     this.selectedLinkIndex = null;
   };
 
   /**
-   * Сохранить в стор список глав
-   * @param сhaptersData массив глав
+   * Обрабатывает полученные данные о главах и сохраняет их в хранилище.
+   *
+   * Сбрасывает флаг загрузки после успешного сохранения.
+   *
+   * @param {SihiChapter[]} сhaptersData - Массив объектов глав, полученных от парсера.
+   * @action
    */
-  handleChaptersData = (сhaptersData: string[]) => {
+  handleChaptersData = (сhaptersData: SihiChapter[]) => {
     this.chapters = сhaptersData;
     this.loading = false;
   };
+
+  /**
+   * Проверяет, выбрана ли какая-либо глава.
+   *
+   * @returns {boolean} `true`, если `selectedLinkIndex` не `null`, иначе — `false`.
+   *
+   * @computed
+   */
+  get haveSelectedChapter() {
+    return this.selectedLinkIndex !== null;
+  }
+
+  /**
+   * Возвращает объект выбранной главы или `null`, если ничего не выбрано.
+   *
+   * @returns {SihiChapter | null} Объект главы или `null`.
+   *
+   * @computed
+   */
+  get selectedChapter() {
+    if (this.selectedLinkIndex === null) return null;
+    return this.chapters[this.selectedLinkIndex];
+  }
 }

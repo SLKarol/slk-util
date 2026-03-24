@@ -1,5 +1,9 @@
 import { StihiRuCalendarStore } from "./calendar";
+import { HistorySelectedPartsStore } from "./history-selected-parts";
 import { StihiRuListChapersStore } from "./list-chapters";
+import { StihiRuLoginStore } from "./stihi-ru-login";
+import { StihiRuPoemsStore } from "./stihi-ru-poems";
+import { StihiRuTabsStore } from "./stihi-ru-tabs";
 
 /**
  * Корневое хранилище приложения для управления состоянием на сайте "Стихи.ру".
@@ -30,6 +34,26 @@ export class StihiRuRootStore {
   listChaptersStore: StihiRuListChapersStore;
 
   /**
+   * Экземпляр хранилища стихов.
+   */
+  stihiRuPoemsStore: StihiRuPoemsStore;
+
+  /**
+   * Экземпляр хранилища истории выбранных разделов.
+   */
+  historySelectedPartsStore: HistorySelectedPartsStore;
+
+  /**
+   * Экземпляр хранилища вкладок.
+   */
+  stihiRuTabsStore: StihiRuTabsStore;
+
+  /**
+   * Экземпляр хранилища авторизации.
+   */
+  stihiRuLoginStore: StihiRuLoginStore;
+
+  /**
    * Создаёт экземпляр корневого хранилища.
    */
   constructor() {
@@ -42,5 +66,9 @@ export class StihiRuRootStore {
      */
     this.calendarStore = new StihiRuCalendarStore(this);
     this.listChaptersStore = new StihiRuListChapersStore(this);
+    this.stihiRuPoemsStore = new StihiRuPoemsStore(this);
+    this.historySelectedPartsStore = new HistorySelectedPartsStore(this);
+    this.stihiRuTabsStore = new StihiRuTabsStore(this);
+    this.stihiRuLoginStore = new StihiRuLoginStore();
   }
 }

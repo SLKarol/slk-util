@@ -1,3 +1,6 @@
+import { type AppSettings } from "./app-settings";
+import { type RequestLoginForm } from "./request";
+
 /**
  * API для взаимодействия с Electron
  */
@@ -21,6 +24,23 @@ export interface ElectronAPI {
    * @returns Функцию- отписку от события
    */
   onReceiveText: (callback: (receiveText: ReceiveText) => void) => () => void;
+
+  /**
+   * Запрос настроек.
+   */
+  fetchSettings: () => void;
+  /**
+   * Задать обработчик получения настроек.
+   * @param callback функция-обработчик принимает AppSettings
+   * @returns Функцию- отписку от события
+   */
+  onReceiveSetting: (callback: (settings: AppSettings) => void) => () => void;
+
+  /**
+   * Запрос на авторизацию
+   * @param data данные авторизации
+   */
+  fetchLogin: (data: RequestLoginForm) => void;
 }
 
 /**

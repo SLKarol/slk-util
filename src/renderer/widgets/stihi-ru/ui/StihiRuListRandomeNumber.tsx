@@ -1,18 +1,29 @@
-import { List } from "@mantine/core";
+import { List, Stack, Title } from "@mantine/core";
+import { observer } from "mobx-react-lite";
+
+import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRootStore";
 
 /**
  * Список случайных номеров произведений
  */
-export const StihiRuListRandomeNumber = () => {
+export const StihiRuListRandomeNumber = observer(() => {
+  const {
+    historySelectedPartsStore: { selectedDatesReverse },
+  } = useStihiRuRootStore();
   return (
-    <List listStyleType="none" flex={1}>
-      <List.Item>Использовать клик и чек</List.Item>
-      <List.Item>Install dependencies with yarn</List.Item>
-      <List.Item>To start development server run npm start command</List.Item>
-      <List.Item>
-        Run tests to make sure your changes do not break the build
-      </List.Item>
-      <List.Item>Submit a pull request once you are done</List.Item>
-    </List>
+    <Stack flex={1} gap="xs">
+      <Title order={4}>История выбранных разделов</Title>
+      <List listStyleType="none">
+        {selectedDatesReverse.map((sihiChapter, indexSihiChapter) => (
+          <List.Item
+            key={sihiChapter.href}
+            fw={indexSihiChapter === 0 ? "bold" : undefined}
+          >
+            {sihiChapter.textContent}
+          </List.Item>
+        ))}
+      </List>
+    </Stack>
   );
-};
+});
+StihiRuListRandomeNumber.displayName = "StihiRuListRandomeNumber";

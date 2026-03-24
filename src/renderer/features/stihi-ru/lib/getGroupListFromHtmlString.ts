@@ -16,7 +16,9 @@ export const getGroupListFromHtmlString = (htmlString: string) => {
     return numberPattern.test(linkText);
   });
 
-  const linkTextContent = linksFiltered.map((link) => link.textContent);
+  const linkTextContent = (linksFiltered as HTMLLinkElement[]).map(
+    ({ textContent, href }) => ({ textContent, href }),
+  );
 
   return linkTextContent;
 };
