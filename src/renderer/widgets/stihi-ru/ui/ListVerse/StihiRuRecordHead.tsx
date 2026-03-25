@@ -1,19 +1,56 @@
-import { List } from "@mantine/core";
+import { Button, List } from "@mantine/core";
 import { observer } from "mobx-react-lite";
 
-import { type SihiPoem } from "@renderer-features/stihi-ru/model/types";
+import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRootStore";
+
+import { StihiRuButtonBanAuthor } from "./StihiRuButtonBanAuthor";
+import { StihiRuRecordHeadPic } from "./StihiRuRecordHeadPic";
+
+import styles from "./StihiRuRecordHead.module.css";
 
 interface Props {
   /**
    * Инфа о произведении
    */
-  poem: SihiPoem;
+  poemHref: string;
 }
 
 /**
  * Список произведений / Название и прочая инфа
  */
-export const StihiRuRecordHead = observer(({ poem }: Props) => {
-  return <List.Item>{poem.title}</List.Item>;
+export const StihiRuRecordHead = observer(({ poemHref }: Props) => {
+  const {
+    stihiRuPoemsStore: { poems },
+  } = useStihiRuRootStore();
+  const poem = poems.get(poemHref);
+  return (
+    <List.Item>
+      <div className={styles.listItem}>
+        <Button
+          variant="transparent"
+          color="indigo"
+          data-url={poem.href}
+          data-entity="poem"
+          className={styles.button}
+        >
+          {poem.title}
+        </Button>
+        <span>(</span>
+        <StihiRuRecordHeadPic authorId={poem.authorId} />
+        <Button
+          variant="transparent"
+          color="gray"
+          data-entity="author"
+          data-url={poem.authorId}
+          className={styles.button}
+        >
+          {poem.authorName}
+        </Button>
+        <StihiRuButtonBanAuthor poemHref={poem.href} />
+        <span>)</span>
+        {poem.dateTime ? <span>- {poem.dateTime}</span> : null}
+      </div>
+    </List.Item>
+  );
 });
 StihiRuRecordHead.displayName = "StihiRuRecordHead";

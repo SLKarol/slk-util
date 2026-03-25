@@ -3,6 +3,8 @@ import { observer } from "mobx-react-lite";
 
 import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRootStore";
 
+import styles from "./StihiRuListRandomeNumber.module.css";
+
 /**
  * Список случайных номеров произведений
  */
@@ -11,7 +13,7 @@ export const StihiRuListRandomeNumber = observer(() => {
     historySelectedPartsStore: { selectedDatesReverse },
   } = useStihiRuRootStore();
   return (
-    <Stack flex={1} gap="xs">
+    <Stack flex={1} gap="xs" className={styles.padding}>
       <Title order={4}>История выбранных разделов</Title>
       <List listStyleType="none">
         {selectedDatesReverse.map((sihiChapter, indexSihiChapter) => (

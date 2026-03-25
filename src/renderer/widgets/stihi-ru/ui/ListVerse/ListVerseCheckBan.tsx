@@ -16,7 +16,7 @@ export const ListVerseCheckBan = observer(() => {
       checked={haveBadAuthors ? !showBanned : false}
       disabled={!haveBadAuthors}
       onChange={toggleShowBanned}
-      label="Не показывать забаненных авторов"
+      label="Скрыть забаненных авторов"
     />
   );
 });

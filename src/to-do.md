@@ -33,3 +33,6 @@ headers: {
 'Content-Type': 'application/x-www-form-urlencoded',
 'Cookie': cookies.join('; ')
 },
+
+туду
+Если выбран раздел точно такой же, что и загруженный, то дизейбл кнопки

@@ -1,3 +1,11 @@
 .block {
   flex-grow: 3;
 }
+
+.listPoems {
+  width: 100%;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: 19rem 1fr;
+  column-gap: 0.5rem;
+}

@@ -1,4 +1,4 @@
-import { List } from "@mantine/core";
+import { List, Stack, Title } from "@mantine/core";
 import { observer } from "mobx-react-lite";
 
 import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRootStore";
@@ -13,11 +13,14 @@ export const StihiRuListListNew = observer(() => {
     stihiRuPoemsStore: { newPoems },
   } = useStihiRuRootStore();
   return (
-    <List flex={1}>
-      {newPoems.map((poem) => (
-        <StihiRuRecordHead key={poem.href} poem={poem} />
-      ))}
-    </List>
+    <Stack gap="xs" flex={1}>
+      <Title order={3}>Новые произведения</Title>
+      <List flex={1}>
+        {newPoems.map((poem) => (
+          <StihiRuRecordHead key={poem} poemHref={poem} />
+        ))}
+      </List>
+    </Stack>
   );
 });
 StihiRuListListNew.displayName = "StihiRuListListNew";

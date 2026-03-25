@@ -12,7 +12,7 @@ export class StihiRuPoemsStore {
   /**
    * Список стихов, загруженных с сайта "Стихи.ру" для выбранной главы.
    */
-  poems: SihiPoem[] = [];
+  poems: Map<string, SihiPoem> = new Map();
 
   /**
    * Флаг, указывающий, находится ли хранилище в состоянии загрузки данных.
@@ -75,7 +75,10 @@ export class StihiRuPoemsStore {
    */
   handlePoemsData = (poems: SihiPoem[]) => {
     this.loading = false;
-    this.poems = poems;
+    this.poems.clear();
+    poems.forEach((poem) => {
+      this.poems.set(poem.href, poem);
+    });
   };
 
   /**
@@ -84,12 +87,26 @@ export class StihiRuPoemsStore {
    * @returns {SihiPoem[]} Массив стихотворений, помеченных как приглашения.
    */
   get invites() {
-    if (this.showBanned) return this.poems.filter(({ invite }) => invite);
+    const poemHrefs = [] as string[];
 
-    const listBanAuthors = this.stihiRuRootStore.stihiRuBanAuthrorsStore.list;
-    return this.poems.filter(
-      ({ authorId, invite }) => invite && !listBanAuthors.has(authorId),
-    );
+    if (this.showBanned) {
+      this.poems.values().forEach(({ href, invite }) => {
+        if (invite) {
+          poemHrefs.push(href);
+        }
+      });
+      return poemHrefs;
+    }
+
+    this.poems.forEach(({ authorId, invite, href }) => {
+      if (
+        invite &&
+        !this.stihiRuRootStore.stihiRuBanAuthrorsStore.list.has(authorId)
+      )
+        poemHrefs.push(href);
+    });
+
+    return poemHrefs;
   }
 
   /**
@@ -99,25 +116,30 @@ export class StihiRuPoemsStore {
    * @returns {SihiPoem[]} Отсортированный массив стихотворений без флага приглашения.
    */
   get newPoems() {
-    if (this.showBanned)
-      return this.poems
+    const poemsArray = Array.from(this.poems.values());
+
+    if (this.showBanned) {
+      return poemsArray
         .filter(({ invite }) => !invite)
-        .toSorted(sortPoemsDescData);
+        .toSorted(sortPoemsDescData)
+        .map((p) => p.href);
+    }
 
-    const listBanAuthors = this.stihiRuRootStore.stihiRuBanAuthrorsStore.list;
-
-    return this.poems
+    return poemsArray
       .filter(
-        ({ invite, authorId }) => !invite && !listBanAuthors.has(authorId),
+        ({ invite, authorId }) =>
+          !invite &&
+          !this.stihiRuRootStore.stihiRuBanAuthrorsStore.list.has(authorId),
       )
-      .toSorted(sortPoemsDescData);
+      .toSorted(sortPoemsDescData)
+      .map((p) => p.href);
   }
 
   /**
    * Проверяет, есть ли в списке стихотворений хотя бы одно стихотворение.
    */
   get hasPoems() {
-    return this.poems.length > 0;
+    return this.poems.size > 0;
   }
 
   /**
@@ -128,6 +150,6 @@ export class StihiRuPoemsStore {
   };
 
   clearPoems = () => {
-    this.poems = [];
+    this.poems.clear();
   };
 }

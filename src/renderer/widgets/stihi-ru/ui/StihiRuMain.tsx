@@ -25,13 +25,13 @@ export const StihiRuMain = () => {
         <StihiRuButtonGetRandom />
         <StihiRuButtonLoadSelected />
       </Flex>
-      <Flex>
+      <div className={styles.listPoems}>
         <StihiRuListRandomeNumber />
         <div className={styles.block}>
           <StihiRuListListVerse />
           <StihiRuAddBan />
         </div>
-      </Flex>
+      </div>
     </>
   );
 };
