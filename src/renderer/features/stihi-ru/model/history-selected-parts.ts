@@ -30,6 +30,7 @@ export class HistorySelectedPartsStore {
       // observable
       selectedDates: observable,
       // action
+      clearHistory: action,
       pushSelectedDate: action,
       // computed
       selectedDatesReverse: computed,
@@ -58,4 +59,8 @@ export class HistorySelectedPartsStore {
   get selectedDatesReverse() {
     return this.selectedDates.slice().reverse();
   }
+
+  clearHistory = () => {
+    this.selectedDates = [];
+  };
 }

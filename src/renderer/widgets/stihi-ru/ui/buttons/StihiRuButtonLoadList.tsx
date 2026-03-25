@@ -10,6 +10,8 @@ export const StihiRuButtonLoadList = observer(() => {
   const {
     calendarStore: { dateSelected },
     listChaptersStore: { clearSelectedLinkIndex, loading, loadChapters },
+    stihiRuPoemsStore: { clearPoems },
+    historySelectedPartsStore: { clearHistory },
   } = useStihiRuRootStore();
 
   return (
@@ -18,6 +20,8 @@ export const StihiRuButtonLoadList = observer(() => {
         variant="filled"
         disabled={!dateSelected || loading}
         onClick={() => {
+          clearPoems();
+          clearHistory();
           clearSelectedLinkIndex();
           loadChapters();
         }}

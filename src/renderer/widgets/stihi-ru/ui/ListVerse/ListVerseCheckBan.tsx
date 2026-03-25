@@ -8,17 +8,14 @@ import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRoot
  */
 export const ListVerseCheckBan = observer(() => {
   const {
-    stihiRuPoemsStore: { hasPoems, showBanned, toggleShowBanned },
+    stihiRuPoemsStore: { showBanned, toggleShowBanned },
   } = useStihiRuRootStore();
-  if (hasPoems)
-    return (
-      <Checkbox
-        checked={!showBanned}
-        onChange={toggleShowBanned}
-        label="Не показывать забаненных авторов"
-      />
-    );
-
-  return null;
+  return (
+    <Checkbox
+      checked={!showBanned}
+      onChange={toggleShowBanned}
+      label="Не показывать забаненных авторов"
+    />
+  );
 });
 ListVerseCheckBan.displayName = "ListVerseCheckBan";

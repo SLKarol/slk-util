@@ -39,6 +39,7 @@ export class StihiRuPoemsStore {
       handlePoemsData: action,
       loadPoems: action,
       toggleShowBanned: action,
+      clearPoems: action,
       // computed
       invites: computed,
       hasPoems: computed,
@@ -113,5 +114,9 @@ export class StihiRuPoemsStore {
    */
   toggleShowBanned = () => {
     this.showBanned = !this.showBanned;
+  };
+
+  clearPoems = () => {
+    this.poems = [];
   };
 }
