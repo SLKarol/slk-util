@@ -13,7 +13,7 @@ export const ListVerseCheckBan = observer(() => {
   if (hasPoems)
     return (
       <Checkbox
-        checked={showBanned}
+        checked={!showBanned}
         onChange={toggleShowBanned}
         label="Не показывать забаненных авторов"
       />
