@@ -1,7 +1,7 @@
 import { action, computed, makeObservable, observable } from "mobx";
 
 import type { StihiRuRootStore } from "./stihi-ru-root-store";
-import { type SihiChapter } from "./types";
+import { type SihiChapter, type StihiChaperHidtory } from "./types";
 
 /**
  * Хранилище выбранных дат (разделов) истории на сайте "Стихи.ру".
@@ -18,23 +18,14 @@ export class HistorySelectedPartsStore {
    *
    * @observable
    */
-  selectedDates: SihiChapter[] = [];
-
-  /**
-   * Ссылка на корневое хранилище приложения.
-   *
-   * Используется для доступа к другим частям хранилища MobX при необходимости.
-   */
-  private stihiRuRootStore: StihiRuRootStore;
+  selectedDates: StihiChaperHidtory[] = [];
 
   /**
    * Создаёт экземпляр хранилища выбранных частей истории.
    *
    * @param {StihiRuRootStore} stihiRuRootStore - Корневое хранилище приложения.
    */
-  constructor(stihiRuRootStore: StihiRuRootStore) {
-    this.stihiRuRootStore = stihiRuRootStore;
-
+  constructor(private stihiRuRootStore: StihiRuRootStore) {
     makeObservable(this, {
       // observable
       selectedDates: observable,
@@ -51,7 +42,10 @@ export class HistorySelectedPartsStore {
    * @param {SihiChapter} sihiChapter - Глава, которую нужно добавить.
    */
   pushSelectedDate = (sihiChapter: SihiChapter) => {
-    this.selectedDates.push(sihiChapter);
+    this.selectedDates.push({
+      ...sihiChapter,
+      idHistory: Date.now().toString(),
+    });
   };
 
   /**

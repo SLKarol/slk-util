@@ -1,4 +1,6 @@
-import { action, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
+
+import { sortPoemsDescData } from "../lib/sortPoem";
 
 import { type StihiRuRootStore } from "./stihi-ru-root-store";
 import { type SihiPoem } from "./types";
@@ -30,6 +32,8 @@ export class StihiRuPoemsStore {
       handlePoemsData: action,
       loadPoems: action,
       // computed
+      invites: computed,
+      newPoems: computed,
     });
   }
 
@@ -63,4 +67,28 @@ export class StihiRuPoemsStore {
     this.loading = false;
     this.poems = poems;
   };
+
+  /**
+   * Возвращает массив стихотворений, у которых установлен флаг `invite`.
+   *
+   * @returns {SihiPoem[]} Массив стихотворений, помеченных как приглашения.
+   */
+  get invites() {
+    return this.poems.filter(({ invite }) => invite);
+  }
+
+  /**
+   * Возвращает массив новых стихотворений, отсортированных по дате в порядке убывания.
+   *
+   * Фильтрует внутренний массив `poems`, исключая элементы с `invite: true`,
+   * затем сортирует оставшиеся стихотворения от самых новых к самым старым
+   * с использованием функции `sortPoemsDescData`.
+   *
+   * @returns {SihiPoem[]} Отсортированный массив стихотворений без флага приглашения.
+   */
+  get newPoems() {
+    const poems = this.poems.filter(({ invite }) => !invite);
+
+    return poems.toSorted(sortPoemsDescData);
+  }
 }

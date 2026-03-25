@@ -41,7 +41,6 @@ export const StihiRu = () => {
 
     const unsubscribe = window.electronAPI.onReceiveSetting(
       (settings: AppSettings) => {
-        console.log("settings :>> ", settings);
         setSettings(settings.stihiRu);
       },
     );

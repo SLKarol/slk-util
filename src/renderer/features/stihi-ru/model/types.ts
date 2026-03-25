@@ -4,6 +4,16 @@ export interface SihiChapter {
 }
 
 /**
+ * Интерфейс для истории просмотра глав
+ */
+export interface StihiChaperHidtory extends SihiChapter {
+  /**
+   * Идентификатор истории
+   */
+  idHistory: string;
+}
+
+/**
  * Интерфейс для стихотворения на сайте "Стихи.ру"
  **/
 export interface SihiPoem {

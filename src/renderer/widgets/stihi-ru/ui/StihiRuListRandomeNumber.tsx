@@ -16,7 +16,7 @@ export const StihiRuListRandomeNumber = observer(() => {
       <List listStyleType="none">
         {selectedDatesReverse.map((sihiChapter, indexSihiChapter) => (
           <List.Item
-            key={sihiChapter.href}
+            key={sihiChapter.idHistory}
             fw={indexSihiChapter === 0 ? "bold" : undefined}
           >
             {sihiChapter.textContent}

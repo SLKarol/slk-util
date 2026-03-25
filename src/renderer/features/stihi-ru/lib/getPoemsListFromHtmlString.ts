@@ -39,21 +39,22 @@ export const getPoemsListFromHtmlString = (htmlString: string) => {
         poemSummary.authorId = href.replace("/avtor/", "");
         poemSummary.authorName = text;
       }
-
-      // Ищем элемент <small> и извлекаем текст без тире
-      const smallElement = link.querySelector("small");
-      if (smallElement) {
-        const smallContent = smallElement.textContent?.trim();
-        if (smallContent) {
-          // Убираем тире в начале, если оно есть
-          poemSummary.dateTime = smallContent.replace(/^-\s*/, "").trim();
-        }
-        // Если нет такого элемента, значит автор приглашает
-        else {
-          poemSummary.invite = true;
-        }
-      }
     });
+
+    // Ищем элемент <small> и извлекаем текст без тире
+    const smallElement = listItem.querySelector("small");
+    if (smallElement) {
+      const smallContent = smallElement.textContent?.trim();
+      if (smallContent) {
+        // Убираем тире в начале, если оно есть
+        poemSummary.dateTime = smallContent.replace(/^-\s*/, "").trim();
+      }
+    }
+    // Если нет такого элемента, значит автор приглашает
+    else {
+      poemSummary.invite = true;
+    }
+
     return poemSummary;
   });
 

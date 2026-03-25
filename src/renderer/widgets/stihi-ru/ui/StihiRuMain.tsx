@@ -4,9 +4,9 @@ import { StihiRuAddBan } from "./buttons/StihiRuAddBan";
 import { StihiRuButtonGetRandom } from "./buttons/StihiRuButtonGetRandom";
 import { StihiRuButtonLoadList } from "./buttons/StihiRuButtonLoadList";
 import { StihiRuButtonLoadSelected } from "./buttons/StihiRuButtonLoadSelected";
+import { StihiRuListListVerse } from "./ListVerse/StihiRuListListVerse";
 import { StihiRuCalendar } from "./StihiRuCalendar";
 import { StihiRuListLinks } from "./StihiRuListLinks";
-import { StihiRuListListVerse } from "./StihiRuListListVerse";
 import { StihiRuListRandomeNumber } from "./StihiRuListRandomeNumber";
 
 import styles from "./StihiRuMain.module.css";
