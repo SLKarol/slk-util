@@ -1,5 +1,6 @@
 import { Flex } from "@mantine/core";
 
+import { ListVerseCheckBan } from "./ListVerseCheckBan";
 import { StihiRuInvites } from "./StihiRuInvites";
 import { StihiRuListListNew } from "./StihiRuListListNew";
 
@@ -8,9 +9,12 @@ import { StihiRuListListNew } from "./StihiRuListListNew";
  */
 export const StihiRuListListVerse = () => {
   return (
-    <Flex>
-      <StihiRuListListNew />
-      <StihiRuInvites />
+    <Flex flex={1} direction="column" gap="sm">
+      <ListVerseCheckBan />
+      <Flex>
+        <StihiRuListListNew />
+        <StihiRuInvites />
+      </Flex>
     </Flex>
   );
 };

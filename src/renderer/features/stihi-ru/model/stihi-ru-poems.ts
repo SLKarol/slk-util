@@ -22,17 +22,26 @@ export class StihiRuPoemsStore {
    * @observable
    */
   loading = false;
+  /**
+   * Признак показа забаненных авторов.
+   *
+   * @observable
+   */
+  showBanned = false;
 
   constructor(private stihiRuRootStore: StihiRuRootStore) {
     makeObservable(this, {
       // observable
-      poems: observable,
       loading: observable,
+      poems: observable,
+      showBanned: observable,
       // action
       handlePoemsData: action,
       loadPoems: action,
+      toggleShowBanned: action,
       // computed
       invites: computed,
+      hasPoems: computed,
       newPoems: computed,
     });
   }
@@ -91,4 +100,18 @@ export class StihiRuPoemsStore {
 
     return poems.toSorted(sortPoemsDescData);
   }
+
+  /**
+   * Проверяет, есть ли в списке стихотворений хотя бы одно стихотворение.
+   */
+  get hasPoems() {
+    return this.poems.length > 0;
+  }
+
+  /**
+   * Переключает значение свойства `showBanned`.
+   */
+  toggleShowBanned = () => {
+    this.showBanned = !this.showBanned;
+  };
 }
