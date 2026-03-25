@@ -84,22 +84,33 @@ export class StihiRuPoemsStore {
    * @returns {SihiPoem[]} Массив стихотворений, помеченных как приглашения.
    */
   get invites() {
-    return this.poems.filter(({ invite }) => invite);
+    if (this.showBanned) return this.poems.filter(({ invite }) => invite);
+
+    const listBanAuthors = this.stihiRuRootStore.stihiRuBanAuthrorsStore.list;
+    return this.poems.filter(
+      ({ authorId, invite }) => invite && !listBanAuthors.has(authorId),
+    );
   }
 
   /**
    * Возвращает массив новых стихотворений, отсортированных по дате в порядке убывания.
-   *
-   * Фильтрует внутренний массив `poems`, исключая элементы с `invite: true`,
-   * затем сортирует оставшиеся стихотворения от самых новых к самым старым
-   * с использованием функции `sortPoemsDescData`.
-   *
+   * Стихотворения без флага приглашения (и забаненных авторов) исключаются .
+   * Про авторов - это в this.showBanned.
    * @returns {SihiPoem[]} Отсортированный массив стихотворений без флага приглашения.
    */
   get newPoems() {
-    const poems = this.poems.filter(({ invite }) => !invite);
+    if (this.showBanned)
+      return this.poems
+        .filter(({ invite }) => !invite)
+        .toSorted(sortPoemsDescData);
 
-    return poems.toSorted(sortPoemsDescData);
+    const listBanAuthors = this.stihiRuRootStore.stihiRuBanAuthrorsStore.list;
+
+    return this.poems
+      .filter(
+        ({ invite, authorId }) => !invite && !listBanAuthors.has(authorId),
+      )
+      .toSorted(sortPoemsDescData);
   }
 
   /**

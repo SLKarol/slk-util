@@ -9,10 +9,12 @@ import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRoot
 export const ListVerseCheckBan = observer(() => {
   const {
     stihiRuPoemsStore: { showBanned, toggleShowBanned },
+    stihiRuBanAuthrorsStore: { haveBadAuthors },
   } = useStihiRuRootStore();
   return (
     <Checkbox
-      checked={!showBanned}
+      checked={haveBadAuthors ? !showBanned : false}
+      disabled={!haveBadAuthors}
       onChange={toggleShowBanned}
       label="Не показывать забаненных авторов"
     />

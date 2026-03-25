@@ -52,7 +52,6 @@ export const StihiRu = () => {
     window.electronAPI.fetchBanAuthors();
 
     const unsubscribe = window.electronAPI.onReceiveBanAuthors((authors) => {
-      console.log("authors :>> ", authors.length);
       loadArrayBadAuthors(authors);
     });
     return unsubscribe;

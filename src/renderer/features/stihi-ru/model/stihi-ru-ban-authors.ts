@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 
 /**
  * Хранилище для управления списком забаненных авторов на сайте "Стихи.ру".
@@ -16,6 +16,7 @@ export class StihiRuBanAuthrorsStore {
       // action
       loadArrayBadAuthors: action,
       // computed
+      haveBadAuthors: computed,
     });
   }
 
@@ -26,4 +27,11 @@ export class StihiRuBanAuthrorsStore {
   loadArrayBadAuthors = (badAuthors: string[]) => {
     this.list = new Set(badAuthors);
   };
+
+  /**
+   * Проверяет, есть ли забаненные авторы в памяти
+   */
+  get haveBadAuthors() {
+    return this.list.size > 0;
+  }
 }
