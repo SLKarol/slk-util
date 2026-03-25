@@ -1,7 +1,10 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from "electron";
 
 import { CHANNELS } from "@shared/ipc/channels";
-import { type ReceiveText } from "@shared/lib/types/electron-api";
+import {
+  type ElectronAPI,
+  type ReceiveText,
+} from "@shared/lib/types/electron-api";
 import { type RequestLoginForm } from "@shared/lib/types/request";
 
 contextBridge.exposeInMainWorld("electronAPI", {
@@ -92,4 +95,30 @@ contextBridge.exposeInMainWorld("electronAPI", {
   fetchLogin: (data: RequestLoginForm) => {
     ipcRenderer.send(CHANNELS.REQUEST_POST_LOGIN, data);
   },
-});
+
+  /**
+   * Отправляет запрос через IPC-канал на получение списка забаненных авторов.
+   */
+  fetchBanAuthors: () => {
+    ipcRenderer.send(CHANNELS.GET_BAN_AUTHORS);
+  },
+
+  /**
+   * Подписка на событие получения списка забаненных авторов.
+   * @param callback - Функция обратного вызова, вызываемая при получении настроек
+   * @returns {Function} Функция, при вызове которой происходит отписка от события.
+   */
+  onReceiveBanAuthors: (callback) => {
+    // Создаём функцию‑обёртку для подписки
+    const subscription = (event: IpcRendererEvent, ...args: unknown[]) =>
+      callback(args[0] as string[]);
+
+    // Подписываемся на событие
+    ipcRenderer.on(CHANNELS.RECEIVE_BAN_AUTHORS, subscription);
+
+    // Возвращаем функцию отписки
+    return () => {
+      ipcRenderer.removeListener(CHANNELS.RECEIVE_BAN_AUTHORS, subscription);
+    };
+  },
+} as ElectronAPI);

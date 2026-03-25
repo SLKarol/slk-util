@@ -34,4 +34,13 @@ export const CHANNELS = {
    * Получение настроек
    */
   RECEIVE_SETTINGS: "RECEIVE_SETTINGS",
+
+  /**
+   * Запрос на получение забаненных авторов
+   */
+  GET_BAN_AUTHORS: "GET_BAN_AUTHORS",
+  /**
+   * Получение забаненных авторов
+   */
+  RECEIVE_BAN_AUTHORS: "RECEIVE_BAN_AUTHORS",
 } as const;

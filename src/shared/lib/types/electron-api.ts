@@ -31,8 +31,8 @@ export interface ElectronAPI {
   fetchSettings: () => void;
   /**
    * Задать обработчик получения настроек.
-   * @param callback функция-обработчик принимает AppSettings
-   * @returns Функцию- отписку от события
+   * @param callback функция-обработчик. Принимает AppSettings
+   * @returns Функция- отписка от события
    */
   onReceiveSetting: (callback: (settings: AppSettings) => void) => () => void;
 
@@ -41,6 +41,18 @@ export interface ElectronAPI {
    * @param data данные авторизации
    */
   fetchLogin: (data: RequestLoginForm) => void;
+
+  /**
+   * Запрос списка забаненных авторов
+   */
+  fetchBanAuthors: () => void;
+
+  /**
+   * Задать обработчик получения списка забаненных авторов.
+   * @param callback  функция-обработчик. Принимает массив строк
+   * @returns Функция- отписка от события
+   */
+  onReceiveBanAuthors: (callback: (list: string[]) => void) => () => void;
 }
 
 /**

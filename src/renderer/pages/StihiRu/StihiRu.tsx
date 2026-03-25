@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 
-import { type AppSettings } from "@shared/lib/types/app-settings";
 import { type ReceiveText } from "@shared/lib/types/electron-api";
 
 import { checkUrlStihiList } from "@renderer-features/stihi-ru/lib/checkUrlStihiList";
@@ -20,8 +19,10 @@ export const StihiRu = () => {
     listChaptersStore: { handleChaptersData },
     stihiRuPoemsStore: { handlePoemsData },
     stihiRuLoginStore: { setSettings },
+    stihiRuBanAuthrorsStore: { loadArrayBadAuthors },
   } = useStihiRuRootStore();
 
+  // Настроить обработчики событий запросов к сети
   useEffect(() => {
     const unsubscribe = window.electronAPI.onReceiveText(
       ({ requestParam, textContent }: ReceiveText) => {
@@ -36,14 +37,24 @@ export const StihiRu = () => {
     return unsubscribe;
   }, []);
 
+  // Настроить обработчики событий настроек приложения
   useEffect(() => {
     window.electronAPI.fetchSettings();
 
-    const unsubscribe = window.electronAPI.onReceiveSetting(
-      (settings: AppSettings) => {
-        setSettings(settings.stihiRu);
-      },
-    );
+    const unsubscribe = window.electronAPI.onReceiveSetting((settings) => {
+      setSettings(settings.stihiRu);
+    });
+    return unsubscribe;
+  }, []);
+
+  // Настроить обработчики событий загрузки забаненных авторов
+  useEffect(() => {
+    window.electronAPI.fetchBanAuthors();
+
+    const unsubscribe = window.electronAPI.onReceiveBanAuthors((authors) => {
+      console.log("authors :>> ", authors.length);
+      loadArrayBadAuthors(authors);
+    });
     return unsubscribe;
   }, []);
 
