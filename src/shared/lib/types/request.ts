@@ -23,3 +23,17 @@ export interface RequestLoginForm {
    */
   url: string;
 }
+
+/**
+ * Интерфейс, описывающий данные для отправки запроса на получение стиха.
+ */
+export interface RequestPoem {
+  /**
+   * URL-адрес, на который будет отправлен запрос.
+   */
+  hrefPoem: string;
+  /**
+   * URL-адрес, с которого был отправлен запрос.
+   */
+  referer?: string;
+}

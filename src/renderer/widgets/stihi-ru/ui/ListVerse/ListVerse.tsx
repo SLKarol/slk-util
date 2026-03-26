@@ -1,9 +1,10 @@
 import { Flex } from "@mantine/core";
 import { observer } from "mobx-react-lite";
 
+import { ListVerseButtonOpenAll } from "../buttons/ListVerseButtonOpenAll";
+
 import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRootStore";
 
-import { ListVerseButtonOpenAll } from "./ListVerseButtonOpenAll";
 import { ListVerseCheckBan } from "./ListVerseCheckBan";
 import { StihiRuInvites } from "./StihiRuInvites";
 import { StihiRuListListNew } from "./StihiRuListListNew";
@@ -11,7 +12,7 @@ import { StihiRuListListNew } from "./StihiRuListListNew";
 /**
  * Блок со списком произведений
  */
-export const StihiRuListListVerse = observer(() => {
+export const ListVerse = observer(() => {
   const {
     stihiRuPoemsStore: { hasPoems },
   } = useStihiRuRootStore();
@@ -32,4 +33,4 @@ export const StihiRuListListVerse = observer(() => {
 
   return null;
 });
-StihiRuListListVerse.displayName = "StihiRuListListVerse";
+ListVerse.displayName = "ListVerse";

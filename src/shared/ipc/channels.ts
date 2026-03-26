@@ -43,4 +43,13 @@ export const CHANNELS = {
    * Получение забаненных авторов
    */
   RECEIVE_BAN_AUTHORS: "RECEIVE_BAN_AUTHORS",
+
+  /**
+   * Запрос стиха
+   */
+  STIHI_REQUEST_POEM: "STIHI_REQUEST_POEM",
+  /**
+   * Получение стиха
+   */
+  STIHI_RECEIVE_POEM: "STIHI_RECEIVE_POEM",
 } as const;

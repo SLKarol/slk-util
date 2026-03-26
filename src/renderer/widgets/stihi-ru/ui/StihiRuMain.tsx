@@ -4,7 +4,7 @@ import { StihiRuAddBan } from "./buttons/StihiRuAddBan";
 import { StihiRuButtonGetRandom } from "./buttons/StihiRuButtonGetRandom";
 import { StihiRuButtonLoadList } from "./buttons/StihiRuButtonLoadList";
 import { StihiRuButtonLoadSelected } from "./buttons/StihiRuButtonLoadSelected";
-import { StihiRuListListVerse } from "./ListVerse/StihiRuListListVerse";
+import { ListVerse } from "./ListVerse/ListVerse";
 import { StihiRuCalendar } from "./StihiRuCalendar";
 import { StihiRuListLinks } from "./StihiRuListLinks";
 import { StihiRuListRandomeNumber } from "./StihiRuListRandomeNumber";
@@ -28,7 +28,7 @@ export const StihiRuMain = () => {
       <div className={styles.listPoems}>
         <StihiRuListRandomeNumber />
         <div className={styles.block}>
-          <StihiRuListListVerse />
+          <ListVerse />
           <StihiRuAddBan />
         </div>
       </div>

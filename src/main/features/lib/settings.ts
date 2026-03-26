@@ -42,6 +42,10 @@ export const writeSettings = async ({ key, settings }: WriteSettingsProps) => {
   return newSettings;
 };
 
+/**
+ * Читает настройки приложения
+ * @returns настройки приложения
+ */
 export async function readSettingsFile() {
   const fullFileNameSettings = getFileNameSettings();
   await createFileJSONIfNotExists(fullFileNameSettings, {
@@ -52,6 +56,11 @@ export async function readSettingsFile() {
   return settingsData;
 }
 
+/**
+ * Возвращает полный путь к файлу настроек приложения.
+ *
+ * @returns {string} Полный путь к файлу настроек вида `{путь_к_данным_пользователя}/settings.json`.
+ */
 function getFileNameSettings() {
   const userDataPath = app.getPath("userData");
   const fullFileNameSettings = `${userDataPath}/settings.json`;

@@ -21,29 +21,30 @@ interface Props {
 export const StihiRuRecordHead = observer(({ poemHref }: Props) => {
   const {
     stihiRuPoemsStore: { poems },
+    calendarStore: { referer },
   } = useStihiRuRootStore();
   const poem = poems.get(poemHref);
+
+  const onClickTitle = () => {
+    console.log("poemHref :>> ", poemHref);
+    console.log("referer :>> ", referer);
+    window.electronAPI.stihiRequestPoem({ hrefPoem: poemHref, referer });
+  };
+
   return (
     <List.Item>
       <div className={styles.listItem}>
         <Button
           variant="transparent"
           color="indigo"
-          data-url={poem.href}
-          data-entity="poem"
           className={styles.button}
+          onClick={onClickTitle}
         >
           {poem.title}
         </Button>
         <span>(</span>
         <StihiRuRecordHeadPic authorId={poem.authorId} />
-        <Button
-          variant="transparent"
-          color="gray"
-          data-entity="author"
-          data-url={poem.authorId}
-          className={styles.button}
-        >
+        <Button variant="transparent" color="gray" className={styles.button}>
           {poem.authorName}
         </Button>
         <StihiRuButtonBanAuthor poemHref={poem.href} />

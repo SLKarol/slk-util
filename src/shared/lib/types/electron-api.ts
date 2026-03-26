@@ -1,5 +1,5 @@
 import { type AppSettings } from "./app-settings";
-import { type RequestLoginForm } from "./request";
+import { type RequestLoginForm, type RequestPoem } from "./request";
 
 /**
  * API для взаимодействия с Electron
@@ -53,6 +53,18 @@ export interface ElectronAPI {
    * @returns Функция- отписка от события
    */
   onReceiveBanAuthors: (callback: (list: string[]) => void) => () => void;
+
+  /**
+   * Запросить произведение
+   * @param requestParam Параметр запроса
+   */
+  stihiRequestPoem: (requestParam: RequestPoem) => void;
+  /**
+   * Задать обработчик получения произведения
+   */
+  onReceiveStihiPoem: (
+    callback: (receiveText: ReceiveText) => void,
+  ) => () => void;
 }
 
 /**

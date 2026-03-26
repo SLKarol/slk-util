@@ -57,6 +57,14 @@ export const StihiRu = () => {
     return unsubscribe;
   }, []);
 
+  // Настроить обработчики событий загрузки стихов
+  useEffect(() => {
+    const unsubscribe = window.electronAPI.onReceiveStihiPoem((poemData) => {
+      console.log("poemData :>> ", poemData);
+    });
+    return unsubscribe;
+  }, []);
+
   return (
     <>
       <StihiRuTabs />

@@ -37,6 +37,7 @@ export class StihiRuCalendarStore {
       setSelectedDate: action,
       // computed
       dateSelected: computed,
+      referer: computed,
     });
   }
 
@@ -52,5 +53,17 @@ export class StihiRuCalendarStore {
    */
   get dateSelected() {
     return Boolean(this.selectedDate);
+  }
+
+  /**
+   * Ссылка на страницу с выбранной датой.
+   */
+  get referer() {
+    if (this.dateSelected) {
+      const date = new Date(this.selectedDate);
+
+      return `/poems/list.html?topic=all&year=${date.getFullYear()}&month=${String(date.getMonth() + 1).padStart(2, "0")}&day=${date.getDate().toString().padStart(2, "0")}`;
+    }
+    return null;
   }
 }
