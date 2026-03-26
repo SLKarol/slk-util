@@ -10,9 +10,12 @@ export const REQUEST_HEADERS = {
   Connection: "keep-alive",
   "Sec-Fetch-Dest": "document",
   "Sec-Fetch-Mode": "navigate",
-  "Sec-Fetch-Site": "none",
+  "Sec-Fetch-Site": "same-origin", // Было "none"
+  "Sec-Fetch-User": "?1",
+  "Sec-GPC": "1",
   "Upgrade-Insecure-Requests": "1",
   "User-Agent":
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0",
   DNT: "1",
+  Priority: "u=0, i",
 } as Record<string, string>;

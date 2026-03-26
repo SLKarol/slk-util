@@ -39,6 +39,7 @@ export const stihiRuHandlers = {
         method: "GET",
         headers,
         credentials: "include",
+        window: null,
       });
       // Получаем сырые данные
       const arrayBuffer = await response.arrayBuffer();
@@ -55,8 +56,6 @@ export const stihiRuHandlers = {
       // Декодируем с правильной кодировкой
       const decoder = new TextDecoder(charset);
       const htmlText = decoder.decode(uint8Array);
-
-      console.log(htmlText);
 
       // Устанавливаем корректные заголовки для клиента
       event.reply(CHANNELS.STIHI_RECEIVE_POEM, {
