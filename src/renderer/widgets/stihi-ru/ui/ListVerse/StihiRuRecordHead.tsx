@@ -21,14 +21,11 @@ interface Props {
 export const StihiRuRecordHead = observer(({ poemHref }: Props) => {
   const {
     stihiRuPoemsStore: { poems },
-    calendarStore: { referer },
   } = useStihiRuRootStore();
   const poem = poems.get(poemHref);
 
   const onClickTitle = () => {
-    console.log("poemHref :>> ", poemHref);
-    console.log("referer :>> ", referer);
-    window.electronAPI.stihiRequestPoem({ hrefPoem: poemHref, referer });
+    window.electronAPI.stihiOpenPoem(poemHref);
   };
 
   return (

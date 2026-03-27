@@ -17,11 +17,6 @@ export const CHANNELS = {
   RECEIVE_TEXT: "RECEIVE_TEXT",
 
   /**
-   * Ответ на запрос авторизации
-   */
-  REQUEST_POST_LOGIN: "REQUEST_POST_LOGIN",
-
-  /**
    * Ошибка главного процесса
    */
   ERROR_MAIN: "ERROR_MAIN",
@@ -45,11 +40,7 @@ export const CHANNELS = {
   RECEIVE_BAN_AUTHORS: "RECEIVE_BAN_AUTHORS",
 
   /**
-   * Запрос стиха
+   * Открыть в болузере стих
    */
-  STIHI_REQUEST_POEM: "STIHI_REQUEST_POEM",
-  /**
-   * Получение стиха
-   */
-  STIHI_RECEIVE_POEM: "STIHI_RECEIVE_POEM",
+  STIHI_OPEN_POEM: "STIHI_OPEN_POEM",
 } as const;

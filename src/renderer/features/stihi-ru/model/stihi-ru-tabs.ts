@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable } from "mobx";
 
-import { MAIN_TAB_NAME, SETTINGS_TAB_NAME } from "../constants/tabs";
+import { BANNED_TAB_NAME, MAIN_TAB_NAME } from "../constants/tabs";
 
 import { type StihiRuRootStore } from "./stihi-ru-root-store";
 import { type StihiRuTab } from "./types";
@@ -20,8 +20,8 @@ export class StihiRuTabsStore {
    */
   tabs: Map<string, StihiRuTab> = new Map([
     [
-      SETTINGS_TAB_NAME,
-      { id: SETTINGS_TAB_NAME, readonly: true, title: "Настройки" },
+      BANNED_TAB_NAME,
+      { id: BANNED_TAB_NAME, readonly: true, title: "Заблокированные" },
     ],
     [MAIN_TAB_NAME, { id: MAIN_TAB_NAME, readonly: true, title: "Главная" }],
   ]);
@@ -39,7 +39,7 @@ export class StihiRuTabsStore {
       selectedTab: observable,
       tabs: observable,
       // action
-      closeTab: action,
+
       setSelectedTab: action,
       // computed
       tabsArray: computed,
@@ -72,20 +72,4 @@ export class StihiRuTabsStore {
   get tabsArray() {
     return Array.from(this.tabs.values());
   }
-
-  /**
-   * Закрывает вкладку по её идентификатору.
-   *
-   * todo: Нужно подумать, куда переносить фокус с закрытой вкладки
-   *
-   * @param idTab - Идентификатор вкладки, которую нужно закрыть.
-   *
-   * @action
-   */
-  closeTab = (idTab: string) => {
-    const tab = this.tabs.get(idTab);
-    if (tab && !tab.readonly) {
-      this.tabs.delete(idTab);
-    }
-  };
 }

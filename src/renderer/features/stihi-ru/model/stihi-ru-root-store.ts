@@ -2,7 +2,6 @@ import { StihiRuCalendarStore } from "./calendar";
 import { HistorySelectedPartsStore } from "./history-selected-parts";
 import { StihiRuListChapersStore } from "./list-chapters";
 import { StihiRuBanAuthrorsStore } from "./stihi-ru-ban-authors";
-import { StihiRuLoginStore } from "./stihi-ru-login";
 import { StihiRuPoemsStore } from "./stihi-ru-poems";
 import { StihiRuTabsStore } from "./stihi-ru-tabs";
 
@@ -50,11 +49,6 @@ export class StihiRuRootStore {
   stihiRuTabsStore: StihiRuTabsStore;
 
   /**
-   * Экземпляр хранилища авторизации.
-   */
-  stihiRuLoginStore: StihiRuLoginStore;
-
-  /**
    * Экземпляр хранилища запрещённых авторов.
    */
   stihiRuBanAuthrorsStore: StihiRuBanAuthrorsStore;
@@ -75,7 +69,6 @@ export class StihiRuRootStore {
     this.stihiRuPoemsStore = new StihiRuPoemsStore(this);
     this.historySelectedPartsStore = new HistorySelectedPartsStore(this);
     this.stihiRuTabsStore = new StihiRuTabsStore(this);
-    this.stihiRuLoginStore = new StihiRuLoginStore();
     this.stihiRuBanAuthrorsStore = new StihiRuBanAuthrorsStore();
   }
 }

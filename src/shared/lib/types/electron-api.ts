@@ -1,5 +1,4 @@
 import { type AppSettings } from "./app-settings";
-import { type RequestLoginForm, type RequestPoem } from "./request";
 
 /**
  * API для взаимодействия с Electron
@@ -37,12 +36,6 @@ export interface ElectronAPI {
   onReceiveSetting: (callback: (settings: AppSettings) => void) => () => void;
 
   /**
-   * Запрос на авторизацию
-   * @param data данные авторизации
-   */
-  fetchLogin: (data: RequestLoginForm) => void;
-
-  /**
    * Запрос списка забаненных авторов
    */
   fetchBanAuthors: () => void;
@@ -55,16 +48,10 @@ export interface ElectronAPI {
   onReceiveBanAuthors: (callback: (list: string[]) => void) => () => void;
 
   /**
-   * Запросить произведение
-   * @param requestParam Параметр запроса
+   * Открыть произведение по ссылке на сайте stihi.ru в броузере
+   * @param hrefPoem Ссылка на произведение, без указания сайта
    */
-  stihiRequestPoem: (requestParam: RequestPoem) => void;
-  /**
-   * Задать обработчик получения произведения
-   */
-  onReceiveStihiPoem: (
-    callback: (receiveText: ReceiveText) => void,
-  ) => () => void;
+  stihiOpenPoem: (hrefPoem: string) => void;
 }
 
 /**

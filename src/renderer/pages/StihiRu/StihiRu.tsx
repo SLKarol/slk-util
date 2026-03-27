@@ -18,7 +18,6 @@ export const StihiRu = () => {
   const {
     listChaptersStore: { handleChaptersData },
     stihiRuPoemsStore: { handlePoemsData },
-    stihiRuLoginStore: { setSettings },
     stihiRuBanAuthrorsStore: { loadArrayBadAuthors },
   } = useStihiRuRootStore();
 
@@ -37,30 +36,12 @@ export const StihiRu = () => {
     return unsubscribe;
   }, []);
 
-  // Настроить обработчики событий настроек приложения
-  useEffect(() => {
-    window.electronAPI.fetchSettings();
-
-    const unsubscribe = window.electronAPI.onReceiveSetting((settings) => {
-      setSettings(settings.stihiRu);
-    });
-    return unsubscribe;
-  }, []);
-
   // Настроить обработчики событий загрузки забаненных авторов
   useEffect(() => {
     window.electronAPI.fetchBanAuthors();
 
     const unsubscribe = window.electronAPI.onReceiveBanAuthors((authors) => {
       loadArrayBadAuthors(authors);
-    });
-    return unsubscribe;
-  }, []);
-
-  // Настроить обработчики событий загрузки стихов
-  useEffect(() => {
-    const unsubscribe = window.electronAPI.onReceiveStihiPoem((poemData) => {
-      console.log("poemData :>> ", poemData);
     });
     return unsubscribe;
   }, []);

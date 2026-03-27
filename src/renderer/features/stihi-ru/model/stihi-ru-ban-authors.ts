@@ -16,6 +16,7 @@ export class StihiRuBanAuthrorsStore {
       // action
       loadArrayBadAuthors: action,
       // computed
+      countBadAuthors: computed,
       haveBadAuthors: computed,
     });
   }
@@ -33,5 +34,12 @@ export class StihiRuBanAuthrorsStore {
    */
   get haveBadAuthors() {
     return this.list.size > 0;
+  }
+
+  /**
+   * Количество забаненных авторов
+   */
+  get countBadAuthors() {
+    return this.list.size;
   }
 }
