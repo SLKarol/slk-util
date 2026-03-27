@@ -1,14 +1,26 @@
-import { Button, Text, Tooltip } from "@mantine/core";
+import { Button, Tooltip } from "@mantine/core";
+import { observer } from "mobx-react-lite";
 
-export const ListVerseButtonOpenAll = () => {
+import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRootStore";
+
+/**
+ * Кнопка "Открыть все в броузере"
+ */
+export const ListVerseButtonOpenAll = observer(() => {
+  const {
+    stihiRuPoemsStore: { linkAllPoems },
+  } = useStihiRuRootStore();
+
+  const onClick = () => {
+    window.electronAPI.stihiOpenAllPoems(linkAllPoems);
+  };
+
   return (
-    <>
-      <Tooltip label="Открыть во вкладках все произведения">
-        <Button variant="light" color="cyan">
-          Открыть все
-        </Button>
-      </Tooltip>
-      <Text size="sm">Запросы могут занять некоторое время</Text>
-    </>
+    <Tooltip label="Открыть в броузере">
+      <Button variant="light" color="cyan" onClick={onClick}>
+        Открыть все
+      </Button>
+    </Tooltip>
   );
-};
+});
+ListVerseButtonOpenAll.displayName = "ListVerseButtonOpenAll";

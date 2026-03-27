@@ -75,6 +75,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
     };
   },
 
-  stihiOpenPoem: (hrefPoem: string) =>
+  stihiOpenPoem: (hrefPoem) =>
     ipcRenderer.send(CHANNELS.STIHI_OPEN_POEM, hrefPoem),
+  stihiOpenAllPoems: (hrefPoems) =>
+    ipcRenderer.send(CHANNELS.STIHI_OPEN_ALL_POEMS, hrefPoems),
 } as ElectronAPI);

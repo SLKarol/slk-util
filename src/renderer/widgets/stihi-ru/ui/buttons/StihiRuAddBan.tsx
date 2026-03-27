@@ -6,7 +6,7 @@ import { IconPigOff } from "@tabler/icons-react";
  */
 export const StihiRuAddBan = () => {
   return (
-    <Tooltip label="Сохранить в файл">
+    <Tooltip label="В бан-лист">
       <Button
         variant="filled"
         color="red"

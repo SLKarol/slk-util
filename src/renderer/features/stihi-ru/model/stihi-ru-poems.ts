@@ -44,6 +44,7 @@ export class StihiRuPoemsStore {
       invites: computed,
       hasPoems: computed,
       newPoems: computed,
+      linkAllPoems: computed,
     });
   }
 
@@ -82,7 +83,7 @@ export class StihiRuPoemsStore {
   };
 
   /**
-   * Возвращает массив стихотворений, у которых установлен флаг `invite`.
+   * Возвращает массив ссылок стихотворений, у которых установлен флаг `invite`.
    *
    * @returns {SihiPoem[]} Массив стихотворений, помеченных как приглашения.
    */
@@ -110,7 +111,7 @@ export class StihiRuPoemsStore {
   }
 
   /**
-   * Возвращает массив новых стихотворений, отсортированных по дате в порядке убывания.
+   * Возвращает массив ссылок новых стихотворений, отсортированных по дате в порядке убывания.
    * Стихотворения без флага приглашения (и забаненных авторов) исключаются .
    * Про авторов - это в this.showBanned.
    * @returns {SihiPoem[]} Отсортированный массив стихотворений без флага приглашения.
@@ -149,7 +150,20 @@ export class StihiRuPoemsStore {
     this.showBanned = !this.showBanned;
   };
 
+  /**
+   * Очищает список стихотворений.
+   */
   clearPoems = () => {
     this.poems.clear();
   };
+
+  /**
+   * Возвращает массив ссылок видимых стихотворений.
+   * Если выбрано, то включая приглашения.
+   */
+  get linkAllPoems() {
+    if (this.stihiRuRootStore.stihiRuUiStore.openWithInvite)
+      return [...this.invites, ...this.newPoems];
+    return this.invites;
+  }
 }

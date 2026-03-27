@@ -2,6 +2,7 @@ import { Flex } from "@mantine/core";
 import { observer } from "mobx-react-lite";
 
 import { ListVerseButtonOpenAll } from "../buttons/ListVerseButtonOpenAll";
+import { CheckBoxIncludeInvite } from "../CheckBoxIncludeInvite";
 
 import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRootStore";
 
@@ -23,6 +24,7 @@ export const ListVerse = observer(() => {
         <ListVerseCheckBan />
         <div>
           <ListVerseButtonOpenAll />
+          <CheckBoxIncludeInvite />
         </div>
         <Flex>
           <StihiRuListListNew />

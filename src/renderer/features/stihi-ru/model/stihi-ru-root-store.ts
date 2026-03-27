@@ -4,6 +4,7 @@ import { StihiRuListChapersStore } from "./list-chapters";
 import { StihiRuBanAuthrorsStore } from "./stihi-ru-ban-authors";
 import { StihiRuPoemsStore } from "./stihi-ru-poems";
 import { StihiRuTabsStore } from "./stihi-ru-tabs";
+import { StihiRuUiStore } from "./stihi-ru-ui";
 
 /**
  * Корневое хранилище приложения для управления состоянием на сайте "Стихи.ру".
@@ -54,6 +55,11 @@ export class StihiRuRootStore {
   stihiRuBanAuthrorsStore: StihiRuBanAuthrorsStore;
 
   /**
+   * Экземпляр хранилища пользовательского интерфейса.
+   */
+  stihiRuUiStore: StihiRuUiStore;
+
+  /**
    * Создаёт экземпляр корневого хранилища.
    */
   constructor() {
@@ -70,5 +76,6 @@ export class StihiRuRootStore {
     this.historySelectedPartsStore = new HistorySelectedPartsStore(this);
     this.stihiRuTabsStore = new StihiRuTabsStore(this);
     this.stihiRuBanAuthrorsStore = new StihiRuBanAuthrorsStore();
+    this.stihiRuUiStore = new StihiRuUiStore();
   }
 }

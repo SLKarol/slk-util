@@ -40,7 +40,12 @@ export const CHANNELS = {
   RECEIVE_BAN_AUTHORS: "RECEIVE_BAN_AUTHORS",
 
   /**
-   * Открыть в болузере стих
+   * Открыть в броузере стих
    */
   STIHI_OPEN_POEM: "STIHI_OPEN_POEM",
+
+  /**
+   * Открыть в броузере все найденные стихи
+   */
+  STIHI_OPEN_ALL_POEMS: "STIHI_OPEN_ALL_POEMS",
 } as const;

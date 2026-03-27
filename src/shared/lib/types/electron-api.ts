@@ -52,6 +52,12 @@ export interface ElectronAPI {
    * @param hrefPoem Ссылка на произведение, без указания сайта
    */
   stihiOpenPoem: (hrefPoem: string) => void;
+
+  /**
+   * Открыть все видимые произведение по ссылке на сайте stihi.ru в броузере
+   * @param hrefsPoems Массив ссылок на произведения
+   */
+  stihiOpenAllPoems: (hrefsPoems: string[]) => void;
 }
 
 /**
