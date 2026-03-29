@@ -1,6 +1,5 @@
 import { Flex } from "@mantine/core";
 
-import { StihiRuAddBan } from "./buttons/StihiRuAddBan";
 import { StihiRuButtonGetRandom } from "./buttons/StihiRuButtonGetRandom";
 import { StihiRuButtonLoadList } from "./buttons/StihiRuButtonLoadList";
 import { StihiRuButtonLoadSelected } from "./buttons/StihiRuButtonLoadSelected";
@@ -29,7 +28,6 @@ export const StihiRuMain = () => {
         <StihiRuListRandomeNumber />
         <div className={styles.block}>
           <ListVerse />
-          <StihiRuAddBan />
         </div>
       </div>
     </>

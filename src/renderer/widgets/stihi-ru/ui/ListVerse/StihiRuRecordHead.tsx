@@ -1,6 +1,8 @@
 import { Button, List } from "@mantine/core";
 import { observer } from "mobx-react-lite";
 
+import { OpenPoem } from "@widgets/stihi-ru/ui/buttons/OpenPoem";
+
 import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRootStore";
 
 import { StihiRuButtonBanAuthor } from "./StihiRuButtonBanAuthor";
@@ -24,21 +26,10 @@ export const StihiRuRecordHead = observer(({ poemHref }: Props) => {
   } = useStihiRuRootStore();
   const poem = poems.get(poemHref);
 
-  const onClickTitle = () => {
-    window.electronAPI.stihiOpenPoem(poemHref);
-  };
-
   return (
     <List.Item>
       <div className={styles.listItem}>
-        <Button
-          variant="transparent"
-          color="indigo"
-          className={styles.button}
-          onClick={onClickTitle}
-        >
-          {poem.title}
-        </Button>
+        <OpenPoem href={poemHref} title={poem.title} />
         <span>(</span>
         <StihiRuRecordHeadPic authorId={poem.authorId} />
         <Button variant="transparent" color="gray" className={styles.button}>

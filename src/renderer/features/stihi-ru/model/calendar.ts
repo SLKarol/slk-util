@@ -16,20 +16,11 @@ export class StihiRuCalendarStore {
   selectedDate: string | null = null;
 
   /**
-   * Ссылка на корневое хранилище приложения.
-   *
-   * Используется для доступа к другим частям хранилища MobX при необходимости.
-   */
-  private stihiRuRootStore: StihiRuRootStore;
-
-  /**
    * Создаёт экземпляр хранилища календаря.
    *
    * @param {StihiRuRootStore} stihiRuRootStore - Корневое хранилище приложения, передаваемое через конструктор.
    */
-  constructor(stihiRuRootStore: StihiRuRootStore) {
-    this.stihiRuRootStore = stihiRuRootStore;
-
+  constructor(private stihiRuRootStore: StihiRuRootStore) {
     makeObservable(this, {
       // observable
       selectedDate: observable,

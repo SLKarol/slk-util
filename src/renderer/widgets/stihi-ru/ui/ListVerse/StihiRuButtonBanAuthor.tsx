@@ -13,14 +13,19 @@ interface Props {
  */
 export const StihiRuButtonBanAuthor = observer(({ poemHref }: Props) => {
   const {
-    stihiRuBanAuthrorsStore: { list },
+    stihiRuBanAuthrorsStore: { list, addOrRemoveBadAuthorByPoemHref },
     stihiRuPoemsStore: { poems },
   } = useStihiRuRootStore();
+
   const poem = poems.get(poemHref);
   const authorBanned = poem ? list.has(poem.authorId) : false;
 
   return (
-    <ActionIcon variant="transparent" aria-label="Settings">
+    <ActionIcon
+      variant="transparent"
+      aria-label="Settings"
+      onClick={() => addOrRemoveBadAuthorByPoemHref(poemHref)}
+    >
       {authorBanned ? (
         <IconThumbUp stroke={1.5} />
       ) : (

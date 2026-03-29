@@ -18,7 +18,7 @@ export const ListVerseButtonOpenAll = observer(() => {
   return (
     <Tooltip label="Открыть в броузере">
       <Button variant="light" color="cyan" onClick={onClick}>
-        Открыть все
+        Открыть всё
       </Button>
     </Tooltip>
   );

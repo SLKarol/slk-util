@@ -79,4 +79,9 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.send(CHANNELS.STIHI_OPEN_POEM, hrefPoem),
   stihiOpenAllPoems: (hrefPoems) =>
     ipcRenderer.send(CHANNELS.STIHI_OPEN_ALL_POEMS, hrefPoems),
+
+  addBanAuthor: (author: string) =>
+    ipcRenderer.send(CHANNELS.ADD_BAN_AUTHOR, author),
+  removeBanAuthor: (author: string) =>
+    ipcRenderer.send(CHANNELS.REMOVE_BAN_AUTHOR, author),
 } as ElectronAPI);

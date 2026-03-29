@@ -58,6 +58,17 @@ export interface ElectronAPI {
    * @param hrefsPoems Массив ссылок на произведения
    */
   stihiOpenAllPoems: (hrefsPoems: string[]) => void;
+
+  /**
+   * Добавить автора в список забаненных
+   * @param author Логин автора
+   */
+  addBanAuthor: (author: string) => void;
+  /**
+   * Удалить автора из списка забаненных
+   * @param author Логин автора
+   */
+  removeBanAuthor: (author: string) => void;
 }
 
 /**

@@ -1,6 +1,6 @@
 import { type IpcMainEvent } from "electron";
 
-import { readBanAuthors } from "../lib/banAuthors";
+import { readBanAuthors, writeBanAuthors } from "@main/features/lib/banAuthors";
 
 import { CHANNELS } from "@shared/ipc/channels";
 
@@ -29,8 +29,43 @@ export const banAuthorHandlers = {
    */
   [CHANNELS.GET_BAN_AUTHORS]: async (event: IpcMainEvent) => {
     try {
-      const settingsData = await readBanAuthors();
-      event.reply(CHANNELS.RECEIVE_BAN_AUTHORS, settingsData);
+      const bannedAuthors = await readBanAuthors();
+      event.reply(CHANNELS.RECEIVE_BAN_AUTHORS, bannedAuthors);
+    } catch (error) {
+      console.error("Error:", error);
+      event.reply(CHANNELS.ERROR_MAIN, {
+        requestParam: CHANNELS.GET_BAN_AUTHORS,
+        error,
+      });
+    }
+  },
+
+  /**
+   * Обработчик для добавления автора в список заблокированных.
+   */
+  [CHANNELS.ADD_BAN_AUTHOR]: async (event: IpcMainEvent, author: string) => {
+    try {
+      const bannedAuthors = await readBanAuthors();
+      bannedAuthors.push(author);
+      return writeBanAuthors(bannedAuthors.sort());
+    } catch (error) {
+      console.error("Error:", error);
+      event.reply(CHANNELS.ERROR_MAIN, {
+        requestParam: CHANNELS.GET_BAN_AUTHORS,
+        error,
+      });
+    }
+  },
+
+  /**
+   * Обработчик для удаления автора из списка заблокированных.
+   */
+  [CHANNELS.REMOVE_BAN_AUTHOR]: async (event: IpcMainEvent, author: string) => {
+    try {
+      const bannedAuthors = await readBanAuthors();
+      const setBannedAuthors = new Set(bannedAuthors);
+      setBannedAuthors.delete(author);
+      return writeBanAuthors(Array.from(setBannedAuthors).sort());
     } catch (error) {
       console.error("Error:", error);
       event.reply(CHANNELS.ERROR_MAIN, {

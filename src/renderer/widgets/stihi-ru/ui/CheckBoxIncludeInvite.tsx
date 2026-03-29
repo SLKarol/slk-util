@@ -10,6 +10,12 @@ export const CheckBoxIncludeInvite = observer(() => {
   const {
     stihiRuUiStore: { openWithInvite, toggleOpenWithInvite },
   } = useStihiRuRootStore();
-  return <Checkbox checked={openWithInvite} onChange={toggleOpenWithInvite} />;
+  return (
+    <Checkbox
+      checked={openWithInvite}
+      onChange={toggleOpenWithInvite}
+      label="Будут открыты и стихи-приглашения"
+    />
+  );
 });
 CheckBoxIncludeInvite.displayName = "CheckBoxIncludeInvite";

@@ -75,7 +75,7 @@ export class StihiRuRootStore {
     this.stihiRuPoemsStore = new StihiRuPoemsStore(this);
     this.historySelectedPartsStore = new HistorySelectedPartsStore(this);
     this.stihiRuTabsStore = new StihiRuTabsStore(this);
-    this.stihiRuBanAuthrorsStore = new StihiRuBanAuthrorsStore();
+    this.stihiRuBanAuthrorsStore = new StihiRuBanAuthrorsStore(this);
     this.stihiRuUiStore = new StihiRuUiStore();
   }
 }

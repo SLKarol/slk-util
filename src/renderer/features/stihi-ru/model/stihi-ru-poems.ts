@@ -159,11 +159,11 @@ export class StihiRuPoemsStore {
 
   /**
    * Возвращает массив ссылок видимых стихотворений.
-   * Если выбрано, то включая приглашения.
+   * Если `openWithInvite` включен, возвращает все стихотворения (приглашения + новые).
    */
   get linkAllPoems() {
     if (this.stihiRuRootStore.stihiRuUiStore.openWithInvite)
       return [...this.invites, ...this.newPoems];
-    return this.invites;
+    return this.newPoems;
   }
 }

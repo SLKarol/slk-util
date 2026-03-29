@@ -1,5 +1,5 @@
 import { app } from "electron";
-import { readFile } from "fs/promises";
+import { readFile, writeFile } from "fs/promises";
 
 import { createFileJSONIfNotExists } from "./createFileIfNotExists";
 
@@ -24,3 +24,17 @@ function getFileNameBanAuthor() {
   const fullFileNameSettings = `${userDataPath}/banAuthor.json`;
   return fullFileNameSettings;
 }
+
+/**
+ * Записать список забаненных авторов в файл.
+ * @param banAuthors - Список забаненных авторов.
+ * @returns Промис, разрешаемый после успешной записи.
+ */
+export const writeBanAuthors = async (banAuthors: string[]) => {
+  const fullFileName = getFileNameBanAuthor();
+  await createFileJSONIfNotExists(fullFileName, [] as string[]);
+  return await writeFile(fullFileName, JSON.stringify(banAuthors, null, 2), {
+    encoding: "utf8",
+    flag: "w",
+  });
+};

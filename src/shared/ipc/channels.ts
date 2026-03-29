@@ -48,4 +48,13 @@ export const CHANNELS = {
    * Открыть в броузере все найденные стихи
    */
   STIHI_OPEN_ALL_POEMS: "STIHI_OPEN_ALL_POEMS",
+
+  /**
+   * Добавить автора в список забаненных
+   */
+  ADD_BAN_AUTHOR: "ADD_BAN_AUTHOR",
+  /**
+   * Удалить автора из списка забаненных
+   */
+  REMOVE_BAN_AUTHOR: "REMOVE_BAN_AUTHOR",
 } as const;
