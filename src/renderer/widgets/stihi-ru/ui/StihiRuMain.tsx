@@ -26,9 +26,7 @@ export const StihiRuMain = () => {
       </Flex>
       <div className={styles.listPoems}>
         <StihiRuListRandomeNumber />
-        <div className={styles.block}>
-          <ListVerse />
-        </div>
+        <ListVerse />
       </div>
     </>
   );

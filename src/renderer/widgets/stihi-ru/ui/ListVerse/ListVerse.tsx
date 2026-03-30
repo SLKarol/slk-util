@@ -20,13 +20,13 @@ export const ListVerse = observer(() => {
 
   if (hasPoems)
     return (
-      <Flex flex={1} direction="column" gap="sm">
+      <Flex direction="column" gap="sm">
         <ListVerseCheckBan />
         <div>
           <ListVerseButtonOpenAll />
           <CheckBoxIncludeInvite />
         </div>
-        <Flex>
+        <Flex gap="sm">
           <StihiRuListListNew />
           <StihiRuInvites />
         </Flex>

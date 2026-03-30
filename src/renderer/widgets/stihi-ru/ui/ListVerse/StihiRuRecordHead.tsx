@@ -28,17 +28,15 @@ export const StihiRuRecordHead = observer(({ poemHref }: Props) => {
 
   return (
     <List.Item>
-      <div className={styles.listItem}>
-        <OpenPoem href={poemHref} title={poem.title} />
-        <span>(</span>
-        <StihiRuRecordHeadPic authorId={poem.authorId} />
+      <OpenPoem href={poemHref} title={poem.title} />
+      <span className={styles.authorContainer}>
+        (<StihiRuRecordHeadPic authorId={poem.authorId} />
         <Button variant="transparent" color="gray" className={styles.button}>
           {poem.authorName}
         </Button>
-        <StihiRuButtonBanAuthor poemHref={poem.href} />
-        <span>)</span>
-        {poem.dateTime ? <span>- {poem.dateTime}</span> : null}
-      </div>
+        <StihiRuButtonBanAuthor poemHref={poem.href} />)
+      </span>
+      {poem.dateTime ? <span>- {poem.dateTime}</span> : null}
     </List.Item>
   );
 });
