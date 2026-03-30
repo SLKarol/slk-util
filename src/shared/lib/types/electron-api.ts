@@ -69,6 +69,12 @@ export interface ElectronAPI {
    * @param author Логин автора
    */
   removeBanAuthor: (author: string) => void;
+
+  /**
+   * Открыть страницу автора по ссылке на сайте stihi.ru в броузере
+   * @param authorId Id автора
+   */
+  stihiOpenAuthor: (authorId: string) => void;
 }
 
 /**

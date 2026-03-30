@@ -84,4 +84,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.send(CHANNELS.ADD_BAN_AUTHOR, author),
   removeBanAuthor: (author: string) =>
     ipcRenderer.send(CHANNELS.REMOVE_BAN_AUTHOR, author),
+
+  stihiOpenAuthor: (authorId) =>
+    ipcRenderer.send(CHANNELS.STIHI_OPEN_AUTHOR, authorId),
 } as ElectronAPI);

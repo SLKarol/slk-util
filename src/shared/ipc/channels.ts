@@ -57,4 +57,9 @@ export const CHANNELS = {
    * Удалить автора из списка забаненных
    */
   REMOVE_BAN_AUTHOR: "REMOVE_BAN_AUTHOR",
+
+  /**
+   * Открыть страницу автора в броузере
+   */
+  STIHI_OPEN_AUTHOR: "STIHI_OPEN_AUTHOR",
 } as const;

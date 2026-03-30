@@ -1,5 +1,7 @@
-import { Button, List } from "@mantine/core";
+import { List } from "@mantine/core";
 import { observer } from "mobx-react-lite";
+
+import { OpenAuthor } from "../buttons/OpenAuthor";
 
 import { OpenPoem } from "@widgets/stihi-ru/ui/buttons/OpenPoem";
 
@@ -31,9 +33,7 @@ export const StihiRuRecordHead = observer(({ poemHref }: Props) => {
       <OpenPoem href={poemHref} title={poem.title} />
       <span className={styles.authorContainer}>
         (<StihiRuRecordHeadPic authorId={poem.authorId} />
-        <Button variant="transparent" color="gray" className={styles.button}>
-          {poem.authorName}
-        </Button>
+        <OpenAuthor authorId={poem.authorId} authorName={poem.authorName} />
         <StihiRuButtonBanAuthor poemHref={poem.href} />)
       </span>
       {poem.dateTime ? <span>- {poem.dateTime}</span> : null}
