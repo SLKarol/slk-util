@@ -94,6 +94,15 @@ export interface ElectronAPI {
    * @returns Функцию- отписку от события
    */
   onReceivePopMessage: (callback: (message: string) => void) => () => void;
+
+  /**
+   * Задать обработчик получения результата операции над автором.
+   * @param callback функция-обработчик принимает ReceiveOperationAuthort
+   * @returns Функцию- отписку от события
+   */
+  onReceiveOperationAuthor: (
+    callback: (data: ReceiveOperationAuthor) => void,
+  ) => () => void;
 }
 
 /**
@@ -108,4 +117,9 @@ export interface ReceiveText {
    * Текстовая информация. Как правило это HTML.
    **/
   textContent: string;
+}
+
+export interface ReceiveOperationAuthor {
+  add: boolean;
+  author: string;
 }

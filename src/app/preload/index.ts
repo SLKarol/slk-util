@@ -3,6 +3,7 @@ import { contextBridge, ipcRenderer, IpcRendererEvent } from "electron";
 import { CHANNELS } from "@shared/ipc/channels";
 import {
   type ElectronAPI,
+  type ReceiveOperationAuthor,
   type ReceiveText,
 } from "@shared/lib/types/electron-api";
 
@@ -116,6 +117,23 @@ contextBridge.exposeInMainWorld("electronAPI", {
     // Возвращаем функцию отписки
     return () => {
       ipcRenderer.removeListener(CHANNELS.SEND_POP_UP_MESSAGE, subscription);
+    };
+  },
+
+  onReceiveOperationAuthor: (callback) => {
+    // Создаём функцию‑обёртку для подписки
+    const subscription = (event: IpcRendererEvent, ...args: unknown[]) =>
+      callback(args[0] as ReceiveOperationAuthor);
+
+    // Подписываемся на событие
+    ipcRenderer.on(CHANNELS.RECEIVE_ON_OPERATION_AUTHOR, subscription);
+
+    // Возвращаем функцию отписки
+    return () => {
+      ipcRenderer.removeListener(
+        CHANNELS.RECEIVE_ON_OPERATION_AUTHOR,
+        subscription,
+      );
     };
   },
 } as ElectronAPI);

@@ -76,4 +76,9 @@ export const CHANNELS = {
    * Отправка сообщения в виде pop-up
    */
   SEND_POP_UP_MESSAGE: "SEND_POP_UP_MESSAGE",
+
+  /**
+   * Получение информации о результате операции об авторе
+   */
+  RECEIVE_ON_OPERATION_AUTHOR: "RECEIVE_ON_OPERATION_AUTHOR",
 } as const;

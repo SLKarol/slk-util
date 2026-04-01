@@ -9,7 +9,7 @@ import {
 import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRootStore";
 
 import { StihiRuEnterPage } from "./EnterPage/StihiRuEnterPage";
-import { StihiRuBanned } from "./StihiRuBanned";
+import { StihiRuBanned } from "./StihiRuBanned/StihiRuBanned";
 import { StihiRuMain } from "./StihiRuMain";
 
 /**

@@ -1,3 +1,4 @@
+import { notifications } from "@mantine/notifications";
 import { action, computed, makeObservable, observable } from "mobx";
 
 import type { StihiRuRootStore } from "./stihi-ru-root-store";
@@ -17,6 +18,8 @@ export class StihiRuBanAuthrorsStore {
       list: observable,
       // action
       addOrRemoveBadAuthorByPoemHref: action,
+      addAuthor: action,
+      removeAuthor: action,
       loadArrayBadAuthors: action,
       // computed
       countBadAuthors: computed,
@@ -63,6 +66,32 @@ export class StihiRuBanAuthrorsStore {
     } else {
       this.list.add(authorId);
       window.electronAPI.addBanAuthor(authorId);
+    }
+  };
+
+  /**
+   * Добавляет автора в список забаненных
+   * @param author login автора
+   */
+  addAuthor = (author: string) => {
+    if (this.list.has(author)) {
+      notifications.show({ message: `Автор ${author} уже есть в списке` });
+    } else {
+      this.list.add(author);
+      window.electronAPI.addBanAuthor(author);
+    }
+  };
+
+  /**
+   * Удаляет автора из списка забаненных
+   * @param author login автора
+   */
+  removeAuthor = (author: string) => {
+    if (!this.list.has(author)) {
+      notifications.show({ message: `Автор ${author} не найден в списке` });
+    } else {
+      this.list.delete(author);
+      window.electronAPI.removeBanAuthor(author);
     }
   };
 }

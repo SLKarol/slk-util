@@ -3,6 +3,7 @@ import { type IpcMainEvent } from "electron";
 import { readBanAuthors, writeBanAuthors } from "@main/features/lib/banAuthors";
 
 import { CHANNELS } from "@shared/ipc/channels";
+import { type ReceiveOperationAuthor } from "@shared/lib/types/electron-api";
 
 /**
  * Объект, содержащий обработчики IPC-событий для работы с заблокированными авторами.
@@ -47,7 +48,11 @@ export const banAuthorHandlers = {
     try {
       const bannedAuthors = await readBanAuthors();
       bannedAuthors.push(author);
-      return writeBanAuthors(bannedAuthors.sort());
+      await writeBanAuthors(bannedAuthors.sort());
+      event.reply(CHANNELS.RECEIVE_ON_OPERATION_AUTHOR, {
+        add: true,
+        author,
+      } as ReceiveOperationAuthor);
     } catch (error) {
       console.error("Error:", error);
       event.reply(CHANNELS.ERROR_MAIN, {
@@ -65,7 +70,11 @@ export const banAuthorHandlers = {
       const bannedAuthors = await readBanAuthors();
       const setBannedAuthors = new Set(bannedAuthors);
       setBannedAuthors.delete(author);
-      return writeBanAuthors(Array.from(setBannedAuthors).sort());
+      await writeBanAuthors(Array.from(setBannedAuthors).sort());
+      event.reply(CHANNELS.RECEIVE_ON_OPERATION_AUTHOR, {
+        add: false,
+        author,
+      } as ReceiveOperationAuthor);
     } catch (error) {
       console.error("Error:", error);
       event.reply(CHANNELS.ERROR_MAIN, {
