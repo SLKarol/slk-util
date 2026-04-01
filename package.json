@@ -59,7 +59,7 @@
     "@mantine/modals": "^8.3.18",
     "@mantine/notifications": "^8.3.18",
     "@mantine/nprogress": "^8.3.18",
-    "@tabler/icons-react": "^3.40.0",
+    "@tabler/icons-react": "^3.41.1",
     "dayjs": "^1.11.20",
     "electron-squirrel-startup": "^1.0.1",
     "electron-window-state": "^5.0.3",
