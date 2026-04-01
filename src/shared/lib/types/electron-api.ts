@@ -103,6 +103,11 @@ export interface ElectronAPI {
   onReceiveOperationAuthor: (
     callback: (data: ReceiveOperationAuthor) => void,
   ) => () => void;
+
+  /**
+   * Сохранить список забаненных авторов как список для Ublock Origin
+   */
+  saveBansAsUblock: () => void;
 }
 
 /**

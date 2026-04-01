@@ -3,6 +3,8 @@ import { observer } from "mobx-react-lite";
 
 import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRootStore";
 
+import { ButtonSaveForUBlock } from "./ButtonSaveForUBlock";
+
 import classes from "./StihiRuBanned.module.css";
 
 /**
@@ -21,6 +23,7 @@ export const BannedReport = observer(() => {
         <Text>Всего:</Text>
         <Text>{countBadAuthors}</Text>
       </Group>
+      <ButtonSaveForUBlock />
     </Card>
   );
 });

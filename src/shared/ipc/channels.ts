@@ -81,4 +81,9 @@ export const CHANNELS = {
    * Получение информации о результате операции об авторе
    */
   RECEIVE_ON_OPERATION_AUTHOR: "RECEIVE_ON_OPERATION_AUTHOR",
+
+  /**
+   * Сохранить забаненных как фильтр для UBlock
+   */
+  SAVE_BANS_AS_UBLOCK: "SAVE_BANS_AS_UBLOCK",
 } as const;
