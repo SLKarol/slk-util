@@ -1,6 +1,10 @@
 import { action, computed, makeObservable, observable } from "mobx";
 
-import { BANNED_TAB_NAME, MAIN_TAB_NAME } from "../constants/tabs";
+import {
+  BANNED_TAB_NAME,
+  ENTER_PAGE_TAB_NAME,
+  MAIN_TAB_NAME,
+} from "../constants/tabs";
 
 import { type StihiRuRootStore } from "./stihi-ru-root-store";
 import { type StihiRuTab } from "./types";
@@ -19,6 +23,10 @@ export class StihiRuTabsStore {
    * По умолчанию включает две фиксированные вкладки: "Настройки" и "Главная".
    */
   tabs: Map<string, StihiRuTab> = new Map([
+    [
+      ENTER_PAGE_TAB_NAME,
+      { id: ENTER_PAGE_TAB_NAME, readonly: true, title: "Зайти на страницу" },
+    ],
     [
       BANNED_TAB_NAME,
       { id: BANNED_TAB_NAME, readonly: true, title: "Заблокированные" },

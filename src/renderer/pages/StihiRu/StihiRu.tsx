@@ -19,6 +19,7 @@ export const StihiRu = () => {
     listChaptersStore: { handleChaptersData },
     stihiRuPoemsStore: { handlePoemsData },
     stihiRuBanAuthrorsStore: { loadArrayBadAuthors },
+    stihiRuUiStore: { setBrowserProcessName },
   } = useStihiRuRootStore();
 
   // Настроить обработчики событий запросов к сети
@@ -42,6 +43,16 @@ export const StihiRu = () => {
 
     const unsubscribe = window.electronAPI.onReceiveBanAuthors((authors) => {
       loadArrayBadAuthors(authors);
+    });
+    return unsubscribe;
+  }, []);
+
+  // Настроить обработчики событий загрузки настроек
+  useEffect(() => {
+    window.electronAPI.fetchSettings();
+
+    const unsubscribe = window.electronAPI.onReceiveSetting((settings) => {
+      setBrowserProcessName(settings.browserProcessName);
     });
     return unsubscribe;
   }, []);

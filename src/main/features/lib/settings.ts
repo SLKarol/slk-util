@@ -50,6 +50,7 @@ export async function readSettingsFile() {
   const fullFileNameSettings = getFileNameSettings();
   await createFileJSONIfNotExists(fullFileNameSettings, {
     stihiRu: { login: "", password: "", cookies: [] },
+    browserProcessName: "",
   } as AppSettings);
   const data = await readFile(fullFileNameSettings, "utf-8");
   const settingsData = JSON.parse(data) as AppSettings;

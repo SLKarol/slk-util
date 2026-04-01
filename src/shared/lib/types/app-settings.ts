@@ -6,6 +6,11 @@ export interface AppSettings {
    * Настройки, специфичные для сайта stihi.ru.
    */
   stihiRu: AppSettingsStihiRu;
+
+  /**
+   * Имя процесса браузера.
+   */
+  browserProcessName: string;
 }
 
 /**

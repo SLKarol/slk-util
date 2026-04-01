@@ -62,4 +62,18 @@ export const CHANNELS = {
    * Открыть страницу автора в броузере
    */
   STIHI_OPEN_AUTHOR: "STIHI_OPEN_AUTHOR",
+
+  /**
+   * Проверка, что запущен указанный броузер
+   */
+  CHECK_BROWSER_PROGRAM_RUN: "CHECK_BROWSER_PROGRAM_RUN",
+
+  /**
+   * Отправка сообщения об ошибке в виде pop-up
+   */
+  SEND_POP_UP_ERROR: "SEND_POP_UP_ERROR",
+  /**
+   * Отправка сообщения в виде pop-up
+   */
+  SEND_POP_UP_MESSAGE: "SEND_POP_UP_MESSAGE",
 } as const;

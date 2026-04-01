@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 
 /**
  * Хранилище всякого для работы с UI.
@@ -14,13 +14,21 @@ export class StihiRuUiStore {
    */
   openWithInvite = true;
 
+  /**
+   * Имя процесса браузера. Как правило это chrome.exe
+   */
+  browserProcessName = "";
+
   constructor() {
     makeObservable(this, {
       // observable
+      browserProcessName: observable,
       openWithInvite: observable,
       // action
+      setBrowserProcessName: action,
       toggleOpenWithInvite: action,
       // computed
+      browserProgramEntered: computed,
     });
   }
 
@@ -30,4 +38,22 @@ export class StihiRuUiStore {
   toggleOpenWithInvite = () => {
     this.openWithInvite = !this.openWithInvite;
   };
+
+  /**
+   * Изменить имя процесса браузера.
+   * @param browserProcessName новое имя процесса браузера
+   */
+  setBrowserProcessName = (browserProcessName: string) => {
+    this.browserProcessName = browserProcessName;
+  };
+
+  /**
+   * Браузерный процесс был введен?
+   */
+  get browserProgramEntered() {
+    return (
+      typeof this.browserProcessName === "string" &&
+      this.browserProcessName.length > 0
+    );
+  }
 }

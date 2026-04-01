@@ -1,7 +1,9 @@
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
+import "@mantine/notifications/styles.css";
 
 import { MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 
 import { Routing } from "@pages/Routing";
 
@@ -11,6 +13,7 @@ import { Routing } from "@pages/Routing";
 export const App = () => {
   return (
     <MantineProvider>
+      <Notifications />
       <Routing />
     </MantineProvider>
   );

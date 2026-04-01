@@ -1,3 +1,4 @@
+import { exec } from "child_process";
 import { type IpcMainEvent, shell } from "electron";
 
 import { BASE_URL_STIHI_RU } from "../lib/constants";
@@ -49,5 +50,30 @@ export const stihiRuHandlers = {
    */
   [CHANNELS.STIHI_OPEN_AUTHOR]: (_: IpcMainEvent, authorId: string) => {
     shell.openExternal(`${BASE_URL_STIHI_RU}/avtor/${authorId}`);
+  },
+
+  /**
+   * Проверка, есть ли в запущенных процессах указанная программа.
+   * @param ipcMainEvent - главный процесс
+   * @param browserProgram - программа, которую нужно проверить
+   */
+  [CHANNELS.CHECK_BROWSER_PROGRAM_RUN]: (
+    ipcMainEvent: IpcMainEvent,
+    browserProgram: string,
+  ) => {
+    // chcp 65001 - устанавливает кодовую страницу UTF-8 для командной строки
+    exec(`chcp 65001 && taskkill /im ${browserProgram} /f`, (error, stdout) => {
+      if (error) {
+        console.error(`Error: ${error.message}`);
+        ipcMainEvent.reply(CHANNELS.SEND_POP_UP_ERROR, error.message);
+        return;
+      }
+      if (stdout) {
+        ipcMainEvent.reply(
+          CHANNELS.SEND_POP_UP_MESSAGE,
+          `Процесс ${browserProgram} найден: ${stdout}`,
+        );
+      }
+    });
   },
 };

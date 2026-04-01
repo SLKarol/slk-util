@@ -75,6 +75,25 @@ export interface ElectronAPI {
    * @param authorId Id автора
    */
   stihiOpenAuthor: (authorId: string) => void;
+
+  /**
+   * Проверить имя программы браузера
+   */
+  checkBrowserProgramRun: (browserProgramName: string) => void;
+
+  /**
+   * Задать обработчик получения всплывашки об ошибке.
+   * @param callback функция-обработчик принимает текстовую информацию, см. ReceiveText
+   * @returns Функцию- отписку от события
+   */
+  onReceivePopErrorMessage: (callback: (message: string) => void) => () => void;
+
+  /**
+   * Задать обработчик получения всплывашки об ошибке.
+   * @param callback функция-обработчик принимает текстовую информацию, см. ReceiveText
+   * @returns Функцию- отписку от события
+   */
+  onReceivePopMessage: (callback: (message: string) => void) => () => void;
 }
 
 /**
