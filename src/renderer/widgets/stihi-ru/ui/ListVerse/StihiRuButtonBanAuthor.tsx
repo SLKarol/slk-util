@@ -1,4 +1,4 @@
-import { ActionIcon } from "@mantine/core";
+import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconThumbDown, IconThumbUp } from "@tabler/icons-react";
 import { observer } from "mobx-react-lite";
 
@@ -21,17 +21,19 @@ export const StihiRuButtonBanAuthor = observer(({ poemHref }: Props) => {
   const authorBanned = poem ? list.has(poem.authorId) : false;
 
   return (
-    <ActionIcon
-      variant="transparent"
-      aria-label="Settings"
-      onClick={() => addOrRemoveBadAuthorByPoemHref(poemHref)}
-    >
-      {authorBanned ? (
-        <IconThumbUp stroke={1.5} />
-      ) : (
-        <IconThumbDown stroke={1.5} />
-      )}
-    </ActionIcon>
+    <Tooltip label={authorBanned ? "Разбанить" : "Забанить"}>
+      <ActionIcon
+        variant="transparent"
+        aria-label="Settings"
+        onClick={() => addOrRemoveBadAuthorByPoemHref(poemHref)}
+      >
+        {authorBanned ? (
+          <IconThumbUp stroke={1.5} />
+        ) : (
+          <IconThumbDown stroke={1.5} />
+        )}
+      </ActionIcon>
+    </Tooltip>
   );
 });
 StihiRuButtonBanAuthor.displayName = "StihiRuButtonBanAuthor";
