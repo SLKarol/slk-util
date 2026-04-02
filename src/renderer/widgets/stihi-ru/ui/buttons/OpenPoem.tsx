@@ -21,6 +21,8 @@ export const OpenPoem = ({ href, title }: OpenPoemProps) => {
       color="indigo"
       className={styles.button}
       onClick={onClickTitle}
+      pl={0}
+      pr={0}
     >
       {title}
     </Button>

@@ -32,9 +32,11 @@ export const StihiRuRecordHead = observer(({ poemHref }: Props) => {
     <List.Item>
       <OpenPoem href={poemHref} title={poem.title} />
       <span className={styles.authorContainer}>
-        (<StihiRuRecordHeadPic authorId={poem.authorId} />
+        <span>(</span>
+        <StihiRuRecordHeadPic authorId={poem.authorId} />
         <OpenAuthor authorId={poem.authorId} authorName={poem.authorName} />
-        <StihiRuButtonBanAuthor poemHref={poem.href} />)
+        <StihiRuButtonBanAuthor poemHref={poem.href} />
+        <span>)</span>
       </span>
       {poem.dateTime ? <span>- {poem.dateTime}</span> : null}
     </List.Item>

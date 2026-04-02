@@ -1,4 +1,5 @@
 import { Button, Tooltip } from "@mantine/core";
+import { IconWorldWww } from "@tabler/icons-react";
 import { observer } from "mobx-react-lite";
 
 import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRootStore";
@@ -17,7 +18,11 @@ export const ListVerseButtonOpenAll = observer(() => {
 
   return (
     <Tooltip label="Открыть в броузере">
-      <Button variant="light" color="cyan" onClick={onClick}>
+      <Button
+        color="indigo"
+        onClick={onClick}
+        leftSection={<IconWorldWww size={14} />}
+      >
         Открыть всё
       </Button>
     </Tooltip>
