@@ -1,4 +1,4 @@
-import { Button } from "@mantine/core";
+import { Button, Tooltip } from "@mantine/core";
 import { observer } from "mobx-react-lite";
 
 import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRootStore";
@@ -12,9 +12,11 @@ export const StihiRuButtonLoadSelected = observer(() => {
     stihiRuPoemsStore: { loadPoems, loading },
   } = useStihiRuRootStore();
   return (
-    <Button disabled={!haveSelectedChapter || loading} onClick={loadPoems}>
-      Загрузить выбранное
-    </Button>
+    <Tooltip label="Загрузить произведения из выбранной страницы">
+      <Button disabled={!haveSelectedChapter || loading} onClick={loadPoems}>
+        Загрузить произведения
+      </Button>
+    </Tooltip>
   );
 });
 StihiRuButtonLoadSelected.displayName = "StihiRuButtonLoadSelected";

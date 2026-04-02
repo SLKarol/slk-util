@@ -1,4 +1,4 @@
-import { Button } from "@mantine/core";
+import { Button, Tooltip } from "@mantine/core";
 import { observer } from "mobx-react-lite";
 
 import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRootStore";
@@ -12,9 +12,11 @@ export const StihiRuButtonGetRandom = observer(() => {
   } = useStihiRuRootStore();
 
   return (
-    <Button disabled={!chaptersLoaded} onClick={selectRandomChapter}>
-      Случайно выбрать
-    </Button>
+    <Tooltip label="Случайный выбор из списка страниц">
+      <Button disabled={!chaptersLoaded} onClick={selectRandomChapter}>
+        Случайно выбрать
+      </Button>
+    </Tooltip>
   );
 });
 StihiRuButtonGetRandom.displayName = "StihiRuButtonGetRandom";
