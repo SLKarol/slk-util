@@ -4,6 +4,7 @@ import { type IpcMainEvent, shell } from "electron";
 import { BASE_URL_STIHI_RU } from "../lib/constants";
 
 import { CHANNELS } from "@shared/ipc/channels";
+import { wait } from "@shared/lib/helpers/wait";
 
 /**
  * Объект, содержащий обработчики IPC-каналов для взаимодействия с сайтом "Стихи.ру".
@@ -39,6 +40,7 @@ export const stihiRuHandlers = {
       // await гарантирует, что следующий шаг цикла начнется
       // только после разрешения текущего промиса
       await shell.openExternal(`${BASE_URL_STIHI_RU}${link}`);
+      wait();
     }
   },
 
