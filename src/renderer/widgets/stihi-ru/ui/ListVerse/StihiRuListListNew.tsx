@@ -16,7 +16,7 @@ export const StihiRuListListNew = observer(() => {
     <Stack gap="xs" flex={1}>
       <Title order={3}>Новые произведения</Title>
       <List flex={1}>
-        {newPoems.map((poem) => (
+        {newPoems.map((poem: string) => (
           <StihiRuRecordHead key={poem} poemHref={poem} />
         ))}
       </List>

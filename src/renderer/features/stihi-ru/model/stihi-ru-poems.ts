@@ -53,6 +53,8 @@ export class StihiRuPoemsStore {
    * Устанавливает флаг загрузки в `true` И отправляет запрос на загрузку данных.
    */
   loadPoems = () => {
+    if (!this.stihiRuRootStore.listChaptersStore.selectedChapter) return;
+
     const match =
       this.stihiRuRootStore.listChaptersStore.selectedChapter.href.match(
         /\/poems\/list\.html\?.*$/,
@@ -91,7 +93,7 @@ export class StihiRuPoemsStore {
     const poemHrefs = [] as string[];
 
     if (this.showBanned) {
-      this.poems.values().forEach(({ href, invite }) => {
+      Array.from(this.poems.values()).forEach(({ href, invite }: SihiPoem) => {
         if (invite) {
           poemHrefs.push(href);
         }
@@ -122,18 +124,17 @@ export class StihiRuPoemsStore {
     if (this.showBanned) {
       return poemsArray
         .filter(({ invite }) => !invite)
-        .toSorted(sortPoemsDescData)
-        .map((p) => p.href);
+        .sort(sortPoemsDescData)
+        .map((p: SihiPoem) => p.href);
     }
 
-    return poemsArray
-      .filter(
-        ({ invite, authorId }) =>
-          !invite &&
-          !this.stihiRuRootStore.stihiRuBanAuthrorsStore.list.has(authorId),
-      )
-      .toSorted(sortPoemsDescData)
-      .map((p) => p.href);
+    const filteredPoems = poemsArray.filter(
+      ({ invite, authorId }) =>
+        !invite &&
+        !this.stihiRuRootStore.stihiRuBanAuthrorsStore.list.has(authorId),
+    );
+
+    return filteredPoems.sort(sortPoemsDescData).map((p: SihiPoem) => p.href);
   }
 
   /**
