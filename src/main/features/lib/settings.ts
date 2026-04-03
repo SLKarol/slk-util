@@ -8,7 +8,7 @@ import { createFileJSONIfNotExists } from "./createFileIfNotExists";
 /**
  * Параметры для записи настроек.
  */
-interface WriteSettingsProps {
+export interface WriteSettingsProps {
   /**
    * Данные настроек, которые нужно сохранить.
    */
@@ -16,7 +16,7 @@ interface WriteSettingsProps {
   /**
    * Ключ, под которым будут сохранены настройки (например, 'stihiRu').
    */
-  key: string;
+  key: keyof AppSettings;
 }
 
 /**

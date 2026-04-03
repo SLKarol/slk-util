@@ -138,4 +138,6 @@ contextBridge.exposeInMainWorld("electronAPI", {
   },
 
   saveBansAsUblock: () => ipcRenderer.send(CHANNELS.SAVE_BANS_AS_UBLOCK),
+
+  saveSetting: (setting) => ipcRenderer.send(CHANNELS.SAVE_SETTING, setting),
 } as ElectronAPI);

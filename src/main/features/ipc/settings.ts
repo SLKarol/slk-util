@@ -1,6 +1,10 @@
 import { type IpcMainEvent } from "electron";
 
-import { readSettingsFile } from "../lib/settings";
+import {
+  readSettingsFile,
+  writeSettings,
+  WriteSettingsProps,
+} from "../lib/settings";
 
 import { CHANNELS } from "@shared/ipc/channels";
 
@@ -27,18 +31,31 @@ export const settingsHandlers = {
    * @throws Отправляет сообщение об ошибке через канал `ERROR_MAIN` в случае неудачного чтения файла.
    */
   [CHANNELS.GET_SETTINGS]: async (
-    event: IpcMainEvent,
+    ipcMainEvent: IpcMainEvent,
     requestParam: string,
   ) => {
     try {
       const settingsData = await readSettingsFile();
-      event.reply(CHANNELS.RECEIVE_SETTINGS, settingsData);
+      ipcMainEvent.reply(CHANNELS.RECEIVE_SETTINGS, settingsData);
     } catch (error) {
       console.error("Error:", error);
-      event.reply(CHANNELS.ERROR_MAIN, {
+      ipcMainEvent.reply(CHANNELS.ERROR_MAIN, {
         requestParam,
         error,
       });
+    }
+  },
+
+  [CHANNELS.SAVE_SETTING]: async (
+    ipcMainEvent: IpcMainEvent,
+    saveSettingPayload: WriteSettingsProps,
+  ) => {
+    try {
+      writeSettings(saveSettingPayload);
+      ipcMainEvent.reply(CHANNELS.SEND_POP_UP_MESSAGE, "Сохранено");
+    } catch (error) {
+      console.error("Error:", error);
+      ipcMainEvent.reply(CHANNELS.SEND_POP_UP_ERROR, "Ошибка при сохранении");
     }
   },
 };

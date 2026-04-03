@@ -12,6 +12,9 @@ interface Props {
   operationAdd?: boolean;
 }
 
+/**
+ * Добавление или удаление автора из списка заблокированных
+ */
 export const InputAddOrRemoveBan = ({ operationAdd }: Props) => {
   const [login, setLogin] = useState("");
   const {

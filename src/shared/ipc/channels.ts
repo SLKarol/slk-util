@@ -86,4 +86,9 @@ export const CHANNELS = {
    * Сохранить забаненных как фильтр для UBlock
    */
   SAVE_BANS_AS_UBLOCK: "SAVE_BANS_AS_UBLOCK",
+
+  /**
+   * Сохранить настройку
+   */
+  SAVE_SETTING: "SAVE_SETTING",
 } as const;

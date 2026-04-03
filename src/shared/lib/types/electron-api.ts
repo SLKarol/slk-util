@@ -1,3 +1,5 @@
+import { type WriteSettingsProps } from "@main/features/lib/settings";
+
 import { type AppSettings } from "./app-settings";
 
 /**
@@ -34,6 +36,11 @@ export interface ElectronAPI {
    * @returns Функция- отписка от события
    */
   onReceiveSetting: (callback: (settings: AppSettings) => void) => () => void;
+
+  /**
+   * Сохранить значение настройки
+   */
+  saveSetting: (settings: WriteSettingsProps) => void;
 
   /**
    * Запрос списка забаненных авторов
