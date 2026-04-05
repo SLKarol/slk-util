@@ -5,13 +5,20 @@ import { StihiRu } from "@pages/StihiRu/StihiRu";
 
 import { MainLayout } from "@widgets/main-layout/ui/MainLayout";
 
+import { RootStoreProvider } from "@renderer/providers/RootStoreProvider";
 import { StihiRuRootProvider } from "@renderer/providers/stihi-ru/StihiRuProvider";
 
 export const Routing = () => {
   return (
     <MemoryRouter>
       <Routes>
-        <Route element={<MainLayout />}>
+        <Route
+          element={
+            <RootStoreProvider>
+              <MainLayout />
+            </RootStoreProvider>
+          }
+        >
           <Route index element={<HomePage />} />
           <Route
             path="stihiru"

@@ -51,7 +51,7 @@ export class StihiRuCalendarStore {
    */
   get referer() {
     if (this.dateSelected) {
-      const date = new Date(this.selectedDate);
+      const date = new Date(this.selectedDate as string);
 
       return `/poems/list.html?topic=all&year=${date.getFullYear()}&month=${String(date.getMonth() + 1).padStart(2, "0")}&day=${date.getDate().toString().padStart(2, "0")}`;
     }

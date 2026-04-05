@@ -5,7 +5,7 @@ import { observer } from "mobx-react-lite";
 import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRootStore";
 
 /**
- * Кнопка "Открыть все в броузере"
+ * Кнопка "Открыть все произведения в броузере"
  */
 export const ListVerseButtonOpenAll = observer(() => {
   const {
@@ -17,12 +17,8 @@ export const ListVerseButtonOpenAll = observer(() => {
   };
 
   return (
-    <Tooltip label="Открыть в броузере">
-      <Button
-        color="indigo"
-        onClick={onClick}
-        leftSection={<IconWorldWww size={14} />}
-      >
+    <Tooltip label="Открыть все произведения в броузере">
+      <Button onClick={onClick} leftSection={<IconWorldWww size={14} />}>
         Открыть всё
       </Button>
     </Tooltip>

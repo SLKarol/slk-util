@@ -1,9 +1,11 @@
+import { type SihiChapter } from "../types/stihi.types";
+
 /**
  * Из HTML-строки получить список ссылок на группы стихов
  * @param htmlString html-строка
  * @returns группы стихов
  */
-export const getGroupListFromHtmlString = (htmlString: string) => {
+export const getGroupPoemsFromHtmlString = (htmlString: string) => {
   const parser = new DOMParser();
   const htmlDoc = parser.parseFromString(htmlString, "text/html");
 
@@ -20,5 +22,5 @@ export const getGroupListFromHtmlString = (htmlString: string) => {
     ({ textContent, href }) => ({ textContent, href }),
   );
 
-  return linkTextContent;
+  return linkTextContent as SihiChapter[];
 };

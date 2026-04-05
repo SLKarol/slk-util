@@ -1,7 +1,4 @@
-export interface SihiChapter {
-  textContent: string;
-  href: string;
-}
+import { type SihiChapter } from "@shared/lib/types/stihi.types";
 
 /**
  * Интерфейс для истории просмотра глав

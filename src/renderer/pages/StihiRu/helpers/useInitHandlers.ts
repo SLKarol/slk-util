@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { notifications } from "@mantine/notifications";
 
+import { getGroupPoemsFromHtmlString } from "@shared/lib/helpers/getGroupPoemsFromHtmlString";
 import { type ReceiveText } from "@shared/lib/types/electron-api";
 
 import { checkUrlStihiList } from "@renderer-features/stihi-ru/lib/checkUrlStihiList";
 import { checkUrlStihiPoems } from "@renderer-features/stihi-ru/lib/checkUrlStihiPoems";
-import { getGroupListFromHtmlString } from "@renderer-features/stihi-ru/lib/getGroupListFromHtmlString";
 import { getPoemsListFromHtmlString } from "@renderer-features/stihi-ru/lib/getPoemsListFromHtmlString";
 
 import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRootStore";
@@ -26,7 +26,7 @@ export const useInitHandlers = () => {
     const unsubscribe = window.electronAPI.onReceiveText(
       ({ requestParam, textContent }: ReceiveText) => {
         if (checkUrlStihiList(requestParam as string)) {
-          handleChaptersData(getGroupListFromHtmlString(textContent));
+          handleChaptersData(getGroupPoemsFromHtmlString(textContent));
         }
         if (checkUrlStihiPoems(requestParam as string)) {
           handlePoemsData(getPoemsListFromHtmlString(textContent));

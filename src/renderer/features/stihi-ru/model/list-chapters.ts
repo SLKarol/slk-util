@@ -1,9 +1,10 @@
 import { action, computed, makeObservable, observable } from "mobx";
 
+import { type SihiChapter } from "@shared/lib/types/stihi.types";
+
 import { generateUrlStihiListForDate } from "@renderer-features/stihi-ru/lib/generateUrlStihiListForDate";
 
 import type { StihiRuRootStore } from "./stihi-ru-root-store";
-import { type SihiChapter } from "./types";
 
 /**
  * Хранилище для управления списком глав (групп стихов) на сайте "Стихи.ру".
@@ -69,11 +70,12 @@ export class StihiRuListChapersStore {
   loadChapters = () => {
     this.chapters = [];
     this.loading = true;
-    window.electronAPI.fetchText(
-      generateUrlStihiListForDate(
-        this.stihiRuRootStore.calendarStore.selectedDate,
-      ),
-    );
+    if (this.stihiRuRootStore.calendarStore.selectedDate)
+      window.electronAPI.fetchText(
+        generateUrlStihiListForDate(
+          this.stihiRuRootStore.calendarStore.selectedDate,
+        ),
+      );
   };
 
   /**

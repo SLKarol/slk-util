@@ -3,6 +3,8 @@ import { Card, Container, Group } from "@mantine/core";
 import { ButtonCheckBrowserName } from "./ButtonCheckBrowserName";
 import { ButtonRunEnter } from "./ButtonRunEnter";
 import { ButtonSaveBrowserName } from "./ButtonSaveBrowserName";
+import { ButtonStopEnter } from "./ButtonStopEnter";
+import { EnterPageInputData } from "./EnterPageInputData";
 import { InputBrowserProcess } from "./InputBrowserProcess";
 
 /**
@@ -17,7 +19,11 @@ export const StihiRuEnterPage = () => {
       <Group justify="space-between" p="md">
         <ButtonCheckBrowserName />
         <ButtonSaveBrowserName />
+      </Group>
+      <Group justify="space-between" p="md">
+        <EnterPageInputData />
         <ButtonRunEnter />
+        <ButtonStopEnter />
       </Group>
     </Container>
   );

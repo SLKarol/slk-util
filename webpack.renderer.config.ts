@@ -23,6 +23,8 @@ export const rendererConfig: Configuration = {
       "@pages": path.resolve(__dirname, "src/renderer/pages"),
       "@renderer-features": path.resolve(__dirname, "src/renderer/features"),
       "@renderer-shared": path.resolve(__dirname, "src/renderer/shared"),
+      // @preload задавать только в этом файле
+      "@preload": path.resolve(__dirname, "src/preload"),
     },
   },
 };

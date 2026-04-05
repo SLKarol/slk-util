@@ -3,8 +3,13 @@ import { type IpcMainEvent, shell } from "electron";
 
 import { BASE_URL_STIHI_RU } from "../lib/constants";
 
+import { StihiTracker } from "@main/features/StihiTracker/StihiTracker";
+
 import { CHANNELS } from "@shared/ipc/channels";
 import { wait } from "@shared/lib/helpers/wait";
+import { type IStatusAutoReadStihi } from "@shared/lib/types/stihi.types";
+
+const stihiTracker = new StihiTracker();
 
 /**
  * Объект, содержащий обработчики IPC-каналов для взаимодействия с сайтом "Стихи.ру".
@@ -77,5 +82,40 @@ export const stihiRuHandlers = {
         );
       }
     });
+  },
+  /**
+   * Запускает автоматическое чтение стихов с сайта "Стихи.ру" с указанной даты.
+   *
+   * Если трекер уже запущен, отправляет сообщение с информацией о текущем трекере.
+   * */
+  [CHANNELS.START_STIHI_AUTO_READ]: (
+    ipcMainEvent: IpcMainEvent,
+    stringDate: string,
+  ) => {
+    const autoReadRun = stihiTracker.existTrackerDay;
+    if (autoReadRun) {
+      return ipcMainEvent.reply(
+        CHANNELS.SEND_POP_UP_MESSAGE,
+        `Трекер уже запущен. Он от ${autoReadRun}`,
+      );
+    }
+
+    stihiTracker.startTrack(stringDate);
+    const status: IStatusAutoReadStihi = {
+      datePoems: stringDate,
+      isAutoRead: true,
+    };
+    return ipcMainEvent.reply(CHANNELS.RECEIVE_STATUS_AUTO_READ_STIHI, status);
+  },
+
+  /**
+   * Останавливает автоматическое чтение стихов с сайта "Стихи.ру" и отправляет обновлённый статус трекера.
+   */
+  [CHANNELS.STOP_STIHI_AUTO_READ]: (ipcMainEvent: IpcMainEvent) => {
+    stihiTracker.stopTrack();
+    return ipcMainEvent.reply(CHANNELS.RECEIVE_STATUS_AUTO_READ_STIHI, {
+      datePoems: null,
+      isAutoRead: false,
+    } as IStatusAutoReadStihi);
   },
 };

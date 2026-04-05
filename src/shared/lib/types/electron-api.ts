@@ -1,6 +1,7 @@
 import { type WriteSettingsProps } from "@main/features/lib/settings";
 
 import { type AppSettings } from "./app-settings";
+import { type IStatusAutoReadStihi } from "./stihi.types";
 
 /**
  * API для взаимодействия с Electron
@@ -115,6 +116,31 @@ export interface ElectronAPI {
    * Сохранить список забаненных авторов как список для Ublock Origin
    */
   saveBansAsUblock: () => void;
+
+  /**
+   * Начать авто-читку произведений. Стихи будут открываться в браузере.
+   * @param stringDateTime Дата и время в виде строки, с которых начать авто-читку.
+   */
+  startStihiAutoRead: (stringDateTime: string) => void;
+
+  /**
+   * Запрос статуса авто-читки произведений.
+   */
+  requestStatusAutoReadStihi: () => void;
+
+  receiveStatusAutoReadStihi: (
+    callback: (statusAutoReadStihi: IStatusAutoReadStihi) => void,
+  ) => () => void;
+
+  /**
+   * Остановить авто-читку произведений.
+   */
+  stopStihiAutoRead: () => void;
+
+  /**
+   * Получить строку статистики авто-читки от main процесса. Строка - возможно нужно будет как-то изменить этот тип.
+   */
+  onReceiveStihiAutoRead: (callback: (message: string) => void) => () => void;
 }
 
 /**
@@ -131,7 +157,16 @@ export interface ReceiveText {
   textContent: string;
 }
 
+/**
+ * Результат операции над автором: добавление в бан или удаление из бана
+ */
 export interface ReceiveOperationAuthor {
+  /**
+   * true - автор добавлен в бан, false - автор удалён из бана
+   */
   add: boolean;
+  /**
+   * Логин автора
+   */
   author: string;
 }

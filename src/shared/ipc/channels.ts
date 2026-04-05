@@ -91,4 +91,29 @@ export const CHANNELS = {
    * Сохранить настройку
    */
   SAVE_SETTING: "SAVE_SETTING",
+
+  /**
+   * Запуск автоматического чтения произведений.
+   */
+  START_STIHI_AUTO_READ: "START_STIHI_AUTO_READ",
+
+  /**
+   * Запрос статуса автоматического чтения произведений.
+   **/
+  REQUEST_STATUS_AUTO_READ_STIHI: "REQUEST_STATUS_AUTO_READ_STIHI",
+  /**
+   * Получение статуса автоматического чтения произведений.
+   **/
+  RECEIVE_STATUS_AUTO_READ_STIHI: "RECEIVE_STATUS_AUTO_READ_STIHI",
+
+  /**
+   * Остановить автоматическое чтение произведений.
+   */
+  STOP_STIHI_AUTO_READ: "STOP_STIHI_AUTO_READ",
+
+  /**
+   * Получение отчёта о результатах автоматического чтения произведения.
+   * Думаю, это будет одна строка. А стор на все приложение.
+   */
+  RECEIVE_REPORT_AUTO_READ_POEM: "RECEIVE_REPORT_AUTO_READ_POEM",
 } as const;

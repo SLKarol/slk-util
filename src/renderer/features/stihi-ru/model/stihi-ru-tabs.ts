@@ -62,8 +62,8 @@ export class StihiRuTabsStore {
    * @param idTab - Идентификатор вкладки, которую нужно активировать.
    * @action
    */
-  setSelectedTab = (idTab: string) => {
-    if (this.tabs.has(idTab)) {
+  setSelectedTab = (idTab: string | null) => {
+    if (idTab && this.tabs.has(idTab)) {
       this.selectedTab = idTab;
     }
   };

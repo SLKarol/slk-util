@@ -1,7 +1,9 @@
 import { action, computed, makeObservable, observable } from "mobx";
 
+import { type SihiChapter } from "@shared/lib/types/stihi.types";
+
 import type { StihiRuRootStore } from "./stihi-ru-root-store";
-import { type SihiChapter, type StihiChaperHidtory } from "./types";
+import { type StihiChaperHidtory } from "./types";
 
 /**
  * Хранилище выбранных дат (разделов) истории на сайте "Стихи.ру".
@@ -60,6 +62,9 @@ export class HistorySelectedPartsStore {
     return this.selectedDates.slice().reverse();
   }
 
+  /**
+   * Очищает список выбранных дат, удаляя все элементы из истории.
+   */
   clearHistory = () => {
     this.selectedDates = [];
   };
