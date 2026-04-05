@@ -1,3 +1,10 @@
+import { parse } from "node-html-parser";
+
+import { fetchHtml } from "../lib/fetch";
+
+import { generateUrlStihiListForDate } from "@shared/lib/helpers/generateUrlStihiListForDate";
+import { getGroupPoemsFromHtmlString } from "@shared/lib/helpers/getGroupPoemsFromHtmlString";
+
 import { RandomSectionPicker } from "./RandomSectionPicker";
 
 /**
@@ -43,8 +50,15 @@ export class StihiTracker {
    * Запускает трекинг на указанную дату.
    * @param date - Дата в формате строки (например, "2023-10-05").
    */
-  startTrack(date: string) {
+  async startTrack(date: string) {
     this.trackerDay = date;
+
+    const htmlPage = await fetchHtml(generateUrlStihiListForDate(date));
+    const root = parse(htmlPage);
+    const chaptersData = getGroupPoemsFromHtmlString(
+      root as unknown as Document,
+    );
+    this.randomSectionPicker.setChapters(chaptersData);
   }
 
   /**

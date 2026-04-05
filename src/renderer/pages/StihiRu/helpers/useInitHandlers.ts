@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { notifications } from "@mantine/notifications";
 
 import { getGroupPoemsFromHtmlString } from "@shared/lib/helpers/getGroupPoemsFromHtmlString";
+import { parseStringToHTML } from "@shared/lib/helpers/parseStringToHTML";
 import { type ReceiveText } from "@shared/lib/types/electron-api";
 
 import { checkUrlStihiList } from "@renderer-features/stihi-ru/lib/checkUrlStihiList";
@@ -26,7 +27,9 @@ export const useInitHandlers = () => {
     const unsubscribe = window.electronAPI.onReceiveText(
       ({ requestParam, textContent }: ReceiveText) => {
         if (checkUrlStihiList(requestParam as string)) {
-          handleChaptersData(getGroupPoemsFromHtmlString(textContent));
+          handleChaptersData(
+            getGroupPoemsFromHtmlString(parseStringToHTML(textContent)),
+          );
         }
         if (checkUrlStihiPoems(requestParam as string)) {
           handlePoemsData(getPoemsListFromHtmlString(textContent));

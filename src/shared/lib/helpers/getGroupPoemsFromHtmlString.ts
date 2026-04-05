@@ -5,10 +5,7 @@ import { type SihiChapter } from "../types/stihi.types";
  * @param htmlString html-строка
  * @returns группы стихов
  */
-export const getGroupPoemsFromHtmlString = (htmlString: string) => {
-  const parser = new DOMParser();
-  const htmlDoc = parser.parseFromString(htmlString, "text/html");
-
+export const getGroupPoemsFromHtmlString = (htmlDoc: Document) => {
   const links = htmlDoc.querySelectorAll('a[href^="/poems/list.html?"]');
   // Регулярное выражение для шаблона N-T (числа через дефис)
   const numberPattern = /^\d+-\d+$/;
@@ -18,9 +15,10 @@ export const getGroupPoemsFromHtmlString = (htmlString: string) => {
     return numberPattern.test(linkText);
   });
 
-  const linkTextContent = (linksFiltered as HTMLLinkElement[]).map(
-    ({ textContent, href }) => ({ textContent, href }),
-  );
+  const linkTextContent = linksFiltered.map((link) => ({
+    textContent: link.textContent,
+    href: link.getAttribute("href"),
+  }));
 
   return linkTextContent as SihiChapter[];
 };

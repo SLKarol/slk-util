@@ -1,8 +1,7 @@
 import { action, computed, makeObservable, observable } from "mobx";
 
+import { generateUrlStihiListForDate } from "@shared/lib/helpers/generateUrlStihiListForDate";
 import { type SihiChapter } from "@shared/lib/types/stihi.types";
-
-import { generateUrlStihiListForDate } from "@renderer-features/stihi-ru/lib/generateUrlStihiListForDate";
 
 import type { StihiRuRootStore } from "./stihi-ru-root-store";
 
