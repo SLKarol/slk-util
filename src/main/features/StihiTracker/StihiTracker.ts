@@ -85,21 +85,7 @@ export class StihiTracker {
       root as unknown as Document,
     );
     this.randomSectionPicker.setChapters(chaptersData);
-
-    const selectChapter = this.randomSectionPicker.selectRandomChapter();
-    if (!selectChapter) return;
-    await this.poemsInChaper.loadPoems({
-      selectChapter,
-      signal: this.abortController.signal,
-    });
-    await this.poemsInChaper.readPoems();
-    exec(`chcp 65001 && taskkill /im ${browserProcessName} /f`);
-    await waitRandom({
-      max: 20,
-      min: 15,
-      signal: this.abortController.signal,
-      unit: "m",
-    });
+    this.runBodyBotEnterUntilFalse();
   }
 
   /**
@@ -130,5 +116,38 @@ export class StihiTracker {
     this.randomSectionPicker.clearChapters();
     this.poemsInChaper.clearPoems();
     this.abortController.abort();
+  }
+
+  /**
+   * Запускает и повторяет выполнение bodyBotEnter до тех пор, пока он не вернёт false.
+   * Ожидает выполнение каждого вызова перед следующей итерацией.
+   */
+  async runBodyBotEnterUntilFalse() {
+    const { browserProcessName } = await this.settingsFileManager.readData();
+    let result = true;
+    while (result) {
+      result = await this.bodyBotEnter(browserProcessName);
+    }
+  }
+
+  /**
+   * Действия бота
+   */
+  private async bodyBotEnter(browserProcessName: string) {
+    const selectChapter = this.randomSectionPicker.selectRandomChapter();
+    if (!selectChapter) return false;
+    await this.poemsInChaper.loadPoems({
+      selectChapter,
+      signal: this.abortController.signal,
+    });
+    await this.poemsInChaper.readPoems();
+    exec(`chcp 65001 && taskkill /im ${browserProcessName} /f`);
+    await waitRandom({
+      max: 20,
+      min: 15,
+      signal: this.abortController.signal,
+      unit: "m",
+    });
+    return true;
   }
 }
