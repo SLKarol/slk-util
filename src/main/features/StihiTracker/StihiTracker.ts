@@ -6,6 +6,7 @@ import { UserDataFileManager } from "../UserDataFileManager";
 
 import { generateUrlStihiListForDate } from "@shared/lib/helpers/generateUrlStihiListForDate";
 import { getGroupPoemsFromHtmlString } from "@shared/lib/helpers/getGroupPoemsFromHtmlString";
+import { waitRandom } from "@shared/lib/helpers/wait";
 import { type AppSettings } from "@shared/lib/types/app-settings";
 
 import { PoemsInChaper } from "./PoemsInChaper";
@@ -92,9 +93,13 @@ export class StihiTracker {
       signal: this.abortController.signal,
     });
     await this.poemsInChaper.readPoems();
-    // Подождать пять минут
     exec(`chcp 65001 && taskkill /im ${browserProcessName} /f`);
-    // Подождать N минут
+    await waitRandom({
+      max: 20,
+      min: 15,
+      signal: this.abortController.signal,
+      unit: "m",
+    });
   }
 
   /**
