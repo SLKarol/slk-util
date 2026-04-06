@@ -7,6 +7,7 @@ import { fetchHtml } from "../lib/fetch";
 import { getPoemsFromHtmlDoc } from "@shared/lib/helpers/getPoemsFromHtmlDoc";
 import { type SihiPoem } from "@shared/lib/types/stihiru.types";
 
+import { type LoadPoemsPayload } from "./PoemsInChapter.types";
 import { VisitPoemsByAuthor } from "./VisitPoemsByAuthor";
 
 /**
@@ -32,8 +33,10 @@ export class PoemsInChaper {
    * Загрузка стихов для выбранной главы. Сохраняет их в поле poems.
    * @param selectChapter - URL выбранной главы.
    */
-  async loadPoems(selectChapter: string) {
-    const htmlPage = await fetchHtml(`${BASE_URL_STIHI_RU}${selectChapter}`);
+  async loadPoems({ selectChapter, signal }: LoadPoemsPayload) {
+    const htmlPage = await fetchHtml(`${BASE_URL_STIHI_RU}${selectChapter}`, {
+      signal,
+    });
     const root = parse(htmlPage);
     const poems = getPoemsFromHtmlDoc(root as unknown as Document);
     poems.forEach((poem) => {
@@ -67,5 +70,12 @@ export class PoemsInChaper {
     // Пока такая логика: один автор-одно прочтение.
     if (this.visitPoemsByAuthor.getVisitPoemsByAuthor(authorId)) return false;
     return true;
+  }
+
+  /**
+   * Очищает список стихов.
+   */
+  clearPoems() {
+    this.poems.clear();
   }
 }

@@ -76,7 +76,9 @@ export class StihiTracker {
     this.trackerDay = date;
     const { browserProcessName } = await this.settingsFileManager.readData();
 
-    const htmlPage = await fetchHtml(generateUrlStihiListForDate(date));
+    const htmlPage = await fetchHtml(generateUrlStihiListForDate(date), {
+      signal: this.abortController.signal,
+    });
     const root = parse(htmlPage);
     const chaptersData = getGroupPoemsFromHtmlString(
       root as unknown as Document,
@@ -85,7 +87,10 @@ export class StihiTracker {
 
     const selectChapter = this.randomSectionPicker.selectRandomChapter();
     if (!selectChapter) return;
-    await this.poemsInChaper.loadPoems(selectChapter);
+    await this.poemsInChaper.loadPoems({
+      selectChapter,
+      signal: this.abortController.signal,
+    });
     await this.poemsInChaper.readPoems();
     // Подождать пять минут
     exec(`chcp 65001 && taskkill /im ${browserProcessName} /f`);
@@ -118,6 +123,7 @@ export class StihiTracker {
     this.randomSectionPicker.clearSelectChapter();
     this.randomSectionPicker.clearVisitedChapters();
     this.randomSectionPicker.clearChapters();
+    this.poemsInChaper.clearPoems();
     this.abortController.abort();
   }
 }

@@ -7,10 +7,14 @@ import { REQUEST_HEADERS } from "@main/shared/lib/constants";
  * @returns Асинхронно возвращает HTML-содержимое страницы в виде строки.
  * @throws Ошибка при сетевом сбое или проблемах с кодировкой.
  */
-export async function fetchHtml(url: string): Promise<string> {
+export async function fetchHtml(
+  url: string,
+  params?: RequestInit,
+): Promise<string> {
   const response = await fetch(url, {
     method: "GET",
     headers: REQUEST_HEADERS,
+    ...params,
   });
 
   // Получаем сырые данные
