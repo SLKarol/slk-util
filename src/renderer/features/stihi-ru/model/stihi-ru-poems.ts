@@ -2,8 +2,9 @@ import { action, computed, makeObservable, observable } from "mobx";
 
 import { sortPoemsDescData } from "../lib/sortPoem";
 
+import { SihiPoem } from "@shared/lib/types/stihiru.types";
+
 import { type StihiRuRootStore } from "./stihi-ru-root-store";
-import { type SihiPoem } from "./types";
 
 /**
  * Хранилище для управления списком стихов на сайте "Стихи.ру".

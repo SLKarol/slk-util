@@ -44,7 +44,7 @@ export class RandomSectionPicker {
   /**
    * Выбирает случайный элемент из доступных
    * Исключает уже посещённые.
-   * @returns Ключ случайного элемента или null
+   * @returns Ключ случайного элемента или null, если все посещены
    */
   selectRandomChapter(): string | null {
     // Получаем ключи (ссылки) из this.chapters

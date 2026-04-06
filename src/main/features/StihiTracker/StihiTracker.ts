@@ -1,10 +1,14 @@
+import { exec } from "child_process";
 import { parse } from "node-html-parser";
 
 import { fetchHtml } from "../lib/fetch";
+import { UserDataFileManager } from "../UserDataFileManager";
 
 import { generateUrlStihiListForDate } from "@shared/lib/helpers/generateUrlStihiListForDate";
 import { getGroupPoemsFromHtmlString } from "@shared/lib/helpers/getGroupPoemsFromHtmlString";
+import { type AppSettings } from "@shared/lib/types/app-settings";
 
+import { PoemsInChaper } from "./PoemsInChaper";
 import { RandomSectionPicker } from "./RandomSectionPicker";
 
 /**
@@ -21,6 +25,11 @@ export class StihiTracker {
    * @private
    */
   private randomSectionPicker: RandomSectionPicker;
+
+  /**
+   * Список произведений в выбранной части
+   */
+  private poemsInChaper: PoemsInChaper;
 
   /**
    * Дата публикации произведений.
@@ -41,9 +50,22 @@ export class StihiTracker {
    */
   private abortController: AbortController;
 
+  /**
+   * Файловый менеджер для работы с настройками приложения.
+   */
+  private settingsFileManager: UserDataFileManager<AppSettings>;
+
   constructor() {
     this.randomSectionPicker = new RandomSectionPicker();
     this.abortController = new AbortController();
+    this.poemsInChaper = new PoemsInChaper();
+    this.settingsFileManager = new UserDataFileManager<AppSettings>(
+      "settings.json",
+      {
+        stihiRu: { login: "", password: "", cookies: [] },
+        browserProcessName: "",
+      },
+    );
   }
 
   /**
@@ -52,6 +74,7 @@ export class StihiTracker {
    */
   async startTrack(date: string) {
     this.trackerDay = date;
+    const { browserProcessName } = await this.settingsFileManager.readData();
 
     const htmlPage = await fetchHtml(generateUrlStihiListForDate(date));
     const root = parse(htmlPage);
@@ -59,6 +82,14 @@ export class StihiTracker {
       root as unknown as Document,
     );
     this.randomSectionPicker.setChapters(chaptersData);
+
+    const selectChapter = this.randomSectionPicker.selectRandomChapter();
+    if (!selectChapter) return;
+    await this.poemsInChaper.loadPoems(selectChapter);
+    await this.poemsInChaper.readPoems();
+    // Подождать пять минут
+    exec(`chcp 65001 && taskkill /im ${browserProcessName} /f`);
+    // Подождать N минут
   }
 
   /**

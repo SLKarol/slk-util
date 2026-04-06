@@ -1,5 +1,4 @@
-import { type SihiPoem } from "../model/types";
-
+import { type SihiPoem } from "@shared/lib/types/stihiru.types";
 import { parseDate } from "@renderer-shared/lib/dateTime";
 
 /**
@@ -17,7 +16,7 @@ import { parseDate } from "@renderer-shared/lib/dateTime";
  * poems.sort(sortPoemsDescData); // Отсортирует стихотворения от самых новых к самым старым
  */
 export function sortPoemsDescData(a: SihiPoem, b: SihiPoem) {
-  const dateA = parseDate(a.dateTime).getTime();
-  const dateB = parseDate(b.dateTime).getTime();
-  return dateB - dateA; // меняем местами: dateB - dateA
+  const dateA = a.dateTime ? parseDate(a.dateTime).getTime() : 0;
+  const dateB = b.dateTime ? parseDate(b.dateTime).getTime() : 0;
+  return dateB - dateA;
 }

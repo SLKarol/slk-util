@@ -1,6 +1,5 @@
-import { type WriteSettingsProps } from "@main/features/lib/settings";
-
 import { type AppSettings } from "./app-settings";
+import { type WriteSettingsProps } from "./settings.type";
 import { type IStatusAutoReadStihi } from "./stihi.types";
 
 /**

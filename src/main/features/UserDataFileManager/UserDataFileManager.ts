@@ -2,6 +2,9 @@ import { app } from "electron";
 import { access, readFile, writeFile } from "fs/promises";
 import * as path from "path";
 
+/**
+ * Класс для работы с файлами пользовательских данных
+ */
 export class UserDataFileManager<T = unknown> {
   private filePath: string;
 
@@ -47,6 +50,18 @@ export class UserDataFileManager<T = unknown> {
     try {
       const fileContent = await readFile(this.filePath, "utf-8");
       return JSON.parse(fileContent) as T;
+    } catch (error) {
+      throw new Error(`Error read data from file ${this.filePath}: ${error}`);
+    }
+  }
+
+  /**
+   * Чтение данных из файла и возвращение в виде JSON строки
+   * @returns JSON строка
+   */
+  async readDataAsJSON(): Promise<string> {
+    try {
+      return await readFile(this.filePath, "utf-8");
     } catch (error) {
       throw new Error(`Error read data from file ${this.filePath}: ${error}`);
     }

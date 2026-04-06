@@ -4,8 +4,7 @@ import { UserDataFileManager } from "../UserDataFileManager";
 
 import { CHANNELS } from "@shared/ipc/channels";
 import { type AppSettings } from "@shared/lib/types/app-settings";
-
-import { type WriteSettingsProps } from "./settings.type";
+import { type WriteSettingsProps } from "@shared/lib/types/settings.type";
 
 const settingsFile = new UserDataFileManager<AppSettings>("settings.json", {
   stihiRu: { login: "", password: "", cookies: [] },

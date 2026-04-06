@@ -1,6 +1,6 @@
 import { Button } from "@mantine/core";
 
-import { type SihiPoem } from "@renderer-features/stihi-ru/model/types";
+import { type SihiPoem } from "@shared/lib/types/stihiru.types";
 
 import styles from "./OpenAuthor.module.css";
 
