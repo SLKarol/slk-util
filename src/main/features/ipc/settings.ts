@@ -1,12 +1,16 @@
 import { type IpcMainEvent } from "electron";
 
-import {
-  readSettingsFile,
-  writeSettings,
-  WriteSettingsProps,
-} from "../lib/settings";
+import { UserDataFileManager } from "../UserDataFileManager";
 
 import { CHANNELS } from "@shared/ipc/channels";
+import { type AppSettings } from "@shared/lib/types/app-settings";
+
+import { type WriteSettingsProps } from "./settings.type";
+
+const settingsFile = new UserDataFileManager<AppSettings>("settings.json", {
+  stihiRu: { login: "", password: "", cookies: [] },
+  browserProcessName: "",
+});
 
 /**
  * Объект, содержащий обработчики IPC-запросов для работы с настройками приложения.
@@ -23,11 +27,6 @@ export const settingsHandlers = {
    * @param event - Объект события IPC, используемый для отправки ответа обратно в renderer.
    * @param requestParam - Строка-идентификатор запроса (не используется напрямую, но передаётся в ошибку).
    *
-   * @remarks
-   * Функция асинхронно считывает файл настроек с помощью `readSettingsFile`. В случае успеха отправляет
-   * данные настроек через канал `RECEIVE_SETTINGS`. Если произошла ошибка — логирует её и отправляет
-   * информацию об ошибке в renderer-процесс.
-   *
    * @throws Отправляет сообщение об ошибке через канал `ERROR_MAIN` в случае неудачного чтения файла.
    */
   [CHANNELS.GET_SETTINGS]: async (
@@ -35,7 +34,7 @@ export const settingsHandlers = {
     requestParam: string,
   ) => {
     try {
-      const settingsData = await readSettingsFile();
+      const settingsData = await settingsFile.readData();
       ipcMainEvent.reply(CHANNELS.RECEIVE_SETTINGS, settingsData);
     } catch (error) {
       console.error("Error:", error);
@@ -48,10 +47,12 @@ export const settingsHandlers = {
 
   [CHANNELS.SAVE_SETTING]: async (
     ipcMainEvent: IpcMainEvent,
-    saveSettingPayload: WriteSettingsProps,
+    { key, settings }: WriteSettingsProps,
   ) => {
     try {
-      writeSettings(saveSettingPayload);
+      const settingsData = await settingsFile.readData();
+      const newSettings = { ...settingsData, [key]: settings };
+      await settingsFile.writeData(newSettings);
       ipcMainEvent.reply(CHANNELS.SEND_POP_UP_MESSAGE, "Сохранено");
     } catch (error) {
       console.error("Error:", error);

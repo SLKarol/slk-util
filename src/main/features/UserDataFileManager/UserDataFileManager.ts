@@ -5,7 +5,7 @@ import * as path from "path";
 export class UserDataFileManager<T = unknown> {
   private filePath: string;
 
-  constructor(fileName: string, defaultData?: unknown) {
+  constructor(fileName: string, defaultData?: T) {
     const userDataPath = app.getPath("userData");
     this.filePath = path.join(userDataPath, fileName);
 
