@@ -1,10 +1,15 @@
 import { dialog, type IpcMainEvent } from "electron";
 import { writeFile } from "fs/promises";
 
-import { readBanAuthors, writeBanAuthors } from "@main/features/lib/banAuthors";
+import { UserDataFileManager } from "../UserDataFileManager";
 
 import { CHANNELS } from "@shared/ipc/channels";
 import { type ReceiveOperationAuthor } from "@shared/lib/types/electron-api";
+
+const banAuthorSettings = new UserDataFileManager<string[]>(
+  "banAuthor.json",
+  [],
+);
 
 /**
  * Объект, содержащий обработчики IPC-событий для работы с заблокированными авторами.
@@ -15,23 +20,10 @@ import { type ReceiveOperationAuthor } from "@shared/lib/types/electron-api";
 export const banAuthorHandlers = {
   /**
    * Обработчик запроса на получение списка заблокированных авторов.
-   *
-   * При получении события `GET_BAN_AUTHORS` вызывает функцию `readBanAuthors`,
-   * которая читает данные из файла. В случае успеха отправляет результат
-   * по каналу `RECEIVE_BAN_AUTHORS`. В случае ошибки — отправляет детали ошибки
-   * по каналу `ERROR_MAIN`.
-   *
-   * @param {IpcMainEvent} event - Объект события IPC, предоставляемый Electron.
-   *
-   * @emits CHANNELS.RECEIVE_BAN_AUTHORS - Событие с данными заблокированных авторов.
-   * @emits CHANNELS.ERROR_MAIN - Событие ошибки, если чтение данных не удалось.
-   *
-   * @async
-   * @throws {Error} Перехватывает и логирует ошибки, отправляя их через IPC.
    */
   [CHANNELS.GET_BAN_AUTHORS]: async (event: IpcMainEvent) => {
     try {
-      const bannedAuthors = await readBanAuthors();
+      const bannedAuthors = await banAuthorSettings.readData();
       event.reply(CHANNELS.RECEIVE_BAN_AUTHORS, bannedAuthors);
     } catch (error) {
       console.error("Error:", error);
@@ -47,9 +39,9 @@ export const banAuthorHandlers = {
    */
   [CHANNELS.ADD_BAN_AUTHOR]: async (event: IpcMainEvent, author: string) => {
     try {
-      const bannedAuthors = await readBanAuthors();
+      const bannedAuthors = await banAuthorSettings.readData();
       bannedAuthors.push(author);
-      await writeBanAuthors(bannedAuthors.sort());
+      await banAuthorSettings.writeData(bannedAuthors.sort());
       event.reply(CHANNELS.RECEIVE_ON_OPERATION_AUTHOR, {
         add: true,
         author,
@@ -68,10 +60,10 @@ export const banAuthorHandlers = {
    */
   [CHANNELS.REMOVE_BAN_AUTHOR]: async (event: IpcMainEvent, author: string) => {
     try {
-      const bannedAuthors = await readBanAuthors();
+      const bannedAuthors = await banAuthorSettings.readData();
       const setBannedAuthors = new Set(bannedAuthors);
       setBannedAuthors.delete(author);
-      await writeBanAuthors(Array.from(setBannedAuthors).sort());
+      await banAuthorSettings.writeData(Array.from(setBannedAuthors).sort());
       event.reply(CHANNELS.RECEIVE_ON_OPERATION_AUTHOR, {
         add: false,
         author,
@@ -102,7 +94,7 @@ export const banAuthorHandlers = {
       return false;
     }
     try {
-      const bannedAuthors = await readBanAuthors();
+      const bannedAuthors = await banAuthorSettings.readData();
       const newArray = bannedAuthors.map(
         (author) => `##li:has(a[href="/avtor/${author}"])`,
       );
