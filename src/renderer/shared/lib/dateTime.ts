@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 /**
  * Преобразует строку с датой и временем в объект Date.
  *
@@ -15,4 +17,15 @@ export function parseDate(dateString: string) {
   const [datePart, timePart] = dateString.split(" ");
   const [day, month, year] = datePart.split(".");
   return new Date(`${year}-${month}-${day}T${timePart}:00`);
+}
+
+/**
+ * Форматирует дату из строки в заданный формат.
+ * @param isoString - Строка с датой в формате ISO
+ * @param format - Формат даты
+ * @returns - Строка с отформатированной датой
+ */
+export function formatDateFromString(isoString: string, format: string) {
+  const time = dayjs(isoString);
+  return time.format(format);
 }

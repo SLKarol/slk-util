@@ -6,26 +6,32 @@ import { ButtonSaveBrowserName } from "./ButtonSaveBrowserName";
 import { ButtonStopEnter } from "./ButtonStopEnter";
 import { EnterPageInputData } from "./EnterPageInputData";
 import { InputBrowserProcess } from "./InputBrowserProcess";
+import { LogBotEnter } from "./LogBotEnter";
 
 /**
  * Страница, где настраивается бот.
  */
 export const StihiRuEnterPage = () => {
   return (
-    <Container size="sm">
-      <Card withBorder radius="md" p="xl">
-        <InputBrowserProcess />
-      </Card>
-      <Group justify="space-between" p="md">
-        <ButtonCheckBrowserName />
-        <ButtonSaveBrowserName />
-      </Group>
-      <Group justify="space-between" p="md">
-        <EnterPageInputData />
-        <ButtonRunEnter />
-        <ButtonStopEnter />
-      </Group>
-    </Container>
+    <>
+      <Container size="sm">
+        <Card withBorder radius="md" p="xl">
+          <InputBrowserProcess />
+        </Card>
+        <Group justify="space-between" p="md">
+          <ButtonCheckBrowserName />
+          <ButtonSaveBrowserName />
+        </Group>
+        <Group justify="space-between" p="md">
+          <EnterPageInputData />
+          <ButtonRunEnter />
+          <ButtonStopEnter />
+        </Group>
+      </Container>
+      <Container size="lg">
+        <LogBotEnter />
+      </Container>
+    </>
   );
 };
 StihiRuEnterPage.displayName = "StihiRuEnterPage";

@@ -1,5 +1,7 @@
 import { action, computed, makeObservable, observable } from "mobx";
 
+import { type ReceiveStatisticBotData } from "@shared/lib/types/electron-api";
+
 /**
  * Хранилище состояния трекера.
  *
@@ -18,6 +20,11 @@ export class TrackerStihiStore {
   isTracking = false;
 
   /**
+   * Данные статистики бота.
+   */
+  statisticBotData: ReceiveStatisticBotData[] = [];
+
+  /**
    * Создаёт экземпляр хранилища трекера.
    */
   constructor() {
@@ -25,7 +32,10 @@ export class TrackerStihiStore {
       // observable
       dateValue: observable,
       isTracking: observable,
+      statisticBotData: observable,
       // action
+      addStatisticBotData: action,
+      clearStatisticBotData: action,
       setDateValue: action,
       startTracking: action,
       stopTracking: action,
@@ -61,4 +71,19 @@ export class TrackerStihiStore {
   get dateExists() {
     return Boolean(this.dateValue);
   }
+
+  /**
+   * Очищает данные статистики бота.
+   */
+  clearStatisticBotData = () => {
+    this.statisticBotData = [];
+  };
+
+  /**
+   * Добавляет данные статистики бота.
+   * @param data статистические данные бота.
+   */
+  addStatisticBotData = (data: ReceiveStatisticBotData) => {
+    this.statisticBotData.push(data);
+  };
 }

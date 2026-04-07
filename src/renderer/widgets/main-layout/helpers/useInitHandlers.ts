@@ -10,7 +10,13 @@ import { useRootStore } from "@renderer/providers/useRootStore";
 export const useInitHandlers = () => {
   const navigate = useNavigate();
   const {
-    trackerStihiStore: { setDateValue, startTracking, stopTracking },
+    trackerStihiStore: {
+      setDateValue,
+      startTracking,
+      stopTracking,
+      clearStatisticBotData,
+      addStatisticBotData,
+    },
   } = useRootStore();
 
   useEffect(() => {
@@ -46,6 +52,7 @@ export const useInitHandlers = () => {
       ({ datePoems, isAutoRead }) => {
         if (isAutoRead) {
           startTracking();
+          clearStatisticBotData();
           notifications.show({ message: "Запущен трекер обхода стихи.ру" });
         } else {
           stopTracking();
@@ -59,7 +66,7 @@ export const useInitHandlers = () => {
 
   useEffect(() => {
     const unsubscribe = window.electronAPI.onReceiveStatisticBot((message) => {
-      console.log(message);
+      addStatisticBotData(message);
     });
     return unsubscribe;
   }, []);
