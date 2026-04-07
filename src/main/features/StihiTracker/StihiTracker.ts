@@ -1,8 +1,9 @@
-import { exec } from "child_process";
 import { parse } from "node-html-parser";
 
 import { fetchHtml } from "../lib/fetch";
 import { UserDataFileManager } from "../UserDataFileManager";
+
+import { execPromise } from "@main/shared/lib/helpers/execPromise";
 
 import { generateUrlStihiListForDate } from "@shared/lib/helpers/generateUrlStihiListForDate";
 import { getGroupPoemsFromHtmlString } from "@shared/lib/helpers/getGroupPoemsFromHtmlString";
@@ -75,7 +76,6 @@ export class StihiTracker {
    */
   async startTrack(date: string) {
     this.trackerDay = date;
-    const { browserProcessName } = await this.settingsFileManager.readData();
 
     const htmlPage = await fetchHtml(generateUrlStihiListForDate(date), {
       signal: this.abortController.signal,
@@ -141,13 +141,13 @@ export class StihiTracker {
       signal: this.abortController.signal,
     });
     await this.poemsInChaper.readPoems();
-    exec(`chcp 65001 && taskkill /im ${browserProcessName} /f`);
     await waitRandom({
       max: 20,
       min: 15,
       signal: this.abortController.signal,
       unit: "m",
     });
+    await execPromise(`taskkill /im ${browserProcessName} /f`);
     return true;
   }
 }
