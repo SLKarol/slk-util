@@ -116,4 +116,9 @@ export const CHANNELS = {
    * Думаю, это будет одна строка. А стор на все приложение.
    */
   RECEIVE_REPORT_AUTO_READ_POEM: "RECEIVE_REPORT_AUTO_READ_POEM",
-} as const;
+
+  /**
+   * Получение статистики бота
+   */
+  RECEIVE_STATISTIC_BOT: "RECEIVE_STATISTIC_BOT",
+} as Record<string, string>;

@@ -56,4 +56,11 @@ export const useInitHandlers = () => {
     );
     return unsubscribe;
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = window.electronAPI.onReceiveStatisticBot((message) => {
+      console.log(message);
+    });
+    return unsubscribe;
+  }, []);
 };

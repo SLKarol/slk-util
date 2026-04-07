@@ -5,6 +5,8 @@ import { BASE_URL_STIHI_RU } from "../lib/constants";
 import { fetchHtml } from "../lib/fetch";
 
 import { getPoemsFromHtmlDoc } from "@shared/lib/helpers/getPoemsFromHtmlDoc";
+import { randomInt } from "@shared/lib/helpers/randomInt";
+import { waitRandom } from "@shared/lib/helpers/wait";
 import { type SihiPoem } from "@shared/lib/types/stihiru.types";
 
 import { type LoadPoemsPayload } from "./PoemsInChapter.types";
@@ -17,7 +19,7 @@ export class PoemsInChaper {
   /**
    * Список стихов, загруженных с сайта "Стихи.ру" для выбранной главы.
    */
-  poems: Map<string, SihiPoem>;
+  private poems: Map<string, SihiPoem>;
 
   /**
    * Список посещенных произведений авторов
@@ -58,6 +60,11 @@ export class PoemsInChaper {
         authorId: poem.authorId,
         href: poem.href,
       });
+      const randomTime = randomInt(35, 55);
+      await waitRandom({
+        randomTime,
+        unit: "s",
+      });
     }
   }
 
@@ -77,5 +84,9 @@ export class PoemsInChaper {
    */
   clearPoems() {
     this.poems.clear();
+  }
+
+  get countPoems() {
+    return this.poems.size;
   }
 }

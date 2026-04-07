@@ -1,12 +1,16 @@
+import { type IpcMainEvent } from "electron";
 import { parse } from "node-html-parser";
 
 import { fetchHtml } from "../lib/fetch";
+import { LogMainToRender } from "../lib/LogMainToRender";
 import { UserDataFileManager } from "../UserDataFileManager";
 
 import { execPromise } from "@main/shared/lib/helpers/execPromise";
 
+import { CHANNELS } from "@shared/ipc/channels";
 import { generateUrlStihiListForDate } from "@shared/lib/helpers/generateUrlStihiListForDate";
 import { getGroupPoemsFromHtmlString } from "@shared/lib/helpers/getGroupPoemsFromHtmlString";
+import { randomInt } from "@shared/lib/helpers/randomInt";
 import { waitRandom } from "@shared/lib/helpers/wait";
 import { type AppSettings } from "@shared/lib/types/app-settings";
 
@@ -57,6 +61,11 @@ export class StihiTracker {
    */
   private settingsFileManager: UserDataFileManager<AppSettings>;
 
+  /**
+   * Логгер для отправки сообщений в рендер-процесс.
+   */
+  private logMainToRender: LogMainToRender;
+
   constructor() {
     this.randomSectionPicker = new RandomSectionPicker();
     this.abortController = new AbortController();
@@ -68,6 +77,7 @@ export class StihiTracker {
         browserProcessName: "",
       },
     );
+    this.logMainToRender = new LogMainToRender(CHANNELS.RECEIVE_STATISTIC_BOT);
   }
 
   /**
@@ -76,6 +86,8 @@ export class StihiTracker {
    */
   async startTrack(date: string) {
     this.trackerDay = date;
+    this.logMainToRender.sendLog("Бот запускается ...");
+    this.logMainToRender.sendLog(`Запрос разделов на ${date} .`);
 
     const htmlPage = await fetchHtml(generateUrlStihiListForDate(date), {
       signal: this.abortController.signal,
@@ -84,6 +96,7 @@ export class StihiTracker {
     const chaptersData = getGroupPoemsFromHtmlString(
       root as unknown as Document,
     );
+    this.logMainToRender.sendLog(`Получено ${chaptersData.length} разделов`);
     this.randomSectionPicker.setChapters(chaptersData);
     this.runBodyBotEnterUntilFalse();
   }
@@ -101,13 +114,6 @@ export class StihiTracker {
 
   /**
    * Останавливает трекинг и сбрасывает всё связанное состояние.
-   *
-   * Выполняет следующие действия:
-   * - очищает дату трекинга;
-   * - сбрасывает выбранный раздел в `RandomSectionPicker`;
-   * - удаляет информацию о посещённых главах;
-   * - очищает список доступных глав;
-   * - инициирует отмену всех асинхронных операций.
    */
   stopTrack() {
     this.trackerDay = null;
@@ -116,6 +122,7 @@ export class StihiTracker {
     this.randomSectionPicker.clearChapters();
     this.poemsInChaper.clearPoems();
     this.abortController.abort();
+    this.logMainToRender.sendLog("Бот остановлен");
   }
 
   /**
@@ -136,18 +143,40 @@ export class StihiTracker {
   private async bodyBotEnter(browserProcessName: string) {
     const selectChapter = this.randomSectionPicker.selectRandomChapter();
     if (!selectChapter) return false;
+
+    this.logMainToRender.sendLog(
+      `Выбран раздел: ${selectChapter}. Загружаю произведения ...`,
+    );
+
     await this.poemsInChaper.loadPoems({
       selectChapter,
       signal: this.abortController.signal,
     });
+
+    this.logMainToRender.sendLog(
+      `Загружено: ${this.poemsInChaper.countPoems}. Открываю их.`,
+    );
+
     await this.poemsInChaper.readPoems();
+    const randomTime = randomInt(15, 20);
+
+    this.logMainToRender.sendLog(`Ожидание  ${randomTime} минут.`);
+
     await waitRandom({
-      max: 20,
-      min: 15,
+      randomTime,
       signal: this.abortController.signal,
       unit: "m",
     });
     await execPromise(`taskkill /im ${browserProcessName} /f`);
+    this.logMainToRender.sendLog(`Закрыть ${browserProcessName}.`);
     return true;
+  }
+
+  /**
+   * Задаёт событие IPC для логгирования в рендер-процессе.
+   * @param ipcMainEvent - Событие IPC от главного процесса
+   */
+  setIpcMainEventForLog(ipcMainEvent: IpcMainEvent) {
+    this.logMainToRender.setIpcMainEvent(ipcMainEvent);
   }
 }

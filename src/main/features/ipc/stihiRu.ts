@@ -100,6 +100,8 @@ export const stihiRuHandlers = {
       );
     }
 
+    stihiTracker.setIpcMainEventForLog(ipcMainEvent);
+
     stihiTracker.startTrack(stringDate);
     const status: IStatusAutoReadStihi = {
       datePoems: stringDate,

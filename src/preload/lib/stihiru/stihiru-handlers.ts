@@ -4,6 +4,7 @@ import { CHANNELS } from "@shared/ipc/channels";
 import {
   type ElectronAPI,
   type ReceiveOperationAuthor,
+  type ReceiveStatisticBotData,
 } from "@shared/lib/types/electron-api";
 import { type IStatusAutoReadStihi } from "@shared/lib/types/stihi.types";
 
@@ -93,6 +94,20 @@ export const createStihiRuHandlers = () =>
       return () => {
         ipcRenderer.removeListener(
           CHANNELS.RECEIVE_REPORT_AUTO_READ_POEM,
+          subscription,
+        );
+      };
+    },
+    onReceiveStatisticBot: (callback) => {
+      // Создаём функцию‑обёртку для подписки
+      const subscription = (_: IpcRendererEvent, ...args: unknown[]) =>
+        callback(args[0] as ReceiveStatisticBotData);
+      // Подписываемся на событие
+      ipcRenderer.on(CHANNELS.RECEIVE_STATISTIC_BOT, subscription);
+      // Возвращаем функцию отписки
+      return () => {
+        ipcRenderer.removeListener(
+          CHANNELS.RECEIVE_STATISTIC_BOT,
           subscription,
         );
       };

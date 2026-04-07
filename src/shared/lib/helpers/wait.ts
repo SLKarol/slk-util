@@ -40,47 +40,42 @@ export function wait(seconds = 1, signal?: AbortSignal): Promise<void> {
 }
 
 /**
- * Ожидает случайное количество времени в заданном диапазоне.
- * Поддерживает миллисекунды и минуты как единицы измерения.
- * Отмена возможна через `AbortSignal`.
+ * Асинхронно ожидает случайное время с возможностью отмены через AbortSignal.
  *
- * @param {Object} params - Параметры функции.
- * @param {AbortSignal} [params.signal] - Сигнал для отмены ожидания.
- * @param {number} params.min - Минимальное значение случайного интервала (включительно).
- * @param {number} params.max - Максимальное значение случайного интервала (включительно).
- * @param {"s" | "m"} [params.unit="s"] - Единица измерения: "s" — секунды, "m" — минуты.
- * @returns {Promise<void>} Промис, который выполнится по истечении случайного времени,
- *                          или отклонится при отмене.
+ * Функция возвращает промис, который разрешается по истечении случайного времени,
+ * вычисленного на основе переданного значения `randomTime` и указанной единицы измерения.
+ * Поддерживает отмену операции ожидания через `AbortSignal`.
  *
- * @throws {Error} Если ожидание было отменено до завершения.
+ * @param {Object} params - Параметры функции ожидания.
+ * @param {AbortSignal} [params.signal] - Сигнал для отмены ожидания. При получении сигнала отмены промис будет отклонён.
+ * @param {number} params.randomTime - Временное значение, интерпретируемое в зависимости от параметра `unit`.
+ * @param {"s" | "m"} [params.unit="s"] - Единица измерения времени: `"s"` — секунды (по умолчанию), `"m"` — минуты.
  *
- * @example
- * // Ожидание случайного времени от 1 до 3 секунд
- * await waitRandom({ min: 1, max: 3 });
+ * @returns {Promise<void>} Промис, который разрешается через указанное время или отклоняется при отмене.
+ *
+ * @throws {Error} Выбрасывается с сообщением "Ожидание отменено", если операция была прервана через сигнал.
  *
  * @example
- * // Ожидание от 1 до 2 минут
- * await waitRandom({ min: 1, max: 2, unit: "m" });
+ * // Ожидание 2.5 секунд
+ * await waitRandom({ randomTime: 2.5 });
  *
  * @example
- * // С отменой через AbortSignal
+ * // Ожидание до 3 минут с возможностью отмены
  * const controller = new AbortController();
- * setTimeout(() => controller.abort(), 100);
+ * setTimeout(() => controller.abort(), 1000);
  * try {
- *   await waitRandom({ min: 1, max: 5, signal: controller.signal });
- * } catch (error) {
- *   console.log(error.message); // "Ожидание отменено"
+ *   await waitRandom({ randomTime: 3, unit: "m", signal: controller.signal });
+ * } catch (e) {
+ *   console.log(e.message); // "Ожидание отменено"
  * }
  */
 export function waitRandom({
   signal,
-  min,
-  max,
+  randomTime,
   unit = "s",
 }: {
   signal?: AbortSignal;
-  min: number;
-  max: number;
+  randomTime: number;
   unit?: "s" | "m";
 }): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -90,7 +85,6 @@ export function waitRandom({
     }
 
     const factor = unit === "m" ? 60000 : 1000;
-    const randomTime = Math.floor(Math.random() * (max - min + 1)) + min;
     const delay = randomTime * factor;
 
     const timer = setTimeout(() => {

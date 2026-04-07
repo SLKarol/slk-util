@@ -1,0 +1,8 @@
+/**
+ * Генерация случайного целого числа в диапазоне
+ * @param min - минимальное значение
+ * @param max - максимальное значение
+ * @returns - случайное целое число
+ */
+export const randomInt = (min: number, max: number): number =>
+  Math.floor(Math.random() * (max - min + 1)) + min;
