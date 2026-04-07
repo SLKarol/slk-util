@@ -60,7 +60,7 @@ export class PoemsInChaper {
         authorId: poem.authorId,
         href: poem.href,
       });
-      const randomTime = randomInt(35, 55);
+      const randomTime = randomInt(3, 5);
       await waitRandom({
         randomTime,
         unit: "s",

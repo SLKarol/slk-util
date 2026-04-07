@@ -158,7 +158,7 @@ export class StihiTracker {
     );
 
     await this.poemsInChaper.readPoems();
-    const randomTime = randomInt(15, 20);
+    const randomTime = randomInt(13, 18);
 
     this.logMainToRender.sendLog(`Ожидание  ${randomTime} минут.`);
 
@@ -168,7 +168,8 @@ export class StihiTracker {
       unit: "m",
     });
     await execPromise(`taskkill /im ${browserProcessName} /f`);
-    this.logMainToRender.sendLog(`Закрыть ${browserProcessName}.`);
+    this.logMainToRender.sendLog(`Закрыли ${browserProcessName}.`);
+    this.poemsInChaper.clearPoems();
     return true;
   }
 

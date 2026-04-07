@@ -17,7 +17,10 @@ export const LogBotEnter = observer(() => {
     <ScrollArea h={256}>
       <List>
         {statisticBotData.map((statistic) => (
-          <LogBotEnterListItem key={statistic.date} statistic={statistic} />
+          <LogBotEnterListItem
+            key={`${statistic.date}${statistic.message}`}
+            statistic={statistic}
+          />
         ))}
       </List>
     </ScrollArea>
