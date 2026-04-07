@@ -34,9 +34,13 @@ export class UserDataFileManager<T = unknown> {
    * Записывает данные в файл, перезаписывая всё содержимое
    * @param data Данные для записи (тип unknown)
    */
-  async writeData(data: T): Promise<void> {
+  async writeData(data: T, disableHumanReadable = false): Promise<void> {
     try {
-      const jsonString = JSON.stringify(data, null, 2);
+      const jsonString = JSON.stringify(
+        data,
+        null,
+        !disableHumanReadable ? 2 : undefined,
+      );
       await writeFile(this.filePath, jsonString, "utf-8");
     } catch (error) {
       throw new Error(`Ошибка при записи в файл ${this.filePath}: ${error}`);

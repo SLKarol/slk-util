@@ -28,13 +28,6 @@ export class VisitPoemsByAuthor {
   }
 
   /**
-   * Экспортирует mapVisitPoemsByAuthor в JSON
-   */
-  private toJson(): string {
-    return JSON.stringify(Array.from(this.mapVisitPoemsByAuthor.entries()));
-  }
-
-  /**
    * Импортирует mapVisitPoemsByAuthor из JSON
    * @param json - JSON строка, созданная методом toJson
    */
@@ -113,6 +106,7 @@ export class VisitPoemsByAuthor {
 
     await this.trackerVisitAuthors.writeData(
       Array.from(this.mapVisitPoemsByAuthor.entries()),
+      true,
     );
   }
 
