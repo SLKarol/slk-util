@@ -2,14 +2,16 @@ import { type IpcMainEvent } from "electron";
 
 import { UserDataFileManager } from "../UserDataFileManager";
 
+import { SETTINGS_APP } from "@main/shared/lib/constants";
+
 import { CHANNELS } from "@shared/ipc/channels";
 import { type AppSettings } from "@shared/lib/types/app-settings";
 import { type WriteSettingsProps } from "@shared/lib/types/settings.type";
 
-const settingsFile = new UserDataFileManager<AppSettings>("settings.json", {
-  stihiRu: { login: "", password: "", cookies: [] },
-  browserProcessName: "",
-});
+const settingsFile = new UserDataFileManager<AppSettings>(
+  "settings.json",
+  SETTINGS_APP,
+);
 
 /**
  * Объект, содержащий обработчики IPC-запросов для работы с настройками приложения.

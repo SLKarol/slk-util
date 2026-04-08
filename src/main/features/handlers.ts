@@ -4,6 +4,7 @@ import { banAuthorHandlers } from "@main/features/ipc/banAutor";
 import { requestHandlers } from "@main/features/ipc/request";
 import { settingsHandlers } from "@main/features/ipc/settings";
 import { stihiRuHandlers } from "@main/features/ipc/stihiRu";
+import { wireGuardTunnelHandlers } from "@main/features/ipc/wireGuardTunnel";
 
 /**
  * Регистрация обработчиков ipc.
@@ -25,6 +26,10 @@ export function registerHandlers() {
   });
 
   Object.entries(stihiRuHandlers).forEach(([channel, handler]) => {
+    ipcMain.on(channel, handler);
+  });
+
+  Object.entries(wireGuardTunnelHandlers).forEach(([channel, handler]) => {
     ipcMain.on(channel, handler);
   });
 }

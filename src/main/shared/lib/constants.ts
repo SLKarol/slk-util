@@ -1,3 +1,5 @@
+import { type AppSettings } from "@shared/lib/types/app-settings";
+
 /**
  * Заголовки запросов. Прикинуться браузером.
  */
@@ -19,3 +21,16 @@ export const REQUEST_HEADERS = {
   DNT: "1",
   Priority: "u=0, i",
 } as Record<string, string>;
+
+/**
+ * Настройки приложения.
+ */
+export const SETTINGS_APP: AppSettings = {
+  stihiRu: { login: "", password: "", cookies: [] },
+  browserProcessName: "",
+  wireGuardTunnel: {
+    allowedIPs: "",
+    excludeFromVpn: [],
+    siteInfoDnsServers: [],
+  },
+};

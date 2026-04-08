@@ -1,6 +1,6 @@
 import { type FC, type PropsWithChildren, useMemo } from "react";
 
-import { WireGuardTunnelRootStore } from "@renderer-features/wire-guard-tunnel/root-store";
+import { WireGuardTunnelRootStore } from "@renderer-features/wire-guard-tunnel/model/root-store";
 
 import { WireGuardTunnelContext } from "./WireGuardTunnelContext";
 

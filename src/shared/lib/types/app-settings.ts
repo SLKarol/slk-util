@@ -1,5 +1,6 @@
 /**
  * Интерфейс, описывающий общие настройки приложения.
+ * Они же, эти настройки, хранятся в файле settings.json.
  */
 export interface AppSettings {
   /**
@@ -11,6 +12,11 @@ export interface AppSettings {
    * Имя процесса браузера.
    */
   browserProcessName: string;
+
+  /**
+   * Настройки WireGuard.
+   */
+  wireGuardTunnel: AppSettingsWireGuardTunnel;
 }
 
 /**
@@ -32,4 +38,21 @@ export interface AppSettingsStihiRu {
    * Хранятся в формате строки cookie (например, "name=value; expires=...").
    */
   cookies: string[];
+}
+
+export interface AppSettingsWireGuardTunnel {
+  /**
+   * DNS серверы, которые будут использованы для определения инфы о сайте
+   */
+  siteInfoDnsServers: string[];
+
+  /**
+   * Список сайтов (адресов), которые не должны быть включены в VPN.
+   */
+  excludeFromVpn: string[];
+
+  /**
+   * Список IP адресов, которые разрешены для подключения через VPN.
+   */
+  allowedIPs: string;
 }
