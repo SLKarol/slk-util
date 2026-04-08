@@ -7,6 +7,9 @@ import { MainLayout } from "@widgets/main-layout/ui/MainLayout";
 
 import { RootStoreProvider } from "@renderer/providers/RootStoreProvider";
 import { StihiRuRootProvider } from "@renderer/providers/stihi-ru/StihiRuProvider";
+import { WireGuardTunnelRootProvider } from "@renderer/providers/wire-guard-tunnel/WireGuardTunnelProvider";
+
+import { WireguardTunnel } from "./WireguardTunnel/WireguardTunnel";
 
 export const Routing = () => {
   return (
@@ -26,6 +29,14 @@ export const Routing = () => {
               <StihiRuRootProvider>
                 <StihiRu />
               </StihiRuRootProvider>
+            }
+          />
+          <Route
+            path="wireguardtunnel"
+            element={
+              <WireGuardTunnelRootProvider>
+                <WireguardTunnel />
+              </WireGuardTunnelRootProvider>
             }
           />
         </Route>

@@ -32,6 +32,17 @@ export const createAppMenu = (mainWindow: BrowserWindow | null) => {
             }
           },
         },
+        {
+          label: "Настройки тунеля для WireGuard",
+          click: () => {
+            if (mainWindow) {
+              mainWindow.webContents.send(
+                CHANNELS.NAVIGATE,
+                "/wireguardtunnel",
+              );
+            }
+          },
+        },
         { type: "separator" }, // Горизонтальная черта (не на macOS)
         { role: "quit", label: "Выход", accelerator: "Ctrl+q" }, // Пункт «Выход» (не на macOS)
       ],
