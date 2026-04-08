@@ -1,5 +1,3 @@
-import { type AppSettings } from "@shared/lib/types/app-settings";
-
 /**
  * Заголовки запросов. Прикинуться браузером.
  */
@@ -22,15 +20,17 @@ export const REQUEST_HEADERS = {
   Priority: "u=0, i",
 } as Record<string, string>;
 
+const SETTINGS_WIRE_GUARD_TUNNEL = {
+  allowedIPs: "",
+  excludeFromVpn: [],
+  siteInfoDnsServers: [],
+};
+
 /**
  * Настройки приложения.
  */
-export const SETTINGS_APP: AppSettings = {
+export const SETTINGS_APP = {
   stihiRu: { login: "", password: "", cookies: [] },
   browserProcessName: "",
-  wireGuardTunnel: {
-    allowedIPs: "",
-    excludeFromVpn: [],
-    siteInfoDnsServers: [],
-  },
+  wireGuardTunnel: SETTINGS_WIRE_GUARD_TUNNEL,
 };

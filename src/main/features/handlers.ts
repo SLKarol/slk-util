@@ -29,7 +29,7 @@ export function registerHandlers() {
     ipcMain.on(channel, handler);
   });
 
-  Object.entries(wireGuardTunnelHandlers).forEach(([channel, handler]) => {
-    ipcMain.on(channel, handler);
-  });
+  // Object.entries(wireGuardTunnelHandlers).forEach(([channel, handler]) => {
+  //   ipcMain.on(channel, handler);
+  // });
 }
