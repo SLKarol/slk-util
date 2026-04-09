@@ -1,6 +1,9 @@
+import { randomId } from "@mantine/hooks";
 import { action, computed, makeObservable, observable } from "mobx";
 
 import { type AppSettingsWireGuardTunnel } from "@shared/lib/types/app-settings";
+
+import { type StringValueWithKey } from "@renderer/widgets/wire-guard-tuennel/providers/ContextFormSettingsTunnel";
 
 import { SetSettingOnKeyPayload } from "./settings.types";
 
@@ -23,6 +26,7 @@ export class SettingsStore implements AppSettingsWireGuardTunnel {
       setSettings: action,
       setSettingOnKey: action,
       // computed
+      siteInfoDnsServersUi: computed,
     });
   }
 
@@ -47,4 +51,14 @@ export class SettingsStore implements AppSettingsWireGuardTunnel {
       this[key] = value as never;
     }
   };
+
+  /**
+   * DNS серверы, которые будут использованы для определения инфы о сайте.
+   * Для отображения в Form-UI.
+   */
+  get siteInfoDnsServersUi() {
+    return this.siteInfoDnsServers.map(
+      (value) => ({ key: randomId(), value }) as StringValueWithKey,
+    );
+  }
 }

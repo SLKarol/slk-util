@@ -4,12 +4,15 @@ import { AddNew } from "../AddNew";
 
 import { ListDns } from "./ListDns";
 
+/**
+ * Настройки кастомных DNS
+ */
 export const CustomDns = () => {
   return (
     <Container flex={1}>
       <Text fw="bold">Кастомные DNS для получения инфы о доменах</Text>
       <ListDns />
-      <AddNew />
+      <AddNew fieldName="siteInfoDnsServers" />
     </Container>
   );
 };
