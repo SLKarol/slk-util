@@ -2,7 +2,7 @@ import { Container, Flex } from "@mantine/core";
 
 import { CustomDns } from "@renderer/widgets/wire-guard-tuennel/ui/CustomDns/CustomDns";
 import { IpAddressForDomains } from "@renderer/widgets/wire-guard-tuennel/ui/IpAddressForDomains/IpAddressForDomains";
-import { ListSites } from "@renderer/widgets/wire-guard-tuennel/ui/ListSites/ListSites";
+import { ListOfDomains } from "@renderer/widgets/wire-guard-tuennel/ui/ListOfDomains/ListOfDomains";
 import { LogSettings } from "@renderer/widgets/wire-guard-tuennel/ui/LogSettings/LogSettings";
 import { CalculateSettings } from "@renderer/widgets/wire-guard-tuennel/ui/RunSettings/CalculateSettings";
 import { SettingsButtonRun } from "@renderer/widgets/wire-guard-tuennel/ui/RunSettings/SettingsButtonRun";
@@ -20,7 +20,7 @@ export const WireguardTunnel = () => {
       <SettingsForm>
         <Flex gap="0.1rem" my={10}>
           <CustomDns />
-          <ListSites />
+          <ListOfDomains />
         </Flex>
         <SettingsButtonRun />
       </SettingsForm>

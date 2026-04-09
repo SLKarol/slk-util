@@ -61,4 +61,14 @@ export class SettingsStore implements AppSettingsWireGuardTunnel {
       (value) => ({ key: randomId(), value }) as StringValueWithKey,
     );
   }
+
+  /**
+   * Домены, которые будут использованы для определения тунелей.
+   * Для отображения в Form-UI.
+   */
+  get excludeFromVpnUi() {
+    return this.excludeFromVpn.map(
+      (value) => ({ key: randomId(), value }) as StringValueWithKey,
+    );
+  }
 }

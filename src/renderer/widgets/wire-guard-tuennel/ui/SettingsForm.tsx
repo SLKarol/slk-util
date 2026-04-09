@@ -13,14 +13,14 @@ import { useWireGuardTunnelRootStore } from "@renderer/providers/wire-guard-tunn
  */
 export const SettingsForm = observer(({ children }: PropsWithChildren) => {
   const {
-    settings: { excludeFromVpn, siteInfoDnsServersUi },
+    settings: { excludeFromVpnUi, siteInfoDnsServersUi },
   } = useWireGuardTunnelRootStore();
 
   const form = useSettingsForm({
     mode: "uncontrolled",
     initialValues: {
       siteInfoDnsServers: Array.from(siteInfoDnsServersUi),
-      excludeFromVpn: Array.from(excludeFromVpn),
+      excludeFromVpn: Array.from(excludeFromVpnUi),
     },
   });
 
