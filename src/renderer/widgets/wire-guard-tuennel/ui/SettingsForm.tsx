@@ -22,6 +22,16 @@ export const SettingsForm = observer(({ children }: PropsWithChildren) => {
       siteInfoDnsServers: Array.from(siteInfoDnsServersUi),
       excludeFromVpn: Array.from(excludeFromVpnUi),
     },
+    validate: {
+      excludeFromVpn: {
+        value: (enteredDomain) =>
+          enteredDomain.trim().length === 0 ? "Введите адрес домена" : null,
+      },
+      siteInfoDnsServers: {
+        value: (enteredDns) =>
+          enteredDns.trim().length === 0 ? "Введите адрес DNS" : null,
+      },
+    },
   });
 
   return (
