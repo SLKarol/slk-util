@@ -1,4 +1,7 @@
-import { type AppSettings } from "./app-settings";
+import {
+  type AppSettings,
+  type AppSettingsWireGuardTunnel,
+} from "./app-settings";
 import { type WriteSettingsProps } from "./settings.type";
 import { type IStatusAutoReadStihi } from "./stihi.types";
 
@@ -144,6 +147,19 @@ export interface ElectronAPI {
   onReceiveStatisticBot: (
     callback: (message: ReceiveStatisticBotData) => void,
   ) => () => void;
+
+  /**
+   * Запуск настройки WireGuard.
+   * Вызывается из клиента.
+   */
+  startTunnelSettings: (
+    settings: Omit<AppSettingsWireGuardTunnel, "allowedIPs">,
+  ) => void;
+  /**
+   * Остановка настройки WireGuard.
+   * Вызывается из главного процесса.
+   */
+  receiveStopTunnelSettins: (callback: () => void) => () => void;
 }
 
 /**

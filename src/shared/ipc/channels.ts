@@ -121,4 +121,13 @@ export const CHANNELS = {
    * Получение статистики бота
    */
   RECEIVE_STATISTIC_BOT: "RECEIVE_STATISTIC_BOT",
+
+  /**
+   * Запуск настроек туннеля
+   */
+  START_TUNNEL_SETTINGS: "START_TUNNEL_SETTINGS",
+  /**
+   * Остановка настроек туннеля
+   */
+  RECEIVE_STOP_TUNNEL_SETTINS: "RECEIVE_STOP_TUNNEL_SETTINS",
 } as Record<string, string>;

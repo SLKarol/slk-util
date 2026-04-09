@@ -3,7 +3,10 @@ import { action, computed, makeObservable, observable } from "mobx";
 
 import { type AppSettingsWireGuardTunnel } from "@shared/lib/types/app-settings";
 
-import { type StringValueWithKey } from "@renderer/widgets/wire-guard-tuennel/providers/ContextFormSettingsTunnel";
+import {
+  type SettingsFormValues,
+  type StringValueWithKey,
+} from "@renderer/widgets/wire-guard-tuennel/providers/ContextFormSettingsTunnel";
 
 import { SetSettingOnKeyPayload } from "./settings.types";
 
@@ -25,6 +28,7 @@ export class SettingsStore implements AppSettingsWireGuardTunnel {
       // action
       setSettings: action,
       setSettingOnKey: action,
+      saveSettingsAndRunElectronIpc: action,
       // computed
       siteInfoDnsServersUi: computed,
     });
@@ -71,4 +75,28 @@ export class SettingsStore implements AppSettingsWireGuardTunnel {
       (value) => ({ key: randomId(), value }) as StringValueWithKey,
     );
   }
+
+  /**
+   * Сохранить настройки, которые пришли из формы.
+   * После записи в стор запускается расчет ip.
+   */
+  saveSettingsAndRunElectronIpc = (setings: SettingsFormValues) => {
+    const excludeFromVpn = [
+      ...new Set(
+        setings.excludeFromVpn.map((enteredDomain) =>
+          enteredDomain.value.trim(),
+        ),
+      ),
+    ];
+    const siteInfoDnsServers = [
+      ...new Set(setings.siteInfoDnsServers.map(({ value }) => value.trim())),
+    ];
+
+    this.excludeFromVpn = excludeFromVpn;
+    this.siteInfoDnsServers = siteInfoDnsServers;
+    window.electronAPI.startTunnelSettings({
+      excludeFromVpn,
+      siteInfoDnsServers,
+    });
+  };
 }

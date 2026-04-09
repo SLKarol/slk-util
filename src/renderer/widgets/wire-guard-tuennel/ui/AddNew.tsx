@@ -33,3 +33,4 @@ export const AddNew = ({ fieldName }: AddNewProps) => {
     </Container>
   );
 };
+AddNew.displayName = "AddNew";

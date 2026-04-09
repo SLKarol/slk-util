@@ -14,7 +14,12 @@ import { useWireGuardTunnelRootStore } from "@renderer/providers/wire-guard-tunn
  */
 export const SettingsForm = observer(({ children }: PropsWithChildren) => {
   const {
-    settings: { excludeFromVpnUi, siteInfoDnsServersUi },
+    settings: {
+      excludeFromVpnUi,
+      siteInfoDnsServersUi,
+      saveSettingsAndRunElectronIpc,
+    },
+    status: { setWorking },
   } = useWireGuardTunnelRootStore();
 
   const form = useSettingsForm({
@@ -46,6 +51,8 @@ export const SettingsForm = observer(({ children }: PropsWithChildren) => {
             });
             return;
           }
+          saveSettingsAndRunElectronIpc(formValues);
+          setWorking();
         })}
       >
         {children}

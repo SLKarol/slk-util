@@ -19,6 +19,9 @@ if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
+const isDevelopment =
+  process.env.NODE_ENV === "development" || process.env.DEBUG_PROD === "true";
+
 const createWindow = (windowState: State): void => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -40,7 +43,7 @@ const createWindow = (windowState: State): void => {
   createAppMenu(mainWindow);
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  if (isDevelopment) mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
@@ -80,9 +83,10 @@ app.on("activate", () => {
 });
 
 app.whenReady().then(() => {
-  installExtension(REACT_DEVELOPER_TOOLS)
-    .then((ext) => console.log(`Added Extension:  ${ext.name}`))
-    .catch((err) => console.log("An error occurred: ", err));
+  if (isDevelopment)
+    installExtension(REACT_DEVELOPER_TOOLS)
+      .then((ext) => console.log(`Added Extension:  ${ext.name}`))
+      .catch((err) => console.log("An error occurred: ", err));
 });
 
 // In this file you can include the rest of your app's specific main process

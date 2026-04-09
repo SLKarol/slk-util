@@ -47,7 +47,7 @@ export interface AppSettingsWireGuardTunnel {
   siteInfoDnsServers: string[];
 
   /**
-   * Список сайтов (адресов), которые не должны быть включены в VPN.
+   * Список доменов, которые не должны быть включены в VPN.
    */
   excludeFromVpn: string[];
 

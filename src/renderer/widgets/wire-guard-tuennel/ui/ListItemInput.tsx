@@ -1,7 +1,10 @@
 import { ActionIcon, Group, TextInput } from "@mantine/core";
 import { IconTrashFilled } from "@tabler/icons-react";
+import { observer } from "mobx-react-lite";
 
 import { useSettingsFormContext } from "../providers/ContextFormSettingsTunnel";
+
+import { useWireGuardTunnelRootStore } from "@renderer/providers/wire-guard-tunnel/useWireGuardTunnelRootStore";
 
 type Props = {
   /**
@@ -17,7 +20,10 @@ type Props = {
 /**
  * Редактирование записи в списке
  */
-export const ListItemInput = ({ fieldName, indexOfRecord }: Props) => {
+export const ListItemInput = observer(({ fieldName, indexOfRecord }: Props) => {
+  const {
+    status: { isWorking },
+  } = useWireGuardTunnelRootStore();
   const form = useSettingsFormContext();
   return (
     <Group mt="xs">
@@ -26,14 +32,17 @@ export const ListItemInput = ({ fieldName, indexOfRecord }: Props) => {
         withAsterisk
         style={{ flex: 1 }}
         key={form.key(`${fieldName}.${indexOfRecord}.value`)}
+        disabled={isWorking}
         {...form.getInputProps(`${fieldName}.${indexOfRecord}.value`)}
       />
       <ActionIcon
         color="red"
         onClick={() => form.removeListItem(fieldName, indexOfRecord)}
+        disabled={isWorking}
       >
         <IconTrashFilled size={16} />
       </ActionIcon>
     </Group>
   );
-};
+});
+ListItemInput.displayName = "ListItemInput";

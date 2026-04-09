@@ -14,7 +14,7 @@ export interface StringValueWithKey {
 /**
  * Интерфейс, определяющий структуру значений формы настроек.
  */
-interface SettingsFormValues {
+export interface SettingsFormValues {
   /** Список DNS-серверов */
   siteInfoDnsServers: StringValueWithKey[];
   /** Список адресов или доменов, исключённые из использования VPN */
