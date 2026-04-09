@@ -1,4 +1,5 @@
 import { type PropsWithChildren } from "react";
+import { notifications } from "@mantine/notifications";
 import { observer } from "mobx-react-lite/dist";
 
 import {
@@ -38,7 +39,13 @@ export const SettingsForm = observer(({ children }: PropsWithChildren) => {
     <SettingsFormProvider form={form}>
       <form
         onSubmit={form.onSubmit((formValues) => {
-          console.log(formValues);
+          if (formValues.excludeFromVpn.length === 0) {
+            notifications.show({
+              color: "red",
+              message: "Не введены домены",
+            });
+            return;
+          }
         })}
       >
         {children}
