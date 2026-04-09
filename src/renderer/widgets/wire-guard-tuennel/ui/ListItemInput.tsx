@@ -22,7 +22,7 @@ export const ListItemInput = ({ fieldName, indexOfRecord }: Props) => {
   return (
     <Group mt="xs">
       <TextInput
-        placeholder="John Doe"
+        placeholder="Адрес DNS"
         withAsterisk
         style={{ flex: 1 }}
         key={form.key(`${fieldName}.${indexOfRecord}.value`)}
