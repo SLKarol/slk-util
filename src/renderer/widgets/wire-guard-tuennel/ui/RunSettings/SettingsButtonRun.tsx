@@ -10,6 +10,7 @@ export const SettingsButtonRun = observer(() => {
   const {
     status: { isWorking },
   } = useWireGuardTunnelRootStore();
+
   return (
     <Container m={0}>
       <Tooltip label="Сохранить и запустить генерацию настроек">

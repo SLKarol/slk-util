@@ -45,7 +45,7 @@ export const stihiRuHandlers = {
       // await гарантирует, что следующий шаг цикла начнется
       // только после разрешения текущего промиса
       await shell.openExternal(`${BASE_URL_STIHI_RU}${link}`);
-      wait();
+      await wait();
     }
   },
 

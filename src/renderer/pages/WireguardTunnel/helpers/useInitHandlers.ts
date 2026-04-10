@@ -8,26 +8,8 @@ import { useWireGuardTunnelRootStore } from "@renderer/providers/wire-guard-tunn
  */
 export const useInitHandlers = () => {
   const {
-    settings: { setSettings },
     status: { setIdle },
   } = useWireGuardTunnelRootStore();
-
-  // Настроить обработчики событий загрузки настроек
-  useEffect(() => {
-    window.electronAPI.fetchSettings();
-
-    const unsubscribe = window.electronAPI.onReceiveSetting((settings) => {
-      const {
-        wireGuardTunnel = {
-          allowedIPs: "",
-          excludeFromVpn: [],
-          siteInfoDnsServers: [],
-        },
-      } = settings;
-      setSettings(wireGuardTunnel);
-    });
-    return unsubscribe;
-  }, []);
 
   useEffect(() => {
     const unsubscribe = window.electronAPI.receiveStopTunnelSettins(() => {

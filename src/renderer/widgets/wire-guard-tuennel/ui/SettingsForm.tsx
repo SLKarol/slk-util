@@ -1,6 +1,6 @@
-import { type PropsWithChildren } from "react";
+import { type PropsWithChildren, useEffect } from "react";
+import { randomId } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import { observer } from "mobx-react-lite/dist";
 
 import {
   SettingsFormProvider,
@@ -12,21 +12,16 @@ import { useWireGuardTunnelRootStore } from "@renderer/providers/wire-guard-tunn
 /**
  * Форма настроек WireGuard
  */
-export const SettingsForm = observer(({ children }: PropsWithChildren) => {
+export const SettingsForm = ({ children }: PropsWithChildren) => {
   const {
-    settings: {
-      excludeFromVpnUi,
-      siteInfoDnsServersUi,
-      saveSettingsAndRunElectronIpc,
-    },
     status: { setWorking },
   } = useWireGuardTunnelRootStore();
 
   const form = useSettingsForm({
     mode: "uncontrolled",
     initialValues: {
-      siteInfoDnsServers: Array.from(siteInfoDnsServersUi),
-      excludeFromVpn: Array.from(excludeFromVpnUi),
+      siteInfoDnsServers: [],
+      excludeFromVpn: [],
     },
     validate: {
       excludeFromVpn: {
@@ -40,6 +35,26 @@ export const SettingsForm = observer(({ children }: PropsWithChildren) => {
     },
   });
 
+  useEffect(() => {
+    window.electronAPI.fetchSettings();
+
+    const unsubscribe = window.electronAPI.onReceiveSetting((settings) => {
+      const { wireGuardTunnel } = settings;
+      form.setValues({
+        excludeFromVpn: wireGuardTunnel.excludeFromVpn.map((value) => ({
+          key: randomId(),
+          value,
+        })),
+        siteInfoDnsServers: wireGuardTunnel.siteInfoDnsServers.map((value) => ({
+          key: randomId(),
+          value,
+        })),
+      });
+      randomId;
+    });
+    return unsubscribe;
+  }, []);
+
   return (
     <SettingsFormProvider form={form}>
       <form
@@ -51,13 +66,40 @@ export const SettingsForm = observer(({ children }: PropsWithChildren) => {
             });
             return;
           }
-          saveSettingsAndRunElectronIpc(formValues);
           setWorking();
+
+          const excludeFromVpn = [
+            ...new Set(
+              formValues.excludeFromVpn.map((enteredDomain) =>
+                enteredDomain.value.trim(),
+              ),
+            ),
+          ];
+          const siteInfoDnsServers = [
+            ...new Set(
+              formValues.siteInfoDnsServers.map(({ value }) => value.trim()),
+            ),
+          ];
+          form.setValues({
+            excludeFromVpn: excludeFromVpn.map((value) => ({
+              key: randomId(),
+              value,
+            })),
+            siteInfoDnsServers: siteInfoDnsServers.map((value) => ({
+              key: randomId(),
+              value,
+            })),
+          });
+
+          window.electronAPI.startTunnelSettings({
+            excludeFromVpn,
+            siteInfoDnsServers,
+          });
         })}
       >
         {children}
       </form>
     </SettingsFormProvider>
   );
-});
+};
 SettingsForm.displayName = "SettingsForm";
