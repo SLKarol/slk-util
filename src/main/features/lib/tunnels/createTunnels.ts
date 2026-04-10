@@ -40,7 +40,7 @@ export const createTunnels = async ({
 
   for (const domain of excludeFromVpn) {
     const address = await getIPAddresses(domain, ipcMainEvent);
-    console.log(domain, address);
+    ipcMainEvent.reply(CHANNELS.RECEIVE_DOMAIN_ADDRESS, { domain, address });
     mapDomainIpAddrs.set(domain, address);
   }
 

@@ -11,7 +11,7 @@ interface AddNewProps {
 }
 
 /**
- * Настройк туннеля / Добавить новую строку
+ * Настройка туннеля / Добавить новую строку
  */
 export const AddNew = ({ fieldName }: AddNewProps) => {
   const form = useSettingsFormContext();
@@ -27,6 +27,7 @@ export const AddNew = ({ fieldName }: AddNewProps) => {
             key: randomId(),
           })
         }
+        disabled={fieldName === "siteInfoDnsServers"}
       >
         {`Добавить ${whatAdd}`}
       </Button>

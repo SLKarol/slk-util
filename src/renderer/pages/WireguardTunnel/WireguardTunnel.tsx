@@ -6,6 +6,7 @@ import { ListOfDomains } from "@renderer/widgets/wire-guard-tuennel/ui/ListOfDom
 import { LogSettings } from "@renderer/widgets/wire-guard-tuennel/ui/LogSettings/LogSettings";
 import { CalculateSettings } from "@renderer/widgets/wire-guard-tuennel/ui/RunSettings/CalculateSettings";
 import { SettingsButtonRun } from "@renderer/widgets/wire-guard-tuennel/ui/RunSettings/SettingsButtonRun";
+import { SaveSettings } from "@renderer/widgets/wire-guard-tuennel/ui/SaveSettings";
 import { SettingsForm } from "@renderer/widgets/wire-guard-tuennel/ui/SettingsForm";
 
 import { useInitHandlers } from "./helpers/useInitHandlers";
@@ -22,7 +23,10 @@ export const WireguardTunnel = () => {
           <CustomDns />
           <ListOfDomains />
         </Flex>
-        <SettingsButtonRun />
+        <Flex gap="1rem">
+          <SettingsButtonRun />
+          <SaveSettings />
+        </Flex>
       </SettingsForm>
       <IpAddressForDomains />
       <CalculateSettings />

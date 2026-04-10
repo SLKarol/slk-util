@@ -40,7 +40,7 @@ export async function getIPAddresses(
       `Для ${domain} нет адресов или ошибка. ${(err as Error).message}`,
     );
     console.log(
-      `On ${domain} no  addresses or error: ${(err as Error).message}`,
+      `On ${domain} no addresses or error: ${(err as Error).message}`,
     );
   }
 

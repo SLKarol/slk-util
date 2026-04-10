@@ -127,7 +127,12 @@ export const CHANNELS = {
    */
   START_TUNNEL_SETTINGS: "START_TUNNEL_SETTINGS",
   /**
-   * Остановка настроек туннеля
+   * Ответ об остановке настроек туннеля
    */
   RECEIVE_STOP_TUNNEL_SETTINS: "RECEIVE_STOP_TUNNEL_SETTINS",
-} as Record<string, string>;
+
+  /**
+   * Получение адресов домена
+   */
+  RECEIVE_DOMAIN_ADDRESS: "RECEIVE_DOMAIN_ADDRESS",
+};

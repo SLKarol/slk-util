@@ -1,7 +1,10 @@
-import { ipcRenderer } from "electron";
+import { ipcRenderer, type IpcRendererEvent } from "electron";
 
 import { CHANNELS } from "@shared/ipc/channels";
-import { type ElectronAPI } from "@shared/lib/types/electron-api";
+import {
+  type ElectronAPI,
+  type ReceiveDomainAddressRecord,
+} from "@shared/lib/types/electron-api";
 
 /**
  * Создаёт объект с обработчиками событий для работы с настройками туннеля.
@@ -19,6 +22,20 @@ export const createSettingsTunnelHandlers = () =>
       return () => {
         ipcRenderer.removeListener(
           CHANNELS.RECEIVE_STOP_TUNNEL_SETTINS,
+          subscription,
+        );
+      };
+    },
+    receiveDomainAddress: (callback) => {
+      // Создаём функцию‑обёртку для подписки
+      const subscription = (_: IpcRendererEvent, ...args: unknown[]) =>
+        callback(args[0] as ReceiveDomainAddressRecord);
+      // Подписываемся на событие
+      ipcRenderer.on(CHANNELS.RECEIVE_DOMAIN_ADDRESS, subscription);
+      // Возвращаем функцию отписки
+      return () => {
+        ipcRenderer.removeListener(
+          CHANNELS.RECEIVE_DOMAIN_ADDRESS,
           subscription,
         );
       };

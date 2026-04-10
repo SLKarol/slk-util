@@ -4,6 +4,7 @@ import {
 } from "./app-settings";
 import { type WriteSettingsProps } from "./settings.type";
 import { type IStatusAutoReadStihi } from "./stihi.types";
+import { type IPRange } from "./tunnel";
 
 /**
  * API для взаимодействия с Electron
@@ -160,6 +161,13 @@ export interface ElectronAPI {
    * Вызывается из главного процесса.
    */
   receiveStopTunnelSettins: (callback: () => void) => () => void;
+
+  /**
+   * Получить IP-адреса для домена
+   */
+  receiveDomainAddress: (
+    callback: (record: ReceiveDomainAddressRecord) => void,
+  ) => () => void;
 }
 
 /**
@@ -211,4 +219,24 @@ export interface ReceiveStatisticBotData {
    * Может включать сведения о типе операции, результате, ошибках и т.д.
    */
   message: string;
+}
+
+/**
+ * Интерфейс, описывающий структуру данных, передаваемых при событии получения IP-адреса для домена.
+ *
+ * Используется в IPC-коммуникации между Electron-приложением и фронтендом для сопоставления доменного имени
+ * с соответствующим диапазоном IP-адресов (например, IPv4 или IPv6).
+ */
+export interface ReceiveDomainAddressRecord {
+  /**
+   * Доменное имя, для которого был получен IP-адрес.
+   *
+   * @example 'example.com'
+   */
+  domain: string;
+
+  /**
+   * Диапазоны IP-адресов, разделённые по версиям протокола.
+   */
+  address: IPRange;
 }
