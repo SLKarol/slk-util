@@ -28,7 +28,6 @@ export const ListItemInput = observer(({ fieldName, indexOfRecord }: Props) => {
   return (
     <Group mt="xs">
       <TextInput
-        placeholder="Адрес DNS"
         withAsterisk
         style={{ flex: 1 }}
         key={form.key(`${fieldName}.${indexOfRecord}.value`)}

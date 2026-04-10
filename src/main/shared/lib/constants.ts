@@ -24,6 +24,7 @@ const SETTINGS_WIRE_GUARD_TUNNEL = {
   allowedIPs: "",
   excludeFromVpn: [],
   siteInfoDnsServers: [],
+  localNetworks: [],
 };
 
 /**

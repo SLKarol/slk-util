@@ -19,6 +19,8 @@ export interface SettingsFormValues {
   siteInfoDnsServers: StringValueWithKey[];
   /** Список адресов или доменов, исключённые из использования VPN */
   excludeFromVpn: StringValueWithKey[];
+  /** Список определения локальных сетей */
+  localNetworks: StringValueWithKey[];
 }
 
 // You can give context variables any name

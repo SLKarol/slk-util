@@ -16,7 +16,11 @@ import { getIPAddresses } from "./helpers/getIPAddresses";
  */
 export const createTunnels = async ({
   ipcMainEvent,
-  settingsWireGuardTunnel: { excludeFromVpn, siteInfoDnsServers },
+  settingsWireGuardTunnel: {
+    excludeFromVpn,
+    siteInfoDnsServers,
+    localNetworks,
+  },
 }: CreateTunnelPayload) => {
   ipcMainEvent.reply(
     CHANNELS.SEND_POP_UP_MESSAGE,
@@ -30,7 +34,12 @@ export const createTunnels = async ({
   const oldSettings = await settingsFile.readData();
   await settingsFile.writeData({
     ...oldSettings,
-    wireGuardTunnel: { allowedIPs: "", excludeFromVpn, siteInfoDnsServers },
+    wireGuardTunnel: {
+      allowedIPs: "",
+      excludeFromVpn,
+      siteInfoDnsServers,
+      localNetworks,
+    },
   });
   // Создать Map по доменам и IP адресам
   const mapDomainIpAddrs = new Map<string, IPRange>();

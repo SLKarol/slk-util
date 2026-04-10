@@ -22,6 +22,7 @@ export const SettingsForm = ({ children }: PropsWithChildren) => {
     initialValues: {
       siteInfoDnsServers: [],
       excludeFromVpn: [],
+      localNetworks: [],
     },
     validate: {
       excludeFromVpn: {
@@ -32,6 +33,10 @@ export const SettingsForm = ({ children }: PropsWithChildren) => {
         value: (enteredDns) =>
           enteredDns.trim().length === 0 ? "Введите адрес DNS" : null,
       },
+      localNetworks: {
+        value: (enteredMask) =>
+          enteredMask.trim().length === 0 ? "Введите диапазон IP" : null,
+      },
     },
   });
 
@@ -40,12 +45,20 @@ export const SettingsForm = ({ children }: PropsWithChildren) => {
 
     const unsubscribe = window.electronAPI.onReceiveSetting((settings) => {
       const { wireGuardTunnel } = settings;
+      const excludeFromVpn = wireGuardTunnel?.excludeFromVpn ?? [];
+      const siteInfoDnsServers = wireGuardTunnel?.siteInfoDnsServers ?? [];
+      const localNetworks = wireGuardTunnel?.localNetworks ?? [];
+
       form.setValues({
-        excludeFromVpn: wireGuardTunnel.excludeFromVpn.map((value) => ({
+        excludeFromVpn: excludeFromVpn.map((value) => ({
           key: randomId(),
           value,
         })),
-        siteInfoDnsServers: wireGuardTunnel.siteInfoDnsServers.map((value) => ({
+        siteInfoDnsServers: siteInfoDnsServers.map((value) => ({
+          key: randomId(),
+          value,
+        })),
+        localNetworks: localNetworks.map((value) => ({
           key: randomId(),
           value,
         })),
@@ -80,6 +93,12 @@ export const SettingsForm = ({ children }: PropsWithChildren) => {
               formValues.siteInfoDnsServers.map(({ value }) => value.trim()),
             ),
           ];
+          const localNetworks = [
+            ...new Set(
+              formValues.localNetworks.map(({ value }) => value.trim()),
+            ),
+          ];
+
           form.setValues({
             excludeFromVpn: excludeFromVpn.map((value) => ({
               key: randomId(),
@@ -89,11 +108,16 @@ export const SettingsForm = ({ children }: PropsWithChildren) => {
               key: randomId(),
               value,
             })),
+            localNetworks: formValues.localNetworks.map(({ value }) => ({
+              key: randomId(),
+              value: value.trim(),
+            })),
           });
 
           window.electronAPI.startTunnelSettings({
             excludeFromVpn,
             siteInfoDnsServers,
+            localNetworks,
           });
         })}
       >

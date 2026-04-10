@@ -52,6 +52,11 @@ export interface AppSettingsWireGuardTunnel {
   excludeFromVpn: string[];
 
   /**
+   * Список локальных сетей, которые не должны быть включены в VPN.
+   */
+  localNetworks: string[];
+
+  /**
    * Список IP адресов, которые разрешены для подключения через VPN.
    */
   allowedIPs: string;
