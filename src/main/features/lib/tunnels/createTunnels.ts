@@ -12,6 +12,7 @@ import { CHANNELS } from "@shared/ipc/channels";
 import { type AppSettings } from "@shared/lib/types/app-settings";
 import { type IPRange } from "@shared/lib/types/tunnel";
 
+import { calculateExcludedCidrs } from "./helpers/calculateExcludedCidrs";
 import { getIPAddresses } from "./helpers/getIPAddresses";
 import { getPrefixesFromAsNumbers } from "./helpers/getPrefixesFromAsNumbers";
 import { separatePrefixesByVersion } from "./helpers/separatePrefixesByVersion";
@@ -113,6 +114,13 @@ export const createTunnels = async ({
   // Разделяем префиксы на IPv4 и IPv6 для удобства дальнейшей обработки
   const prefixesForDomainsSeparate =
     separatePrefixesByVersion(prefixesForDomains);
+
+  const excludedCidrs = calculateExcludedCidrs({
+    localNetworks,
+    prefixesForDomainsSeparate,
+  });
+
+  ipcMainEvent.reply(CHANNELS.RECEIVE_EXCLUDED_CIDRS, excludedCidrs);
 
   // Отправляем сигнал о завершении настройки туннеля
   ipcMainEvent.reply(CHANNELS.RECEIVE_STOP_TUNNEL_SETTINS);

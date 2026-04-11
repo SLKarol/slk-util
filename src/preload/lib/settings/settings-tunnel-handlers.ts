@@ -4,6 +4,7 @@ import { CHANNELS } from "@shared/ipc/channels";
 import {
   type ElectronAPI,
   type ReceiveDomainAddressRecord,
+  type ReceiveExcludedCidrs,
 } from "@shared/lib/types/electron-api";
 
 /**
@@ -36,6 +37,21 @@ export const createSettingsTunnelHandlers = () =>
       return () => {
         ipcRenderer.removeListener(
           CHANNELS.RECEIVE_DOMAIN_ADDRESS,
+          subscription,
+        );
+      };
+    },
+
+    receiveExcludedCidrs: (callback) => {
+      // Создаём функцию‑обёртку для подписки
+      const subscription = (_: IpcRendererEvent, ...args: unknown[]) =>
+        callback(args[0] as ReceiveExcludedCidrs);
+      // Подписываемся на событие
+      ipcRenderer.on(CHANNELS.RECEIVE_EXCLUDED_CIDRS, subscription);
+      // Возвращаем функцию отписки
+      return () => {
+        ipcRenderer.removeListener(
+          CHANNELS.RECEIVE_EXCLUDED_CIDRS,
           subscription,
         );
       };

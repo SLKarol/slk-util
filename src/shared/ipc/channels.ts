@@ -130,9 +130,12 @@ export const CHANNELS = {
    * Ответ об остановке настроек туннеля
    */
   RECEIVE_STOP_TUNNEL_SETTINS: "RECEIVE_STOP_TUNNEL_SETTINS",
-
   /**
    * Получение адресов домена
    */
   RECEIVE_DOMAIN_ADDRESS: "RECEIVE_DOMAIN_ADDRESS",
+  /**
+   * Получение исключённых CIDR-диапазоны для IPv4 и IPv6
+   */
+  RECEIVE_EXCLUDED_CIDRS: "RECEIVE_EXCLUDED_CIDRS",
 };

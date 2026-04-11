@@ -168,6 +168,13 @@ export interface ElectronAPI {
   receiveDomainAddress: (
     callback: (record: ReceiveDomainAddressRecord) => void,
   ) => () => void;
+
+  /**
+   * Получить исключённые CIDR-диапазоны для IPv4 и IPv6
+   */
+  receiveExcludedCidrs: (
+    callback: (record: ReceiveExcludedCidrs) => void,
+  ) => () => void;
 }
 
 /**
@@ -239,4 +246,23 @@ export interface ReceiveDomainAddressRecord {
    * Диапазоны IP-адресов, разделённые по версиям протокола.
    */
   address: IPRange;
+}
+
+/**
+ * Интерфейс данных, передаваемых при получении списка исключённых CIDR-диапазонов.
+ *
+ * Используется для передачи результата вычисления сетевых исключений для IPv4 и IPv6.
+ */
+export interface ReceiveExcludedCidrs {
+  /**
+   * Список IPv4 CIDR-диапазонов, которые должны быть исключены из маршрутов.
+   * Пример: ['0.0.0.0/0', '185.32.248.0/22']
+   */
+  ipv4Excluded: string[];
+
+  /**
+   * Список IPv6 CIDR-диапазонов, которые должны быть исключены из маршрутов.
+   * Пример: ['::/0', '2a00:bdc0:c000::/35']
+   */
+  ipv6Excluded: string[];
 }

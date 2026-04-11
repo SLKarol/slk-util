@@ -1,6 +1,7 @@
 import { type IpcMainEvent } from "electron";
 
 import { type AppSettingsWireGuardTunnel } from "@shared/lib/types/app-settings";
+import { type IPRange } from "@shared/lib/types/tunnel";
 
 /**
  * Данные, передаваемые при создании WireGuard-туннеля через IPC.
@@ -158,4 +159,15 @@ export interface RIPEstatAnnouncedPrefixesResponse {
    * Основные данные ответа.
    */
   data: AnnouncedPrefixesData;
+}
+
+export interface CalculateExcludedCidrsPayload {
+  /**
+   * Объект с разделёнными IPv4 и IPv6 префиксами доменов.
+   */
+  prefixesForDomainsSeparate: IPRange;
+  /**
+   *  Массив локальных сетей (CIDR)
+   */
+  localNetworks: string[];
 }
