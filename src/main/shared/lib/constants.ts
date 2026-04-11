@@ -22,16 +22,16 @@ export const REQUEST_HEADERS = {
 
 const SETTINGS_WIRE_GUARD_TUNNEL = {
   allowedIPs: "",
-  excludeFromVpn: [],
-  siteInfoDnsServers: [],
-  localNetworks: [],
+  excludeFromVpn: [] as string[],
+  siteInfoDnsServers: [] as string[],
+  localNetworks: [] as string[],
 };
 
 /**
  * Настройки приложения.
  */
 export const SETTINGS_APP = {
-  stihiRu: { login: "", password: "", cookies: [] },
+  stihiRu: { login: "", password: "", cookies: [] as string[] },
   browserProcessName: "",
   wireGuardTunnel: SETTINGS_WIRE_GUARD_TUNNEL,
 };

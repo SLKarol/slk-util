@@ -30,6 +30,7 @@
     "@electron/fuses": "^1.8.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "@types/whois-json": "^2.0.4",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "@vercel/webpack-asset-relocator-loader": "^1.7.3",
@@ -69,6 +70,7 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-router": "^7.14.0",
-    "uuid": "^13.0.0"
+    "uuid": "^13.0.0",
+    "whois-json": "^2.0.4"
   }
 }
