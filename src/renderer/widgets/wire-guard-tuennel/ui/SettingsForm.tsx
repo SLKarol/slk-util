@@ -100,24 +100,24 @@ export const SettingsForm = ({ children }: PropsWithChildren) => {
           }
           setWorking();
 
-          const excludeFromVpn = [
+          const excludeFromVpn: string[] = [
             ...new Set(
               formValues.excludeFromVpn.map((enteredDomain) =>
                 enteredDomain.value.trim(),
               ),
             ),
           ];
-          const siteInfoDnsServers = [
+          const siteInfoDnsServers: string[] = [
             ...new Set(
               formValues.siteInfoDnsServers.map(({ value }) => value.trim()),
             ),
           ];
-          const localNetworks = [
+          const localNetworks: string[] = [
             ...new Set(
               formValues.localNetworks.map(({ value }) => value.trim()),
             ),
           ];
-          const onlyThisDomains = [
+          const onlyThisDomains: string[] = [
             ...new Set(
               formValues.onlyThisDomains.map(({ value }) => value.trim()),
             ),
