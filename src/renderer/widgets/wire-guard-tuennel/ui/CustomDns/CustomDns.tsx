@@ -6,6 +6,8 @@ import { ListDns } from "./ListDns";
 
 /**
  * Настройки кастомных DNS
+ * Компонента пока нигде не используется,
+ * т.к. в electron нет необходимости задавать свой днс
  */
 export const CustomDns = () => {
   return (

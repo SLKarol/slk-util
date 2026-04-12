@@ -21,6 +21,10 @@ export interface SettingsFormValues {
   excludeFromVpn: StringValueWithKey[];
   /** Список определения локальных сетей */
   localNetworks: StringValueWithKey[];
+  /** Список доменов, которые используют VPN */
+  onlyThisDomains: StringValueWithKey[];
+  /** Флаг, указывающий, что метод исключения доменов из VPN активирован. */
+  methodExcludeDomainsFromVpn: boolean;
 }
 
 // You can give context variables any name

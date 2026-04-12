@@ -15,7 +15,7 @@ export const SettingsButtonRun = observer(() => {
     <Container m={0}>
       <Tooltip label="Сохранить и запустить генерацию настроек">
         <Button type="submit" disabled={isWorking}>
-          Сформировать строку
+          Сгенерировать настройки туннелей
         </Button>
       </Tooltip>
     </Container>

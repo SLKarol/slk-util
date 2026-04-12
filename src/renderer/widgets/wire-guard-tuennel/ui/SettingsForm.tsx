@@ -23,6 +23,8 @@ export const SettingsForm = ({ children }: PropsWithChildren) => {
       siteInfoDnsServers: [],
       excludeFromVpn: [],
       localNetworks: [],
+      onlyThisDomains: [],
+      methodExcludeDomainsFromVpn: true,
     },
     validate: {
       excludeFromVpn: {
@@ -37,6 +39,18 @@ export const SettingsForm = ({ children }: PropsWithChildren) => {
         value: (enteredMask) =>
           enteredMask.trim().length === 0 ? "Введите диапазон IP" : null,
       },
+      onlyThisDomains: {
+        value: (enteredDomain) =>
+          enteredDomain.trim().length === 0 ? "Введите адрес домена" : null,
+      },
+      methodExcludeDomainsFromVpn: (value, values) => {
+        if (value && values.excludeFromVpn.length === 0) {
+          return "Введите домены для исключения из VPN";
+        } else if (!value && values.onlyThisDomains.length === 0) {
+          return "Введите домены для использования только с VPN";
+        }
+        return null;
+      },
     },
   });
 
@@ -48,6 +62,7 @@ export const SettingsForm = ({ children }: PropsWithChildren) => {
       const excludeFromVpn = wireGuardTunnel?.excludeFromVpn ?? [];
       const siteInfoDnsServers = wireGuardTunnel?.siteInfoDnsServers ?? [];
       const localNetworks = wireGuardTunnel?.localNetworks ?? [];
+      const onlyThisDomains = wireGuardTunnel?.onlyThisDomains ?? [];
 
       form.setValues({
         excludeFromVpn: excludeFromVpn.map((value) => ({
@@ -59,6 +74,10 @@ export const SettingsForm = ({ children }: PropsWithChildren) => {
           value,
         })),
         localNetworks: localNetworks.map((value) => ({
+          key: randomId(),
+          value,
+        })),
+        onlyThisDomains: onlyThisDomains.map((value) => ({
           key: randomId(),
           value,
         })),
@@ -98,6 +117,11 @@ export const SettingsForm = ({ children }: PropsWithChildren) => {
               formValues.localNetworks.map(({ value }) => value.trim()),
             ),
           ];
+          const onlyThisDomains = [
+            ...new Set(
+              formValues.onlyThisDomains.map(({ value }) => value.trim()),
+            ),
+          ];
 
           form.setValues({
             excludeFromVpn: excludeFromVpn.map((value) => ({
@@ -112,12 +136,18 @@ export const SettingsForm = ({ children }: PropsWithChildren) => {
               key: randomId(),
               value: value.trim(),
             })),
+            onlyThisDomains: formValues.onlyThisDomains.map(({ value }) => ({
+              key: randomId(),
+              value: value.trim(),
+            })),
           });
 
           window.electronAPI.startTunnelSettings({
             excludeFromVpn,
             siteInfoDnsServers,
             localNetworks,
+            onlyThisDomains,
+            methodExcludeDomainsFromVpn: formValues.methodExcludeDomainsFromVpn,
           });
         })}
       >

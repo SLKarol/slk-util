@@ -25,6 +25,7 @@ const SETTINGS_WIRE_GUARD_TUNNEL = {
   excludeFromVpn: [] as string[],
   siteInfoDnsServers: [] as string[],
   localNetworks: [] as string[],
+  onlyThisDomains: [] as string[],
 };
 
 /**

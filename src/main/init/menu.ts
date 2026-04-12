@@ -43,6 +43,14 @@ export const createAppMenu = (mainWindow: BrowserWindow | null) => {
             }
           },
         },
+        {
+          label: "Получить информацию по домену",
+          click: () => {
+            if (mainWindow) {
+              mainWindow.webContents.send(CHANNELS.NAVIGATE, "/domaininfo");
+            }
+          },
+        },
         { type: "separator" }, // Горизонтальная черта (не на macOS)
         { role: "quit", label: "Выход", accelerator: "Ctrl+q" }, // Пункт «Выход» (не на macOS)
       ],

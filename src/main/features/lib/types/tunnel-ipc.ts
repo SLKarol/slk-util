@@ -1,6 +1,7 @@
 import { type IpcMainEvent } from "electron";
 
 import { type AppSettingsWireGuardTunnel } from "@shared/lib/types/app-settings";
+import { StartTunnelSettingsPayload } from "@shared/lib/types/electron-api";
 import { type IPRange } from "@shared/lib/types/tunnel";
 
 /**
@@ -16,12 +17,7 @@ export interface CreateTunnelPayload {
    */
   ipcMainEvent: IpcMainEvent;
 
-  /**
-   * Настройки WireGuard-туннеля, полученные из глобальных настроек приложения.
-   *
-   * Включает параметры, такие как приватный ключ, порт, DNS и разрешённые IP-диапазоны.
-   */
-  settingsWireGuardTunnel: AppSettingsWireGuardTunnel;
+  settingsWireGuardTunnel: StartTunnelSettingsPayload;
 }
 
 export interface WhoIsJsonReply {

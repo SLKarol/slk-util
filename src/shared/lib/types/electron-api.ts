@@ -153,9 +153,7 @@ export interface ElectronAPI {
    * Запуск настройки WireGuard.
    * Вызывается из клиента.
    */
-  startTunnelSettings: (
-    settings: Omit<AppSettingsWireGuardTunnel, "allowedIPs">,
-  ) => void;
+  startTunnelSettings: (settings: StartTunnelSettingsPayload) => void;
   /**
    * Остановка настройки WireGuard.
    * Вызывается из главного процесса.
@@ -265,4 +263,11 @@ export interface ReceiveExcludedCidrs {
    * Пример: ['::/0', '2a00:bdc0:c000::/35']
    */
   ipv6Excluded: string[];
+}
+
+export interface StartTunnelSettingsPayload extends Omit<
+  AppSettingsWireGuardTunnel,
+  "allowedIPs"
+> {
+  methodExcludeDomainsFromVpn: boolean;
 }

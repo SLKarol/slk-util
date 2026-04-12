@@ -57,6 +57,13 @@ export interface AppSettingsWireGuardTunnel {
   localNetworks: string[];
 
   /**
+   * Список доменов, которые используют vpn.
+   * Это для тех случаев, когда нужно, чтобы только определенные домены использовали VPN,
+   * а остальные работали напрямую.
+   */
+  onlyThisDomains: string[];
+
+  /**
    * Список IP адресов, которые разрешены для подключения через VPN.
    */
   allowedIPs: string;

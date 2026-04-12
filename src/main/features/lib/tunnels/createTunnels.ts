@@ -1,3 +1,4 @@
+import { mergeCidr } from "cidr-tools";
 import whois from "whois-json";
 
 import {
@@ -26,6 +27,8 @@ export const createTunnels = async ({
     excludeFromVpn,
     siteInfoDnsServers,
     localNetworks,
+    onlyThisDomains,
+    methodExcludeDomainsFromVpn,
   },
 }: CreateTunnelPayload) => {
   // Отправляем сообщение пользователю о начале процесса настройки туннеля
@@ -49,6 +52,7 @@ export const createTunnels = async ({
       excludeFromVpn,
       siteInfoDnsServers,
       localNetworks,
+      onlyThisDomains,
     },
   });
 
@@ -56,12 +60,16 @@ export const createTunnels = async ({
   const mapDomainIpAddrs = new Map<string, IPRange>();
 
   // Комментированный код для настройки DNS-серверов, если в будущем будет использоваться dns.resolve вместо electron.net.resolveHost
-  // if (Array.isArray(excludeFromVpn) && excludeFromVpn.length > 0) {
+  // if (Array.isArray(siteInfoDnsServers) && siteInfoDnsServers.length > 0) {
   //   dns.setServers(siteInfoDnsServers);
   // }
 
+  const domainsForProcessing = methodExcludeDomainsFromVpn
+    ? excludeFromVpn
+    : onlyThisDomains;
+
   // Проходим по списку доменов, которые нужно исключить из VPN, и получаем их IP-адреса
-  for (const domain of excludeFromVpn) {
+  for (const domain of domainsForProcessing) {
     const address = await getIPAddresses(domain, ipcMainEvent);
     // Отправляем полученные адреса в рендерер для отображения пользователю
     ipcMainEvent.reply(CHANNELS.RECEIVE_DOMAIN_ADDRESS, { domain, address });
@@ -90,9 +98,15 @@ export const createTunnels = async ({
   // Извлекаем AS номера из WhoIs-данных для дальнейшего получения сетевых префиксов
   const asNumbers = new Set<number>();
   whoisResults.forEach((whoisData) => {
-    const asNumber = parseInt(whoisData.origin.replace("AS", ""), 10);
-    if (!isNaN(asNumber)) {
-      asNumbers.add(asNumber);
+    if ("origin" in whoisData && typeof whoisData.origin === "string") {
+      const asNumber = Number.parseInt(whoisData.origin.replace("AS", ""), 10);
+      if (!isNaN(asNumber)) {
+        asNumbers.add(asNumber);
+      }
+    } else {
+      console.warn(
+        `WhoIs data for IP address does not contain 'origin' field or it is not a string: ${JSON.stringify(whoisData)}`,
+      );
     }
   });
 
@@ -115,12 +129,22 @@ export const createTunnels = async ({
   const prefixesForDomainsSeparate =
     separatePrefixesByVersion(prefixesForDomains);
 
-  const excludedCidrs = calculateExcludedCidrs({
-    localNetworks,
-    prefixesForDomainsSeparate,
-  });
-
-  ipcMainEvent.reply(CHANNELS.RECEIVE_EXCLUDED_CIDRS, excludedCidrs);
+  if (!methodExcludeDomainsFromVpn) {
+    // todo переименовать название канала RECEIVE_EXCLUDED_CIDRS в подходящее
+    // Теперь мерджим префиксы. Думаю, что это уберёт пересечения и лишние префиксы,
+    // которые уже покрываются более широкими.
+    // Это должно оптимизировать список исключаемых префиксов для туннеля.
+    ipcMainEvent.reply(CHANNELS.RECEIVE_EXCLUDED_CIDRS, {
+      ipv4Excluded: mergeCidr(prefixesForDomainsSeparate.ipv4),
+      ipv6Excluded: mergeCidr(prefixesForDomainsSeparate.ipv6),
+    });
+  } else {
+    const excludedCidrs = calculateExcludedCidrs({
+      localNetworks,
+      prefixesForDomainsSeparate,
+    });
+    ipcMainEvent.reply(CHANNELS.RECEIVE_EXCLUDED_CIDRS, excludedCidrs);
+  }
 
   // Отправляем сигнал о завершении настройки туннеля
   ipcMainEvent.reply(CHANNELS.RECEIVE_STOP_TUNNEL_SETTINS);
