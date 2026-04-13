@@ -137,5 +137,5 @@ export const CHANNELS = {
   /**
    * Получение исключённых CIDR-диапазоны для IPv4 и IPv6
    */
-  RECEIVE_EXCLUDED_CIDRS: "RECEIVE_EXCLUDED_CIDRS",
+  RECEIVE_CALCULATE_CIDRS: "RECEIVE_CALCULATE_CIDRS",
 };

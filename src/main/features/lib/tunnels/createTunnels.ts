@@ -130,11 +130,11 @@ export const createTunnels = async ({
     separatePrefixesByVersion(prefixesForDomains);
 
   if (!methodExcludeDomainsFromVpn) {
-    // todo переименовать название канала RECEIVE_EXCLUDED_CIDRS в подходящее
+    // todo переименовать название канала RECEIVE_CALCULATE_CIDRS в подходящее
     // Теперь мерджим префиксы. Думаю, что это уберёт пересечения и лишние префиксы,
     // которые уже покрываются более широкими.
     // Это должно оптимизировать список исключаемых префиксов для туннеля.
-    ipcMainEvent.reply(CHANNELS.RECEIVE_EXCLUDED_CIDRS, {
+    ipcMainEvent.reply(CHANNELS.RECEIVE_CALCULATE_CIDRS, {
       ipv4Excluded: mergeCidr(prefixesForDomainsSeparate.ipv4),
       ipv6Excluded: mergeCidr(prefixesForDomainsSeparate.ipv6),
     });
@@ -143,7 +143,7 @@ export const createTunnels = async ({
       localNetworks,
       prefixesForDomainsSeparate,
     });
-    ipcMainEvent.reply(CHANNELS.RECEIVE_EXCLUDED_CIDRS, excludedCidrs);
+    ipcMainEvent.reply(CHANNELS.RECEIVE_CALCULATE_CIDRS, excludedCidrs);
   }
 
   // Отправляем сигнал о завершении настройки туннеля

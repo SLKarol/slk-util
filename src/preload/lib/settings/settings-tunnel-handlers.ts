@@ -3,8 +3,8 @@ import { ipcRenderer, type IpcRendererEvent } from "electron";
 import { CHANNELS } from "@shared/ipc/channels";
 import {
   type ElectronAPI,
+  type ReceiveCalculateCidrs,
   type ReceiveDomainAddressRecord,
-  type ReceiveExcludedCidrs,
 } from "@shared/lib/types/electron-api";
 
 /**
@@ -42,16 +42,16 @@ export const createSettingsTunnelHandlers = () =>
       };
     },
 
-    receiveExcludedCidrs: (callback) => {
+    receiveCalculateCidrs: (callback) => {
       // Создаём функцию‑обёртку для подписки
       const subscription = (_: IpcRendererEvent, ...args: unknown[]) =>
-        callback(args[0] as ReceiveExcludedCidrs);
+        callback(args[0] as ReceiveCalculateCidrs);
       // Подписываемся на событие
-      ipcRenderer.on(CHANNELS.RECEIVE_EXCLUDED_CIDRS, subscription);
+      ipcRenderer.on(CHANNELS.RECEIVE_CALCULATE_CIDRS, subscription);
       // Возвращаем функцию отписки
       return () => {
         ipcRenderer.removeListener(
-          CHANNELS.RECEIVE_EXCLUDED_CIDRS,
+          CHANNELS.RECEIVE_CALCULATE_CIDRS,
           subscription,
         );
       };
