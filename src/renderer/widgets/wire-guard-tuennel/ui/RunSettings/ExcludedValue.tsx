@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { ActionIcon, Flex, Text } from "@mantine/core";
+import { ActionIcon, Flex, Text, Tooltip } from "@mantine/core";
 import { useClipboard } from "@mantine/hooks";
 import { IconClipboardCopy } from "@tabler/icons-react";
 
@@ -16,14 +16,16 @@ export const ExcludedValue = ({ address }: ExcludedValueProps) => {
   return (
     <Flex gap="1rem">
       <Text flex={1}>{strValue}</Text>
-      <ActionIcon
-        variant="filled"
-        aria-label="Settings"
-        c={clipboard.copied ? "teal" : undefined}
-        onClick={() => clipboard.copy(strValue)}
-      >
-        <IconClipboardCopy stroke={1.5} />
-      </ActionIcon>
+      <Tooltip label="Скопировать в буфер обмена">
+        <ActionIcon
+          variant="filled"
+          aria-label="Settings"
+          c={clipboard.copied ? "teal" : undefined}
+          onClick={() => clipboard.copy(strValue)}
+        >
+          <IconClipboardCopy stroke={1.5} />
+        </ActionIcon>
+      </Tooltip>
     </Flex>
   );
 };

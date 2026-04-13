@@ -31,16 +31,29 @@ export async function getIPAddresses(
   ipcMainEvent?: IpcMainEvent,
 ): Promise<IPRange> {
   const address: IPRange = { ipv4: [], ipv6: [] };
+
   try {
     address.ipv4 = await getAddress({ domain, queryType: "A" });
+  } catch (err) {
+    ipcMainEvent?.reply(CHANNELS.RECEIVE_CALCULATE_CIDRS_LOG, {
+      dateTime: new Date().getTime(),
+      log: `Для ${domain}(ipv4) нет адресов или ошибка. ${(err as Error).message}`,
+    });
+    console.log(
+      `On ${domain}(ipv4) no addresses or error: ${(err as Error).message}`,
+    );
+  }
+
+  try {
     address.ipv6 = await getAddress({ domain, queryType: "AAAA" });
   } catch (err) {
-    ipcMainEvent?.reply(
-      CHANNELS.SEND_POP_UP_ERROR,
-      `Для ${domain} нет адресов или ошибка. ${(err as Error).message}`,
-    );
+    ipcMainEvent?.reply(CHANNELS.RECEIVE_CALCULATE_CIDRS_LOG, {
+      dateTime: new Date().getTime(),
+      log: `Для ${domain}(ipv6) нет адресов или ошибка. ${(err as Error).message}`,
+    });
+
     console.log(
-      `On ${domain} no addresses or error: ${(err as Error).message}`,
+      `On ${domain}(ipv6) no addresses or error: ${(err as Error).message}`,
     );
   }
 

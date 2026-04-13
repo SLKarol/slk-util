@@ -4,6 +4,7 @@ import { notifications } from "@mantine/notifications";
 
 import {
   SettingsFormProvider,
+  type StringValueWithKey,
   useSettingsForm,
 } from "../providers/ContextFormSettingsTunnel";
 
@@ -28,19 +29,19 @@ export const SettingsForm = ({ children }: PropsWithChildren) => {
     },
     validate: {
       excludeFromVpn: {
-        value: (enteredDomain) =>
+        value: (enteredDomain: string) =>
           enteredDomain.trim().length === 0 ? "Введите адрес домена" : null,
       },
       siteInfoDnsServers: {
-        value: (enteredDns) =>
+        value: (enteredDns: string) =>
           enteredDns.trim().length === 0 ? "Введите адрес DNS" : null,
       },
       localNetworks: {
-        value: (enteredMask) =>
+        value: (enteredMask: string) =>
           enteredMask.trim().length === 0 ? "Введите диапазон IP" : null,
       },
       onlyThisDomains: {
-        value: (enteredDomain) =>
+        value: (enteredDomain: string) =>
           enteredDomain.trim().length === 0 ? "Введите адрес домена" : null,
       },
       methodExcludeDomainsFromVpn: (value, values) => {
@@ -100,26 +101,33 @@ export const SettingsForm = ({ children }: PropsWithChildren) => {
           }
           setWorking();
 
-          const excludeFromVpn: string[] = [
+          const excludeFromVpn = [
             ...new Set(
-              formValues.excludeFromVpn.map((enteredDomain) =>
-                enteredDomain.value.trim(),
-              ),
+              formValues.excludeFromVpn.map(
+                (enteredDomain: StringValueWithKey) =>
+                  enteredDomain.value.trim(),
+              ) as string[],
             ),
           ];
-          const siteInfoDnsServers: string[] = [
+          const siteInfoDnsServers = [
             ...new Set(
-              formValues.siteInfoDnsServers.map(({ value }) => value.trim()),
+              formValues.siteInfoDnsServers.map(
+                ({ value }: StringValueWithKey) => value.trim(),
+              ) as string[],
             ),
           ];
           const localNetworks: string[] = [
             ...new Set(
-              formValues.localNetworks.map(({ value }) => value.trim()),
+              formValues.localNetworks.map(({ value }: StringValueWithKey) =>
+                value.trim(),
+              ) as string[],
             ),
           ];
-          const onlyThisDomains: string[] = [
+          const onlyThisDomains = [
             ...new Set(
-              formValues.onlyThisDomains.map(({ value }) => value.trim()),
+              formValues.onlyThisDomains.map(({ value }: StringValueWithKey) =>
+                value.trim(),
+              ) as string[],
             ),
           ];
 
@@ -132,14 +140,18 @@ export const SettingsForm = ({ children }: PropsWithChildren) => {
               key: randomId(),
               value,
             })),
-            localNetworks: formValues.localNetworks.map(({ value }) => ({
-              key: randomId(),
-              value: value.trim(),
-            })),
-            onlyThisDomains: formValues.onlyThisDomains.map(({ value }) => ({
-              key: randomId(),
-              value: value.trim(),
-            })),
+            localNetworks: formValues.localNetworks.map(
+              ({ value }: StringValueWithKey) => ({
+                key: randomId(),
+                value: value.trim(),
+              }),
+            ),
+            onlyThisDomains: formValues.onlyThisDomains.map(
+              ({ value }: StringValueWithKey) => ({
+                key: randomId(),
+                value: value.trim(),
+              }),
+            ),
           });
 
           window.electronAPI.startTunnelSettings({

@@ -1,4 +1,4 @@
-import { Container, Title } from "@mantine/core";
+import { Container, Spoiler, Title } from "@mantine/core";
 
 import { ListAddress } from "./ListAddress";
 
@@ -9,7 +9,9 @@ export const IpAddressForDomains = () => {
   return (
     <Container m={0}>
       <Title order={4}>IP-адреса для введённых доменов:</Title>
-      <ListAddress />
+      <Spoiler maxHeight={120} showLabel="Показать всё" hideLabel="Скрыть">
+        <ListAddress />
+      </Spoiler>
     </Container>
   );
 };

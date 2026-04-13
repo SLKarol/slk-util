@@ -4,6 +4,7 @@ import { CHANNELS } from "@shared/ipc/channels";
 import {
   type ElectronAPI,
   type ReceiveCalculateCidrs,
+  type ReceiveCalculateCidrsLog,
   type ReceiveDomainAddressRecord,
 } from "@shared/lib/types/electron-api";
 
@@ -52,6 +53,21 @@ export const createSettingsTunnelHandlers = () =>
       return () => {
         ipcRenderer.removeListener(
           CHANNELS.RECEIVE_CALCULATE_CIDRS,
+          subscription,
+        );
+      };
+    },
+
+    receiveCalculateCidrsLog: (callback) => {
+      // Создаём функцию‑обёртку для подписки
+      const subscription = (_: IpcRendererEvent, ...args: unknown[]) =>
+        callback(args[0] as ReceiveCalculateCidrsLog);
+      // Подписываемся на событие
+      ipcRenderer.on(CHANNELS.RECEIVE_CALCULATE_CIDRS_LOG, subscription);
+      // Возвращаем функцию отписки
+      return () => {
+        ipcRenderer.removeListener(
+          CHANNELS.RECEIVE_CALCULATE_CIDRS_LOG,
           subscription,
         );
       };

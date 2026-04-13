@@ -19,7 +19,7 @@ import { useInitHandlers } from "./helpers/useInitHandlers";
 export const WireguardTunnel = () => {
   useInitHandlers();
   return (
-    <Container size="lg">
+    <Container size="lg" pb="1rem">
       <SettingsForm>
         <Flex gap="0.1rem" my={10}>
           <OnlyThisDomains />

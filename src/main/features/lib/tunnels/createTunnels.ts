@@ -32,10 +32,10 @@ export const createTunnels = async ({
   },
 }: CreateTunnelPayload) => {
   // Отправляем сообщение пользователю о начале процесса настройки туннеля
-  ipcMainEvent.reply(
-    CHANNELS.SEND_POP_UP_MESSAGE,
-    "Процесс настроек туннеля запущен",
-  );
+  ipcMainEvent.reply(CHANNELS.RECEIVE_CALCULATE_CIDRS_LOG, {
+    dateTime: new Date().getTime(),
+    log: "-= Процесс настроек туннеля запущен =-",
+  });
 
   // Инициализируем менеджер для работы с файлом настроек приложения
   const settingsFile = new UserDataFileManager<AppSettings>(
@@ -54,6 +54,10 @@ export const createTunnels = async ({
       localNetworks,
       onlyThisDomains,
     },
+  });
+  ipcMainEvent.reply(CHANNELS.RECEIVE_CALCULATE_CIDRS_LOG, {
+    dateTime: new Date().getTime(),
+    log: "Настройки приложения обновлены",
   });
 
   // Создаём Map для хранения соответствия доменов и их IP-адресов (IPv4 и IPv6)
@@ -87,9 +91,11 @@ export const createTunnels = async ({
     }
   });
 
+  const arrayAllIpAddrs = Array.from(allIpAddrs);
+
   // Получаем WhoIs-записи для каждого IP-адреса, чтобы извлечь информацию об автономных системах (AS)
-  const whoisResults = await Promise.all(
-    Array.from(allIpAddrs).map(async (ipAddr) => {
+  const whoIsResults = await Promise.allSettled(
+    arrayAllIpAddrs.map(async (ipAddr) => {
       const whoisData = await whois(ipAddr);
       return whoisData as WhoIsJsonReply;
     }),
@@ -97,40 +103,62 @@ export const createTunnels = async ({
 
   // Извлекаем AS номера из WhoIs-данных для дальнейшего получения сетевых префиксов
   const asNumbers = new Set<number>();
-  whoisResults.forEach((whoisData) => {
-    if ("origin" in whoisData && typeof whoisData.origin === "string") {
-      const asNumber = Number.parseInt(whoisData.origin.replace("AS", ""), 10);
-      if (!isNaN(asNumber)) {
-        asNumbers.add(asNumber);
+
+  // Обрабатываем результаты WhoIs-запросов
+  whoIsResults.forEach((whoisData, indexWhoIsResults) => {
+    const ip = arrayAllIpAddrs[indexWhoIsResults];
+    // Подготовлю сообщение об ошибке
+    const errorMessage = `Не удалось получить ASN для ${ip}`;
+    const errorConsoleMessage = `No ASN for IP address : ${ip}`;
+
+    if (whoisData.status === "fulfilled") {
+      if (
+        "origin" in whoisData.value &&
+        typeof whoisData.value.origin === "string"
+      ) {
+        const asNumber = Number.parseInt(
+          whoisData.value.origin.replace("AS", ""),
+          10,
+        );
+        if (!isNaN(asNumber)) {
+          asNumbers.add(asNumber);
+        }
+      } else {
+        ipcMainEvent.reply(CHANNELS.RECEIVE_CALCULATE_CIDRS_LOG, {
+          dateTime: new Date().getTime(),
+          log: errorMessage,
+        });
+        console.warn(errorConsoleMessage);
       }
     } else {
-      console.warn(
-        `WhoIs data for IP address does not contain 'origin' field or it is not a string: ${JSON.stringify(whoisData)}`,
-      );
+      ipcMainEvent.reply(CHANNELS.RECEIVE_CALCULATE_CIDRS_LOG, {
+        dateTime: new Date().getTime(),
+        log: errorMessage,
+      });
+      console.warn(errorConsoleMessage);
     }
   });
 
   // Отправляем сообщение пользователю с полученными AS номерами
-  ipcMainEvent.reply(
-    CHANNELS.SEND_POP_UP_MESSAGE,
-    `Получены AS номера для исключения из VPN: ${Array.from(asNumbers).join(", ")}`,
-  );
+  ipcMainEvent.reply(CHANNELS.RECEIVE_CALCULATE_CIDRS_LOG, {
+    dateTime: new Date().getTime(),
+    log: `Получены AS номера для исключения из VPN: ${Array.from(asNumbers).join(", ")}`,
+  });
 
   // Получаем уникальные сетевые префиксы для исключения из VPN на основе AS номеров
   const prefixesForDomains = await getPrefixesFromAsNumbers(asNumbers);
 
   // Отправляем сообщение пользователю с количеством полученных префиксов
-  ipcMainEvent.reply(
-    CHANNELS.SEND_POP_UP_MESSAGE,
-    `Получены префиксы по доменам. Всего : ${prefixesForDomains.size}.`,
-  );
+  ipcMainEvent.reply(CHANNELS.RECEIVE_CALCULATE_CIDRS_LOG, {
+    dateTime: new Date().getTime(),
+    log: `Получены префиксы по доменам. Всего : ${prefixesForDomains.size}.`,
+  });
 
   // Разделяем префиксы на IPv4 и IPv6 для удобства дальнейшей обработки
   const prefixesForDomainsSeparate =
     separatePrefixesByVersion(prefixesForDomains);
 
   if (!methodExcludeDomainsFromVpn) {
-    // todo переименовать название канала RECEIVE_CALCULATE_CIDRS в подходящее
     // Теперь мерджим префиксы. Думаю, что это уберёт пересечения и лишние префиксы,
     // которые уже покрываются более широкими.
     // Это должно оптимизировать список исключаемых префиксов для туннеля.
@@ -148,4 +176,8 @@ export const createTunnels = async ({
 
   // Отправляем сигнал о завершении настройки туннеля
   ipcMainEvent.reply(CHANNELS.RECEIVE_STOP_TUNNEL_SETTINS);
+  ipcMainEvent.reply(CHANNELS.RECEIVE_CALCULATE_CIDRS_LOG, {
+    dateTime: new Date().getTime(),
+    log: "-= Процесс настроек туннеля завершён =-",
+  });
 };

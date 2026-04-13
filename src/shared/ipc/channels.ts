@@ -138,4 +138,9 @@ export const CHANNELS = {
    * Получение исключённых CIDR-диапазоны для IPv4 и IPv6
    */
   RECEIVE_CALCULATE_CIDRS: "RECEIVE_CALCULATE_CIDRS",
+
+  /**
+   * Получение логов расчёта CIDR-диапазонов
+   */
+  RECEIVE_CALCULATE_CIDRS_LOG: "RECEIVE_CALCULATE_CIDRS_LOG",
 };

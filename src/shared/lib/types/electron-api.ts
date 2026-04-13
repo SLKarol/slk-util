@@ -173,6 +173,13 @@ export interface ElectronAPI {
   receiveCalculateCidrs: (
     callback: (record: ReceiveCalculateCidrs) => void,
   ) => () => void;
+
+  /**
+   * Получить строку лога работы расчёта CIDR
+   */
+  receiveCalculateCidrsLog: (
+    callback: (record: ReceiveCalculateCidrsLog) => void,
+  ) => () => void;
 }
 
 /**
@@ -270,4 +277,10 @@ export interface StartTunnelSettingsPayload extends Omit<
   "allowedIPs"
 > {
   methodExcludeDomainsFromVpn: boolean;
+}
+
+export interface ReceiveCalculateCidrsLog {
+  // getTime
+  dateTime: number;
+  log: string;
 }

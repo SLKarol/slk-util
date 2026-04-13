@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { notifications } from "@mantine/notifications";
 
 import { useWireGuardTunnelRootStore } from "@renderer/providers/wire-guard-tunnel/useWireGuardTunnelRootStore";
 
@@ -14,9 +13,6 @@ export const useInitHandlers = () => {
   useEffect(() => {
     const unsubscribe = window.electronAPI.receiveStopTunnelSettins(() => {
       setIdle();
-      notifications.show({
-        message: "Процесс настройки закончился",
-      });
     });
 
     return unsubscribe;
