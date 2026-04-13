@@ -72,4 +72,7 @@ export const createSettingsTunnelHandlers = () =>
         );
       };
     },
+
+    saveTunnelSettings: (settings) =>
+      ipcRenderer.send(CHANNELS.SAVE_TUNNEL_SETTINGS, settings),
   }) as ElectronAPI;

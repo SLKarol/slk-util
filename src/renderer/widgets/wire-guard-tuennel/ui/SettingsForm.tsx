@@ -10,6 +10,8 @@ import {
 
 import { useWireGuardTunnelRootStore } from "@renderer/providers/wire-guard-tunnel/useWireGuardTunnelRootStore";
 
+import { getFormValuesforWork } from "./helpers/getFormValuesforWork";
+
 /**
  * Форма настроек WireGuard
  */
@@ -101,35 +103,12 @@ export const SettingsForm = ({ children }: PropsWithChildren) => {
           }
           setWorking();
 
-          const excludeFromVpn = [
-            ...new Set(
-              formValues.excludeFromVpn.map(
-                (enteredDomain: StringValueWithKey) =>
-                  enteredDomain.value.trim(),
-              ) as string[],
-            ),
-          ];
-          const siteInfoDnsServers = [
-            ...new Set(
-              formValues.siteInfoDnsServers.map(
-                ({ value }: StringValueWithKey) => value.trim(),
-              ) as string[],
-            ),
-          ];
-          const localNetworks: string[] = [
-            ...new Set(
-              formValues.localNetworks.map(({ value }: StringValueWithKey) =>
-                value.trim(),
-              ) as string[],
-            ),
-          ];
-          const onlyThisDomains = [
-            ...new Set(
-              formValues.onlyThisDomains.map(({ value }: StringValueWithKey) =>
-                value.trim(),
-              ) as string[],
-            ),
-          ];
+          const {
+            excludeFromVpn,
+            localNetworks,
+            onlyThisDomains,
+            siteInfoDnsServers,
+          } = getFormValuesforWork(formValues);
 
           form.setValues({
             excludeFromVpn: excludeFromVpn.map((value) => ({

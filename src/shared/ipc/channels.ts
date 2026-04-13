@@ -143,4 +143,9 @@ export const CHANNELS = {
    * Получение логов расчёта CIDR-диапазонов
    */
   RECEIVE_CALCULATE_CIDRS_LOG: "RECEIVE_CALCULATE_CIDRS_LOG",
+
+  /**
+   * Сохранение настроек туннеля
+   */
+  SAVE_TUNNEL_SETTINGS: "SAVE_TUNNEL_SETTINGS",
 };

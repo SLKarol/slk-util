@@ -180,6 +180,11 @@ export interface ElectronAPI {
   receiveCalculateCidrsLog: (
     callback: (record: ReceiveCalculateCidrsLog) => void,
   ) => () => void;
+
+  /**
+   * Сохранить настройки туннеля
+   */
+  saveTunnelSettings: (settings: StartTunnelSettingsPayload) => void;
 }
 
 /**
@@ -271,6 +276,11 @@ export interface ReceiveCalculateCidrs {
    */
   ipv6Excluded: string[];
 }
+
+export type AppSettingsWireGuardTunnelWithoutAllowedIPs = Omit<
+  AppSettingsWireGuardTunnel,
+  "allowedIPs"
+>;
 
 export interface StartTunnelSettingsPayload extends Omit<
   AppSettingsWireGuardTunnel,

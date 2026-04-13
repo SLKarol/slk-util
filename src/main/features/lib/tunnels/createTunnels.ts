@@ -2,17 +2,14 @@ import { mergeCidr } from "cidr-tools";
 
 import { type CreateTunnelPayload } from "../types/tunnel-ipc";
 
-import { UserDataFileManager } from "@main/features/UserDataFileManager";
-import { SETTINGS_APP } from "@main/shared/lib/constants";
-
 import { CHANNELS } from "@shared/ipc/channels";
-import { type AppSettings } from "@shared/lib/types/app-settings";
 import { type IPRange } from "@shared/lib/types/tunnel";
 
 import { calculateExcludedCidrs } from "./helpers/calculateExcludedCidrs";
 import { resolveASNForIPs } from "./helpers/getASNumberForDomain";
 import { getIPAddresses } from "./helpers/getIPAddresses";
 import { getPrefixesFromAsNumbers } from "./helpers/getPrefixesFromAsNumbers";
+import { saveTunnelSettings } from "./helpers/saveTunnelSettings";
 import { separatePrefixesByVersion } from "./helpers/separatePrefixesByVersion";
 
 /**
@@ -34,23 +31,11 @@ export const createTunnels = async ({
     log: "-= Процесс настроек туннеля запущен =-",
   });
 
-  // Инициализируем менеджер для работы с файлом настроек приложения
-  const settingsFile = new UserDataFileManager<AppSettings>(
-    "settings.json",
-    SETTINGS_APP,
-  );
-
-  // Сохраняем пришедшие настройки WireGuard туннеля в файл настроек приложения для persistence
-  const oldSettings = await settingsFile.readData();
-  await settingsFile.writeData({
-    ...oldSettings,
-    wireGuardTunnel: {
-      allowedIPs: "",
-      excludeFromVpn,
-      siteInfoDnsServers,
-      localNetworks,
-      onlyThisDomains,
-    },
+  await saveTunnelSettings({
+    excludeFromVpn,
+    localNetworks,
+    onlyThisDomains,
+    siteInfoDnsServers,
   });
   ipcMainEvent.reply(CHANNELS.RECEIVE_CALCULATE_CIDRS_LOG, {
     dateTime: new Date().getTime(),
