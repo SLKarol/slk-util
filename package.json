@@ -53,13 +53,13 @@
     "typescript": "~4.5.4"
   },
   "dependencies": {
-    "@mantine/core": "^9.0.1",
-    "@mantine/dates": "^9.0.1",
-    "@mantine/form": "^9.0.1",
-    "@mantine/hooks": "^9.0.1",
-    "@mantine/modals": "^9.0.1",
-    "@mantine/notifications": "^9.0.1",
-    "@mantine/nprogress": "^9.0.1",
+    "@mantine/core": "^9.0.2",
+    "@mantine/dates": "^9.0.2",
+    "@mantine/form": "^9.0.2",
+    "@mantine/hooks": "^9.0.2",
+    "@mantine/modals": "^9.0.2",
+    "@mantine/notifications": "^9.0.2",
+    "@mantine/nprogress": "^9.0.2",
     "@tabler/icons-react": "^3.41.1",
     "cidr-tools": "^11.3.3",
     "dayjs": "^1.11.20",
@@ -71,7 +71,6 @@
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-router": "^7.14.0",
-    "uuid": "^13.0.0",
-    "whois-json": "^2.0.4"
+    "uuid": "^13.0.0"
   }
 }

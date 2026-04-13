@@ -1,6 +1,5 @@
 import { type IpcMainEvent } from "electron";
 
-import { type AppSettingsWireGuardTunnel } from "@shared/lib/types/app-settings";
 import { StartTunnelSettingsPayload } from "@shared/lib/types/electron-api";
 import { type IPRange } from "@shared/lib/types/tunnel";
 
@@ -19,20 +18,6 @@ export interface CreateTunnelPayload {
 
   settingsWireGuardTunnel: StartTunnelSettingsPayload;
 }
-
-export interface WhoIsJsonReply {
-  /**
-   * Номер автономной системы (AS), к которой принадлежит IP-адрес.
-   */
-  origin: string;
-
-  /**
-   * Описание AS или организации.
-   */
-  descr: string;
-}
-
-// === Базовые типы ===
 
 /**
  * Статус ответа от RIPEstat API.

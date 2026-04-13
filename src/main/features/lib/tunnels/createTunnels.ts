@@ -1,10 +1,6 @@
 import { mergeCidr } from "cidr-tools";
-import whois from "whois-json";
 
-import {
-  type CreateTunnelPayload,
-  type WhoIsJsonReply,
-} from "../types/tunnel-ipc";
+import { type CreateTunnelPayload } from "../types/tunnel-ipc";
 
 import { UserDataFileManager } from "@main/features/UserDataFileManager";
 import { SETTINGS_APP } from "@main/shared/lib/constants";
@@ -14,6 +10,7 @@ import { type AppSettings } from "@shared/lib/types/app-settings";
 import { type IPRange } from "@shared/lib/types/tunnel";
 
 import { calculateExcludedCidrs } from "./helpers/calculateExcludedCidrs";
+import { resolveASNForIPs } from "./helpers/getASNumberForDomain";
 import { getIPAddresses } from "./helpers/getIPAddresses";
 import { getPrefixesFromAsNumbers } from "./helpers/getPrefixesFromAsNumbers";
 import { separatePrefixesByVersion } from "./helpers/separatePrefixesByVersion";
@@ -60,7 +57,9 @@ export const createTunnels = async ({
     log: "Настройки приложения обновлены",
   });
 
-  // Создаём Map для хранения соответствия доменов и их IP-адресов (IPv4 и IPv6)
+  /**
+   * Map для хранения соответствия доменов и их IP-адресов (IPv4 и IPv6)
+   */
   const mapDomainIpAddrs = new Map<string, IPRange>();
 
   // Комментированный код для настройки DNS-серверов, если в будущем будет использоваться dns.resolve вместо electron.net.resolveHost
@@ -80,62 +79,37 @@ export const createTunnels = async ({
     mapDomainIpAddrs.set(domain, address);
   }
 
-  // Собираем все уникальные IP-адреса из Map в Set, беря по одному адресу на домен (первый доступный)
-  const allIpAddrs = new Set<string>();
+  const domainKays = [...mapDomainIpAddrs.keys()];
+  const allSettledASNumber = await Promise.allSettled(
+    domainKays.map((domain) => {
+      const domainResult = mapDomainIpAddrs.get(domain);
+      if (!domainResult) return null;
 
-  mapDomainIpAddrs.forEach((ipRange) => {
-    if (ipRange.ipv4.length > 0) {
-      allIpAddrs.add(ipRange.ipv4[0]);
-    } else if (ipRange.ipv6.length > 0) {
-      allIpAddrs.add(ipRange.ipv6[0]);
-    }
-  });
-
-  const arrayAllIpAddrs = Array.from(allIpAddrs);
-
-  // Получаем WhoIs-записи для каждого IP-адреса, чтобы извлечь информацию об автономных системах (AS)
-  const whoIsResults = await Promise.allSettled(
-    arrayAllIpAddrs.map(async (ipAddr) => {
-      const whoisData = await whois(ipAddr);
-      return whoisData as WhoIsJsonReply;
+      if (domainResult.ipv4.length > 0) {
+        return resolveASNForIPs(domainResult.ipv4);
+      } else if (domainResult?.ipv6.length > 0) {
+        return resolveASNForIPs(domainResult.ipv6);
+      } else return null;
     }),
   );
-
-  // Извлекаем AS номера из WhoIs-данных для дальнейшего получения сетевых префиксов
   const asNumbers = new Set<number>();
-
-  // Обрабатываем результаты WhoIs-запросов
-  whoIsResults.forEach((whoisData, indexWhoIsResults) => {
-    const ip = arrayAllIpAddrs[indexWhoIsResults];
-    // Подготовлю сообщение об ошибке
-    const errorMessage = `Не удалось получить ASN для ${ip}`;
-    const errorConsoleMessage = `No ASN for IP address : ${ip}`;
-
-    if (whoisData.status === "fulfilled") {
-      if (
-        "origin" in whoisData.value &&
-        typeof whoisData.value.origin === "string"
-      ) {
-        const asNumber = Number.parseInt(
-          whoisData.value.origin.replace("AS", ""),
-          10,
-        );
-        if (!isNaN(asNumber)) {
-          asNumbers.add(asNumber);
-        }
-      } else {
+  allSettledASNumber.forEach((result, indexDomain) => {
+    if (result.status === "fulfilled") {
+      if (!result.value) {
         ipcMainEvent.reply(CHANNELS.RECEIVE_CALCULATE_CIDRS_LOG, {
           dateTime: new Date().getTime(),
-          log: errorMessage,
+          log: `ASN для домена ${domainKays[indexDomain]} не найден`,
         });
-        console.warn(errorConsoleMessage);
+      } else {
+        const match = result.value.match(/AS(\d+)/i);
+        const asNumber = match ? parseInt(match[1], 10) : null;
+        if (!asNumber)
+          ipcMainEvent.reply(CHANNELS.RECEIVE_CALCULATE_CIDRS_LOG, {
+            dateTime: new Date().getTime(),
+            log: `ASN для домена ${domainKays[indexDomain]} не найден`,
+          });
+        else asNumbers.add(asNumber);
       }
-    } else {
-      ipcMainEvent.reply(CHANNELS.RECEIVE_CALCULATE_CIDRS_LOG, {
-        dateTime: new Date().getTime(),
-        log: errorMessage,
-      });
-      console.warn(errorConsoleMessage);
     }
   });
 
@@ -164,7 +138,10 @@ export const createTunnels = async ({
     // Это должно оптимизировать список исключаемых префиксов для туннеля.
     ipcMainEvent.reply(CHANNELS.RECEIVE_CALCULATE_CIDRS, {
       ipv4Excluded: mergeCidr(prefixesForDomainsSeparate.ipv4),
-      ipv6Excluded: mergeCidr(prefixesForDomainsSeparate.ipv6),
+      ipv6Excluded: mergeCidr([
+        ...prefixesForDomainsSeparate.ipv4,
+        ...prefixesForDomainsSeparate.ipv6,
+      ]),
     });
   } else {
     const excludedCidrs = calculateExcludedCidrs({
