@@ -14,7 +14,7 @@ import { CHANNELS } from "@shared/ipc/channels";
 export const createAppMenu = (mainWindow: BrowserWindow | null) => {
   const menuTemplate = [
     {
-      label: "Навигация",
+      label: "Страница",
       submenu: [
         {
           label: "Главная",
