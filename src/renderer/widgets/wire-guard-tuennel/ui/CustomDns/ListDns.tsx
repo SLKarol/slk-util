@@ -1,11 +1,18 @@
+import { observer } from "mobx-react-lite";
+
 import { useSettingsFormContext } from "../../providers/ContextFormSettingsTunnel";
-import { ListItemInput } from "../ListItemInput";
+
+import { useWireGuardTunnelRootStore } from "@renderer/providers/wire-guard-tunnel/useWireGuardTunnelRootStore";
+import { ListItemInput } from "@renderer/widgets/shared/ui/ListItemInput";
 
 /**
  * Ввод кастомных DNS / Список
  */
-export const ListDns = () => {
+export const ListDns = observer(() => {
   const form = useSettingsFormContext();
+  const {
+    status: { isWorking },
+  } = useWireGuardTunnelRootStore();
 
   return (
     <>
@@ -14,8 +21,11 @@ export const ListDns = () => {
           key={dns.key}
           fieldName="siteInfoDnsServers"
           indexOfRecord={indexOfDns}
+          form={form}
+          disabled={isWorking}
         />
       ))}
     </>
   );
-};
+});
+ListDns.displayName = "ListDns";

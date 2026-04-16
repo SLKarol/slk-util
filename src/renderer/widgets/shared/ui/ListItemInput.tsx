@@ -1,10 +1,6 @@
 import { ActionIcon, Group, TextInput } from "@mantine/core";
+import { type UseFormReturnType } from "@mantine/form/lib";
 import { IconTrashFilled } from "@tabler/icons-react";
-import { observer } from "mobx-react-lite";
-
-import { useSettingsFormContext } from "../providers/ContextFormSettingsTunnel";
-
-import { useWireGuardTunnelRootStore } from "@renderer/providers/wire-guard-tunnel/useWireGuardTunnelRootStore";
 
 type Props = {
   /**
@@ -15,33 +11,38 @@ type Props = {
    * Имя поля списка
    */
   fieldName: string;
+
+  disabled?: boolean;
+
+  form: UseFormReturnType<unknown, unknown, any>;
 };
 
 /**
  * Редактирование записи в списке
  */
-export const ListItemInput = observer(({ fieldName, indexOfRecord }: Props) => {
-  const {
-    status: { isWorking },
-  } = useWireGuardTunnelRootStore();
-  const form = useSettingsFormContext();
+export const ListItemInput = ({
+  fieldName,
+  form,
+  indexOfRecord,
+  disabled,
+}: Props) => {
   return (
     <Group mt="xs">
       <TextInput
         withAsterisk
         style={{ flex: 1 }}
         key={form.key(`${fieldName}.${indexOfRecord}.value`)}
-        disabled={isWorking}
+        disabled={disabled}
         {...form.getInputProps(`${fieldName}.${indexOfRecord}.value`)}
       />
       <ActionIcon
         color="red"
         onClick={() => form.removeListItem(fieldName, indexOfRecord)}
-        disabled={isWorking}
+        disabled={disabled}
       >
         <IconTrashFilled size={16} />
       </ActionIcon>
     </Group>
   );
-});
+};
 ListItemInput.displayName = "ListItemInput";
