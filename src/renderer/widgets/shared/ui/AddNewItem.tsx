@@ -1,23 +1,28 @@
 import { Button, Container } from "@mantine/core";
+import { type UseFormReturnType } from "@mantine/form/lib";
 import { randomId } from "@mantine/hooks";
-
-import { useSettingsFormContext } from "../providers/ContextFormSettingsTunnel";
 
 interface AddNewProps {
   /**
    * Имя поля- в этот массив будут добавляться новые значения
    */
   fieldName: string;
+
+  /**
+   * Форма, в которой находится поле
+   */
+  form: UseFormReturnType<unknown, unknown, any>;
+
+  /**
+   * Подпись вида: "Добавить DNS" или "Добавить домен"
+   */
+  whatAdd: string;
 }
 
 /**
- * Настройка туннеля / Добавить новую строку
+ * Добавить новую строку в массив
  */
-export const AddNew = ({ fieldName }: AddNewProps) => {
-  const form = useSettingsFormContext();
-
-  const whatAdd = fieldName === "siteInfoDnsServers" ? "DNS" : "домен";
-
+export const AddNewItem = ({ fieldName, form, whatAdd }: AddNewProps) => {
   return (
     <Container p={0}>
       <Button
@@ -29,9 +34,8 @@ export const AddNew = ({ fieldName }: AddNewProps) => {
         }
         disabled={fieldName === "siteInfoDnsServers"}
       >
-        {`Добавить ${whatAdd}`}
+        {whatAdd}
       </Button>
     </Container>
   );
 };
-AddNew.displayName = "AddNew";

@@ -28,4 +28,7 @@ export const createSettingsHandlers = () =>
 
     checkBrowserProgramRun: (browserProgramName) =>
       ipcRenderer.send(CHANNELS.CHECK_BROWSER_PROGRAM_RUN, browserProgramName),
+
+    saveSetting: (updateSettings) =>
+      ipcRenderer.send(CHANNELS.SAVE_SETTING, updateSettings),
   }) as ElectronAPI;

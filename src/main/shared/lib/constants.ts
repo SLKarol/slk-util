@@ -37,7 +37,7 @@ const SETTINGS_WIRE_GUARD_TUNNEL = {
 const SETTINGS_TELEGRAM = {
   telegramToken: "",
   telegramAdmin: "",
-  telegramGropus: [] as string[],
+  telegramGroups: [] as string[],
 };
 
 /**
