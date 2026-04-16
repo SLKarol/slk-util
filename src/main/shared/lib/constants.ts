@@ -20,6 +20,9 @@ export const REQUEST_HEADERS = {
   Priority: "u=0, i",
 } as Record<string, string>;
 
+/**
+ * Дефолтная настройка для WireGuard Tunnel.
+ */
 const SETTINGS_WIRE_GUARD_TUNNEL = {
   allowedIPs: "",
   excludeFromVpn: [] as string[],
@@ -29,10 +32,20 @@ const SETTINGS_WIRE_GUARD_TUNNEL = {
 };
 
 /**
+ * Дефолтная настройка для Telegram.
+ */
+const SETTINGS_TELEGRAM = {
+  telegramToken: "",
+  telegramAdmin: "",
+  telegramGropus: [] as string[],
+};
+
+/**
  * Настройки приложения.
  */
 export const SETTINGS_APP = {
   stihiRu: { login: "", password: "", cookies: [] as string[] },
   browserProcessName: "",
   wireGuardTunnel: SETTINGS_WIRE_GUARD_TUNNEL,
+  telegram: SETTINGS_TELEGRAM,
 };

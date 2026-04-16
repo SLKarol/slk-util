@@ -4,11 +4,11 @@ import { notifications } from "@mantine/notifications";
 
 import {
   SettingsFormProvider,
-  type StringValueWithKey,
   useSettingsForm,
 } from "../providers/ContextFormSettingsTunnel";
 
 import { useWireGuardTunnelRootStore } from "@renderer/providers/wire-guard-tunnel/useWireGuardTunnelRootStore";
+import { type StringValueWithKey } from "@renderer/widgets/lib/types";
 
 import { getFormValuesforWork } from "./helpers/getFormValuesforWork";
 

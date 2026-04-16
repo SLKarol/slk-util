@@ -17,6 +17,11 @@ export interface AppSettings {
    * Настройки WireGuard.
    */
   wireGuardTunnel: AppSettingsWireGuardTunnel;
+
+  /**
+   * Настройки Telegram.
+   */
+  telegram: AppSettingsTelegram;
 }
 
 /**
@@ -67,4 +72,22 @@ export interface AppSettingsWireGuardTunnel {
    * Список IP адресов, которые разрешены для подключения через VPN.
    */
   allowedIPs: string;
+}
+
+/**
+ * Настройки Telegram.
+ */
+export interface AppSettingsTelegram {
+  /**
+   * Токен телеграм-бота
+   */
+  telegramToken: string;
+  /**
+   * ID телеграмм-групп, в которые можно делать рассылку.
+   */
+  telegramGroups: string[];
+  /**
+   * ID телеграм-чата бота с админом. Сюда будут записываться картинки для отправки в альбомы.
+   */
+  telegramAdmin: string;
 }

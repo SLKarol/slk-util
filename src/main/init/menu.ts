@@ -47,6 +47,19 @@ export const createAppMenu = (mainWindow: BrowserWindow | null) => {
         { role: "quit", label: "Выход", accelerator: "Ctrl+q" }, // Пункт «Выход» (не на macOS)
       ],
     },
+    {
+      label: "Настройка",
+      submenu: [
+        {
+          label: "TG-bot",
+          click: () => {
+            if (mainWindow) {
+              mainWindow.webContents.send(CHANNELS.NAVIGATE, "/settingstgbot");
+            }
+          },
+        },
+      ],
+    },
   ] as (MenuItemConstructorOptions | MenuItem)[];
 
   const menu = Menu.buildFromTemplate(menuTemplate);

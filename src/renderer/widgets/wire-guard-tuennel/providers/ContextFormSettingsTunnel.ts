@@ -1,15 +1,6 @@
 import { createFormContext } from "@mantine/form";
 
-/**
- * Интерфейс, представляющий строковое значение с ключом.
- * Используется для хранения пар "ключ-значение", где оба поля являются строками.
- */
-export interface StringValueWithKey {
-  /** Значение строки */
-  value: string;
-  /** Ключ, ассоциированный со значением */
-  key: string;
-}
+import { type StringValueWithKey } from "@renderer/widgets/lib/types";
 
 /**
  * Интерфейс, определяющий структуру значений формы настроек.

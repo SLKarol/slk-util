@@ -1,25 +1,13 @@
-import {
-  type SettingsFormValues,
-  type StringValueWithKey,
-} from "../../providers/ContextFormSettingsTunnel";
+import { type SettingsFormValues } from "../../providers/ContextFormSettingsTunnel";
 
 import { type StartTunnelSettingsPayload } from "@shared/lib/types/electron-api";
+
+import { mapObjectValue } from "@renderer/widgets/lib/helpers";
 
 /**
  * Результат преобразования значений формы, исключающий поле `methodExcludeDomainsFromVpn`.
  */
 type Result = Omit<StartTunnelSettingsPayload, "methodExcludeDomainsFromVpn">;
-
-/**
- * Функция-маппер, которая извлекает и обрезает строковое значение из объекта с ключом.
- *
- * Удаляет лишние пробелы в начале и конце строки.
- *
- * @param {StringValueWithKey} param - Объект, содержащий строковое значение и ключ.
- * @param {string} param.value - Строковое значение для обработки.
- * @returns {string} Обрезанная строка.
- */
-const mapRunction = ({ value }: StringValueWithKey) => value.trim();
 
 /**
  * Преобразует значения формы настроек туннеля в формат, пригодный для использования в работе приложения.
@@ -33,16 +21,16 @@ export const getFormValuesforWork = (
   formValues: SettingsFormValues,
 ): Result => {
   const excludeFromVpn = [
-    ...new Set(formValues.excludeFromVpn.map(mapRunction)),
+    ...new Set(formValues.excludeFromVpn.map(mapObjectValue)),
   ];
   const siteInfoDnsServers = [
-    ...new Set(formValues.siteInfoDnsServers.map(mapRunction)),
+    ...new Set(formValues.siteInfoDnsServers.map(mapObjectValue)),
   ];
   const localNetworks: string[] = [
-    ...new Set(formValues.localNetworks.map(mapRunction)),
+    ...new Set(formValues.localNetworks.map(mapObjectValue)),
   ];
   const onlyThisDomains = [
-    ...new Set(formValues.onlyThisDomains.map(mapRunction)),
+    ...new Set(formValues.onlyThisDomains.map(mapObjectValue)),
   ];
 
   return { excludeFromVpn, siteInfoDnsServers, localNetworks, onlyThisDomains };

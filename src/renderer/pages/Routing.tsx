@@ -9,7 +9,7 @@ import { RootStoreProvider } from "@renderer/providers/RootStoreProvider";
 import { StihiRuRootProvider } from "@renderer/providers/stihi-ru/StihiRuProvider";
 import { WireGuardTunnelRootProvider } from "@renderer/providers/wire-guard-tunnel/WireGuardTunnelProvider";
 
-import { DomainInfo } from "./DomainInfo/DomainInfo";
+import { SettingsTgBot } from "./SettingsTgBot/SettingsTgBot";
 import { WireguardTunnel } from "./WireguardTunnel/WireguardTunnel";
 
 export const Routing = () => {
@@ -40,7 +40,7 @@ export const Routing = () => {
               </WireGuardTunnelRootProvider>
             }
           />
-          <Route path="domaininfo" element={<DomainInfo />} />
+          <Route path="settingstgbot" element={<SettingsTgBot />} />
         </Route>
       </Routes>
     </MemoryRouter>
