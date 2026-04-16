@@ -12,8 +12,14 @@ type Props = {
    */
   fieldName: string;
 
+  /**
+   * Состояние disabled для инпута
+   */
   disabled?: boolean;
 
+  /**
+   * Форма Mantine
+   */
   form: UseFormReturnType<unknown, unknown, any>;
 };
 
