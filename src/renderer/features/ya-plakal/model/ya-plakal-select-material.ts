@@ -14,7 +14,7 @@ export class SelectMaterialStore {
   working = false;
 
   /**
-   * URL, введенный пользователем.
+   * URL заметки, введенный пользователем.
    *
    * @observable
    */

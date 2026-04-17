@@ -1,7 +1,7 @@
 import { TextInput } from "@mantine/core";
 import { observer } from "mobx-react-lite";
 
-import { useYaPlakalRuRootStore } from "@renderer/providers/ya-plakal/useStihiRuRootStore";
+import { useYaPlakalRuRootStore } from "@renderer/providers/ya-plakal/useYaplakalRootStore";
 
 /**
  * Ввести адрес
