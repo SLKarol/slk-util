@@ -60,6 +60,22 @@ export const createAppMenu = (mainWindow: BrowserWindow | null) => {
         },
       ],
     },
+    {
+      label: "Рассылка",
+      submenu: [
+        {
+          label: "ЯПлакал",
+          click: () => {
+            if (mainWindow) {
+              mainWindow.webContents.send(
+                CHANNELS.NAVIGATE,
+                "/yaplakal/select",
+              );
+            }
+          },
+        },
+      ],
+    },
   ] as (MenuItemConstructorOptions | MenuItem)[];
 
   const menu = Menu.buildFromTemplate(menuTemplate);

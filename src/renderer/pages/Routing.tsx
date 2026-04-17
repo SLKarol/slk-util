@@ -8,10 +8,17 @@ import { MainLayout } from "@widgets/main-layout/ui/MainLayout";
 import { RootStoreProvider } from "@renderer/providers/RootStoreProvider";
 import { StihiRuRootProvider } from "@renderer/providers/stihi-ru/StihiRuProvider";
 import { WireGuardTunnelRootProvider } from "@renderer/providers/wire-guard-tunnel/WireGuardTunnelProvider";
+import { YaPlakalProvider } from "@renderer/providers/ya-plakal/YaPlakalProvider";
 
+import { YAPLAKAL_TAB_PARAM_NAME } from "./lib/routeConstants";
 import { SettingsTgBot } from "./SettingsTgBot/SettingsTgBot";
 import { WireguardTunnel } from "./WireguardTunnel/WireguardTunnel";
+import { YaPage } from "./YaPage/YaPage";
+import { YaPageSelectedTab } from "./YaPage/YaPageSelectedTab";
 
+/**
+ * Настройка роутинга
+ */
 export const Routing = () => {
   return (
     <MemoryRouter>
@@ -41,6 +48,19 @@ export const Routing = () => {
             }
           />
           <Route path="settingstgbot" element={<SettingsTgBot />} />
+          <Route
+            path="yaplakal"
+            element={
+              <YaPlakalProvider>
+                <YaPage />
+              </YaPlakalProvider>
+            }
+          >
+            <Route
+              path={`:${YAPLAKAL_TAB_PARAM_NAME}`}
+              element={<YaPageSelectedTab />}
+            />
+          </Route>
         </Route>
       </Routes>
     </MemoryRouter>

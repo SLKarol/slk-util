@@ -2,9 +2,6 @@ import { action, computed, makeObservable, observable } from "mobx";
 
 /**
  * Хранилище всякого для работы с UI.
- *
- * Управляет списком открытых вкладок, текущей выбранной вкладкой,
- * а также предоставляет методы для переключения и закрытия вкладок.
  */
 export class StihiRuUiStore {
   /**
