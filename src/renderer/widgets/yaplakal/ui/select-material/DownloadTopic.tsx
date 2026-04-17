@@ -17,7 +17,7 @@ export const DownloadTopic = observer(() => {
 
   const onClick = () => {
     setWorking(true);
-    window.electronAPI.fetchText(url);
+    window.electronAPI.fetchYaPlakalTopic(url);
   };
 
   return (

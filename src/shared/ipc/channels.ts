@@ -148,4 +148,9 @@ export const CHANNELS = {
    * Сохранение настроек туннеля
    */
   SAVE_TUNNEL_SETTINGS: "SAVE_TUNNEL_SETTINGS",
+
+  /**
+   * Получение медиа-инфо о яп
+   */
+  FETCH_YA_PLAKAL_TOPIC: "FETCH_YA_PLAKAL_TOPIC",
 };

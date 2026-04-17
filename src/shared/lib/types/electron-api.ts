@@ -185,6 +185,12 @@ export interface ElectronAPI {
    * Сохранить настройки туннеля
    */
   saveTunnelSettings: (settings: StartTunnelSettingsPayload) => void;
+
+  /**
+   * Скачать что-то из темы ЯП
+   * @param url адрес темы
+   */
+  fetchYaPlakalTopic: (url: string) => void;
 }
 
 /**

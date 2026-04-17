@@ -5,6 +5,7 @@ import { requestHandlers } from "@main/features/ipc/request";
 import { settingsHandlers } from "@main/features/ipc/settings";
 import { stihiRuHandlers } from "@main/features/ipc/stihiRu";
 import { wireGuardTunnelHandlers } from "@main/features/ipc/wireGuardTunnel";
+import { yapHandlers } from "@main/features/ipc/yaplakal";
 
 /**
  * Регистрация обработчиков ipc.
@@ -30,6 +31,10 @@ export function registerHandlers() {
   });
 
   Object.entries(wireGuardTunnelHandlers).forEach(([channel, handler]) => {
+    ipcMain.on(channel, handler);
+  });
+
+  Object.entries(yapHandlers).forEach(([channel, handler]) => {
     ipcMain.on(channel, handler);
   });
 }
