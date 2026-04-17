@@ -14,7 +14,7 @@ import { YAPLAKAL_TAB_PARAM_NAME } from "./lib/routeConstants";
 import { SettingsTgBot } from "./SettingsTgBot/SettingsTgBot";
 import { WireguardTunnel } from "./WireguardTunnel/WireguardTunnel";
 import { YaPage } from "./YaPage/YaPage";
-import { YaPageSelectedTab } from "./YaPage/YaPageSelectedTab";
+import { YaPageCurrentTab } from "./YaPage/YaPageCurrentTab";
 
 /**
  * Настройка роутинга
@@ -58,7 +58,7 @@ export const Routing = () => {
           >
             <Route
               path={`:${YAPLAKAL_TAB_PARAM_NAME}`}
-              element={<YaPageSelectedTab />}
+              element={<YaPageCurrentTab />}
             />
           </Route>
         </Route>

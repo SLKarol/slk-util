@@ -1,3 +1,5 @@
+import { net } from "electron";
+
 import { REQUEST_HEADERS } from "@main/shared/lib/constants";
 
 /**
@@ -11,7 +13,7 @@ export async function fetchHtml(
   url: string,
   params?: RequestInit,
 ): Promise<string> {
-  const response = await fetch(url, {
+  const response = await net.fetch(url, {
     method: "GET",
     headers: REQUEST_HEADERS,
     ...params,
