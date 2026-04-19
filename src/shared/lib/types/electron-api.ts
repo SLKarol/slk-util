@@ -1,3 +1,6 @@
+import { type HasPrevNextPage } from "@shared/lib/types/htmlPageInfo";
+import { type MediaSummaryPreview } from "@shared/lib/types/media";
+
 import {
   type AppSettings,
   type AppSettingsWireGuardTunnel,
@@ -187,10 +190,17 @@ export interface ElectronAPI {
   saveTunnelSettings: (settings: StartTunnelSettingsPayload) => void;
 
   /**
-   * Скачать что-то из темы ЯП
+   * Скачать медиа-ресурсы из темы ЯП
    * @param url адрес темы
    */
   fetchYaPlakalTopic: (url: string) => void;
+
+  /**
+   * Ответ о медиа-инфо о яп-топике
+   */
+  receiveYaPlakalTopic: (
+    callback: (yapTopic: IreceiveYaPlakalTopic) => void,
+  ) => () => void;
 }
 
 /**
@@ -283,20 +293,44 @@ export interface ReceiveCalculateCidrs {
   ipv6Excluded: string[];
 }
 
+/**
+ * Тип настроек WireGuard без поля `allowedIPs`.
+ * Используется, когда нужно передать конфигурацию туннеля без списка разрешённых IP.
+ */
 export type AppSettingsWireGuardTunnelWithoutAllowedIPs = Omit<
   AppSettingsWireGuardTunnel,
   "allowedIPs"
 >;
 
+/**
+ * Параметры для начала настройки туннеля WireGuard.
+ * Наследует все поля конфигурации туннеля без `allowedIPs` и добавляет флаг
+ * управления исключением доменов из VPN.
+ */
 export interface StartTunnelSettingsPayload extends Omit<
   AppSettingsWireGuardTunnel,
   "allowedIPs"
 > {
+  /** Флаг включения исключения доменов из VPN */
   methodExcludeDomainsFromVpn: boolean;
 }
 
+/**
+ * Запись лога работы расчёта CIDR-диапазонов.
+ */
 export interface ReceiveCalculateCidrsLog {
-  // getTime
+  /** Метка времени события в миллисекундах */
   dateTime: number;
+  /** Текст лога расчёта CIDR */
   log: string;
+}
+
+/**
+ * Ответ от main-процесса с информацией о медиа из темы YaPlakal.
+ */
+export interface IreceiveYaPlakalTopic {
+  /** Список найденных медиа-превью */
+  mediaInfo: Partial<MediaSummaryPreview>[];
+  /** Страницы темы: информация о наличии предыдущей/следующей страницы */
+  pages: HasPrevNextPage;
 }

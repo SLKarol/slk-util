@@ -5,6 +5,7 @@ import { join } from "path";
 
 import { TMP_FOLDER } from "../lib/constants";
 import { fetchHtml } from "../lib/fetch";
+import { getMediaFromTopic, getPageInfo } from "../lib/yaplakal";
 
 import { CHANNELS } from "@shared/ipc/channels";
 
@@ -21,6 +22,12 @@ export const yapHandlers = {
     try {
       const htmlText = await fetchHtml(url);
       const rootPage = parse(htmlText);
+      const pages = getPageInfo(rootPage);
+      const mediaInfo = await getMediaFromTopic(rootPage, url);
+      ipcMainEvent.reply(CHANNELS.RECEIVE_YA_PLAKAL_TOPIC, {
+        mediaInfo,
+        pages,
+      });
     } catch (error) {
       console.error("Error:", error);
       ipcMainEvent.reply(CHANNELS.ERROR_MAIN, {

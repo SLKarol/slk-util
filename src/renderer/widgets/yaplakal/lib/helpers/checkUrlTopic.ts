@@ -13,8 +13,10 @@ export const checkUrlTopic = (url: string): boolean => {
 
   // Регулярное выражение для проверки шаблона URL
   // https://www.yaplakal.com/forum[N]/topic[ID].html
-  // где N и ID - это числа
-  const pattern = /^https:\/\/www\.yaplakal\.com\/forum\d+\/topic\d+\.html$/;
+  // https://www.yaplakal.com/forum[N]/st/[page]/topic[ID].html
+  // где N, page и ID - числа
+  const pattern =
+    /^https:\/\/www\.yaplakal\.com\/forum\d+(?:\/st\/\d+)?\/topic\d+\.html$/;
 
   return pattern.test(url);
 };
