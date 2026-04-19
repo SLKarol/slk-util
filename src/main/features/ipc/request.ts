@@ -1,6 +1,6 @@
 import { type IpcMainEvent } from "electron";
 
-import { fetchHtml } from "../lib/fetch";
+import { fetchHtml } from "../lib/helpers/fetch";
 
 import { CHANNELS } from "@shared/ipc/channels";
 

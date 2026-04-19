@@ -2,7 +2,7 @@ import { shell } from "electron";
 import { parse } from "node-html-parser";
 
 import { BASE_URL_STIHI_RU } from "../lib/constants";
-import { fetchHtml } from "../lib/fetch";
+import { fetchHtml } from "../lib/helpers/fetch";
 
 import { getPoemsFromHtmlDoc } from "@shared/lib/helpers/getPoemsFromHtmlDoc";
 import { randomInt } from "@shared/lib/helpers/randomInt";
@@ -86,6 +86,9 @@ export class PoemsInChaper {
     this.poems.clear();
   }
 
+  /**
+   * Количество стихов в списке.
+   */
   get countPoems() {
     return this.poems.size;
   }

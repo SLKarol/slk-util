@@ -1,16 +1,38 @@
 import { type HTMLElement, parse } from "node-html-parser";
 
 import { type MediaSummaryPreview } from "../../../../shared/lib/types/media";
-import { fetchHtml } from "../fetch";
+import { fetchHtml } from "../helpers/fetch";
 import { type YaplakalApiResponse } from "../types/yaplakal";
 
 const DEFAULT_YAPLAKAL_SOURCE = "www.yaplakal.com";
 
+/**
+ * Нормализует URL, полученный с Yaplakal, приводя его к полному формату.
+ *
+ * Если переданный URL начинается с `//`, функция дополняет его схемой `https:`,
+ * чтобы получить корректный абсолютный URL (например, `https://yaplakal.com/...`).
+ * Если входное значение пустое (`null`, `undefined` или пустая строка), возвращается `null`.
+ *
+ * @param {string | null | undefined} rawUrl - Исходный URL, который может быть неполным или отсутствовать.
+ * @returns {string | null} Нормализованный URL с добавленной схемой `https:`, или `null`, если входное значение не задано.
+ */
 function normalizeYapUrl(rawUrl: string | null | undefined): string | null {
   if (!rawUrl) return null;
   return rawUrl.startsWith("//") ? `https:${rawUrl}` : rawUrl;
 }
 
+/**
+ * Создаёт базовую структуру объекта предварительного просмотра медиаэлемента для Yaplakal.
+ *
+ * Возвращает частичный объект типа `MediaSummaryPreview`, заполненный обязательными полями:
+ * идентификатором источника (`idVideoSource`) и пермалинком на контент.
+ * Другие поля (например, изображения, видеофайлы) могут быть добавлены позже.
+ *
+ * @param {string} permalink - Пермалинк на медиаэлемент (например, ссылка на пост или файл).
+ * @returns {Partial<MediaSummaryPreview>} Объект с базовыми данными для отображения предпросмотра.
+ *
+ * @see MediaSummaryPreview — тип, описывающий полную структуру информации о медиа.
+ */
 function createMediaSummaryPreviewBase(
   permalink: string,
 ): Partial<MediaSummaryPreview> {

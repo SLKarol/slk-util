@@ -1,7 +1,7 @@
 import { type IpcMainEvent } from "electron";
 import { parse } from "node-html-parser";
 
-import { fetchHtml } from "../lib/fetch";
+import { fetchHtml } from "../lib/helpers/fetch";
 import { LogMainToRender } from "../lib/LogMainToRender";
 import { UserDataFileManager } from "../UserDataFileManager";
 

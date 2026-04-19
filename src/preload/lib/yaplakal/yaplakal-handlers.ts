@@ -4,6 +4,7 @@ import { CHANNELS } from "@shared/ipc/channels";
 import {
   type ElectronAPI,
   type IreceiveYaPlakalTopic,
+  type IreceiveYaPlakalTopicMedia,
 } from "@shared/lib/types/electron-api";
 
 /**
@@ -26,6 +27,22 @@ export const createYaPlakalHandlers = () =>
       return () => {
         ipcRenderer.removeListener(
           CHANNELS.RECEIVE_YA_PLAKAL_TOPIC,
+          subscription,
+        );
+      };
+    },
+    receiveYaPlakalTopicMedia: (callback) => {
+      // Создаём функцию‑обёртку для подписки
+      const subscription = (event: IpcRendererEvent, ...args: unknown[]) =>
+        callback(args[0] as IreceiveYaPlakalTopicMedia);
+
+      // Подписываемся на событие
+      ipcRenderer.on(CHANNELS.RECEIVE_YA_PLAKAL_TOPIC_MEDIA, subscription);
+
+      // Возвращаем функцию отписки
+      return () => {
+        ipcRenderer.removeListener(
+          CHANNELS.RECEIVE_YA_PLAKAL_TOPIC_MEDIA,
           subscription,
         );
       };

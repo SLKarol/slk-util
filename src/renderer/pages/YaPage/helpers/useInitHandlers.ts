@@ -18,4 +18,14 @@ export const useInitHandlers = () => {
     });
     return unsubscribe;
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = window.electronAPI.receiveYaPlakalTopicMedia(
+      (yapTopicMedia) => {
+        console.log("yapTopicMedia :>> ", yapTopicMedia);
+        setWorking(false);
+      },
+    );
+    return unsubscribe;
+  }, []);
 };

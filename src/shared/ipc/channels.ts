@@ -159,4 +159,9 @@ export const CHANNELS = {
    * (В старой версии это было YAPLAKAL_RESPONSE_TOPIC, но я решил переименовать для большей ясности)
    */
   RECEIVE_YA_PLAKAL_TOPIC: "RECEIVE_YA_PLAKAL_TOPIC",
+
+  /**
+   * Получение медиа-файлов от яп
+   */
+  RECEIVE_YA_PLAKAL_TOPIC_MEDIA: "RECEIVE_YA_PLAKAL_TOPIC_MEDIA",
 };

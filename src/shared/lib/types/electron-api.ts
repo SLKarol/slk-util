@@ -201,6 +201,13 @@ export interface ElectronAPI {
   receiveYaPlakalTopic: (
     callback: (yapTopic: IreceiveYaPlakalTopic) => void,
   ) => () => void;
+
+  /**
+   * Ответ о медиа-ресурсе из яп-топика
+   */
+  receiveYaPlakalTopicMedia: (
+    callback: (response: IreceiveYaPlakalTopicMedia) => void,
+  ) => () => void;
 }
 
 /**
@@ -333,4 +340,13 @@ export interface IreceiveYaPlakalTopic {
   mediaInfo: Partial<MediaSummaryPreview>[];
   /** Страницы темы: информация о наличии предыдущей/следующей страницы */
   pages: HasPrevNextPage;
+}
+
+export interface IreceiveYaPlakalTopicMedia {
+  /** ID медиа-ресурса */
+  id: string;
+  /** Локальный путь к скачанному файлу */
+  filePath: string;
+  /** Локальный путь к превью */
+  previewFilePath?: string;
 }
