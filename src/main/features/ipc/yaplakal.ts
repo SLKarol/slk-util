@@ -4,9 +4,7 @@ import { parse } from "node-html-parser";
 import { join } from "path";
 
 import { TMP_FOLDER } from "../lib/constants";
-import { fetchHtml, getFileSize } from "../lib/helpers";
-import { downloadFileToCacheDir } from "../lib/helpers/downloadFileToCacheDir";
-import { getCacheFileName } from "../lib/helpers/getCacheFileName";
+import { downloadAndCacheFile, fetchHtml } from "../lib/helpers";
 import { getMediaFromTopic, getPageInfo } from "../lib/yaplakal";
 
 import { CHANNELS } from "@shared/ipc/channels";
@@ -78,36 +76,3 @@ export const yapHandlers = {
     }
   },
 };
-
-interface DownloadAndCacheFileParams {
-  /**
-   * URL файла для скачивания
-   */
-  url: string;
-  /**
-   * Директория для кэширования скачанных файлов
-   */
-  cacheDir: string;
-}
-
-/**
- * Скачивает и кэширует файл по URL в указанную директорию.
- * Возвращает полный путь к файлу.
- */
-async function downloadAndCacheFile({
-  cacheDir,
-  url,
-}: DownloadAndCacheFileParams): Promise<string> {
-  const fileName = getCacheFileName(url);
-  const fullFileName = join(cacheDir, fileName);
-  const sizeFile = await getFileSize(fullFileName);
-
-  if (!sizeFile) {
-    await downloadFileToCacheDir({
-      fileUrl: url,
-      fullFileName,
-    });
-  }
-
-  return fullFileName;
-}

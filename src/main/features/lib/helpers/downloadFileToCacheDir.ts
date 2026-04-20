@@ -1,5 +1,9 @@
 import { net } from "electron";
 import fs from "fs";
+import { join } from "path";
+
+import { getCacheFileName } from "./getCacheFileName";
+import { getFileSize } from "./getFileSize";
 
 /**
  * Интерфейс параметров для функции скачивания файла в кэш.
@@ -69,4 +73,37 @@ export async function downloadFileToCacheDir({
 
   // 5. Отправляем запрос
   request.end();
+}
+
+interface DownloadAndCacheFileParams {
+  /**
+   * URL файла для скачивания
+   */
+  url: string;
+  /**
+   * Директория для кэширования скачанных файлов
+   */
+  cacheDir: string;
+}
+
+/**
+ * Скачивает и кэширует файл по URL в указанную директорию.
+ * Возвращает полный путь к файлу.
+ */
+export async function downloadAndCacheFile({
+  cacheDir,
+  url,
+}: DownloadAndCacheFileParams): Promise<string> {
+  const fileName = getCacheFileName(url);
+  const fullFileName = join(cacheDir, fileName);
+  const sizeFile = await getFileSize(fullFileName);
+
+  if (!sizeFile) {
+    await downloadFileToCacheDir({
+      fileUrl: url,
+      fullFileName,
+    });
+  }
+
+  return fullFileName;
 }
