@@ -1,6 +1,6 @@
 import { Group } from "@mantine/core";
 
-import { MoreDownload } from "@renderer/widgets/shared/ui";
+import { PrevNextDownload } from "@renderer/widgets/shared/ui";
 import {
   DownloadTopic,
   InputUrl,
@@ -12,11 +12,11 @@ import {
 export const YaSelectMaterials = () => {
   return (
     <>
-      <Group gap="xs" align="flex-end">
+      <Group gap="xs" align="flex-end" mb="1rem">
         <InputUrl />
         <DownloadTopic />
       </Group>
-      <MoreDownload onClick={() => null} />
+      <PrevNextDownload />
     </>
   );
 };

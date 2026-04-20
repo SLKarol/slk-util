@@ -18,6 +18,7 @@ export const InputUrl = observer(() => {
       value={url}
       onChange={(e) => setUrl(e.target.value)}
       flex={1}
+      autoFocus
     />
   );
 });
