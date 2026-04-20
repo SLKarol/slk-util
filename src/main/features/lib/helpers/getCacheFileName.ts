@@ -19,6 +19,6 @@ export function getCacheFileName(url: string) {
   const cleanUrl = url.split("?")[0];
   const hash = createHash("md5").update(cleanUrl).digest("hex");
   // Определяем расширение из очищенного URL (например, .jpg, .png)
-  const ext = path.extname(cleanUrl) || ".jpg"; // По умолчанию .jpg, если не указано
+  const ext = path.extname(cleanUrl) || ".html"; // По умолчанию .html, если не указано
   return `${hash}${ext}`;
 }

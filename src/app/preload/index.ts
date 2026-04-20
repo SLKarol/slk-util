@@ -1,4 +1,5 @@
 import {
+  errorAPI,
   menuAPI,
   messagesAPI,
   requestsAPI,
@@ -22,6 +23,7 @@ import { type ElectronAPI } from "@shared/lib/types/electron-api";
  * что повышает безопасность приложения.
  */
 contextBridge.exposeInMainWorld("electronAPI", {
+  ...errorAPI,
   ...menuAPI,
   ...messagesAPI,
   ...requestsAPI,

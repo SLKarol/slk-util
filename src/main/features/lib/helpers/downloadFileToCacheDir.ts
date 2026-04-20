@@ -2,6 +2,8 @@ import { net } from "electron";
 import fs from "fs";
 import { join } from "path";
 
+import { REQUEST_HEADERS } from "@main/shared/lib/constants";
+
 import { getCacheFileName } from "./getCacheFileName";
 import { getFileSize } from "./getFileSize";
 
@@ -37,42 +39,55 @@ export async function downloadFileToCacheDir({
   fullFileName,
   handleError,
 }: IDownloadFileToCacheDir) {
-  // 1. Создаём запрос
-  const request = net.request({
-    method: "GET",
-    url: fileUrl,
-  });
-
-  // 2. Обрабатываем ответ сервера
-  request.on("response", (response) => {
-    // Создаём поток для записи в файл
-    const fileStream = fs.createWriteStream(fullFileName);
-
-    // 3. Собираем данные по частям (chunk'ам)
-    response.on("data", (chunk) => {
-      // Записываем полученный chunk в файловый поток
-      fileStream.write(chunk);
+  return new Promise((resolve, reject) => {
+    // 1. Создаём запрос
+    const request = net.request({
+      method: "GET",
+      url: fileUrl,
+      headers: REQUEST_HEADERS,
     });
 
-    // 4. Завершение загрузки
-    response.on("end", () => {
-      fileStream.end();
+    // 2. Обрабатываем ответ сервера
+    request.on("response", (response) => {
+      if (response.statusCode !== 200) {
+        const error = new Error(
+          `Failed to download file. Status code: ${response.statusCode}`,
+        );
+        handleError?.(error);
+        reject(error);
+        return;
+      }
+
+      // Создаём поток для записи в файл
+      const fileStream = fs.createWriteStream(fullFileName);
+
+      // 3. Собираем данные по частям (chunk'ам)
+      response.on("data", (chunk) => {
+        fileStream.write(chunk);
+      });
+
+      // 4. Завершение загрузки
+      response.on("end", () => {
+        fileStream.end();
+        resolve(true); // Успешное завершение
+      });
+
+      // Обработка ошибок потока записи
+      fileStream.on("error", (errorFileSteam) => {
+        handleError?.(errorFileSteam);
+        reject(errorFileSteam);
+      });
     });
 
-    // Обработка ошибок
-    response.on("error", (error) => {
+    // Обработка ошибок запроса
+    request.on("error", (error) => {
       handleError?.(error);
-      fileStream.destroy();
+      reject(error);
     });
-  });
 
-  // Обработка ошибок запроса
-  request.on("error", (error) => {
-    handleError?.(error);
+    // 5. Отправляем запрос
+    request.end();
   });
-
-  // 5. Отправляем запрос
-  request.end();
 }
 
 interface DownloadAndCacheFileParams {

@@ -1,3 +1,4 @@
+import { createErrorHandlers } from "@preload/lib/error/error-handler";
 import { createMenuHandlers } from "@preload/lib/menu/menu-handlers.ts";
 import { createMessagesHandlers } from "@preload/lib/messages/messages-handlers";
 import { createRequestHandlers } from "@preload/lib/request/request-handlers";
@@ -13,3 +14,4 @@ export const settingsAPI = createSettingsHandlers();
 export const stihiRuAPI = createStihiRuHandlers();
 export const tunnelAPI = createSettingsTunnelHandlers();
 export const yapAPI = createYaPlakalHandlers();
+export const errorAPI = createErrorHandlers();

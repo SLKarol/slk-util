@@ -14,6 +14,11 @@ import { type IPRange } from "./tunnel";
  */
 export interface ElectronAPI {
   /**
+   * Задать обработчик ошибки из главного процесса
+   */
+  onErrorMain: (callback: (error: unknown) => void) => () => void;
+
+  /**
    * Задать обработчик выбора пункта меню
    * @param callback функция-обработчик принимает URL
    * @returns Функцию- отписку от события

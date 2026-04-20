@@ -1,10 +1,10 @@
 import { app, type IpcMainEvent } from "electron";
-import { mkdir } from "fs/promises";
+import { mkdir, readFile } from "fs/promises";
 import { parse } from "node-html-parser";
 import { join } from "path";
 
 import { TMP_FOLDER } from "../lib/constants";
-import { downloadAndCacheFile, fetchHtml } from "../lib/helpers";
+import { downloadAndCacheFile } from "../lib/helpers";
 import { getMediaFromTopic, getPageInfo } from "../lib/yaplakal";
 
 import { CHANNELS } from "@shared/ipc/channels";
@@ -20,8 +20,14 @@ export const yapHandlers = {
     const cacheDir = join(app.getPath("temp"), TMP_FOLDER);
 
     try {
-      const htmlText = await fetchHtml(url);
+      const filePathHtml = await downloadAndCacheFile({
+        url,
+        cacheDir,
+      });
+
+      const htmlText = await readFile(filePathHtml, "utf8");
       const rootPage = parse(htmlText);
+
       const pages = getPageInfo(rootPage);
       const mediaInfo = await getMediaFromTopic(rootPage, url);
       ipcMainEvent.reply(CHANNELS.RECEIVE_YA_PLAKAL_TOPIC, {

@@ -28,4 +28,11 @@ export const useInitHandlers = () => {
     );
     return unsubscribe;
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = window.electronAPI.onErrorMain(() => {
+      setWorking(false);
+    });
+    return unsubscribe;
+  }, []);
 };
