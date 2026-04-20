@@ -6,3 +6,4 @@
   https://www.yaplakal.com/forum2/topic3068660.html, https://www.yaplakal.com/forum7/topic3069035.html
 - src\main\features\lib\helpers\downloadFileToCacheDir.ts обработать ошибки
 - Для ЯП-видео можно превью загрузить
+- По умолчанию добавить, но дать возможность заменить
