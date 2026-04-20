@@ -1,9 +1,9 @@
 import { Group } from "@mantine/core";
 
-import { PrevNextDownload } from "@renderer/widgets/shared/ui";
 import {
   DownloadTopic,
   InputUrl,
+  YaPager,
 } from "@renderer/widgets/yaplakal/ui/select-material";
 
 /**
@@ -16,7 +16,7 @@ export const YaSelectMaterials = () => {
         <InputUrl />
         <DownloadTopic />
       </Group>
-      <PrevNextDownload />
+      <YaPager />
     </>
   );
 };

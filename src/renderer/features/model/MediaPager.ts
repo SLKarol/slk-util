@@ -17,14 +17,14 @@ export class MediaPagerStore implements HasPrevNextPage {
       next: observable,
       prev: observable,
       // action
-      setValues: action,
+      setPagerValues: action,
     });
   }
 
   /**
    * Установить значения для всего стора
    */
-  setValues = (newValues: HasPrevNextPage) => {
+  setPagerValues = (newValues: HasPrevNextPage) => {
     this.current = newValues.current;
     this.next = newValues.next;
     this.prev = newValues.prev;

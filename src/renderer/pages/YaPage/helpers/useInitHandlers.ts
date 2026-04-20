@@ -8,15 +8,16 @@ import { useYaPlakalRuRootStore } from "@renderer/providers/ya-plakal/useYaplaka
 export const useInitHandlers = () => {
   const {
     selectMaterialStore: { setWorking },
+    pager: { setPagerValues },
   } = useYaPlakalRuRootStore();
 
   // Настроить обработчики событий от главного процесса
   useEffect(() => {
     // Подписка на получение топика
     const unsubscribeTopic = window.electronAPI.receiveYaPlakalTopic(
-      (yapTopic) => {
-        console.log("yapTopic :>> ", yapTopic);
+      ({ mediaInfo, pages }) => {
         setWorking(false);
+        setPagerValues(pages);
       },
     );
 

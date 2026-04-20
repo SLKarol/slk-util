@@ -1,4 +1,4 @@
-import { ActionIcon, Flex } from "@mantine/core";
+import { ActionIcon, Flex, Tooltip } from "@mantine/core";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 
 type Props = {
@@ -19,20 +19,24 @@ export const PrevNextDownload = ({
 }: Props) => {
   return (
     <Flex justify="space-between" align="center">
-      <ActionIcon
-        variant="filled"
-        onClick={onClickPrev}
-        disabled={disabledPrev}
-      >
-        <IconChevronLeft />
-      </ActionIcon>
-      <ActionIcon
-        variant="filled"
-        onClick={onClickNext}
-        disabled={disabledNext}
-      >
-        <IconChevronRight />
-      </ActionIcon>
+      <Tooltip label="Предыдущая страница">
+        <ActionIcon
+          variant="filled"
+          onClick={onClickPrev}
+          disabled={disabledPrev}
+        >
+          <IconChevronLeft />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Следующая страница">
+        <ActionIcon
+          variant="filled"
+          onClick={onClickNext}
+          disabled={disabledNext}
+        >
+          <IconChevronRight />
+        </ActionIcon>
+      </Tooltip>
     </Flex>
   );
 };
