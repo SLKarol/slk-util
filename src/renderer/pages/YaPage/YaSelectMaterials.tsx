@@ -1,8 +1,10 @@
 import { Group } from "@mantine/core";
 
+import { ListMedia } from "@renderer/widgets/shared/ui";
 import {
   DownloadTopic,
   InputUrl,
+  YaListMedia,
   YaPager,
 } from "@renderer/widgets/yaplakal/ui/select-material";
 
@@ -16,6 +18,10 @@ export const YaSelectMaterials = () => {
         <InputUrl />
         <DownloadTopic />
       </Group>
+      <YaPager />
+      <ListMedia>
+        <YaListMedia />
+      </ListMedia>
       <YaPager />
     </>
   );
