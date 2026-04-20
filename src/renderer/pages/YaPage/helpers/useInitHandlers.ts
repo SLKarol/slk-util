@@ -10,29 +10,34 @@ export const useInitHandlers = () => {
     selectMaterialStore: { setWorking },
   } = useYaPlakalRuRootStore();
 
-  // Настроить обработчики событий запросов к сети
+  // Настроить обработчики событий от главного процесса
   useEffect(() => {
-    const unsubscribe = window.electronAPI.receiveYaPlakalTopic((yapTopic) => {
-      console.log("yapTopic :>> ", yapTopic);
-      setWorking(false);
-    });
-    return unsubscribe;
-  }, []);
+    // Подписка на получение топика
+    const unsubscribeTopic = window.electronAPI.receiveYaPlakalTopic(
+      (yapTopic) => {
+        console.log("yapTopic :>> ", yapTopic);
+        setWorking(false);
+      },
+    );
 
-  useEffect(() => {
-    const unsubscribe = window.electronAPI.receiveYaPlakalTopicMedia(
+    // Подписка на получение медиа для топика
+    const unsubscribeTopicMedia = window.electronAPI.receiveYaPlakalTopicMedia(
       (yapTopicMedia) => {
         console.log("yapTopicMedia :>> ", yapTopicMedia);
         setWorking(false);
       },
     );
-    return unsubscribe;
-  }, []);
 
-  useEffect(() => {
-    const unsubscribe = window.electronAPI.onErrorMain(() => {
+    // Подписка на ошибку
+    const unsubscribeError = window.electronAPI.onErrorMain(() => {
       setWorking(false);
     });
-    return unsubscribe;
+
+    // Функция очистки
+    return () => {
+      unsubscribeTopic();
+      unsubscribeTopicMedia();
+      unsubscribeError();
+    };
   }, []);
 };
