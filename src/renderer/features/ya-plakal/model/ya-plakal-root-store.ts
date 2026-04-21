@@ -1,5 +1,6 @@
-import { MediaPagerStore } from "@renderer-features/model/MediaPager";
+import { MediaPagerStore } from "@renderer-features/model/media-pager";
 
+import { YaCollection } from "./ya-collection";
 import { SelectMaterialStore } from "./ya-plakal-select-material";
 
 /**
@@ -24,6 +25,11 @@ export class YaPlakalRootStore {
   pager: MediaPagerStore;
 
   /**
+   * Коллекция материалов
+   */
+  collection: YaCollection;
+
+  /**
    * Создаёт экземпляр корневого хранилища.
    *
    * Инициализирует вложенные хранилища.
@@ -31,5 +37,6 @@ export class YaPlakalRootStore {
   constructor() {
     this.selectMaterialStore = new SelectMaterialStore();
     this.pager = new MediaPagerStore();
+    this.collection = new YaCollection();
   }
 }

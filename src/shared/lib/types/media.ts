@@ -1,3 +1,5 @@
+import { type Nullable } from "./common";
+
 /**
  * Базовая информация о медиа-ресурсе.
  */
@@ -11,7 +13,7 @@ export interface MediaSummary {
   /** Основные изображения предпросмотра */
   previewImages: Partial<MediaPreview>;
   /** Название раздела или субреддита, если применимо */
-  subReddit?: string;
+  subReddit: Nullable<string>;
   /** Флаг 18+ контента */
   over18: boolean;
   /** Признак наличия видео */
@@ -19,25 +21,25 @@ export interface MediaSummary {
   /** Ссылки на части медиа */
   videoParts: VideoParts;
   /** Ширина медиа в пикселях */
-  width?: number;
+  width: Nullable<number>;
   /** Высота медиа в пикселях */
-  height?: number;
+  height: Nullable<number>;
   /** Имя файла скачанного видео */
   downloadedFileName: string;
   /** Пермалинк к теме или ресурсу */
-  permalink?: string;
+  permalink: Nullable<string>;
   /** Ссылка на медиа-ресурс */
-  url?: string;
+  url: Nullable<string>;
   /** Дата создания записи в формате JSON */
-  created?: string;
+  created: Nullable<string>;
   /** Список доступных субтитров */
-  subtitles?: SubTitlesInformation[];
+  subtitles: Nullable<SubTitlesInformation[]>;
   /** Альбом с дополнительными изображениями */
-  collection?: MediaAlbum;
+  collection: Nullable<MediaAlbum>;
   /** Список доступных форматов медиа */
-  listFormats?: Map<string, number[]>;
+  listFormats: Nullable<Map<string, number[]>>;
   /** Признак отсутствия мультимедиа */
-  noMedia?: boolean;
+  noMedia: Nullable<boolean>;
 }
 
 /**
@@ -49,9 +51,9 @@ export interface MediaPreview {
   /** URL источника изображения предпросмотра */
   src: string;
   /** Ширина изображения в пикселях */
-  width?: number;
+  width: Nullable<number>;
   /** Высота изображения в пикселях */
-  height?: number;
+  height: Nullable<number>;
 }
 
 /**
@@ -104,7 +106,12 @@ export interface MediaAlbumContent {
  */
 export interface MediaSummaryPreview extends MediaSummary {
   /** Параметры предпросмотра */
-  preview?: { enabled?: boolean; images: ImagePreview[] };
+  preview: Nullable<MediaPreviewContent>;
+}
+
+export interface MediaPreviewContent {
+  enabled?: boolean;
+  images: ImagePreview[];
 }
 
 /**

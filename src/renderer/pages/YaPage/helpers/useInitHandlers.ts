@@ -9,6 +9,7 @@ export const useInitHandlers = () => {
   const {
     selectMaterialStore: { setWorking },
     pager: { setPagerValues },
+    collection: { addMediaRecords },
   } = useYaPlakalRuRootStore();
 
   // Настроить обработчики событий от главного процесса
@@ -16,8 +17,9 @@ export const useInitHandlers = () => {
     // Подписка на получение топика
     const unsubscribeTopic = window.electronAPI.receiveYaPlakalTopic(
       ({ mediaInfo, pages }) => {
-        setWorking(false);
         setPagerValues(pages);
+        addMediaRecords(mediaInfo);
+        setWorking(false);
       },
     );
 
