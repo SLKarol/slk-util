@@ -55,7 +55,7 @@ export const yapHandlers = {
           cacheDir,
         });
 
-        let previewFilePath: string | undefined;
+        let previewFilePath: string | null = null;
         if (urlPreviewVideo) {
           previewFilePath = await downloadAndCacheFile({
             url: urlPreviewVideo,
@@ -63,15 +63,17 @@ export const yapHandlers = {
           });
         }
 
-        const filePathDecode = await decodeImageUrlTo64(filePath);
-        const previewFilePathDecode = previewFilePath
-          ? await decodeImageUrlTo64(previewFilePath)
+        const fileDecode = (await decodeImageUrlTo64(filePath)) ?? null;
+        const previewDecode = previewFilePath
+          ? ((await decodeImageUrlTo64(previewFilePath)) ?? null)
           : null;
 
         ipcMainEvent.reply(CHANNELS.RECEIVE_YA_PLAKAL_TOPIC_MEDIA, {
           id: item.id,
-          filePath: filePathDecode,
-          previewFilePath: previewFilePathDecode,
+          fileDecode,
+          previewDecode,
+          filePath,
+          previewFilePath,
         });
 
         return true;

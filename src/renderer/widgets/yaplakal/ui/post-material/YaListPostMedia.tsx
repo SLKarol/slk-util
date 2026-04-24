@@ -18,12 +18,9 @@ export const YaListPostMedia = observer(() => {
    * Определяет тип действия и идентификатор элемента через атрибуты `data-action` и `data-id`.
    */
   const onClickAction: MouseEventHandler<HTMLButtonElement> = (mouseEvent) => {
-    const dataId = (mouseEvent.target as HTMLButtonElement).getAttribute(
-      "data-id",
-    );
-    const dataAction = (mouseEvent.target as HTMLButtonElement).getAttribute(
-      "data-action",
-    );
+    const dataId = mouseEvent.currentTarget.getAttribute("data-id");
+    const dataAction = mouseEvent.currentTarget.getAttribute("data-action");
+
     if (dataId && dataAction === "delete") {
       deleteItem(dataId);
       return;

@@ -27,7 +27,7 @@ type Props = {
  */
 export const MediaResourceCardToolbar = ({ mediaId, onClickAction }: Props) => {
   return (
-    <Flex gap="md" justify="center" align="center" direction="row">
+    <Flex gap="md" justify="center" align="center" direction="row" mt="0.5rem">
       <Tooltip label="Скачать">
         <ActionIcon
           data-id={mediaId}

@@ -34,7 +34,7 @@ export class ItemsToSend {
       ([url, mediaRecord]) =>
         ({
           id: url,
-          url: mediaRecord.url,
+          url: mediaRecord.fileDecode,
           title: mediaRecord.title,
           selected: true,
         }) as MediaRecordUi,

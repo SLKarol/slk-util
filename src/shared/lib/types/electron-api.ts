@@ -353,5 +353,13 @@ export interface IreceiveYaPlakalTopicMedia {
   /** Локальный путь к скачанному файлу */
   filePath: string;
   /** Локальный путь к превью */
-  previewFilePath?: string;
+  previewFilePath: string | null;
+  /**
+   * Декодированные данные файла
+   */
+  fileDecode: string | null;
+  /**
+   * Декодированные данные превью
+   */
+  previewDecode: string | null;
 }

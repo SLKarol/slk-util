@@ -1,6 +1,7 @@
 import { makeAutoObservable } from "mobx";
 
 import { type Nullable } from "@shared/lib/types/common";
+import { type IreceiveYaPlakalTopicMedia } from "@shared/lib/types/electron-api";
 import {
   type MediaAlbum,
   type MediaPreview,
@@ -39,6 +40,23 @@ export class MediaRecordStore implements MediaSummaryPreview {
 
   // Поля из MediaSummaryPreview
   preview: Nullable<MediaPreviewContent>;
+
+  /**
+   * Декодированное содержимое файла.
+   */
+  fileDecode: string | null = null;
+  /**
+   * Путь к файлу с декодированным содержимым.
+   */
+  filePath: string | null = null;
+  /**
+   * Декодированное содержимое превью (для видео).
+   */
+  previewDecode: string | null = null;
+  /**
+   * Путь к файлу с декодированным содержимым превью.
+   */
+  previewFilePath: string | null = null;
 
   constructor({
     collection,
@@ -90,10 +108,17 @@ export class MediaRecordStore implements MediaSummaryPreview {
   }
 
   /**
-   * Устанавливает значение URL.
-   * @param url - Новое значение URL. Здесь это base64
+   * Устанавливает данные по контенту- декодированные значения.
    */
-  setUrl = (url: string) => {
-    this.url = url;
+  setDecodeData = ({
+    fileDecode,
+    filePath,
+    previewDecode,
+    previewFilePath,
+  }: Omit<IreceiveYaPlakalTopicMedia, "id">) => {
+    this.fileDecode = fileDecode;
+    this.filePath = filePath;
+    this.previewDecode = previewDecode;
+    this.previewFilePath = previewFilePath;
   };
 }

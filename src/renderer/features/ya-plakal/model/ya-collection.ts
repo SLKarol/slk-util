@@ -37,9 +37,9 @@ export class YaCollection {
   };
 
   /**
-   * Установить урл для media-записи
+   * Установить декодированные значения для media-записи
    */
-  setUrlMediaRecord = ({ filePath, id }: IreceiveYaPlakalTopicMedia) => {
-    this.mediaRecords.get(id)?.setUrl(filePath);
+  setUrlMediaRecord = ({ id, ...decodeData }: IreceiveYaPlakalTopicMedia) => {
+    this.mediaRecords.get(id)?.setDecodeData(decodeData);
   };
 }

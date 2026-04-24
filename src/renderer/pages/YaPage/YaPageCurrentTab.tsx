@@ -14,7 +14,7 @@ export const YaPageCurrentTab = () => {
   return (
     <Container size="lg" pb="1rem" pt="1rem">
       {params[YAPLAKAL_TAB_PARAM_NAME] === "select" && <YaSelectMaterials />}
-      {params[YAPLAKAL_TAB_PARAM_NAME] === "select" && <YaPost />}
+      {params[YAPLAKAL_TAB_PARAM_NAME] === "post" && <YaPost />}
     </Container>
   );
 };

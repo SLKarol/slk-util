@@ -68,7 +68,7 @@ export class YaPlakalRootStore {
       ([url, mediaRecord]) =>
         ({
           id: url,
-          url: mediaRecord.url,
+          url: mediaRecord.fileDecode,
           title: mediaRecord.title,
           selected: this.itemsToSend.items.has(url),
         }) as MediaRecordUi,
@@ -94,9 +94,8 @@ export class YaPlakalRootStore {
     if (record)
       this.itemsToSend.items.set(idMediaRecord, {
         id: record.id,
-        url: record.url,
+        fileDecode: record.fileDecode,
         title: record.title,
-        selected: true,
       } as MediaRecordUi);
   };
 }

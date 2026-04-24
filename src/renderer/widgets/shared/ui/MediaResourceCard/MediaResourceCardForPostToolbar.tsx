@@ -29,7 +29,7 @@ export const MediaResourceCardForPostToolbar = ({
   onClickAction,
 }: Props) => {
   return (
-    <Flex gap="md" justify="center" align="center" direction="row">
+    <Flex gap="md" justify="center" align="center" direction="row" mt="0.5rem">
       <Tooltip label="Исключить из рассылки">
         <ActionIcon
           data-id={mediaId}
