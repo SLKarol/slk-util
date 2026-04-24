@@ -4,7 +4,7 @@ import { parse } from "node-html-parser";
 import { join } from "path";
 
 import { TMP_FOLDER } from "../lib/constants";
-import { downloadAndCacheFile } from "../lib/helpers";
+import { decodeImageUrlTo64, downloadAndCacheFile } from "../lib/helpers";
 import { getMediaFromTopic, getPageInfo } from "../lib/yaplakal";
 
 import { CHANNELS } from "@shared/ipc/channels";
@@ -63,10 +63,15 @@ export const yapHandlers = {
           });
         }
 
+        const filePathDecode = await decodeImageUrlTo64(filePath);
+        const previewFilePathDecode = previewFilePath
+          ? await decodeImageUrlTo64(previewFilePath)
+          : null;
+
         ipcMainEvent.reply(CHANNELS.RECEIVE_YA_PLAKAL_TOPIC_MEDIA, {
           id: item.id,
-          filePath,
-          previewFilePath,
+          filePath: filePathDecode,
+          previewFilePath: previewFilePathDecode,
         });
 
         return true;

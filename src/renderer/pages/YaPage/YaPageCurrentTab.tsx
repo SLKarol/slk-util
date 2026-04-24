@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 
 import { YAPLAKAL_TAB_PARAM_NAME } from "@pages/lib/routeConstants";
 
+import { YaPost } from "./YaPost";
 import { YaSelectMaterials } from "./YaSelectMaterials";
 
 /**
@@ -13,6 +14,7 @@ export const YaPageCurrentTab = () => {
   return (
     <Container size="lg" pb="1rem" pt="1rem">
       {params[YAPLAKAL_TAB_PARAM_NAME] === "select" && <YaSelectMaterials />}
+      {params[YAPLAKAL_TAB_PARAM_NAME] === "select" && <YaPost />}
     </Container>
   );
 };

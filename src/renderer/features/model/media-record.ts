@@ -88,4 +88,12 @@ export class MediaRecordStore implements MediaSummaryPreview {
 
     makeAutoObservable(this);
   }
+
+  /**
+   * Устанавливает значение URL.
+   * @param url - Новое значение URL. Здесь это base64
+   */
+  setUrl = (url: string) => {
+    this.url = url;
+  };
 }

@@ -9,7 +9,7 @@ export const useInitHandlers = () => {
   const {
     selectMaterialStore: { setWorking },
     pager: { setPagerValues },
-    collection: { addMediaRecords },
+    collection: { addMediaRecords, setUrlMediaRecord },
   } = useYaPlakalRuRootStore();
 
   // Настроить обработчики событий от главного процесса
@@ -26,8 +26,7 @@ export const useInitHandlers = () => {
     // Подписка на получение медиа для топика
     const unsubscribeTopicMedia = window.electronAPI.receiveYaPlakalTopicMedia(
       (yapTopicMedia) => {
-        console.log("yapTopicMedia :>> ", yapTopicMedia);
-        setWorking(false);
+        setUrlMediaRecord(yapTopicMedia);
       },
     );
 

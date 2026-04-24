@@ -1,3 +1,8 @@
+import { makeAutoObservable } from "mobx";
+
+import { type MediaRecordUi } from "@renderer-shared/types/media";
+
+import { ItemsToSend } from "@renderer-features/model/items-to-send";
 import { MediaPagerStore } from "@renderer-features/model/media-pager";
 
 import { YaCollection } from "./ya-collection";
@@ -30,13 +35,68 @@ export class YaPlakalRootStore {
   collection: YaCollection;
 
   /**
+   * Список материалов для отправки
+   */
+  itemsToSend: ItemsToSend;
+
+  /**
    * Создаёт экземпляр корневого хранилища.
    *
    * Инициализирует вложенные хранилища.
    */
   constructor() {
+    makeAutoObservable(this);
+
     this.selectMaterialStore = new SelectMaterialStore();
     this.pager = new MediaPagerStore();
     this.collection = new YaCollection();
+    this.itemsToSend = new ItemsToSend();
   }
+
+  /**
+   * Возвращает массив медиазаписей в формате `MediaRecordUi`, готовый для отображения в UI.
+   *
+   * Для каждой записи устанавливается флаг `selected` в зависимости от того,
+   * присутствует ли её URL в списке выбранных (`itemsToSend`).
+   *
+   * @returns {MediaRecordUi[]} Массив медиазаписей с актуальным статусом выбора.
+   *
+   * @computed
+   */
+  get mediaRecords() {
+    return Array.from(this.collection.mediaRecords.entries()).map(
+      ([url, mediaRecord]) =>
+        ({
+          id: url,
+          url: mediaRecord.url,
+          title: mediaRecord.title,
+          selected: this.itemsToSend.items.has(url),
+        }) as MediaRecordUi,
+    );
+  }
+
+  /**
+   * Переключает состояние выбора медиазаписи по её идентификатору.
+   *
+   * Если запись уже выбрана, она удаляется из списка отправки.
+   * Если не выбрана — добавляется в список отправки на основе данных из коллекции.
+   *
+   * @param {string} idMediaRecord - Идентификатор медиазаписи, выбор которой нужно переключить.
+   *
+   * @action
+   */
+  toggleItemSelect = (idMediaRecord: string) => {
+    if (this.itemsToSend.items.has(idMediaRecord)) {
+      this.itemsToSend.items.delete(idMediaRecord);
+      return;
+    }
+    const record = this.collection.mediaRecords.get(idMediaRecord);
+    if (record)
+      this.itemsToSend.items.set(idMediaRecord, {
+        id: record.id,
+        url: record.url,
+        title: record.title,
+        selected: true,
+      } as MediaRecordUi);
+  };
 }

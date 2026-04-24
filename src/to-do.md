@@ -7,3 +7,5 @@
 - src\main\features\lib\helpers\downloadFileToCacheDir.ts обработать ошибки
 - Для ЯП-видео можно превью загрузить
 - По умолчанию добавить, но дать возможность заменить
+
+C:\Users\s.karol\AppData\Local\Temp\bf6c4f42-49df-48a7-9a2f-fa64de34f444

@@ -1,5 +1,6 @@
-import { action, computed, makeObservable, observable } from "mobx";
+import { action, makeObservable, observable } from "mobx";
 
+import { type IreceiveYaPlakalTopicMedia } from "@shared/lib/types/electron-api";
 import { type MediaSummaryPreview } from "@shared/lib/types/media";
 
 import { MediaRecordStore } from "@renderer-features/model/media-record";
@@ -20,6 +21,8 @@ export class YaCollection {
       mediaRecords: observable,
       // action
       addMediaRecords: action,
+      setUrlMediaRecord: action,
+      // computed
     });
   }
 
@@ -31,5 +34,12 @@ export class YaCollection {
       if (!url) return;
       this.mediaRecords.set(url, new MediaRecordStore(mediaSummary));
     });
+  };
+
+  /**
+   * Установить урл для media-записи
+   */
+  setUrlMediaRecord = ({ filePath, id }: IreceiveYaPlakalTopicMedia) => {
+    this.mediaRecords.get(id)?.setUrl(filePath);
   };
 }
