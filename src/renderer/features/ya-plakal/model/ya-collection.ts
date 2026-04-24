@@ -22,6 +22,7 @@ export class YaCollection {
       // action
       addMediaRecords: action,
       setUrlMediaRecord: action,
+      clearCollection: action,
       // computed
     });
   }
@@ -41,5 +42,12 @@ export class YaCollection {
    */
   setUrlMediaRecord = ({ id, ...decodeData }: IreceiveYaPlakalTopicMedia) => {
     this.mediaRecords.get(id)?.setDecodeData(decodeData);
+  };
+
+  /**
+   * Очистить коллекцию
+   */
+  clearCollection = () => {
+    this.mediaRecords.clear();
   };
 }

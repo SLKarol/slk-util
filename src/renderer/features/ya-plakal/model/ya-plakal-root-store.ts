@@ -94,8 +94,11 @@ export class YaPlakalRootStore {
     if (record)
       this.itemsToSend.items.set(idMediaRecord, {
         id: record.id,
-        fileDecode: record.fileDecode,
         title: record.title,
+        fileDecode: record.fileDecode,
+        filePath: record.filePath,
+        previewDecode: record.previewDecode,
+        previewFilePath: record.previewFilePath,
       } as MediaRecordUi);
   };
 }

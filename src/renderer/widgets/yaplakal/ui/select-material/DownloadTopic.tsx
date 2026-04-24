@@ -3,7 +3,7 @@ import { IconMessage2Down } from "@tabler/icons-react";
 import { observer } from "mobx-react-lite";
 
 import { useYaPlakalRuRootStore } from "@renderer/providers/ya-plakal/useYaplakalRootStore";
-import { checkUrlTopic } from "@renderer/widgets/yaplakal/lib/helpers/checkUrlTopic";
+import { checkUrlTopic } from "@renderer/widgets/yaplakal/lib/helpers";
 
 /**
  * Кнопка скачать топик
