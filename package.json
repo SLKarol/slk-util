@@ -61,7 +61,7 @@
     "@mantine/notifications": "^9.1.0",
     "@mantine/nprogress": "^9.1.0",
     "@tabler/icons-react": "^3.41.1",
-    "cidr-tools": "^11.3.3",
+    "cidr-tools": "^11.3.4",
     "dayjs": "^1.11.20",
     "electron-squirrel-startup": "^1.0.1",
     "electron-window-state": "^5.0.3",
