@@ -164,4 +164,9 @@ export const CHANNELS = {
    * Получение медиа-файлов от яп
    */
   RECEIVE_YA_PLAKAL_TOPIC_MEDIA: "RECEIVE_YA_PLAKAL_TOPIC_MEDIA",
+
+  /**
+   * Изменить каталог для сохранения медиа-файлов, загружаемых через приложение.
+   */
+  CHANGE_SAVE_VIDEO_DIRECTORY: "CHANGE_SAVE_VIDEO_DIRECTORY",
 };

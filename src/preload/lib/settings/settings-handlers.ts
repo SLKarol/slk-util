@@ -31,4 +31,7 @@ export const createSettingsHandlers = () =>
 
     saveSetting: (updateSettings) =>
       ipcRenderer.send(CHANNELS.SAVE_SETTING, updateSettings),
+
+    changeSaveVideoDirectory: () =>
+      ipcRenderer.send(CHANNELS.CHANGE_SAVE_VIDEO_DIRECTORY),
   }) as ElectronAPI;

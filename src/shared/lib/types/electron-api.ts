@@ -213,6 +213,11 @@ export interface ElectronAPI {
   receiveYaPlakalTopicMedia: (
     callback: (response: IreceiveYaPlakalTopicMedia) => void,
   ) => () => void;
+
+  /**
+   * Запустить выбор каталога для сохранения медиа-файлов, загружаемых через приложение.
+   */
+  changeSaveVideoDirectory: () => void;
 }
 
 /**

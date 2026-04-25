@@ -58,6 +58,17 @@ export const createAppMenu = (mainWindow: BrowserWindow | null) => {
             }
           },
         },
+        {
+          label: "Загрузки",
+          click: () => {
+            if (mainWindow) {
+              mainWindow.webContents.send(
+                CHANNELS.NAVIGATE,
+                "/settingsDownloads",
+              );
+            }
+          },
+        },
       ],
     },
     {

@@ -1,8 +1,7 @@
-import { type IpcMainEvent } from "electron";
+import { app, dialog, type IpcMainEvent } from "electron";
 
+import { getDefaultSettings } from "../lib/helpers";
 import { UserDataFileManager } from "../UserDataFileManager";
-
-import { SETTINGS_APP } from "@main/shared/lib/constants";
 
 import { CHANNELS } from "@shared/ipc/channels";
 import { type AppSettings } from "@shared/lib/types/app-settings";
@@ -10,7 +9,7 @@ import { type WriteSettingsProps } from "@shared/lib/types/settings.type";
 
 const settingsFile = new UserDataFileManager<AppSettings>(
   "settings.json",
-  SETTINGS_APP,
+  getDefaultSettings(),
 );
 
 /**
@@ -36,6 +35,10 @@ export const settingsHandlers = {
   ) => {
     try {
       const settingsData = await settingsFile.readData();
+      if (!("folderForSaveFiles" in settingsData)) {
+        (settingsData as AppSettings).folderForSaveFiles =
+          app.getPath("downloads");
+      }
       ipcMainEvent.reply(CHANNELS.RECEIVE_SETTINGS, settingsData);
     } catch (error) {
       console.error("Error:", error);
@@ -59,5 +62,24 @@ export const settingsHandlers = {
       console.error("Error:", error);
       ipcMainEvent.reply(CHANNELS.SEND_POP_UP_ERROR, "Ошибка при сохранении");
     }
+  },
+
+  [CHANNELS.CHANGE_SAVE_VIDEO_DIRECTORY]: async (
+    ipcMainEvent: IpcMainEvent,
+  ) => {
+    const settingsData = await settingsFile.readData();
+    const { folderForSaveFiles } = settingsData;
+    const dialogRes = await dialog.showOpenDialog({
+      defaultPath: folderForSaveFiles,
+      properties: ["openDirectory", "dontAddToRecent"],
+    });
+    if (dialogRes.canceled) return;
+    const newSettingsData = {
+      ...settingsData,
+      folderForSaveFiles: dialogRes.filePaths[0],
+    };
+    settingsFile.writeData(newSettingsData);
+    ipcMainEvent.reply(CHANNELS.SEND_POP_UP_MESSAGE, "Сохранено");
+    ipcMainEvent.reply(CHANNELS.RECEIVE_SETTINGS, newSettingsData);
   },
 };

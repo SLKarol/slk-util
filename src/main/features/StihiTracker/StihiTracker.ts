@@ -1,11 +1,11 @@
 import { type IpcMainEvent } from "electron";
 import { parse } from "node-html-parser";
 
+import { getDefaultSettings } from "../lib/helpers";
 import { fetchHtml } from "../lib/helpers/fetch";
 import { LogMainToRender } from "../lib/LogMainToRender";
 import { UserDataFileManager } from "../UserDataFileManager";
 
-import { SETTINGS_APP } from "@main/shared/lib/constants";
 import { execPromise } from "@main/shared/lib/helpers/execPromise";
 
 import { CHANNELS } from "@shared/ipc/channels";
@@ -73,7 +73,7 @@ export class StihiTracker {
     this.poemsInChaper = new PoemsInChaper();
     this.settingsFileManager = new UserDataFileManager<AppSettings>(
       "settings.json",
-      SETTINGS_APP,
+      getDefaultSettings(),
     );
     this.logMainToRender = new LogMainToRender(CHANNELS.RECEIVE_STATISTIC_BOT);
   }

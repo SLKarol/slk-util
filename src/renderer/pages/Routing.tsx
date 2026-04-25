@@ -11,6 +11,7 @@ import { WireGuardTunnelRootProvider } from "@renderer/providers/wire-guard-tunn
 import { YaPlakalProvider } from "@renderer/providers/ya-plakal/YaPlakalProvider";
 
 import { YAPLAKAL_TAB_PARAM_NAME } from "./lib/routeConstants";
+import { SettingsFolderForSaveFiles } from "./SettingsFolderForSaveFiles/SettingsFolderForSaveFiles";
 import { SettingsTgBot } from "./SettingsTgBot/SettingsTgBot";
 import { WireguardTunnel } from "./WireguardTunnel/WireguardTunnel";
 import { YaPage } from "./YaPage/YaPage";
@@ -48,6 +49,10 @@ export const Routing = () => {
             }
           />
           <Route path="settingstgbot" element={<SettingsTgBot />} />
+          <Route
+            path="settingsDownloads"
+            element={<SettingsFolderForSaveFiles />}
+          />
           <Route
             path="yaplakal"
             element={

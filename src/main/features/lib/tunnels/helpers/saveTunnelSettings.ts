@@ -1,5 +1,6 @@
+import { getDefaultSettings } from "../../helpers";
+
 import { UserDataFileManager } from "@main/features/UserDataFileManager";
-import { SETTINGS_APP } from "@main/shared/lib/constants";
 
 import { type AppSettings } from "@shared/lib/types/app-settings";
 import { AppSettingsWireGuardTunnelWithoutAllowedIPs } from "@shared/lib/types/electron-api";
@@ -19,7 +20,7 @@ export const saveTunnelSettings = async ({
   // Инициализируем менеджер для работы с файлом настроек приложения
   const settingsFile = new UserDataFileManager<AppSettings>(
     "settings.json",
-    SETTINGS_APP,
+    getDefaultSettings(),
   );
 
   // Сохраняем пришедшие настройки WireGuard туннеля в файл настроек приложения
