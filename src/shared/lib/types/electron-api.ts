@@ -218,6 +218,12 @@ export interface ElectronAPI {
    * Запустить выбор каталога для сохранения медиа-файлов, загружаемых через приложение.
    */
   changeSaveVideoDirectory: () => void;
+
+  /**
+   * Сохранить медиа-файл, загружаемый через приложение, в выбранный каталог.
+   * @param payload Параметры для сохранения медиа-файла, включая полный путь к файлу и URL источника.
+   */
+  saveMediaFile: (payload: SaveMediaFilePayload) => void;
 }
 
 /**
@@ -367,4 +373,14 @@ export interface IreceiveYaPlakalTopicMedia {
    * Декодированные данные превью
    */
   previewDecode: string | null;
+}
+
+/**
+ * Параметры сохранения медиа-файла
+ */
+export interface SaveMediaFilePayload {
+  /**
+   * URL-адрес медиа-ресурса
+   */
+  url: string;
 }

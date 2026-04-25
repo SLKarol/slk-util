@@ -169,4 +169,9 @@ export const CHANNELS = {
    * Изменить каталог для сохранения медиа-файлов, загружаемых через приложение.
    */
   CHANGE_SAVE_VIDEO_DIRECTORY: "CHANGE_SAVE_VIDEO_DIRECTORY",
+
+  /**
+   * Сохранение медиа-файла
+   */
+  SAVE_MEDIA_FILE: "SAVE_MEDIA_FILE",
 };

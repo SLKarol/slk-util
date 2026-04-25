@@ -21,13 +21,13 @@ export const banAuthorHandlers = {
   /**
    * Обработчик запроса на получение списка заблокированных авторов.
    */
-  [CHANNELS.GET_BAN_AUTHORS]: async (event: IpcMainEvent) => {
+  [CHANNELS.GET_BAN_AUTHORS]: async (ipcMainEvent: IpcMainEvent) => {
     try {
       const bannedAuthors = await banAuthorSettings.readData();
-      event.reply(CHANNELS.RECEIVE_BAN_AUTHORS, bannedAuthors);
+      ipcMainEvent.reply(CHANNELS.RECEIVE_BAN_AUTHORS, bannedAuthors);
     } catch (error) {
       console.error("Error:", error);
-      event.reply(CHANNELS.ERROR_MAIN, {
+      ipcMainEvent.reply(CHANNELS.ERROR_MAIN, {
         requestParam: CHANNELS.GET_BAN_AUTHORS,
         error,
       });

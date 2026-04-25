@@ -1,5 +1,6 @@
 import {
   errorAPI,
+  mediaAPI,
   menuAPI,
   messagesAPI,
   requestsAPI,
@@ -31,4 +32,5 @@ contextBridge.exposeInMainWorld("electronAPI", {
   ...stihiRuAPI,
   ...tunnelAPI,
   ...yapAPI,
+  ...mediaAPI,
 } as ElectronAPI);

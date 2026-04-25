@@ -1,6 +1,7 @@
 import { ipcMain } from "electron";
 
 import { banAuthorHandlers } from "@main/features/ipc/banAutor";
+import { mediaHandlers } from "@main/features/ipc/media";
 import { requestHandlers } from "@main/features/ipc/request";
 import { settingsHandlers } from "@main/features/ipc/settings";
 import { stihiRuHandlers } from "@main/features/ipc/stihiRu";
@@ -35,6 +36,10 @@ export function registerHandlers() {
   });
 
   Object.entries(yapHandlers).forEach(([channel, handler]) => {
+    ipcMain.on(channel, handler);
+  });
+
+  Object.entries(mediaHandlers).forEach(([channel, handler]) => {
     ipcMain.on(channel, handler);
   });
 }

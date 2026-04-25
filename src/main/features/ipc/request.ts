@@ -27,19 +27,19 @@ export const requestHandlers = {
    * @throws Отправляет сообщение об ошибке через канал `ERROR_MAIN` в случае неудачного запроса.
    */
   [CHANNELS.REQUEST_TEXT]: async (
-    event: IpcMainEvent,
+    ipcMainEvent: IpcMainEvent,
     requestParam: string,
   ) => {
     try {
       const htmlText = await fetchHtml(requestParam);
 
       // Устанавливаем корректные заголовки для клиента
-      event.reply(CHANNELS.RECEIVE_TEXT, {
+      ipcMainEvent.reply(CHANNELS.RECEIVE_TEXT, {
         requestParam,
         textContent: htmlText,
       });
     } catch (error) {
-      event.reply(CHANNELS.ERROR_MAIN, {
+      ipcMainEvent.reply(CHANNELS.ERROR_MAIN, {
         requestParam,
         error,
       });

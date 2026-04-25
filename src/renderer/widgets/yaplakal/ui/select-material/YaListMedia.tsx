@@ -19,6 +19,9 @@ export const YaListMedia = observer(() => {
   const onClickAction: MouseEventHandler<HTMLButtonElement> = (mouseEvent) => {
     const dataId = mouseEvent.currentTarget.getAttribute("data-id");
     const dataAction = mouseEvent.currentTarget.getAttribute("data-action");
+    if (dataAction === "download" && dataId) {
+      window.electronAPI.saveMediaFile({ url: dataId });
+    }
     console.table({ dataAction, dataId });
   };
 
