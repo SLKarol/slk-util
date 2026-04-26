@@ -5,6 +5,9 @@ import { wait } from "@shared/lib/helpers/wait";
 import { getExtFromUrl } from "./lib/helpers/getExtFromUrl";
 import {
   type CombineAnimationType,
+  type FileInTelegram,
+  type SendMediaRecordsGroupsPayload,
+  type SendPicturesToGroup,
   type SendPictureToGroupsPayload,
 } from "./lib/types/telegram";
 
@@ -117,5 +120,130 @@ export class TelegramBot {
     }
     this.telegraf = new Telegraf(newToken);
     this.telegraf.launch();
+  }
+
+  async sendMediaRecordsToGroups({
+    mediaRecords,
+    tgAdmin,
+    tgGroups,
+  }: SendMediaRecordsGroupsPayload) {
+    if (!this.telegraf) return;
+    // Отправить все файлы в админский чат и получить fileId
+    const savedFiles = await Promise.allSettled(
+      mediaRecords.map(({ title, url }) => {
+        // Получить из URL'a расширение файла
+        const ext = getExtFromUrl(url) ?? "";
+
+        if (ext === "gif") {
+          return this.telegraf?.telegram
+            .sendAnimation(tgAdmin, url, {
+              caption: title ?? undefined,
+              protect_content: false,
+              disable_notification: true,
+            })
+            .then((response) => {
+              return { id: response.animation.file_id, title, animation: true };
+            })
+            .catch(() => false);
+        }
+
+        return this.telegraf?.telegram
+          .sendPhoto(tgAdmin, url, {
+            caption: title ?? undefined,
+            protect_content: false,
+            disable_notification: true,
+          })
+          .then((response) => {
+            return { id: response.photo[0].file_id, title, animation: false };
+          })
+          .catch(() => false);
+      }),
+    ).then((listImgs) => {
+      const files: FileInTelegram[] = [];
+      listImgs.forEach((imgResult) => {
+        if (
+          imgResult.status === "fulfilled" &&
+          typeof imgResult.value !== "boolean" &&
+          imgResult.value
+        ) {
+          files.push({
+            ...imgResult.value,
+            title: imgResult.value.title ?? "",
+          });
+        }
+      });
+      return files;
+    });
+
+    // 1. Отправить с GIF
+    const dataWithGif = savedFiles.filter((d) => d.animation);
+    // 2. Отправить альбомы
+    const dataWithoutGif = savedFiles.filter((d) => !d.animation);
+
+    await this.sendPicturesToGroups({
+      delay: 4,
+      pictures: dataWithoutGif,
+      telegramGropus: tgGroups,
+    });
+    await this.sendGifsToGroups({
+      delay: 4,
+      pictures: dataWithGif,
+      telegramGropus: tgGroups,
+    });
+  }
+
+  /**
+   * Отправить несколько изображений в указанные группы Telegram с заданной задержкой между отправками.
+   */
+  private async sendPicturesToGroups({
+    pictures,
+    telegramGropus,
+    delay,
+  }: SendPicturesToGroup) {
+    // Получить группу по 10 изображений
+    const size = 10;
+    // Получить массив из частей по size штук
+    const mediaMessages: FileInTelegram[][] = [];
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < Math.ceil(pictures.length / size); i++) {
+      const array = pictures.slice(i * size, i * size + size);
+      // Подготовить эти 10 записей к отправке в телеграм
+      mediaMessages[i] = [...array];
+    }
+
+    for (const group of telegramGropus) {
+      for (const media of mediaMessages) {
+        await wait(delay);
+        await this.telegraf?.telegram.sendMediaGroup(
+          group.trim(),
+          media.map(({ id, title }) => ({
+            type: "photo",
+            media: id,
+            caption: title,
+          })),
+          { protect_content: false },
+        );
+      }
+    }
+  }
+
+  /**
+   * Отправить несколько GIF в указанные группы Telegram с заданной задержкой между отправками.
+   * Поскольку Telegram не поддерживает отправку нескольких GIF в одном сообщении, каждое GIF отправляется отдельно.
+   */
+  private async sendGifsToGroups({
+    delay,
+    pictures,
+    telegramGropus,
+  }: SendPicturesToGroup) {
+    for (const group of telegramGropus) {
+      for (const media of pictures) {
+        await wait(delay);
+        await this.telegraf?.telegram.sendAnimation(group.trim(), media.id, {
+          caption: media.title,
+          protect_content: false,
+        });
+      }
+    }
   }
 }

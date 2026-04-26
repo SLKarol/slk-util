@@ -46,4 +46,29 @@ export const telegramHandlers = {
       });
     }
   },
+
+  [CHANNELS.TELEGRAM_BOT_SEND_GROUP]: async (
+    ipcMainEvent: IpcMainEvent,
+    mediaRecords: TelegramBotSendPicturePayload[],
+  ) => {
+    try {
+      const settingsData = await settingsFile.readData();
+      const botRunning = await telegramBot.checkIsRunning();
+      if (!botRunning) {
+        ipcMainEvent.reply(CHANNELS.SEND_POP_UP_ERROR, "Бот не запущен");
+        return;
+      }
+      await telegramBot.sendMediaRecordsToGroups({
+        tgAdmin: settingsData.telegram.telegramAdmin,
+        tgGroups: settingsData.telegram.telegramGroups,
+        mediaRecords,
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      ipcMainEvent.reply(CHANNELS.ERROR_MAIN, {
+        channel: CHANNELS.TELEGRAM_BOT_SEND_PICTURE,
+        error,
+      });
+    }
+  },
 };
