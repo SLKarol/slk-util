@@ -5,6 +5,7 @@ import { mediaHandlers } from "@main/features/ipc/media";
 import { requestHandlers } from "@main/features/ipc/request";
 import { settingsHandlers } from "@main/features/ipc/settings";
 import { stihiRuHandlers } from "@main/features/ipc/stihiRu";
+import { telegramHandlers } from "@main/features/ipc/telegram";
 import { wireGuardTunnelHandlers } from "@main/features/ipc/wireGuardTunnel";
 import { yapHandlers } from "@main/features/ipc/yaplakal";
 
@@ -40,6 +41,10 @@ export function registerHandlers() {
   });
 
   Object.entries(mediaHandlers).forEach(([channel, handler]) => {
+    ipcMain.on(channel, handler);
+  });
+
+  Object.entries(telegramHandlers).forEach(([channel, handler]) => {
     ipcMain.on(channel, handler);
   });
 }

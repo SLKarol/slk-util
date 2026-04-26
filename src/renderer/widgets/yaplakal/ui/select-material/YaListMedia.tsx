@@ -2,6 +2,10 @@ import { type ChangeEventHandler, type MouseEventHandler } from "react";
 import { observer } from "mobx-react-lite";
 
 import { useYaPlakalRuRootStore } from "@renderer/providers/ya-plakal/useYaplakalRootStore";
+import {
+  MEDIA_ACTION_DOWNLOAD,
+  MEDIA_ACTION_TELEGRAM,
+} from "@renderer/widgets/shared/lib/constants";
 import { MediaResourceCard } from "@renderer/widgets/shared/ui";
 
 /**
@@ -19,8 +23,13 @@ export const YaListMedia = observer(() => {
   const onClickAction: MouseEventHandler<HTMLButtonElement> = (mouseEvent) => {
     const dataId = mouseEvent.currentTarget.getAttribute("data-id");
     const dataAction = mouseEvent.currentTarget.getAttribute("data-action");
-    if (dataAction === "download" && dataId) {
+    if (dataAction === MEDIA_ACTION_DOWNLOAD && dataId) {
       window.electronAPI.saveMediaFile({ url: dataId });
+      return;
+    }
+    if (dataAction === MEDIA_ACTION_TELEGRAM && dataId) {
+      window.electronAPI.telegramBotSendPicture({ url: dataId });
+      return;
     }
     console.table({ dataAction, dataId });
   };

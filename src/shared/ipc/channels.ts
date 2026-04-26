@@ -174,4 +174,9 @@ export const CHANNELS = {
    * Сохранение медиа-файла
    */
   SAVE_MEDIA_FILE: "SAVE_MEDIA_FILE",
+
+  /**
+   * Отправить картинку через Telegram-бота
+   */
+  TELEGRAM_BOT_SEND_PICTURE: "TELEGRAM_BOT_SEND_PICTURE",
 };

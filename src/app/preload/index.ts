@@ -6,6 +6,7 @@ import {
   requestsAPI,
   settingsAPI,
   stihiRuAPI,
+  telegramAPI,
   tunnelAPI,
   yapAPI,
 } from "@preload/handlers";
@@ -33,4 +34,5 @@ contextBridge.exposeInMainWorld("electronAPI", {
   ...tunnelAPI,
   ...yapAPI,
   ...mediaAPI,
+  ...telegramAPI,
 } as ElectronAPI);

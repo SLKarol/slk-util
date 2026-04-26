@@ -2,6 +2,11 @@ import { type MouseEventHandler } from "react";
 import { ActionIcon, Flex, Tooltip } from "@mantine/core";
 import { IconBrandTelegram, IconDownload } from "@tabler/icons-react";
 
+import {
+  MEDIA_ACTION_DOWNLOAD,
+  MEDIA_ACTION_TELEGRAM,
+} from "../../lib/constants";
+
 /**
  * Свойства компонента `MediaResourceCardToolbar`.
  *
@@ -31,7 +36,7 @@ export const MediaResourceCardToolbar = ({ mediaId, onClickAction }: Props) => {
       <Tooltip label="Скачать">
         <ActionIcon
           data-id={mediaId}
-          data-action="download"
+          data-action={MEDIA_ACTION_DOWNLOAD}
           onClick={onClickAction}
         >
           <IconDownload />
@@ -40,7 +45,7 @@ export const MediaResourceCardToolbar = ({ mediaId, onClickAction }: Props) => {
       <Tooltip label="Отправить в телеграм">
         <ActionIcon
           data-id={mediaId}
-          data-action="telegram"
+          data-action={MEDIA_ACTION_TELEGRAM}
           onClick={onClickAction}
         >
           <IconBrandTelegram />

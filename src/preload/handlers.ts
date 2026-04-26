@@ -6,6 +6,7 @@ import { createRequestHandlers } from "@preload/lib/request/request-handlers";
 import { createSettingsHandlers } from "@preload/lib/settings/settings-handlers";
 import { createSettingsTunnelHandlers } from "@preload/lib/settings/settings-tunnel-handlers";
 import { createStihiRuHandlers } from "@preload/lib/stihiru/stihiru-handlers";
+import { createTelegramHandlers } from "@preload/lib/telegram";
 import { createYaPlakalHandlers } from "@preload/lib/yaplakal/yaplakal-handlers";
 
 export const menuAPI = createMenuHandlers();
@@ -17,3 +18,4 @@ export const tunnelAPI = createSettingsTunnelHandlers();
 export const yapAPI = createYaPlakalHandlers();
 export const errorAPI = createErrorHandlers();
 export const mediaAPI = createMediaHandlers();
+export const telegramAPI = createTelegramHandlers();

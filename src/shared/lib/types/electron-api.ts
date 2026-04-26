@@ -5,6 +5,7 @@ import {
   type AppSettings,
   type AppSettingsWireGuardTunnel,
 } from "./app-settings";
+import { type Nullable } from "./common";
 import { type WriteSettingsProps } from "./settings.type";
 import { type IStatusAutoReadStihi } from "./stihi.types";
 import { type IPRange } from "./tunnel";
@@ -224,6 +225,11 @@ export interface ElectronAPI {
    * @param payload Параметры для сохранения медиа-файла, включая полный путь к файлу и URL источника.
    */
   saveMediaFile: (payload: SaveMediaFilePayload) => void;
+
+  /**
+   * Отправить картинку через Telegram-бота.
+   */
+  telegramBotSendPicture: (payload: TelegramBotSendPicturePayload) => void;
 }
 
 /**
@@ -382,5 +388,12 @@ export interface SaveMediaFilePayload {
   /**
    * URL-адрес медиа-ресурса
    */
+  url: string;
+}
+
+export interface TelegramBotSendPicturePayload {
+  /** Подпись к картинке */
+  title?: Nullable<string>;
+  /** URL картинки */
   url: string;
 }
