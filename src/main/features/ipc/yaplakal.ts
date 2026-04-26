@@ -69,7 +69,7 @@ export const yapHandlers = {
           : null;
 
         ipcMainEvent.reply(CHANNELS.RECEIVE_YA_PLAKAL_TOPIC_MEDIA, {
-          id: item.id,
+          id: item.id ?? item.videoParts?.urlVideo,
           fileDecode,
           previewDecode,
           filePath,

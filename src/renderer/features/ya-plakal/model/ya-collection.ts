@@ -32,8 +32,12 @@ export class YaCollection {
    */
   addMediaRecords = (mediaInfo: Partial<MediaSummaryPreview>[]) => {
     mediaInfo.forEach(({ url, ...mediaSummary }) => {
-      if (!url) return;
-      this.mediaRecords.set(url, new MediaRecordStore(mediaSummary));
+      let keyMedia = url;
+      if (!keyMedia) {
+        keyMedia = mediaSummary.id;
+      }
+      if (keyMedia)
+        this.mediaRecords.set(keyMedia, new MediaRecordStore(mediaSummary));
     });
   };
 

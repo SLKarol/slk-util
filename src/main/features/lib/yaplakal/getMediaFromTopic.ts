@@ -184,6 +184,7 @@ async function getInfoFromDiv(
 
   const data = decodeYapJson(JSON.parse(jsonData));
   Object.assign(re, data);
+  if (!re.id) re.id = re.videoParts?.urlVideo;
   return re;
 }
 

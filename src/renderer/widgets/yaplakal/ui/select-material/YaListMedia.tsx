@@ -31,7 +31,6 @@ export const YaListMedia = observer(() => {
       window.electronAPI.telegramBotSendPicture({ url: dataId });
       return;
     }
-    console.table({ dataAction, dataId });
   };
 
   /**
