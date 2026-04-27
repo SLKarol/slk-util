@@ -52,6 +52,14 @@ export const MediaResourceCard = ({
         <Text>Не содержит (или не найдены) медиа-ресурсы</Text>
       ) : !mediaRecord.haveVideo && mediaRecord.url ? (
         <Image src={mediaRecord.url} title={mediaRecord.title} w="100%" />
+      ) : mediaRecord.haveVideo && mediaRecord.url ? (
+        <video
+          width="100%"
+          controls
+          poster={mediaRecord.previewDecode as string}
+        >
+          <source src={mediaRecord.url} />
+        </video>
       ) : null}
       <MediaResourceCardToolbar
         mediaId={mediaRecord.id}
