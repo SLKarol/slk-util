@@ -9,6 +9,7 @@ import {
   type SendMediaRecordsGroupsPayload,
   type SendPicturesToGroup,
   type SendPictureToGroupsPayload,
+  type SendVideoToGroupsPayload,
 } from "./lib/types/telegram";
 
 /**
@@ -243,6 +244,42 @@ export class TelegramBot {
           caption: media.title,
           protect_content: false,
         });
+      }
+    }
+  }
+
+  /**
+   * Отправить видео в указанные группы Telegram.
+   */
+  async sendVideoToGroups({
+    tgAdmin,
+    tgGroups,
+    url,
+    title,
+    urlPreview,
+  }: SendVideoToGroupsPayload) {
+    if (!this.telegraf) return;
+    // Отправляется в первую группу
+    const sendTgresult = await this.telegraf.telegram.sendVideo(tgAdmin, url, {
+      caption: title,
+      thumbnail: urlPreview ? { url: urlPreview } : undefined,
+    });
+
+    // В телеграмм-группы отправить ссылку на файл в облаке телеграмм
+    const {
+      video: { file_id: fileId },
+      message_id,
+    } = sendTgresult;
+
+    // Сделать копию в остальные группы
+    if (fileId) {
+      for (const group of tgGroups) {
+        await wait(2);
+        await this.telegraf.telegram.copyMessage(
+          group.trim(),
+          tgAdmin,
+          message_id,
+        );
       }
     }
   }

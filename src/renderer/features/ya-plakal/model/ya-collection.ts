@@ -23,6 +23,7 @@ export class YaCollection {
       addMediaRecords: action,
       setUrlMediaRecord: action,
       clearCollection: action,
+      sendMediaToTelegram: action,
       // computed
     });
   }
@@ -53,5 +54,18 @@ export class YaCollection {
    */
   clearCollection = () => {
     this.mediaRecords.clear();
+  };
+
+  sendMediaToTelegram = (dataId: string) => {
+    const mediaData = this.mediaRecords.get(dataId);
+    if (!mediaData) return;
+
+    if (!mediaData.haveVideo)
+      return window.electronAPI.telegramBotSendPicture({ url: dataId });
+
+    window.electronAPI.telegramBotSendVideo({
+      url: dataId,
+      urlPreview: mediaData.previewImages.src,
+    });
   };
 }

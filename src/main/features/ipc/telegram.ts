@@ -6,7 +6,10 @@ import { UserDataFileManager } from "../UserDataFileManager";
 
 import { CHANNELS } from "@shared/ipc/channels";
 import { type AppSettings } from "@shared/lib/types/app-settings";
-import { type TelegramBotSendPicturePayload } from "@shared/lib/types/electron-api";
+import {
+  type TelegramBotSendPicturePayload,
+  type TelegramBotSendVideoPayload,
+} from "@shared/lib/types/electron-api";
 
 const settingsFile = new UserDataFileManager<AppSettings>(
   "settings.json",
@@ -62,6 +65,33 @@ export const telegramHandlers = {
         tgAdmin: settingsData.telegram.telegramAdmin,
         tgGroups: settingsData.telegram.telegramGroups,
         mediaRecords,
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      ipcMainEvent.reply(CHANNELS.ERROR_MAIN, {
+        channel: CHANNELS.TELEGRAM_BOT_SEND_PICTURE,
+        error,
+      });
+    }
+  },
+
+  [CHANNELS.TELEGRAM_BOT_SEND_VIDEO]: async (
+    ipcMainEvent: IpcMainEvent,
+    { url, title, urlPreview }: TelegramBotSendVideoPayload,
+  ) => {
+    try {
+      const settingsData = await settingsFile.readData();
+      const botRunning = await telegramBot.checkIsRunning();
+      if (!botRunning) {
+        ipcMainEvent.reply(CHANNELS.SEND_POP_UP_ERROR, "Бот не запущен");
+        return;
+      }
+      await telegramBot.sendVideoToGroups({
+        tgAdmin: settingsData.telegram.telegramAdmin,
+        tgGroups: settingsData.telegram.telegramGroups,
+        title: title ?? undefined,
+        url,
+        urlPreview,
       });
     } catch (error) {
       console.error("Error:", error);

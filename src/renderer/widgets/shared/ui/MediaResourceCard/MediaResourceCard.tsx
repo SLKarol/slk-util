@@ -65,12 +65,14 @@ export const MediaResourceCard = ({
         mediaId={mediaRecord.id}
         onClickAction={onClickAction}
       />
-      <Checkbox
-        label="Добавить в список"
-        checked={mediaRecord.selected}
-        data-id={mediaRecord.id}
-        onChange={onToggleSelect}
-      />
+      {!mediaRecord.haveVideo && (
+        <Checkbox
+          label="Добавить в список"
+          checked={mediaRecord.selected}
+          data-id={mediaRecord.id}
+          onChange={onToggleSelect}
+        />
+      )}
     </Card>
   );
 };

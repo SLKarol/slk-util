@@ -181,6 +181,11 @@ export const CHANNELS = {
   TELEGRAM_BOT_SEND_PICTURE: "TELEGRAM_BOT_SEND_PICTURE",
 
   /**
+   * Отправить видео через Telegram-бота
+   */
+  TELEGRAM_BOT_SEND_VIDEO: "TELEGRAM_BOT_SEND_VIDEO",
+
+  /**
    * Отправить группу медиа через Telegram-бота
    */
   TELEGRAM_BOT_SEND_GROUP: "TELEGRAM_BOT_SEND_GROUP",

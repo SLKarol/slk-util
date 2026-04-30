@@ -46,6 +46,16 @@ export interface SendPictureToGroupsPayload {
 }
 
 /**
+ * Интерфейс, представляющий полезную нагрузку для отправки группам видео.
+ */
+export interface SendVideoToGroupsPayload extends SendPictureToGroupsPayload {
+  /**
+   * Предпросмотр URL видео.
+   */
+  urlPreview?: string;
+}
+
+/**
  * Интерфейс, представляющий полезную нагрузку для отправки группам записей медиафайлов.
  *
  * Расширяет `SendPictureToGroupsPayload`, исключая из него поля `title` и `url`,

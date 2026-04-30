@@ -12,7 +12,11 @@ import { MediaResourceCard } from "@renderer/widgets/shared/ui";
  * Компонент отображения списка медиаресурсов для выбора в разделе "Ya plakal".
  */
 export const YaListMedia = observer(() => {
-  const { mediaRecords, toggleItemSelect } = useYaPlakalRuRootStore();
+  const {
+    mediaRecords,
+    toggleItemSelect,
+    collection: { sendMediaToTelegram },
+  } = useYaPlakalRuRootStore();
 
   /**
    * Обработчик клика по кнопке действия на карточке медиаресурса.
@@ -28,7 +32,7 @@ export const YaListMedia = observer(() => {
       return;
     }
     if (dataAction === MEDIA_ACTION_TELEGRAM && dataId) {
-      window.electronAPI.telegramBotSendPicture({ url: dataId });
+      sendMediaToTelegram(dataId);
       return;
     }
   };

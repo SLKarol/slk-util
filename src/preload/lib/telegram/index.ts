@@ -12,4 +12,6 @@ export const createTelegramHandlers = () =>
       ipcRenderer.send(CHANNELS.TELEGRAM_BOT_SEND_PICTURE, url),
     telegramBotSendGroup: (payload) =>
       ipcRenderer.send(CHANNELS.TELEGRAM_BOT_SEND_GROUP, payload),
+    telegramBotSendVideo: (payload) =>
+      ipcRenderer.send(CHANNELS.TELEGRAM_BOT_SEND_VIDEO, payload),
   }) as ElectronAPI;

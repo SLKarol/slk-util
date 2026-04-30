@@ -235,6 +235,11 @@ export interface ElectronAPI {
    * Отправить группу мультимедиа-ссылок через Telegram-бота.
    */
   telegramBotSendGroup: (payload: TelegramBotSendPicturePayload[]) => void;
+
+  /**
+   * Отправить видео через Telegram-бота.
+   */
+  telegramBotSendVideo: (payload: TelegramBotSendVideoPayload) => void;
 }
 
 /**
@@ -401,4 +406,8 @@ export interface TelegramBotSendPicturePayload {
   title?: Nullable<string>;
   /** URL картинки */
   url: string;
+}
+
+export interface TelegramBotSendVideoPayload extends TelegramBotSendPicturePayload {
+  urlPreview?: string;
 }
