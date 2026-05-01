@@ -72,6 +72,8 @@ export const telegramHandlers = {
         channel: CHANNELS.TELEGRAM_BOT_SEND_PICTURE,
         error,
       });
+    } finally {
+      ipcMainEvent.reply(CHANNELS.TELEGRAM_BOT_SEND_GROUP_FINISH);
     }
   },
 

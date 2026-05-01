@@ -10,20 +10,14 @@ import { useYaPlakalRuRootStore } from "@renderer/providers/ya-plakal/useYaplaka
 export const YaButtonSendGroup = observer(() => {
   const {
     itemsToSend: { mediaRecords },
+    sendSelectedToTelegram,
   } = useYaPlakalRuRootStore();
   return (
     <Tooltip label="Отправить выбранное">
       <ActionIcon
         variant="filled"
         disabled={mediaRecords.length === 0}
-        onClick={() =>
-          window.electronAPI.telegramBotSendGroup(
-            mediaRecords.map((record) => ({
-              url: record.id,
-              title: "",
-            })),
-          )
-        }
+        onClick={sendSelectedToTelegram}
       >
         <IconBrandTelegram />
       </ActionIcon>

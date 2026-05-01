@@ -16,4 +16,19 @@ export const createTelegramHandlers = () =>
       ipcRenderer.send(CHANNELS.TELEGRAM_BOT_SEND_VIDEO, payload),
     telegramBotChangeToken: (payload) =>
       ipcRenderer.send(CHANNELS.TELEGRAM_BOT_CHANGE_TOKEN, payload),
+    telegramBotSendGroupFinish: (callback) => {
+      // Создаём функцию‑обёртку для подписки
+      const subscription = () => callback();
+
+      // Подписываемся на событие
+      ipcRenderer.on(CHANNELS.TELEGRAM_BOT_SEND_GROUP_FINISH, subscription);
+
+      // Возвращаем функцию отписки
+      return () => {
+        ipcRenderer.removeListener(
+          CHANNELS.TELEGRAM_BOT_SEND_GROUP_FINISH,
+          subscription,
+        );
+      };
+    },
   }) as ElectronAPI;

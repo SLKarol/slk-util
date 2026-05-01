@@ -246,6 +246,11 @@ export interface ElectronAPI {
    * @param newToken Новый токен
    */
   telegramBotChangeToken: (newToken: string) => void;
+
+  /**
+   * Работа по отправке группы мультимедиа-ссылок через Telegram-бота завершена
+   */
+  telegramBotSendGroupFinish: (callback: () => void) => () => void;
 }
 
 /**

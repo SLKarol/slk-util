@@ -39,6 +39,8 @@ export class YaPlakalRootStore {
    */
   itemsToSend: ItemsToSend;
 
+  groupSend = false;
+
   /**
    * Создаёт экземпляр корневого хранилища.
    *
@@ -103,4 +105,21 @@ export class YaPlakalRootStore {
         previewFilePath: record.previewFilePath,
       } as MediaRecordUi);
   };
+
+  /**
+   * Отправляет выбранные медиазаписи в Telegram.
+   */
+  sendSelectedToTelegram() {
+    this.groupSend = true;
+    window.electronAPI.telegramBotSendGroup(
+      this.itemsToSend.mediaRecords.map((record) => ({
+        url: record.id,
+        title: "",
+      })),
+    );
+  }
+
+  setGroupSendFalse() {
+    this.groupSend = false;
+  }
 }

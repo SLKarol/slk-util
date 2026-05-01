@@ -20,14 +20,13 @@ export const useInitHandlers = () => {
   } = useRootStore();
 
   useEffect(() => {
-    const unsubscribe = window.electronAPI.onSelectMenu((selectedUrl: string) =>
-      navigate(selectedUrl),
+    // Подписка на выбор пункта меню
+    const unsubscribeMenu = window.electronAPI.onSelectMenu(
+      (selectedUrl: string) => navigate(selectedUrl),
     );
-    return unsubscribe;
-  }, []);
 
-  useEffect(() => {
-    const unsubscribe = window.electronAPI.onReceivePopErrorMessage(
+    // Подписка на ошибки
+    const unsubscribeError = window.electronAPI.onReceivePopErrorMessage(
       (errorMessage: string) => {
         notifications.show({
           title: "Ошибка",
@@ -36,19 +35,16 @@ export const useInitHandlers = () => {
         });
       },
     );
-    return unsubscribe;
-  }, []);
-  useEffect(() => {
-    const unsubscribe = window.electronAPI.onReceivePopMessage(
+
+    // Подписка на оповещения
+    const unsubscribeMessage = window.electronAPI.onReceivePopMessage(
       (message: string) => {
         notifications.show({ title: "Оповещение", message });
       },
     );
-    return unsubscribe;
-  }, []);
 
-  useEffect(() => {
-    const unsubscribe = window.electronAPI.receiveStatusAutoReadStihi(
+    // Подписка на статус автосбора стихов
+    const unsubscribeStatus = window.electronAPI.receiveStatusAutoReadStihi(
       ({ datePoems, isAutoRead }) => {
         if (isAutoRead) {
           startTracking();
@@ -61,13 +57,37 @@ export const useInitHandlers = () => {
         setDateValue(datePoems);
       },
     );
-    return unsubscribe;
-  }, []);
 
-  useEffect(() => {
-    const unsubscribe = window.electronAPI.onReceiveStatisticBot((message) => {
-      addStatisticBotData(message);
-    });
-    return unsubscribe;
-  }, []);
+    // Подписка на статистику бота
+    const unsubscribeStatistic = window.electronAPI.onReceiveStatisticBot(
+      (message) => {
+        addStatisticBotData(message);
+      },
+    );
+
+    /**
+     * Подписка на событие окончания тг-рассылки
+     */
+    const unsubscribeSendGroupFinish =
+      window.electronAPI.telegramBotSendGroupFinish(() => {
+        notifications.show({ message: "Рассылка выполнена" });
+      });
+
+    // Функция отписки при размонтировании
+    return () => {
+      unsubscribeMenu();
+      unsubscribeError();
+      unsubscribeMessage();
+      unsubscribeStatus();
+      unsubscribeStatistic();
+      unsubscribeSendGroupFinish();
+    };
+  }, [
+    navigate,
+    setDateValue,
+    startTracking,
+    stopTracking,
+    clearStatisticBotData,
+    addStatisticBotData,
+  ]);
 };
