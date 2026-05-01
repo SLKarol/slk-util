@@ -8,7 +8,7 @@ import { YaButtonSendGroup } from "./YaButtonSendGroup";
  */
 export const YaToolbarSelected = () => {
   return (
-    <Flex justify="center" align="center" direction="row" wrap="wrap">
+    <Flex justify="center" align="center" direction="row" wrap="wrap" gap="md">
       <YaButtonClearSelected />
       <YaButtonSendGroup />
     </Flex>

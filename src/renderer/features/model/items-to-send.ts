@@ -19,6 +19,7 @@ export class ItemsToSend {
       // action
       deleteItem: action,
       // computed
+      countSelected: computed,
       mediaRecords: computed,
     });
   }
@@ -52,4 +53,11 @@ export class ItemsToSend {
       this.items.delete(idMediaRecord);
     }
   };
+
+  /**
+   * Количество выбранных элементов
+   */
+  get countSelected() {
+    return this.items.size;
+  }
 }
