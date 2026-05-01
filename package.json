@@ -1,5 +1,5 @@
 {
-  "name": "slk-utils-webpack",
+  "name": "slk-utils",
   "productName": "slk-utils-webpack",
   "version": "1.0.0",
   "description": "My Electron application description",
@@ -44,7 +44,7 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "fork-ts-checker-webpack-plugin": "^7.3.0",
     "node-loader": "^2.1.0",
-    "postcss": "^8.5.12",
+    "postcss": "^8.5.13",
     "postcss-preset-mantine": "^1.18.0",
     "postcss-simple-vars": "^7.0.1",
     "prettier": "3.8.3",
