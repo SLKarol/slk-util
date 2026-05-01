@@ -109,7 +109,7 @@ export class YaPlakalRootStore {
   /**
    * Отправляет выбранные медиазаписи в Telegram.
    */
-  sendSelectedToTelegram() {
+  sendSelectedToTelegram = () => {
     this.groupSend = true;
     window.electronAPI.telegramBotSendGroup(
       this.itemsToSend.mediaRecords.map((record) => ({
@@ -117,7 +117,7 @@ export class YaPlakalRootStore {
         title: "",
       })),
     );
-  }
+  };
 
   setGroupSendFalse() {
     this.groupSend = false;

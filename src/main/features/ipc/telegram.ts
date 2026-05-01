@@ -39,6 +39,7 @@ export const telegramHandlers = {
         tgAdmin: settingsData.telegram.telegramAdmin,
         tgGroups: settingsData.telegram.telegramGroups,
         title: title ?? undefined,
+        waitSeconds: settingsData.telegram.waitSeconds,
         url,
       });
     } catch (error) {
@@ -64,6 +65,7 @@ export const telegramHandlers = {
       await telegramBot.sendMediaRecordsToGroups({
         tgAdmin: settingsData.telegram.telegramAdmin,
         tgGroups: settingsData.telegram.telegramGroups,
+        waitSeconds: settingsData.telegram.waitSeconds,
         mediaRecords,
       });
     } catch (error) {
@@ -91,6 +93,7 @@ export const telegramHandlers = {
       await telegramBot.sendVideoToGroups({
         tgAdmin: settingsData.telegram.telegramAdmin,
         tgGroups: settingsData.telegram.telegramGroups,
+        waitSeconds: settingsData.telegram.waitSeconds,
         title: title ?? undefined,
         url,
         urlPreview,

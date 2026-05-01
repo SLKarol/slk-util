@@ -2,6 +2,7 @@ import { Container, Flex } from "@mantine/core";
 
 import { InputTelegramAdmin } from "@renderer/widgets/settings-tg-bot/ui/InputTelegramAdmin";
 import { InputTelegramToken } from "@renderer/widgets/settings-tg-bot/ui/InputTelegramToken";
+import { InputWait } from "@renderer/widgets/settings-tg-bot/ui/InputWait";
 import { ListTelegramGroups } from "@renderer/widgets/settings-tg-bot/ui/ListTelegramGroups";
 import { SaveSettings } from "@renderer/widgets/settings-tg-bot/ui/SaveSettings";
 import { SettingsForm } from "@renderer/widgets/settings-tg-bot/ui/SettingsForm";
@@ -15,6 +16,7 @@ export const SettingsTgBot = () => {
       <SettingsForm>
         <InputTelegramToken />
         <InputTelegramAdmin />
+        <InputWait />
         <ListTelegramGroups />
         <Flex gap="1rem">
           <SaveSettings />

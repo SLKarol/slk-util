@@ -15,7 +15,12 @@ import { mapObjectValue } from "@renderer/widgets/lib/helpers";
 export const SettingsForm = ({ children }: PropsWithChildren) => {
   const form = useSettingsForm({
     mode: "uncontrolled",
-    initialValues: { telegramAdmin: "", telegramGroups: [], telegramToken: "" },
+    initialValues: {
+      telegramAdmin: "",
+      telegramGroups: [],
+      telegramToken: "",
+      waitSeconds: 4,
+    },
     validate: {
       telegramAdmin: (value: string) =>
         value.trim().length === 0 ? "Введите ID чата" : null,
@@ -25,6 +30,10 @@ export const SettingsForm = ({ children }: PropsWithChildren) => {
       },
       telegramToken: (value: string) =>
         value.trim().length === 0 ? "Введите токен" : null,
+      waitSeconds: (value) =>
+        Number.isNaN(value) || value <= 0
+          ? "Введите положительное число"
+          : null,
     },
   });
 
@@ -36,6 +45,7 @@ export const SettingsForm = ({ children }: PropsWithChildren) => {
       const telegramAdmin = telegram?.telegramAdmin ?? "";
       const telegramGroups = telegram?.telegramGroups ?? [];
       const telegramToken = telegram?.telegramToken ?? "";
+      const waitSeconds = telegram?.waitSeconds ?? 4;
 
       form.setValues({
         telegramAdmin,
@@ -44,6 +54,7 @@ export const SettingsForm = ({ children }: PropsWithChildren) => {
           value,
         })),
         telegramToken,
+        waitSeconds,
       });
     });
     return unsubscribe;
@@ -79,6 +90,7 @@ export const SettingsForm = ({ children }: PropsWithChildren) => {
               telegramToken: formValues.telegramToken,
               telegramGroups,
               telegramAdmin: formValues.telegramAdmin,
+              waitSeconds: formValues.waitSeconds,
             },
           });
 

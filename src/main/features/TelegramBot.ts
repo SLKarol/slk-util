@@ -51,6 +51,7 @@ export class TelegramBot {
     tgGroups,
     title,
     url,
+    waitSeconds,
   }: SendPictureToGroupsPayload) {
     if (!this.telegraf) return;
     // Получить из URL'a расширение файла
@@ -73,7 +74,7 @@ export class TelegramBot {
           this.telegraf?.telegram.sendPhoto(group.trim(), fileId, {
             caption: title,
           });
-          return wait();
+          return wait(waitSeconds);
         });
         await Promise.allSettled(promises);
       }
@@ -100,7 +101,7 @@ export class TelegramBot {
         this.telegraf?.telegram.sendAnimation(group.trim(), fileId, {
           caption: title,
         });
-        return wait();
+        return wait(waitSeconds);
       });
       await Promise.allSettled(promises);
     }
@@ -127,6 +128,7 @@ export class TelegramBot {
     mediaRecords,
     tgAdmin,
     tgGroups,
+    waitSeconds,
   }: SendMediaRecordsGroupsPayload) {
     if (!this.telegraf) return;
     // Отправить все файлы в админский чат и получить fileId
@@ -182,7 +184,7 @@ export class TelegramBot {
     const dataWithoutGif = savedFiles.filter((d) => !d.animation);
 
     await this.sendPicturesToGroups({
-      delay: 4,
+      delay: waitSeconds,
       pictures: dataWithoutGif,
       telegramGropus: tgGroups,
     });

@@ -38,6 +38,7 @@ const SETTINGS_TELEGRAM = {
   telegramToken: "",
   telegramAdmin: "",
   telegramGroups: [] as string[],
+  waitSeconds: 4,
 };
 
 /**

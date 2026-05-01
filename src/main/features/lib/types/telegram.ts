@@ -43,6 +43,8 @@ export interface SendPictureToGroupsPayload {
    * Идентификатор админ-группы, куда отправляется файл первым
    */
   tgAdmin: string;
+
+  waitSeconds: number;
 }
 
 /**

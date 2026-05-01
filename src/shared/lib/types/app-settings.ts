@@ -98,4 +98,9 @@ export interface AppSettingsTelegram {
    * ID телеграм-чата бота с админом. Сюда будут записываться картинки для отправки в альбомы.
    */
   telegramAdmin: string;
+
+  /**
+   * Время ожидания в секундах между рассылками каналов.
+   */
+  waitSeconds: number;
 }
