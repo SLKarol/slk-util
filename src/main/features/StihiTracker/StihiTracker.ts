@@ -86,6 +86,7 @@ export class StihiTracker {
     this.trackerDay = date;
     this.logMainToRender.sendLog("Бот запускается ...");
     this.logMainToRender.sendLog(`Запрос разделов на ${date} .`);
+    this.abortController = new AbortController();
 
     const htmlPage = await fetchHtml(generateUrlStihiListForDate(date), {
       signal: this.abortController.signal,
@@ -165,7 +166,9 @@ export class StihiTracker {
       signal: this.abortController.signal,
       unit: "m",
     });
-    await execPromise(`taskkill /im ${browserProcessName} /f`);
+    await execPromise(`taskkill /im ${browserProcessName} /f`).catch(() => {
+      console.log("Failed to close the browser");
+    });
     this.logMainToRender.sendLog(`Закрыли ${browserProcessName}.`);
     this.poemsInChaper.clearPoems();
     return true;
