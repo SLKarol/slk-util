@@ -240,6 +240,12 @@ export interface ElectronAPI {
    * Отправить видео через Telegram-бота.
    */
   telegramBotSendVideo: (payload: TelegramBotSendVideoPayload) => void;
+
+  /**
+   * Изменить токен Telegram-бота.
+   * @param newToken Новый токен
+   */
+  telegramBotChangeToken: (newToken: string) => void;
 }
 
 /**

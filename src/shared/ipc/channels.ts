@@ -189,4 +189,9 @@ export const CHANNELS = {
    * Отправить группу медиа через Telegram-бота
    */
   TELEGRAM_BOT_SEND_GROUP: "TELEGRAM_BOT_SEND_GROUP",
+
+  /**
+   * Изменить токен Telegram-бота
+   */
+  TELEGRAM_BOT_CHANGE_TOKEN: "TELEGRAM_BOT_CHANGE_TOKEN",
 };

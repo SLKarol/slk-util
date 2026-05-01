@@ -81,6 +81,11 @@ export const SettingsForm = ({ children }: PropsWithChildren) => {
               telegramAdmin: formValues.telegramAdmin,
             },
           });
+
+          const initialValues = form.getInitialValues();
+          if (initialValues.telegramToken !== formValues.telegramToken) {
+            window.electronAPI.telegramBotChangeToken(formValues.telegramToken);
+          }
         })}
       >
         {children}

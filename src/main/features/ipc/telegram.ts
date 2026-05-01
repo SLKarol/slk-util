@@ -101,4 +101,18 @@ export const telegramHandlers = {
       });
     }
   },
+
+  [CHANNELS.TELEGRAM_BOT_CHANGE_TOKEN]: async (
+    ipcMainEvent: IpcMainEvent,
+    token: string,
+  ) => {
+    try {
+      await telegramBot.changeToken(token);
+    } catch (error) {
+      ipcMainEvent.reply(CHANNELS.ERROR_MAIN, {
+        channel: CHANNELS.TELEGRAM_BOT_CHANGE_TOKEN,
+        error,
+      });
+    }
+  },
 };
