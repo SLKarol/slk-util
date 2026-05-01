@@ -11,12 +11,14 @@ import { checkUrlTopic } from "@renderer/widgets/yaplakal/lib/helpers";
 export const DownloadTopic = observer(() => {
   const {
     selectMaterialStore: { url, setWorking, working },
+    collection: { clearCollection },
   } = useYaPlakalRuRootStore();
 
   const disabled = checkUrlTopic(url);
 
   const onClick = () => {
     setWorking(true);
+    clearCollection();
     window.electronAPI.fetchYaPlakalTopic(url);
   };
 
