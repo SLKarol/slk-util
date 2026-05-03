@@ -75,6 +75,7 @@ export class YaPlakalRootStore {
           selected: this.itemsToSend.items.has(url),
           previewDecode: mediaRecord.previewDecode,
           haveVideo: mediaRecord.haveVideo,
+          urlTopic: mediaRecord.urlTopic,
         }) as MediaRecordUi,
     );
   }

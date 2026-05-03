@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import { useYaPlakalRuRootStore } from "@renderer/providers/ya-plakal/useYaplakalRootStore";
 import {
   MEDIA_ACTION_DOWNLOAD,
+  MEDIA_ACTION_OPEN_IN_BROWSER,
   MEDIA_ACTION_TELEGRAM,
 } from "@renderer/widgets/shared/lib/constants";
 import { MediaResourceCard } from "@renderer/widgets/shared/ui";
@@ -15,7 +16,7 @@ export const YaListMedia = observer(() => {
   const {
     mediaRecords,
     toggleItemSelect,
-    collection: { sendMediaToTelegram },
+    collection: { sendMediaToTelegram, openTopicInBrowser },
   } = useYaPlakalRuRootStore();
 
   /**
@@ -33,6 +34,10 @@ export const YaListMedia = observer(() => {
     }
     if (dataAction === MEDIA_ACTION_TELEGRAM && dataId) {
       sendMediaToTelegram(dataId);
+      return;
+    }
+    if (dataAction === MEDIA_ACTION_OPEN_IN_BROWSER && dataId) {
+      openTopicInBrowser(dataId);
       return;
     }
   };

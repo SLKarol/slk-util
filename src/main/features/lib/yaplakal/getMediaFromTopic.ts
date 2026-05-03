@@ -86,20 +86,22 @@ export async function getMediaFromTopic(
     return null;
   });
 
-  return Promise.allSettled(promises).then((resPromises) =>
-    resPromises
-      .map((result) => {
-        // Оставить только то, что отработало без ошибок
-        const { status } = result;
-        if (status === "fulfilled") {
-          const { value } = result;
-          return value || null;
+  const resultAllPromises = await Promise.allSettled(promises);
+  const topicsMedia = resultAllPromises.reduce(
+    (accumulateTopics, topicResult) => {
+      const { status } = topicResult;
+      if (status === "fulfilled") {
+        const { value } = topicResult;
+        if (value) {
+          accumulateTopics.push({ ...value, urlTopic });
         }
-        return null;
-      })
-      // Оставить не-null
-      .filter((r): r is Partial<MediaSummaryPreview> => r !== null),
+      }
+      return accumulateTopics;
+    },
+    [] as Partial<MediaSummaryPreview>[],
   );
+
+  return topicsMedia;
 }
 
 /**

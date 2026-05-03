@@ -199,4 +199,9 @@ export const CHANNELS = {
    * Отправка группы медиа через Telegram-бота завершена
    */
   TELEGRAM_BOT_SEND_GROUP_FINISH: "TELEGRAM_BOT_SEND_GROUP_FINISH",
+
+  /**
+   * Открыть URL в браузере
+   */
+  OPEN_URL_IN_BROWSER: "OPEN_URL_IN_BROWSER",
 };

@@ -10,4 +10,6 @@ export const createMediaHandlers = () =>
   ({
     saveMediaFile: (payload) =>
       ipcRenderer.send(CHANNELS.SAVE_MEDIA_FILE, payload),
+    openUrlInBrowser: (url) =>
+      ipcRenderer.send(CHANNELS.OPEN_URL_IN_BROWSER, url),
   }) as ElectronAPI;

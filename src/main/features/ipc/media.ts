@@ -1,4 +1,4 @@
-import { app, type IpcMainEvent } from "electron";
+import { app, type IpcMainEvent, shell } from "electron";
 import { access, copyFile } from "fs/promises";
 import { basename, join } from "path";
 
@@ -51,5 +51,12 @@ export const mediaHandlers = {
       const { message } = error as Error;
       ipcMainEvent.reply(CHANNELS.SEND_POP_UP_ERROR, message ?? error);
     }
+  },
+
+  [CHANNELS.OPEN_URL_IN_BROWSER]: async (
+    ipcMainEvent: IpcMainEvent,
+    url: string,
+  ) => {
+    shell.openExternal(url);
   },
 };

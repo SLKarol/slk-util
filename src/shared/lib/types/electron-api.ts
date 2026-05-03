@@ -251,6 +251,12 @@ export interface ElectronAPI {
    * Работа по отправке группы мультимедиа-ссылок через Telegram-бота завершена
    */
   telegramBotSendGroupFinish: (callback: () => void) => () => void;
+
+  /**
+   * Открыть ссылку в браузере
+   * @param url ссылка, которую нужно открыть
+   */
+  openUrlInBrowser: (url: string) => void;
 }
 
 /**

@@ -58,6 +58,11 @@ export class MediaRecordStore implements MediaSummaryPreview {
    */
   previewFilePath: string | null = null;
 
+  /**
+   * Ссылка на веб-адрес, который содержит медиа-ресурс
+   */
+  urlTopic = "";
+
   constructor({
     collection,
     created,
@@ -78,6 +83,7 @@ export class MediaRecordStore implements MediaSummaryPreview {
     url,
     videoParts,
     width,
+    urlTopic,
   }: Partial<MediaSummaryPreview>) {
     this.id = id ?? "";
     this.idVideoSource = idVideoSource ?? "";
@@ -103,6 +109,7 @@ export class MediaRecordStore implements MediaSummaryPreview {
     this.listFormats = listFormats ?? null;
     this.noMedia = noMedia ?? null;
     this.preview = preview ?? null;
+    this.urlTopic = urlTopic ?? "";
 
     makeAutoObservable(this);
   }

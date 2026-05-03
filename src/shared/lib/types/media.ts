@@ -40,6 +40,8 @@ export interface MediaSummary {
   listFormats: Nullable<Map<string, number[]>>;
   /** Признак отсутствия мультимедиа */
   noMedia: Nullable<boolean>;
+  /** Ссылка на адрес, который содержит медиа-ресурс */
+  urlTopic: string;
 }
 
 /**

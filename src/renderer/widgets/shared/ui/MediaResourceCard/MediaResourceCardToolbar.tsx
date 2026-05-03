@@ -1,9 +1,14 @@
 import { type MouseEventHandler } from "react";
 import { ActionIcon, Flex, Tooltip } from "@mantine/core";
-import { IconBrandTelegram, IconDownload } from "@tabler/icons-react";
+import {
+  IconBrandTelegram,
+  IconDownload,
+  IconWorld,
+} from "@tabler/icons-react";
 
 import {
   MEDIA_ACTION_DOWNLOAD,
+  MEDIA_ACTION_OPEN_IN_BROWSER,
   MEDIA_ACTION_TELEGRAM,
 } from "../../lib/constants";
 
@@ -49,6 +54,15 @@ export const MediaResourceCardToolbar = ({ mediaId, onClickAction }: Props) => {
           onClick={onClickAction}
         >
           <IconBrandTelegram />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Открыть в броузере">
+        <ActionIcon
+          data-id={mediaId}
+          data-action={MEDIA_ACTION_OPEN_IN_BROWSER}
+          onClick={onClickAction}
+        >
+          <IconWorld />
         </ActionIcon>
       </Tooltip>
     </Flex>

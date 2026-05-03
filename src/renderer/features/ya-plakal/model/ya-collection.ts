@@ -21,9 +21,10 @@ export class YaCollection {
       mediaRecords: observable,
       // action
       addMediaRecords: action,
-      setUrlMediaRecord: action,
       clearCollection: action,
+      openTopicInBrowser: action,
       sendMediaToTelegram: action,
+      setUrlMediaRecord: action,
       // computed
     });
   }
@@ -56,6 +57,10 @@ export class YaCollection {
     this.mediaRecords.clear();
   };
 
+  /**
+   * Отправить медиа в телеграм
+   * @param dataId Id записи
+   */
   sendMediaToTelegram = (dataId: string) => {
     const mediaData = this.mediaRecords.get(dataId);
     if (!mediaData) return;
@@ -67,5 +72,16 @@ export class YaCollection {
       url: dataId,
       urlPreview: mediaData.previewImages.src,
     });
+  };
+
+  /**
+   * Открыть топик в браузере
+   * @param dataId Id записи
+   * */
+  openTopicInBrowser = (dataId: string) => {
+    const mediaData = this.mediaRecords.get(dataId);
+    if (!mediaData) return;
+
+    window.electronAPI.openUrlInBrowser(mediaData.urlTopic);
   };
 }
