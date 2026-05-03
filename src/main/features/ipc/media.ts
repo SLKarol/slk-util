@@ -41,6 +41,12 @@ export const mediaHandlers = {
         sourceFilePath,
         join(settingsData.folderForSaveFiles, fileName),
       );
+
+      // Send success notification using the proper IPC channel
+      ipcMainEvent.reply(
+        CHANNELS.SEND_POP_UP_MESSAGE,
+        `Файл ${fileName} успешно сохранён в ${settingsData.folderForSaveFiles}`,
+      );
     } catch (error) {
       const { message } = error as Error;
       ipcMainEvent.reply(CHANNELS.SEND_POP_UP_ERROR, message ?? error);
