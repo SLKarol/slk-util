@@ -27,11 +27,12 @@ export const yapHandlers = {
 
       const htmlText = await readFile(filePathHtml, "utf8");
       const rootPage = parse(htmlText);
+      const title = rootPage.querySelector("title")?.textContent;
 
       const pages = getPageInfo(rootPage);
       const mediaInfo = await getMediaFromTopic(rootPage, url);
       ipcMainEvent.reply(CHANNELS.RECEIVE_YA_PLAKAL_TOPIC, {
-        mediaInfo,
+        mediaInfo: mediaInfo.map((item) => ({ ...item, title })),
         pages,
       });
 

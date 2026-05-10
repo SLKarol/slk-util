@@ -1,9 +1,10 @@
 import { type MouseEventHandler } from "react";
-import { Card, Image, Title } from "@mantine/core";
+import { Card, Image } from "@mantine/core";
 
 import { type MediaRecordUi } from "@renderer-shared/types/media";
 
 import { MediaResourceCardForPostToolbar } from "./MediaResourceCardForPostToolbar";
+import { MediaResourceCardTitle } from "./MediaResourceCardTitle";
 
 import styles from "./MediaResourceCard.module.css";
 
@@ -25,6 +26,16 @@ type Props = {
    * Вызывается при нажатии на кнопку в панели инструментов карточки.
    */
   onClickAction: MouseEventHandler<HTMLButtonElement>;
+
+  /**
+   * Обработчик изменения заголовка медиаресурса.
+   */
+  onChangeRecordTitle: (value: {
+    /** Id ресурса */
+    idMediaRecord: string;
+    /** Новое название */
+    title: string;
+  }) => void;
 };
 
 /**
@@ -37,10 +48,14 @@ type Props = {
 export const MediaResourceCardForPost = ({
   mediaRecord,
   onClickAction,
+  onChangeRecordTitle,
 }: Props) => {
   return (
     <Card shadow="sm" withBorder className={styles.card}>
-      <Title order={5}>{mediaRecord.title}</Title>
+      <MediaResourceCardTitle
+        mediaRecord={mediaRecord}
+        onChangeRecordTitle={onChangeRecordTitle}
+      />
       <Image src={mediaRecord.url} title={mediaRecord.title} w="100%" />
       <MediaResourceCardForPostToolbar
         mediaId={mediaRecord.id}

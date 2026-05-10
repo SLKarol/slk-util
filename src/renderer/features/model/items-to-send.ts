@@ -18,6 +18,7 @@ export class ItemsToSend {
       items: observable,
       // action
       deleteItem: action,
+      setRecordTitle: action,
       // computed
       countSelected: computed,
       mediaRecords: computed,
@@ -60,4 +61,23 @@ export class ItemsToSend {
   get countSelected() {
     return this.items.size;
   }
+
+  /**
+   * Изменяет название медиа-ресурса по его идентификатору.
+   */
+  setRecordTitle = ({
+    idMediaRecord,
+    title,
+  }: {
+    idMediaRecord: string;
+    title: string;
+  }) => {
+    const mediaRecord = this.items.get(idMediaRecord);
+    if (!mediaRecord) return;
+
+    this.items.set(idMediaRecord, {
+      ...mediaRecord,
+      title,
+    });
+  };
 }

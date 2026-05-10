@@ -39,7 +39,15 @@ export class YaPlakalRootStore {
    */
   itemsToSend: ItemsToSend;
 
+  /**
+   * Флаг, указывающий, что происходит групповая отправка
+   */
   groupSend = false;
+
+  /**
+   * Флаг, указывающий, что будет для каждой отправлен заголовок
+   */
+  sendTitle = false;
 
   /**
    * Создаёт экземпляр корневого хранилища.
@@ -115,12 +123,28 @@ export class YaPlakalRootStore {
     window.electronAPI.telegramBotSendGroup(
       this.itemsToSend.mediaRecords.map((record) => ({
         url: record.id,
-        title: "",
+        title: this.sendTitle ? record.title : "",
       })),
     );
   };
 
-  setGroupSendFalse() {
+  /**
+   * Устанавливает флаг групповой отправки в значение `false`.
+   *
+   * Данный метод используется для отключения режима групповой отправки,
+   * например, при сбросе состояния формы или завершении операции.
+   */
+  setGroupSendFalse = () => {
     this.groupSend = false;
-  }
+  };
+
+  /**
+   * Устанавливает значение флага отправки подписи к картинке.
+   *
+   * @param value - Булево значение, указывающее, нужно ли отправлять подписи.
+   *                `true` — отправлять подписи, `false` — не отправлять.
+   */
+  setSendTitle = (value: boolean) => {
+    this.sendTitle = value;
+  };
 }
