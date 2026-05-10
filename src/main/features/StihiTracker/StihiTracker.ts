@@ -153,10 +153,17 @@ export class StihiTracker {
     });
 
     this.logMainToRender.sendLog(
-      `Загружено: ${this.poemsInChaper.countPoems}. Открываю их.`,
+      `Загружено: ${this.poemsInChaper.countPoems}.`,
     );
+    const filteredPoems = this.poemsInChaper.filterPoems();
+    this.logMainToRender.sendLog(`Из них на чтение: ${filteredPoems.length}.`);
+    if (filteredPoems.length === 0) {
+      this.poemsInChaper.clearPoems();
+      this.logMainToRender.sendLog("Пропуск открытия");
+      return true;
+    }
 
-    await this.poemsInChaper.readPoems();
+    await this.poemsInChaper.readPoems(filteredPoems);
     const randomTime = randomInt(13, 18);
 
     this.logMainToRender.sendLog(`Ожидание  ${randomTime} минут.`);

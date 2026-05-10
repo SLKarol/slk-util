@@ -49,9 +49,10 @@ export class PoemsInChaper {
   /**
    * Проходит по каждому произведению и открывает его в браузере.
    * После чего добавляет в список посещенных произведений.
+   * @param hrefPoems Ссылки на произведения
    */
-  async readPoems() {
-    for (const hrefPoem of this.poems.keys()) {
+  async readPoems(hrefPoems: string[]) {
+    for (const hrefPoem of hrefPoems) {
       const poem = this.poems.get(hrefPoem);
       if (!poem || !this.checkPoemForRead(poem)) return;
 
@@ -91,5 +92,18 @@ export class PoemsInChaper {
    */
   get countPoems() {
     return this.poems.size;
+  }
+
+  /**
+   * Возвращает массив href стихов, которые не следует читать.
+   *
+   * Отбирает стихи, для которых `checkPoemForRead` возвращает `false`.
+   *
+   * @returns Массив строк-ключей (href) стихов, предназначенных для чтения.
+   */
+  filterPoems(): string[] {
+    return Array.from(this.poems.entries())
+      .filter(([_, poem]) => this.checkPoemForRead(poem))
+      .map(([key]) => key);
   }
 }
