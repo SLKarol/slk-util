@@ -58,12 +58,17 @@ export async function getMediaFromTopic(
   );
   const promises = mediaElements.map((element) => {
     const tag = element.tagName.toLowerCase();
+    const title = element
+      .closest(".postcolor:not(.edit)")
+      ?.innerText.replace(/[\n\r\t]/g, "")
+      .replace("Размещено через приложение ЯПлакалъ", "")
+      .trim();
     // Обработка видео из iframe
     if (tag === "iframe") {
       const url = normalizeYapUrl(element.getAttribute("src"));
       if (!url) return null;
       if (url.includes("yapfiles")) {
-        return getInfoFromIframe(url, urlTopic);
+        return { ...getInfoFromIframe(url, urlTopic), title };
       }
       return null;
     }
@@ -75,12 +80,22 @@ export async function getMediaFromTopic(
       const url = `https://api.yapfiles.ru/get_player/?v=${idClean}`;
       return getInfoFromDiv(url, urlTopic);
     }
+
+    let imgAttribs: Partial<MediaSummaryPreview> | null = null;
+
     // Обработка картинок из a.basic-img.attach
     if (tag === "a") {
-      return getYapMediaImageFromLink(element, urlTopic);
+      // return getYapMediaImageFromLink(element, urlTopic);
+      imgAttribs = getYapMediaImageFromLink(element, urlTopic);
     }
     if (tag === "img") {
-      return getYapMediaImageFromImg(element, urlTopic);
+      imgAttribs = getYapMediaImageFromImg(element, urlTopic);
+    }
+    if (imgAttribs) {
+      return {
+        ...imgAttribs,
+        ...(title && { title }),
+      };
     }
 
     return null;
@@ -227,7 +242,7 @@ function getYapMediaImageFromImg(iElement: HTMLElement, permalink: string) {
   if (!src) return null;
   re.id = src;
   re.url = src;
-  re.title = iElement.getAttribute("alt");
+  // re.title = iElement.getAttribute("alt");
   re.previewImages = { src };
   re.haveVideo = false;
   return re;
