@@ -1,6 +1,6 @@
 import { ActionIcon, Group, TextInput, Title } from "@mantine/core";
 import { useInputState, useToggle } from "@mantine/hooks";
-import { IconDeviceFloppy, IconEdit } from "@tabler/icons-react";
+import { IconDeviceFloppy, IconEdit, IconPencilX } from "@tabler/icons-react";
 
 import { type MediaRecordUi } from "@renderer-shared/types/media";
 
@@ -37,6 +37,11 @@ export const MediaResourceCardTitle = ({
     toggleEditMode();
   };
 
+  const onClickEraseTitle = () => {
+    if (editMode) toggleEditMode();
+    onChangeRecordTitle({ idMediaRecord: mediaRecord.id, title: "" });
+  };
+
   return (
     <Group className={classes.group}>
       {!editMode ? (
@@ -48,6 +53,9 @@ export const MediaResourceCardTitle = ({
       )}
       <ActionIcon variant="filled" onClick={onClickAction}>
         {!editMode ? <IconEdit /> : <IconDeviceFloppy />}
+      </ActionIcon>
+      <ActionIcon variant="filled" onClick={onClickEraseTitle}>
+        <IconPencilX />
       </ActionIcon>
     </Group>
   );

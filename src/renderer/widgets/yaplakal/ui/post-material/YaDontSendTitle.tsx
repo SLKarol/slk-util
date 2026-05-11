@@ -15,7 +15,7 @@ export const YaDontSendTitle = observer(() => {
   return (
     <Center>
       <Checkbox
-        label="Так же отправлять подписи к картинкам"
+        label="Также отправлять подписи к картинкам"
         checked={sendTitle}
         onChange={(mouseEvent) => {
           setSendTitle(mouseEvent.currentTarget.checked);
