@@ -1,8 +1,7 @@
-import { app, type IpcMainEvent, shell } from "electron";
+import { type IpcMainEvent, shell } from "electron";
 import { access, copyFile } from "fs/promises";
 import { basename, join } from "path";
 
-import { TMP_FOLDER } from "../lib/constants";
 import { getCacheFileName, getDefaultSettings } from "../lib/helpers";
 import { UserDataFileManager } from "../UserDataFileManager";
 
@@ -21,7 +20,12 @@ export const mediaHandlers = {
     );
     const settingsData = await settingsFile.readData();
     const savedFileName = await getCacheFileName(payload.url);
-    const cacheDir = join(app.getPath("temp"), TMP_FOLDER);
+    let cacheDir = settingsData.cacheDir;
+    if (!("cacheDir" in settingsData) || !cacheDir) {
+      cacheDir = getDefaultSettings().cacheDir;
+      (settingsData as AppSettings).cacheDir = cacheDir;
+      await settingsFile.writeData(settingsData);
+    }
 
     const url = new URL(payload.url);
     const fileName = basename(url.pathname);

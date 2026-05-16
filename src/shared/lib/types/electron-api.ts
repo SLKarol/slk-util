@@ -257,6 +257,26 @@ export interface ElectronAPI {
    * @param url ссылка, которую нужно открыть
    */
   openUrlInBrowser: (url: string) => void;
+
+  /**
+   * Изменить расположение каталога кэша
+   */
+  changeCacheFolder: () => void;
+
+  /**
+   * Запрос занимаемого места в кэше на диске
+   **/
+  requestCacheFolderSize: () => void;
+
+  /**
+   * Получение занимаемого занимаемого места в кэше на диске
+   **/
+  onReceiveCacheFolderSize: (callback: (size: number) => void) => () => void;
+
+  /**
+   * Очистить каталог кэша
+   */
+  clearCacheFolder: () => void;
 }
 
 /**

@@ -204,4 +204,24 @@ export const CHANNELS = {
    * Открыть URL в браузере
    */
   OPEN_URL_IN_BROWSER: "OPEN_URL_IN_BROWSER",
+
+  /**
+   * Изменить расположение каталога кэша
+   */
+  CHANGE_CACHE_FOLDER: "CHANGE_CACHE_FOLDER",
+
+  /**
+   * Запрос занимаемого места в кэше на диске
+   **/
+  REQUEST_CACHE_FOLDER_SIZE: "REQUEST_CACHE_FOLDER_SIZE",
+
+  /**
+   * Получение занимаемого занимаемого места в кэше на диске
+   **/
+  RECEIVE_CACHE_FOLDER_SIZE: "RECEIVE_CACHE_FOLDER_SIZE",
+
+  /**
+   * Очистить каталог кэша
+   */
+  CLEAR_CACHE_FOLDER: "CLEAR_CACHE_FOLDER",
 };

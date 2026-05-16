@@ -1,13 +1,17 @@
-import { app, type IpcMainEvent } from "electron";
+import { type IpcMainEvent } from "electron";
 import { mkdir, readFile } from "fs/promises";
 import { parse } from "node-html-parser";
-import { join } from "path";
 
-import { TMP_FOLDER } from "../lib/constants";
-import { decodeImageUrlTo64, downloadAndCacheFile } from "../lib/helpers";
+import {
+  decodeImageUrlTo64,
+  downloadAndCacheFile,
+  getDefaultSettings,
+} from "../lib/helpers";
 import { getMediaFromTopic, getPageInfo } from "../lib/yaplakal";
+import { UserDataFileManager } from "../UserDataFileManager";
 
 import { CHANNELS } from "@shared/ipc/channels";
+import { type AppSettings } from "@shared/lib/types/app-settings";
 
 /**
  * Обработчики IPC-запросов для работы с Yaplakal.
@@ -17,7 +21,18 @@ export const yapHandlers = {
     ipcMainEvent: IpcMainEvent,
     url: string,
   ) => {
-    const cacheDir = join(app.getPath("temp"), TMP_FOLDER);
+    const settingsFile = new UserDataFileManager<AppSettings>(
+      "settings.json",
+      getDefaultSettings(),
+    );
+    const settingsData = await settingsFile.readData();
+
+    let cacheDir = settingsData.cacheDir;
+    if (!("cacheDir" in settingsData) || !cacheDir) {
+      cacheDir = getDefaultSettings().cacheDir;
+      (settingsData as AppSettings).cacheDir = cacheDir;
+      await settingsFile.writeData(settingsData);
+    }
 
     try {
       const filePathHtml = await downloadAndCacheFile({

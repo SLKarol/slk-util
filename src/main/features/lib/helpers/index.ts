@@ -4,3 +4,5 @@ export * from "./getFileSize";
 export * from "./downloadFileToCacheDir";
 export * from "./decodeImageTo64";
 export * from "./getDefaultSettings";
+export * from "./getDirectorySize";
+export * from "./emptyDirectory";

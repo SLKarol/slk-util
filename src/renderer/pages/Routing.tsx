@@ -10,6 +10,7 @@ import { StihiRuRootProvider } from "@renderer/providers/stihi-ru/StihiRuProvide
 import { WireGuardTunnelRootProvider } from "@renderer/providers/wire-guard-tunnel/WireGuardTunnelProvider";
 import { YaPlakalProvider } from "@renderer/providers/ya-plakal/YaPlakalProvider";
 
+import { CacheDir } from "./CacheDir";
 import { YAPLAKAL_TAB_PARAM_NAME } from "./lib/routeConstants";
 import { SettingsFolderForSaveFiles } from "./SettingsFolderForSaveFiles/SettingsFolderForSaveFiles";
 import { SettingsTgBot } from "./SettingsTgBot/SettingsTgBot";
@@ -53,6 +54,7 @@ export const Routing = () => {
             path="settingsDownloads"
             element={<SettingsFolderForSaveFiles />}
           />
+          <Route path="cacheDir" element={<CacheDir />} />
           <Route
             path="yaplakal"
             element={

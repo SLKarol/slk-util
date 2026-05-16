@@ -1,6 +1,10 @@
 import { app, dialog, type IpcMainEvent } from "electron";
 
-import { getDefaultSettings } from "../lib/helpers";
+import {
+  emptyDirectory,
+  getDefaultSettings,
+  getDirectorySize,
+} from "../lib/helpers";
 import { UserDataFileManager } from "../UserDataFileManager";
 
 import { CHANNELS } from "@shared/ipc/channels";
@@ -39,6 +43,13 @@ export const settingsHandlers = {
         (settingsData as AppSettings).folderForSaveFiles =
           app.getPath("downloads");
       }
+
+      const cacheDir = settingsData.cacheDir;
+      if (!("cacheDir" in settingsData) || !cacheDir) {
+        (settingsData as AppSettings).cacheDir = getDefaultSettings().cacheDir;
+        await settingsFile.writeData(settingsData);
+      }
+
       ipcMainEvent.reply(CHANNELS.RECEIVE_SETTINGS, settingsData);
     } catch (error) {
       console.error("Error:", error);
@@ -81,5 +92,64 @@ export const settingsHandlers = {
     settingsFile.writeData(newSettingsData);
     ipcMainEvent.reply(CHANNELS.SEND_POP_UP_MESSAGE, "Сохранено");
     ipcMainEvent.reply(CHANNELS.RECEIVE_SETTINGS, newSettingsData);
+  },
+
+  [CHANNELS.CHANGE_CACHE_FOLDER]: async (ipcMainEvent: IpcMainEvent) => {
+    const settingsData = await settingsFile.readData();
+    let { cacheDir = "" } = settingsData;
+    if (!cacheDir) {
+      cacheDir = getDefaultSettings().cacheDir;
+    }
+
+    const dialogRes = await dialog.showOpenDialog({
+      defaultPath: cacheDir,
+      properties: ["openDirectory", "dontAddToRecent"],
+    });
+
+    if (dialogRes.canceled) return;
+
+    const newSettingsData = {
+      ...settingsData,
+      cacheDir: dialogRes.filePaths[0],
+    };
+    settingsFile.writeData(newSettingsData);
+    ipcMainEvent.reply(CHANNELS.SEND_POP_UP_MESSAGE, "Каталог изменён.");
+    ipcMainEvent.reply(CHANNELS.RECEIVE_SETTINGS, newSettingsData);
+
+    const bytes = await getDirectorySize(dialogRes.filePaths[0]);
+    ipcMainEvent.reply(CHANNELS.RECEIVE_CACHE_FOLDER_SIZE, bytes);
+  },
+
+  [CHANNELS.REQUEST_CACHE_FOLDER_SIZE]: async (ipcMainEvent: IpcMainEvent) => {
+    const settingsData = await settingsFile.readData();
+
+    let cacheDir = settingsData.cacheDir;
+    if (!("cacheDir" in settingsData) || !cacheDir) {
+      cacheDir = getDefaultSettings().cacheDir;
+      (settingsData as AppSettings).cacheDir = cacheDir;
+      await settingsFile.writeData(settingsData);
+    }
+
+    const bytes = await getDirectorySize(cacheDir);
+    ipcMainEvent.reply(CHANNELS.RECEIVE_CACHE_FOLDER_SIZE, bytes);
+  },
+
+  [CHANNELS.CLEAR_CACHE_FOLDER]: async (ipcMainEvent: IpcMainEvent) => {
+    const settingsData = await settingsFile.readData();
+
+    let cacheDir = settingsData.cacheDir;
+    if (!("cacheDir" in settingsData) || !cacheDir) {
+      cacheDir = getDefaultSettings().cacheDir;
+      (settingsData as AppSettings).cacheDir = cacheDir;
+      await settingsFile.writeData(settingsData);
+    }
+
+    try {
+      await emptyDirectory(cacheDir);
+      ipcMainEvent.reply(CHANNELS.SEND_POP_UP_MESSAGE, "Кэш очищен");
+      ipcMainEvent.reply(CHANNELS.RECEIVE_CACHE_FOLDER_SIZE, 0);
+    } catch (error) {
+      ipcMainEvent.reply(CHANNELS.SEND_POP_UP_ERROR, "Ошибка при очистке кэша");
+    }
   },
 };

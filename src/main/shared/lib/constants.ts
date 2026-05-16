@@ -49,4 +49,5 @@ export const SETTINGS_APP = {
   browserProcessName: "",
   wireGuardTunnel: SETTINGS_WIRE_GUARD_TUNNEL,
   telegram: SETTINGS_TELEGRAM,
+  cacheDir: "",
 };

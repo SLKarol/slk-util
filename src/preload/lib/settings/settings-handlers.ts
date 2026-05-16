@@ -34,4 +34,28 @@ export const createSettingsHandlers = () =>
 
     changeSaveVideoDirectory: () =>
       ipcRenderer.send(CHANNELS.CHANGE_SAVE_VIDEO_DIRECTORY),
+
+    changeCacheFolder: () => ipcRenderer.send(CHANNELS.CHANGE_CACHE_FOLDER),
+
+    requestCacheFolderSize: () =>
+      ipcRenderer.send(CHANNELS.REQUEST_CACHE_FOLDER_SIZE),
+
+    onReceiveCacheFolderSize: (callback) => {
+      // Создаём функцию‑обёртку для подписки
+      const subscription = (event: IpcRendererEvent, ...args: unknown[]) =>
+        callback(args[0] as number);
+
+      // Подписываемся на событие
+      ipcRenderer.on(CHANNELS.RECEIVE_CACHE_FOLDER_SIZE, subscription);
+
+      // Возвращаем функцию отписки
+      return () => {
+        ipcRenderer.removeListener(
+          CHANNELS.RECEIVE_CACHE_FOLDER_SIZE,
+          subscription,
+        );
+      };
+    },
+
+    clearCacheFolder: () => ipcRenderer.send(CHANNELS.CLEAR_CACHE_FOLDER),
   }) as ElectronAPI;

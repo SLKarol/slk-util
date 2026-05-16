@@ -69,6 +69,14 @@ export const createAppMenu = (mainWindow: BrowserWindow | null) => {
             }
           },
         },
+        {
+          label: "Каталог хранения временных файлов",
+          click: () => {
+            if (mainWindow) {
+              mainWindow.webContents.send(CHANNELS.NAVIGATE, "/cacheDir");
+            }
+          },
+        },
       ],
     },
     {

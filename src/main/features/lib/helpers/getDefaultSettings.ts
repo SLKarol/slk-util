@@ -1,4 +1,7 @@
 import { app } from "electron";
+import { join } from "path";
+
+import { TMP_FOLDER } from "../constants";
 
 import { SETTINGS_APP } from "@main/shared/lib/constants";
 
@@ -10,4 +13,5 @@ import { SETTINGS_APP } from "@main/shared/lib/constants";
 export const getDefaultSettings = () => ({
   ...SETTINGS_APP,
   folderForSaveFiles: app.getPath("downloads"),
+  cacheDir: join(app.getPath("temp"), TMP_FOLDER),
 });
