@@ -1,6 +1,6 @@
 import { type IpcMainEvent } from "electron";
 
-import { getDefaultSettings } from "../lib/helpers";
+import { downloadAndCacheFile, getDefaultSettings } from "../lib/helpers";
 import { TelegramBot } from "../TelegramBot";
 import { UserDataFileManager } from "../UserDataFileManager";
 
@@ -81,22 +81,34 @@ export const telegramHandlers = {
 
   [CHANNELS.TELEGRAM_BOT_SEND_VIDEO]: async (
     ipcMainEvent: IpcMainEvent,
-    { url, title, urlPreview }: TelegramBotSendVideoPayload,
+    { url, title, urlPreview, sendAsFile }: TelegramBotSendVideoPayload,
   ) => {
     try {
       const settingsData = await settingsFile.readData();
+      const cacheDir = settingsData.cacheDir;
+
       const botRunning = await telegramBot.checkIsRunning();
       if (!botRunning) {
         ipcMainEvent.reply(CHANNELS.SEND_POP_UP_ERROR, "Бот не запущен");
         return;
       }
+
+      let filePathHtml = "";
+
+      if (sendAsFile)
+        filePathHtml = await downloadAndCacheFile({
+          url,
+          cacheDir,
+        });
+
       await telegramBot.sendVideoToGroups({
         tgAdmin: settingsData.telegram.telegramAdmin,
         tgGroups: settingsData.telegram.telegramGroups,
         waitSeconds: settingsData.telegram.waitSeconds,
         title: title ?? undefined,
-        url,
+        url: sendAsFile ? filePathHtml : url,
         urlPreview,
+        sendAsFile,
       });
     } catch (error) {
       console.error("Error:", error);

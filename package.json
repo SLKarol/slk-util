@@ -2,7 +2,7 @@
   "name": "slk-utils",
   "productName": "slk-utils-webpack",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "Возможно, это превратится в неплохую утилиту",
   "main": ".webpack/main",
   "private": true,
   "scripts": {

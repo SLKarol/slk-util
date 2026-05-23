@@ -446,5 +446,12 @@ export interface TelegramBotSendPicturePayload {
 }
 
 export interface TelegramBotSendVideoPayload extends TelegramBotSendPicturePayload {
+  /**
+   * URL превью
+   */
   urlPreview?: string;
+  /**
+   * Отправлять как файл
+   */
+  sendAsFile?: boolean;
 }

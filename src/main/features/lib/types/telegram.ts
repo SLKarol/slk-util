@@ -55,6 +55,11 @@ export interface SendVideoToGroupsPayload extends SendPictureToGroupsPayload {
    * Предпросмотр URL видео.
    */
   urlPreview?: string;
+
+  /**
+   * Отправлять как файл
+   */
+  sendAsFile?: boolean;
 }
 
 /**

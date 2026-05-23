@@ -3,6 +3,7 @@ import { Card, Checkbox, Image, Text, Title } from "@mantine/core";
 
 import { type MediaRecordUi } from "@renderer-shared/types/media";
 
+import { MediaResourceCardTitle } from "./MediaResourceCardTitle";
 import { MediaResourceCardToolbar } from "./MediaResourceCardToolbar";
 
 import styles from "./MediaResourceCard.module.css";
@@ -32,6 +33,11 @@ type Props = {
    * Тип события — `ChangeEventHandler`, работает с двумя элементами: `input` и `label`.
    */
   onToggleSelect: ChangeEventHandler<HTMLInputElement, HTMLInputElement>;
+
+  onChangeRecordTitle: (value: {
+    idMediaRecord: string;
+    title: string;
+  }) => void;
 };
 
 /**
@@ -42,12 +48,20 @@ type Props = {
  */
 export const MediaResourceCard = ({
   mediaRecord,
+  onChangeRecordTitle,
   onClickAction,
   onToggleSelect,
 }: Props) => {
   return (
     <Card shadow="sm" withBorder className={styles.card}>
-      <Title order={5}>{mediaRecord.title}</Title>
+      {mediaRecord.haveVideo ? (
+        <MediaResourceCardTitle
+          mediaRecord={mediaRecord}
+          onChangeRecordTitle={onChangeRecordTitle}
+        />
+      ) : (
+        <Title order={5}>{mediaRecord.title}</Title>
+      )}
       {mediaRecord.noMedia ? (
         <Text>Не содержит (или не найдены) медиа-ресурсы</Text>
       ) : !mediaRecord.haveVideo && mediaRecord.url ? (

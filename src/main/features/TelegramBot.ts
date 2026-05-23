@@ -1,4 +1,4 @@
-import { Context, Telegraf } from "telegraf";
+import { Context, Input, Telegraf } from "telegraf";
 
 import { wait } from "@shared/lib/helpers/wait";
 
@@ -254,6 +254,7 @@ export class TelegramBot {
    * Отправить видео в указанные группы Telegram.
    */
   async sendVideoToGroups({
+    sendAsFile,
     tgAdmin,
     tgGroups,
     url,
@@ -262,11 +263,14 @@ export class TelegramBot {
   }: SendVideoToGroupsPayload) {
     if (!this.telegraf) return;
     // Отправляется в первую группу
-    const sendTgresult = await this.telegraf.telegram.sendVideo(tgAdmin, url, {
-      caption: title,
-      thumbnail: urlPreview ? { url: urlPreview } : undefined,
-    });
-
+    const sendTgresult = await this.telegraf.telegram.sendVideo(
+      tgAdmin,
+      !sendAsFile ? Input.fromURL(url) : Input.fromLocalFile(url),
+      {
+        caption: title,
+        thumbnail: urlPreview ? { url: urlPreview } : undefined,
+      },
+    );
     // В телеграмм-группы отправить ссылку на файл в облаке телеграмм
     const {
       video: { file_id: fileId },

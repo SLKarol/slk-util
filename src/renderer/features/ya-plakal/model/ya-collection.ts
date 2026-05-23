@@ -23,6 +23,7 @@ export class YaCollection {
       addMediaRecords: action,
       clearCollection: action,
       openTopicInBrowser: action,
+      setRecordTitle: action,
       sendMediaToTelegram: action,
       setUrlMediaRecord: action,
       // computed
@@ -60,17 +61,22 @@ export class YaCollection {
   /**
    * Отправить медиа в телеграм
    * @param dataId Id записи
+   * @param sendAsFile Отправить как файл
    */
-  sendMediaToTelegram = (dataId: string) => {
+  sendMediaToTelegram = (dataId: string, sendAsFile?: boolean) => {
     const mediaData = this.mediaRecords.get(dataId);
     if (!mediaData) return;
 
     if (!mediaData.haveVideo)
-      return window.electronAPI.telegramBotSendPicture({ url: dataId });
+      return window.electronAPI.telegramBotSendPicture({
+        url: dataId,
+      });
 
     window.electronAPI.telegramBotSendVideo({
       url: dataId,
       urlPreview: mediaData.previewImages.src,
+      sendAsFile,
+      title: mediaData.title,
     });
   };
 
@@ -83,5 +89,24 @@ export class YaCollection {
     if (!mediaData) return;
 
     window.electronAPI.openUrlInBrowser(mediaData.urlTopic);
+  };
+
+  /**
+   * Изменяет название медиа-ресурса по его идентификатору.
+   */
+  setRecordTitle = ({
+    idMediaRecord,
+    title,
+  }: {
+    idMediaRecord: string;
+    title: string;
+  }) => {
+    const mediaRecord = this.mediaRecords.get(idMediaRecord);
+    if (!mediaRecord) return;
+
+    this.mediaRecords.set(idMediaRecord, {
+      ...mediaRecord,
+      title,
+    });
   };
 }

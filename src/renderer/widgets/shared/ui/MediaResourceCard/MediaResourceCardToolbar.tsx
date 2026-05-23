@@ -2,12 +2,16 @@ import { type MouseEventHandler } from "react";
 import { ActionIcon, Flex, Tooltip } from "@mantine/core";
 import {
   IconBrandTelegram,
+  IconClipboardCopy,
   IconDownload,
+  IconLocationDown,
   IconWorld,
 } from "@tabler/icons-react";
 
 import {
+  MEDIA_ACTION_COPY_LINK,
   MEDIA_ACTION_DOWNLOAD,
+  MEDIA_ACTION_DOWNLOAD_SEND_TELEGRAM,
   MEDIA_ACTION_OPEN_IN_BROWSER,
   MEDIA_ACTION_TELEGRAM,
 } from "../../lib/constants";
@@ -47,13 +51,31 @@ export const MediaResourceCardToolbar = ({ mediaId, onClickAction }: Props) => {
           <IconDownload />
         </ActionIcon>
       </Tooltip>
-      <Tooltip label="Отправить в телеграм">
+      <Tooltip label="Скопировать ссылку">
+        <ActionIcon
+          data-id={mediaId}
+          data-action={MEDIA_ACTION_COPY_LINK}
+          onClick={onClickAction}
+        >
+          <IconClipboardCopy />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Отправить ссылку в телеграм">
         <ActionIcon
           data-id={mediaId}
           data-action={MEDIA_ACTION_TELEGRAM}
           onClick={onClickAction}
         >
           <IconBrandTelegram />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Скачать и отправить в телеграм">
+        <ActionIcon
+          data-id={mediaId}
+          data-action={MEDIA_ACTION_DOWNLOAD_SEND_TELEGRAM}
+          onClick={onClickAction}
+        >
+          <IconLocationDown />
         </ActionIcon>
       </Tooltip>
       <Tooltip label="Открыть в броузере">
