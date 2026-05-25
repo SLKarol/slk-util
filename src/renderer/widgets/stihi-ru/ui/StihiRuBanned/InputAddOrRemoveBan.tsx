@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useRef } from "react";
 import { Button, Card, TextInput } from "@mantine/core";
+import { useInputState } from "@mantine/hooks";
 
 import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRootStore";
 
@@ -16,7 +17,9 @@ interface Props {
  * Добавление или удаление автора из списка заблокированных
  */
 export const InputAddOrRemoveBan = ({ operationAdd }: Props) => {
-  const [login, setLogin] = useState("");
+  const [login, setLogin] = useInputState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const {
     stihiRuBanAuthrorsStore: { addAuthor, removeAuthor },
   } = useStihiRuRootStore();
@@ -24,15 +27,17 @@ export const InputAddOrRemoveBan = ({ operationAdd }: Props) => {
   const onClick = () => {
     if (operationAdd) addAuthor(login);
     else removeAuthor(login);
+    inputRef.current?.focus();
   };
 
   return (
     <Card withBorder radius="md" p="xl" className={classes.card}>
       <TextInput
         label={operationAdd ? "Добавить автора" : "Удалить автора"}
-        placeholder="Ввести логин"
+        placeholder="Ввести логин или ссылку на его профиль"
         value={login}
-        onChange={(eventInput) => setLogin(eventInput.currentTarget.value)}
+        onChange={setLogin}
+        ref={inputRef}
       />
       <Button
         variant="filled"

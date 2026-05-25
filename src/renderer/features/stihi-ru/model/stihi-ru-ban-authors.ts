@@ -74,11 +74,36 @@ export class StihiRuBanAuthrorsStore {
    * @param author login автора
    */
   addAuthor = (author: string) => {
-    if (this.list.has(author)) {
-      notifications.show({ message: `Автор ${author} уже есть в списке` });
+    const authorId = this.extractStihiAuthorId(author);
+    if (!authorId) return;
+
+    if (this.list.has(authorId)) {
+      notifications.show({ message: `Автор ${authorId} уже есть в списке` });
     } else {
-      this.list.add(author);
-      window.electronAPI.addBanAuthor(author);
+      this.list.add(authorId);
+      window.electronAPI.addBanAuthor(authorId);
+    }
+  };
+
+  /**
+   * Получить id автора по ссылке на его страницу, либо же по его строке
+   * @param input URL, либо строка с id
+   */
+  private extractStihiAuthorId = (input: string) => {
+    if (!input || typeof input !== "string") return null;
+
+    // Если это просто авторИд (нет протокола)
+    if (!input.includes("://") && !input.startsWith("//")) {
+      return input.replace(/^\/+|\/+$/g, "");
+    }
+
+    // Если это URL — извлекаем авторИд
+    try {
+      const cleanUrl = input.replace(/\/+$/, "");
+      const match = cleanUrl.match(/\/avtor\/([^/?#]+)/i);
+      return match?.[1] || null;
+    } catch (e) {
+      return null;
     }
   };
 
