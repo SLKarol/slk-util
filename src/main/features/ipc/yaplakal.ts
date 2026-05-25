@@ -31,8 +31,12 @@ export const yapHandlers = {
     if (!("cacheDir" in settingsData) || !cacheDir) {
       cacheDir = getDefaultSettings().cacheDir;
       (settingsData as AppSettings).cacheDir = cacheDir;
-      await settingsFile.writeData(settingsData);
     }
+    if (!("selectorMediaYap" in settingsData)) {
+      (settingsData as AppSettings).selectorMediaYap =
+        getDefaultSettings().selectorMediaYap;
+    }
+    await settingsFile.writeData(settingsData);
 
     try {
       const filePathHtml = await downloadAndCacheFile({
@@ -44,7 +48,11 @@ export const yapHandlers = {
       const rootPage = parse(htmlText);
 
       const pages = getPageInfo(rootPage);
-      const mediaInfo = await getMediaFromTopic(rootPage, url);
+      const mediaInfo = await getMediaFromTopic({
+        rootPage,
+        urlTopic: url,
+        cssSelectorMedia: settingsData.selectorMediaYap,
+      });
       ipcMainEvent.reply(CHANNELS.RECEIVE_YA_PLAKAL_TOPIC, {
         mediaInfo,
         pages,

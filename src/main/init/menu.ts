@@ -77,6 +77,14 @@ export const createAppMenu = (mainWindow: BrowserWindow | null) => {
             }
           },
         },
+        {
+          label: "CSS-Selector для ЯП",
+          click: () => {
+            if (mainWindow) {
+              mainWindow.webContents.send(CHANNELS.NAVIGATE, "/selectorYap");
+            }
+          },
+        },
       ],
     },
     {

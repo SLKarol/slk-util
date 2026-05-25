@@ -42,20 +42,25 @@ function createMediaSummaryPreviewBase(
   };
 }
 
+interface GetMediaFromTopicPayload {
+  /** Корневой элемент HTML-дерева страницы */
+  rootPage: HTMLElement;
+  /** URL топика */
+  urlTopic: string;
+  /** CSS-Селектор для поиска медиа-элементов */
+  cssSelectorMedia: string;
+}
+
 /**
  * Получить все медиа из ЯП-топика
- * @param rootPage - Корневой элемент HTML-дерева страницы
- * @param urlTopic - URL топика
  * @returns Promise с массивом медиа-объектов
  */
-export async function getMediaFromTopic(
-  rootPage: HTMLElement,
-  urlTopic: string,
-): Promise<Partial<MediaSummaryPreview>[]> {
-  // todo в константу, либо настройку. Настройка- лучшее
-  const mediaElements = rootPage.querySelectorAll(
-    "div[rel='yapfiles'], div#player video, iframe:not(#vkwidget1), a.basic-img.attach, div.attach>img",
-  );
+export async function getMediaFromTopic({
+  cssSelectorMedia,
+  rootPage,
+  urlTopic,
+}: GetMediaFromTopicPayload): Promise<Partial<MediaSummaryPreview>[]> {
+  const mediaElements = rootPage.querySelectorAll(cssSelectorMedia);
   const promises = mediaElements.map((element) => {
     const tag = element.tagName.toLowerCase();
     const title = element

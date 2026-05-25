@@ -11,7 +11,6 @@ export const SettingsFolderForSaveFiles = () => {
       <Stack>
         <FolderForSaveFiles />
       </Stack>
-      {/* todo Показать настройки временного каталога: его объём и возможность очистить */}
     </Container>
   );
 };

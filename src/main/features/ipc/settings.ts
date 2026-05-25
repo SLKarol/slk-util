@@ -39,6 +39,7 @@ export const settingsHandlers = {
   ) => {
     try {
       const settingsData = await settingsFile.readData();
+
       if (!("folderForSaveFiles" in settingsData)) {
         (settingsData as AppSettings).folderForSaveFiles =
           app.getPath("downloads");
@@ -47,9 +48,13 @@ export const settingsHandlers = {
       const cacheDir = settingsData.cacheDir;
       if (!("cacheDir" in settingsData) || !cacheDir) {
         (settingsData as AppSettings).cacheDir = getDefaultSettings().cacheDir;
-        await settingsFile.writeData(settingsData);
+      }
+      if (!("selectorMediaYap" in settingsData)) {
+        (settingsData as AppSettings).selectorMediaYap =
+          getDefaultSettings().selectorMediaYap;
       }
 
+      await settingsFile.writeData(settingsData);
       ipcMainEvent.reply(CHANNELS.RECEIVE_SETTINGS, settingsData);
     } catch (error) {
       console.error("Error:", error);

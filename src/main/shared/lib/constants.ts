@@ -50,4 +50,6 @@ export const SETTINGS_APP = {
   wireGuardTunnel: SETTINGS_WIRE_GUARD_TUNNEL,
   telegram: SETTINGS_TELEGRAM,
   cacheDir: "",
+  selectorMediaYap:
+    "div[rel='yapfiles'], div#player video, iframe:not(#vkwidget1), a.basic-img.attach, div.attach>img",
 };

@@ -35,6 +35,11 @@ export interface AppSettings {
    * Каталог для кэширования данных.
    */
   cacheDir: string;
+
+  /**
+   * Селектор для поиска медиа-файлов на странице ЯП.
+   */
+  selectorMediaYap: string;
 }
 
 /**

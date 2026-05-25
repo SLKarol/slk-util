@@ -12,7 +12,8 @@ import { YaPlakalProvider } from "@renderer/providers/ya-plakal/YaPlakalProvider
 
 import { CacheDir } from "./CacheDir";
 import { YAPLAKAL_TAB_PARAM_NAME } from "./lib/routeConstants";
-import { SettingsFolderForSaveFiles } from "./SettingsFolderForSaveFiles/SettingsFolderForSaveFiles";
+import { SettingsFolderForSaveFiles } from "./SettingsFolderForSaveFiles";
+import { SettingsSelectorYap } from "./SettingsSelectorYap";
 import { SettingsTgBot } from "./SettingsTgBot/SettingsTgBot";
 import { WireguardTunnel } from "./WireguardTunnel/WireguardTunnel";
 import { YaPage } from "./YaPage/YaPage";
@@ -54,6 +55,7 @@ export const Routing = () => {
             path="settingsDownloads"
             element={<SettingsFolderForSaveFiles />}
           />
+          <Route path="selectorYap" element={<SettingsSelectorYap />} />
           <Route path="cacheDir" element={<CacheDir />} />
           <Route
             path="yaplakal"
