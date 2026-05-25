@@ -3,6 +3,7 @@ import { Card, Image } from "@mantine/core";
 
 import { type MediaRecordUi } from "@renderer-shared/types/media";
 
+import { MediaResourceCardDimension } from "./MediaResourceCardDimension";
 import { MediaResourceCardForPostToolbar } from "./MediaResourceCardForPostToolbar";
 import { MediaResourceCardTitle } from "./MediaResourceCardTitle";
 
@@ -57,6 +58,7 @@ export const MediaResourceCardForPost = ({
         onChangeRecordTitle={onChangeRecordTitle}
       />
       <Image src={mediaRecord.url} title={mediaRecord.title} w="100%" />
+      <MediaResourceCardDimension mediaRecord={mediaRecord} />
       <MediaResourceCardForPostToolbar
         mediaId={mediaRecord.id}
         onClickAction={onClickAction}

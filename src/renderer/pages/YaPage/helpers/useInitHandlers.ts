@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { notifications } from "@mantine/notifications";
 
 import { useYaPlakalRuRootStore } from "@renderer/providers/ya-plakal/useYaplakalRootStore";
 
@@ -10,6 +11,7 @@ export const useInitHandlers = () => {
     selectMaterialStore: { setWorking },
     pager: { setPagerValues },
     collection: { addMediaRecords, setUrlMediaRecord },
+    setGroupSendFalse,
   } = useYaPlakalRuRootStore();
 
   // Настроить обработчики событий от главного процесса
@@ -35,11 +37,18 @@ export const useInitHandlers = () => {
       setWorking(false);
     });
 
+    const unsubscribeFinishSendGroup =
+      window.electronAPI.telegramBotSendGroupFinish(() => {
+        setGroupSendFalse();
+        notifications.show({ message: "Рассылка завершилась." });
+      });
+
     // Функция очистки
     return () => {
       unsubscribeTopic();
       unsubscribeTopicMedia();
       unsubscribeError();
+      unsubscribeFinishSendGroup();
     };
   }, []);
 };

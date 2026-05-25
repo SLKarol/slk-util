@@ -84,6 +84,8 @@ export class YaPlakalRootStore {
           previewDecode: mediaRecord.previewDecode,
           haveVideo: mediaRecord.haveVideo,
           urlTopic: mediaRecord.urlTopic,
+          width: mediaRecord.width,
+          height: mediaRecord.height,
         }) as MediaRecordUi,
     );
   }
@@ -112,6 +114,8 @@ export class YaPlakalRootStore {
         filePath: record.filePath,
         previewDecode: record.previewDecode,
         previewFilePath: record.previewFilePath,
+        width: record.width,
+        height: record.height,
       } as MediaRecordUi);
   };
 

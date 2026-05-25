@@ -1,4 +1,5 @@
-import { makeAutoObservable } from "mobx";
+import { notifications } from "@mantine/notifications";
+import { makeAutoObservable, runInAction } from "mobx";
 
 import { type Nullable } from "@shared/lib/types/common";
 import { type IreceiveYaPlakalTopicMedia } from "@shared/lib/types/electron-api";
@@ -9,6 +10,7 @@ import {
   type MediaSummaryPreview,
   type VideoParts,
 } from "@shared/lib/types/media";
+import { getImageSizeFromDataURL } from "@renderer-shared/lib";
 
 /**
  * Предпросмотр медиа-ресурса.
@@ -117,7 +119,7 @@ export class MediaRecordStore implements MediaSummaryPreview {
   /**
    * Устанавливает данные по контенту- декодированные значения.
    */
-  setDecodeData = ({
+  setDecodeData = async ({
     fileDecode,
     filePath,
     previewDecode,
@@ -127,5 +129,16 @@ export class MediaRecordStore implements MediaSummaryPreview {
     this.filePath = filePath;
     this.previewDecode = previewDecode;
     this.previewFilePath = previewFilePath;
+    if (this.haveVideo || !fileDecode) return;
+
+    try {
+      const imgDimensions = await getImageSizeFromDataURL(fileDecode);
+      runInAction(() => {
+        this.width = imgDimensions.width;
+        this.height = imgDimensions.height;
+      });
+    } catch (error) {
+      notifications.show({ message: JSON.stringify(error) });
+    }
   };
 }

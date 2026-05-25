@@ -3,6 +3,7 @@ import { Card, Checkbox, Image, Text, Title } from "@mantine/core";
 
 import { type MediaRecordUi } from "@renderer-shared/types/media";
 
+import { MediaResourceCardDimension } from "./MediaResourceCardDimension";
 import { MediaResourceCardTitle } from "./MediaResourceCardTitle";
 import { MediaResourceCardToolbar } from "./MediaResourceCardToolbar";
 
@@ -75,6 +76,7 @@ export const MediaResourceCard = ({
           <source src={mediaRecord.url} />
         </video>
       ) : null}
+      <MediaResourceCardDimension mediaRecord={mediaRecord} />
       <MediaResourceCardToolbar
         mediaId={mediaRecord.id}
         onClickAction={onClickAction}

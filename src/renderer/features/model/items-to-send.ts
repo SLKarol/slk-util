@@ -39,6 +39,8 @@ export class ItemsToSend {
           url: mediaRecord.fileDecode,
           title: mediaRecord.title,
           selected: true,
+          width: mediaRecord.width,
+          height: mediaRecord.height,
         }) as MediaRecordUi,
     );
   }
