@@ -52,4 +52,11 @@ export const SETTINGS_APP = {
   cacheDir: "",
   selectorMediaYap:
     "div[rel='yapfiles'], div#player video, iframe:not(#vkwidget1), a.basic-img.attach, div.attach>img",
+  reddit: {
+    redditUserName: "",
+    redditPassword: "",
+    redditAppId: "",
+    redditApiSecret: "",
+    redditLimitRecords: 12,
+  },
 };

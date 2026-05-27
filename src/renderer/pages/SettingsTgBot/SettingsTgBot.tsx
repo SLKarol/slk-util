@@ -4,8 +4,8 @@ import { InputTelegramAdmin } from "@renderer/widgets/settings-tg-bot/ui/InputTe
 import { InputTelegramToken } from "@renderer/widgets/settings-tg-bot/ui/InputTelegramToken";
 import { InputWait } from "@renderer/widgets/settings-tg-bot/ui/InputWait";
 import { ListTelegramGroups } from "@renderer/widgets/settings-tg-bot/ui/ListTelegramGroups";
-import { SaveSettings } from "@renderer/widgets/settings-tg-bot/ui/SaveSettings";
 import { SettingsForm } from "@renderer/widgets/settings-tg-bot/ui/SettingsForm";
+import { SaveSettings } from "@renderer/widgets/shared/ui";
 
 /**
  * Настройка бота
