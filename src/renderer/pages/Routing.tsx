@@ -5,13 +5,18 @@ import { StihiRu } from "@pages/StihiRu/StihiRu";
 
 import { MainLayout } from "@widgets/main-layout/ui/MainLayout";
 
+import { RedditProvider } from "@renderer/providers/reddit";
 import { RootStoreProvider } from "@renderer/providers/RootStoreProvider";
 import { StihiRuRootProvider } from "@renderer/providers/stihi-ru/StihiRuProvider";
 import { WireGuardTunnelRootProvider } from "@renderer/providers/wire-guard-tunnel/WireGuardTunnelProvider";
 import { YaPlakalProvider } from "@renderer/providers/ya-plakal/YaPlakalProvider";
 
 import { CacheDir } from "./CacheDir";
-import { YAPLAKAL_TAB_PARAM_NAME } from "./lib/routeConstants";
+import {
+  REDDIT_TAB_PARAM_NAME,
+  YAPLAKAL_TAB_PARAM_NAME,
+} from "./lib/routeConstants";
+import { RedditPage, RedditPageCurrentTab } from "./RedditPage";
 import { SettingsReddit } from "./Settings";
 import { SettingsFolderForSaveFiles } from "./SettingsFolderForSaveFiles";
 import { SettingsSelectorYap } from "./SettingsSelectorYap";
@@ -70,6 +75,19 @@ export const Routing = () => {
             <Route
               path={`:${YAPLAKAL_TAB_PARAM_NAME}`}
               element={<YaPageCurrentTab />}
+            />
+          </Route>
+          <Route
+            path="reddit"
+            element={
+              <RedditProvider>
+                <RedditPage />
+              </RedditProvider>
+            }
+          >
+            <Route
+              path={`:${REDDIT_TAB_PARAM_NAME}`}
+              element={<RedditPageCurrentTab />}
             />
           </Route>
         </Route>

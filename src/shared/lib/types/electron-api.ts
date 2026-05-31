@@ -277,6 +277,18 @@ export interface ElectronAPI {
    * Очистить каталог кэша
    */
   clearCacheFolder: () => void;
+
+  /**
+   * Запросить список моих субреддитов
+   */
+  redditReceiveMyReddits: () => void;
+
+  /**
+   * Получить список субреддитов
+   */
+  redditResponseMyReddits: (
+    callback: (redditMySubscribe: RedditMySubscribe[]) => void,
+  ) => () => void;
 }
 
 /**
@@ -454,4 +466,19 @@ export interface TelegramBotSendVideoPayload extends TelegramBotSendPicturePaylo
    * Отправлять как файл
    */
   sendAsFile?: boolean;
+}
+
+export interface RedditMySubscribe {
+  /**
+   * ID канала
+   */
+  id: string;
+  /**
+   * Наличие NSFW-контента
+   */
+  over18: boolean;
+  /**
+   * Название канала
+   */
+  title: string;
 }

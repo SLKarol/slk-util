@@ -11,3 +11,8 @@ export const MAP_ROUTE_PARAMS: Map<string, string> = new Map([
   ["select", "Выбрать материалы"],
   ["post", "Отправить материалы"],
 ]);
+
+/**
+ * Имя параметра для переключения вкладок в reddit
+ */
+export const REDDIT_TAB_PARAM_NAME = "tabReddit";

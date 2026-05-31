@@ -224,4 +224,14 @@ export const CHANNELS = {
    * Очистить каталог кэша
    */
   CLEAR_CACHE_FOLDER: "CLEAR_CACHE_FOLDER",
+
+  /**
+   * Запросить список моих субреддитов
+   */
+  REDDIT_RECEIVE_MY_REDDITS: "REDDIT_RECEIVE_MY_REDDITS",
+
+  /**
+   * Получить список субреддитов
+   */
+  REDDIT_RESPONSE_MY_REDDITS: "REDDIT_RESPONSE_MY_REDDITS",
 };

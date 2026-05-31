@@ -2,6 +2,7 @@ import { ipcMain } from "electron";
 
 import { banAuthorHandlers } from "@main/features/ipc/banAutor";
 import { mediaHandlers } from "@main/features/ipc/media";
+import { redditHandlers } from "@main/features/ipc/reddit";
 import { requestHandlers } from "@main/features/ipc/request";
 import { settingsHandlers } from "@main/features/ipc/settings";
 import { stihiRuHandlers } from "@main/features/ipc/stihiRu";
@@ -45,6 +46,10 @@ export function registerHandlers() {
   });
 
   Object.entries(telegramHandlers).forEach(([channel, handler]) => {
+    ipcMain.on(channel, handler);
+  });
+
+  Object.entries(redditHandlers).forEach(([channel, handler]) => {
     ipcMain.on(channel, handler);
   });
 }

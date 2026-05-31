@@ -109,6 +109,14 @@ export const createAppMenu = (mainWindow: BrowserWindow | null) => {
             }
           },
         },
+        {
+          label: "Reddit",
+          click: () => {
+            if (mainWindow) {
+              mainWindow.webContents.send(CHANNELS.NAVIGATE, "/reddit/select");
+            }
+          },
+        },
       ],
     },
   ] as (MenuItemConstructorOptions | MenuItem)[];

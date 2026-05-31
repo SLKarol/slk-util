@@ -3,20 +3,20 @@ import { useNavigate, useParams } from "react-router";
 
 import {
   MAP_ROUTE_PARAMS,
-  YAPLAKAL_TAB_PARAM_NAME,
+  REDDIT_TAB_PARAM_NAME,
 } from "@pages/lib/routeConstants";
 
 /**
- * Страница ЯПЛАКАЛ / Табы
+ * Страница Reddit / Табы
  */
-export const YaPageTabs = () => {
+export const RedditPageTabs = () => {
   const params = useParams();
   const navigate = useNavigate();
 
   return (
     <Tabs
-      value={params[YAPLAKAL_TAB_PARAM_NAME]}
-      onChange={(value) => navigate(`${value}`)}
+      value={params[REDDIT_TAB_PARAM_NAME]}
+      onChange={(value) => value && navigate(value)}
     >
       <Tabs.List>
         {Array.from(MAP_ROUTE_PARAMS.entries()).map(

@@ -152,3 +152,5 @@ export interface AppSettingsReddit {
    */
   redditLimitRecords: number;
 }
+
+export type SettingsReddit = Omit<AppSettingsReddit, "redditLimitRecords">;

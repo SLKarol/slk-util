@@ -3,6 +3,7 @@ import {
   mediaAPI,
   menuAPI,
   messagesAPI,
+  redditAPI,
   requestsAPI,
   settingsAPI,
   stihiRuAPI,
@@ -35,4 +36,5 @@ contextBridge.exposeInMainWorld("electronAPI", {
   ...yapAPI,
   ...mediaAPI,
   ...telegramAPI,
+  ...redditAPI,
 } as ElectronAPI);
