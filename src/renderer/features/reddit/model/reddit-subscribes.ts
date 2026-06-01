@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable } from "mobx";
+import { action, makeObservable, observable } from "mobx";
 
 export interface Subscribe {
   id: string;
@@ -39,6 +39,9 @@ class RedditSubscribe {
 }
 
 export class RedditSubscribeStore {
+  /**
+   * Мои подписки
+   */
   subscribes: RedditSubscribe[] = [];
 
   /**
@@ -56,7 +59,6 @@ export class RedditSubscribeStore {
       saveSubscribes: action,
       setWorking: action,
       // computed
-      listSubscribes: computed,
     });
   }
 
@@ -70,17 +72,6 @@ export class RedditSubscribeStore {
       this.subscribes.push(new RedditSubscribe(subscribe));
     });
   };
-
-  /**
-   * Список подписок
-   */
-  get listSubscribes() {
-    return this.subscribes.map(({ id, over18, title }) => ({
-      id,
-      over18,
-      title,
-    }));
-  }
 
   /**
    * Установить признак занятости модуля

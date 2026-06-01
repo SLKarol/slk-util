@@ -1,5 +1,11 @@
 .toolbar {
   display: grid;
   grid-template-columns: 50% auto;
-  gap: 1rem;
+  column-gap: 1rem;
+  row-gap: 1px;
+}
+
+.row2 {
+  grid-row-start: 2; /* начинается со второй строки */
+  grid-row-end: 3; /* заканчивается перед третьей строкой (занимает одну строку) */
 }

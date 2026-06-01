@@ -54,4 +54,26 @@ export class RedditRootStore {
   setGroupSendFalse = () => {
     this.groupSend = false;
   };
+
+  /**
+   * Ищет каналы Reddit по ID или названию (title), содержащие строку из поискового запроса.
+   * Поиск регистронезависимый, с использованием регулярного выражения.
+   *
+   * @returns Отфильтрованный массив каналов, соответствующих критерию поиска
+   */
+  get findRedditChannels() {
+    const { searchRedditChannel } = this.redditSelectedStore;
+    if (!searchRedditChannel) return this.redditSubscribeStore.subscribes;
+
+    const query = searchRedditChannel.trim();
+    if (!query) return this.redditSubscribeStore.subscribes;
+
+    const regex = new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"); // экранируем спецсимволы и делаем регистронезависимым
+
+    return this.redditSubscribeStore.subscribes.filter((channel) => {
+      const id = channel.id || "";
+      const title = channel.title || "";
+      return regex.test(id) || regex.test(title);
+    });
+  }
 }

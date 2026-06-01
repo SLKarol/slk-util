@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Group, Select, type SelectProps } from "@mantine/core";
 import { IconCheck, IconRating18Plus } from "@tabler/icons-react";
 import { observer } from "mobx-react-lite";
@@ -13,54 +12,53 @@ const iconProps = {
   size: 18,
 };
 
+interface RedditMySubscribesProps {
+  className?: string;
+}
+
 /**
  * Компонент выбора каналов, на которые подписан пользователь.
  */
-export const RedditMySubscribes = observer(() => {
-  const {
-    redditSubscribeStore: { listSubscribes, working },
-    redditSelectedStore: { selectedRedditChannel, setSelectedRedditChannel },
-  } = useRedditRootStore();
+export const RedditMySubscribes = observer(
+  ({ className }: RedditMySubscribesProps) => {
+    const {
+      findRedditChannels,
+      redditSubscribeStore: { working },
+      redditSelectedStore: { selectedRedditChannel, setSelectedRedditChannel },
+    } = useRedditRootStore();
 
-  const [searchValue, setSearchValue] = useState("");
-  const [prevSearchValue, setPrevSearchValue] = useState("");
+    // 1. Создаем маппинг id -> over18 внутри observer-компонента
+    const over18Map = new Map(
+      findRedditChannels.map((channel) => [channel.id, channel.over18]),
+    );
 
-  const renderOption: SelectProps["renderOption"] = ({ option, checked }) => (
-    <Group flex="1" gap="xs">
-      {option.label} ({option.value})
-      {listSubscribes.find((channel) => channel.title === option.value)
-        ?.over18 && <IconRating18Plus />}
-      {checked && (
-        <IconCheck style={{ marginInlineStart: "auto" }} {...iconProps} />
-      )}
-    </Group>
-  );
+    const renderOption: SelectProps["renderOption"] = ({ option, checked }) => (
+      <Group flex="1" gap="xs">
+        {option.label} ({option.value})
+        {over18Map.get(option.value) && <IconRating18Plus />}
+        {checked && (
+          <IconCheck style={{ marginInlineStart: "auto" }} {...iconProps} />
+        )}
+      </Group>
+    );
 
-  return (
-    <Select
-      searchable
-      searchValue={searchValue}
-      onSearchChange={setSearchValue}
-      clearable
-      onClear={() => {
-        setSearchValue(prevSearchValue);
-      }}
-      label="Каналы, на которые я подписан"
-      description="Чтобы вернуться к поиску, нажми 'Очистить выбранное'"
-      disabled={working}
-      data={listSubscribes.map((channel) => ({
-        label: channel.title,
-        value: channel.id,
-      }))}
-      value={selectedRedditChannel || undefined}
-      onChange={(selectedValue) => {
-        setPrevSearchValue(searchValue);
-        setSelectedRedditChannel(selectedValue);
-      }}
-      renderOption={renderOption}
-      maxDropdownHeight={DROPDOWN_MAX_HEIGHT}
-      nothingFoundMessage="Не найдено..."
-    />
-  );
-});
+    return (
+      <Select
+        label="Каналы, на которые я подписан"
+        description="Чтобы вернуться к поиску, нажми 'Очистить выбранное'"
+        disabled={working}
+        data={findRedditChannels.map((channel) => ({
+          label: channel.title,
+          value: channel.id,
+        }))}
+        value={selectedRedditChannel || undefined}
+        onChange={setSelectedRedditChannel}
+        renderOption={renderOption}
+        maxDropdownHeight={DROPDOWN_MAX_HEIGHT}
+        className={className}
+        nothingFoundMessage="Не найдено..."
+      />
+    );
+  },
+);
 RedditMySubscribes.displayName = "RedditMySubscribes";

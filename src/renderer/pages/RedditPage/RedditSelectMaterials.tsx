@@ -1,6 +1,7 @@
 import {
   RedditGetNewRecords,
   RedditMySubscribes,
+  RedditSearchChannels,
 } from "@renderer/widgets/reddit/ui";
 
 import styles from "./RedditSelectMaterials.module.css";
@@ -11,7 +12,8 @@ import styles from "./RedditSelectMaterials.module.css";
 export const RedditSelectMaterials = () => {
   return (
     <div className={styles.toolbar}>
-      <RedditMySubscribes />
+      <RedditSearchChannels />
+      <RedditMySubscribes className={styles.row2} />
       <RedditGetNewRecords />
     </div>
   );

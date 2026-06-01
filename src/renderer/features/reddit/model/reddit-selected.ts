@@ -9,12 +9,16 @@ export class RedditSelectedStore {
    */
   selectedRedditChannel: string | null = null;
 
+  searchRedditChannel = "";
+
   // eslint-disable-next-line no-unused-vars
   constructor() {
     makeObservable(this, {
       // observable
+      searchRedditChannel: observable,
       selectedRedditChannel: observable,
       // action
+      setSearchRedditChannel: action,
       setSelectedRedditChannel: action,
       // computed
     });
@@ -26,5 +30,9 @@ export class RedditSelectedStore {
    */
   setSelectedRedditChannel = (channelId: string | null) => {
     this.selectedRedditChannel = channelId;
+  };
+
+  setSearchRedditChannel = (searchRedditChannel: string) => {
+    this.searchRedditChannel = searchRedditChannel;
   };
 }
