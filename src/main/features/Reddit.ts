@@ -1,6 +1,9 @@
 import Snoowrap from "snoowrap";
 
 import { type SettingsReddit } from "@shared/lib/types/app-settings";
+import { type MediaSummaryPreview } from "@shared/lib/types/media";
+
+import { parseSubmissionInfo } from "./lib/helpers";
 
 /**
  * Работа с Reddit
@@ -72,4 +75,43 @@ export class Reddit {
       });
     }
   }
+
+  /**
+   * Получить новые записи по подписке.
+   * Картинки не запрашиваются.
+   */
+  getNewRecords = async (params: {
+    channel: string;
+    limit: number;
+    after?: string;
+    before?: string;
+  }) => {
+    if (!this.client) return { data: [], after: "", channel: "" };
+
+    const { limit, channel, after, before } = params;
+    const newSubbRecords = await this.client.getNew(channel, {
+      limit,
+      after: after || undefined,
+      before: before || undefined,
+      // Я уже не помню, что это за параметр
+      count: 5,
+    });
+    const { _query } = newSubbRecords as unknown as {
+      _query: { after: string | null };
+    };
+
+    const data = await Promise.allSettled(
+      newSubbRecords.map(parseSubmissionInfo),
+    ).then((records) => {
+      return records.reduce((acc, record) => {
+        if (record.status === "fulfilled") {
+          const { value } = record as { value: MediaSummaryPreview };
+          acc.push({ ...value });
+        }
+
+        return acc;
+      }, [] as MediaSummaryPreview[]);
+    });
+    return { data, after: _query.after, channel };
+  };
 }

@@ -234,4 +234,14 @@ export const CHANNELS = {
    * Получить список субреддитов
    */
   REDDIT_RESPONSE_MY_REDDITS: "REDDIT_RESPONSE_MY_REDDITS",
+
+  /**
+   * Запросить новые записи из реддит
+   */
+  REDDIT_RECEIVE_NEW_RECORDS: "REDDIT_RECEIVE_NEW_RECORDS",
+
+  /**
+   * Получить новые записи из реддит
+   */
+  REDDIT_RESPONSE_NEW_RECORDS: "REDDIT_RESPONSE_NEW_RECORDS",
 };

@@ -289,6 +289,14 @@ export interface ElectronAPI {
   redditResponseMyReddits: (
     callback: (redditMySubscribe: RedditMySubscribe[]) => void,
   ) => () => void;
+
+  redditReceiveNewRecords: (props: RedditReceiveNewRecordsPayload) => void;
+
+  redditResponseNewRecords: (
+    callback: (
+      redditResponseNewRecordsData: RedditResponseNewRecordsData,
+    ) => void,
+  ) => () => void;
 }
 
 /**
@@ -481,4 +489,15 @@ export interface RedditMySubscribe {
    * Название канала
    */
   title: string;
+}
+
+export interface RedditReceiveNewRecordsPayload {
+  after: string | null;
+  channel: string;
+}
+
+export interface RedditResponseNewRecordsData {
+  records: MediaSummaryPreview[];
+  after: string | null;
+  channel: string;
 }

@@ -8,6 +8,7 @@ import { useRedditRootStore } from "@renderer/providers/reddit";
 export const useInitHandlers = () => {
   const {
     redditSubscribeStore: { setWorking, saveSubscribes },
+    redditResponseNewRecords,
   } = useRedditRootStore();
 
   // Настроить обработчики событий от главного процесса
@@ -24,9 +25,15 @@ export const useInitHandlers = () => {
       },
     );
 
+    const unsubscribeRedditResponseNewRecords =
+      window.electronAPI.redditResponseNewRecords((responseMyReddits) => {
+        redditResponseNewRecords(responseMyReddits);
+      });
+
     // Функция очистки
     return () => {
       unsubscribeMyReddits();
+      unsubscribeRedditResponseNewRecords();
     };
   }, []);
 };

@@ -1,4 +1,4 @@
-import { ActionIcon } from "@mantine/core";
+import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconCloudDownload } from "@tabler/icons-react";
 import { observer } from "mobx-react-lite";
 
@@ -12,12 +12,20 @@ import styles from "./RedditGetNewRecords.module.css";
 export const RedditGetNewRecords = observer(() => {
   const {
     redditSelectedStore: { selectedRedditChannel },
+    redditReceiveNewRecords,
+    busy,
   } = useRedditRootStore();
 
   return (
-    <ActionIcon className={styles.button} disabled={!selectedRedditChannel}>
-      <IconCloudDownload size={16} />
-    </ActionIcon>
+    <Tooltip label="Запросить новые записи">
+      <ActionIcon
+        className={styles.button}
+        disabled={!selectedRedditChannel || busy}
+        onClick={redditReceiveNewRecords}
+      >
+        <IconCloudDownload size={16} />
+      </ActionIcon>
+    </Tooltip>
   );
 });
 RedditGetNewRecords.displayName = "RedditGetNewRecords";

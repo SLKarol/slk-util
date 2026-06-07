@@ -35,3 +35,18 @@ export async function fetchHtml(
   const decoder = new TextDecoder(charset);
   return decoder.decode(uint8Array);
 }
+
+/**
+ * Проверка: Существует ли такой урл?
+ */
+export function urlExists(url: string): Promise<boolean> {
+  return new Promise((resolve) => {
+    const request = net.request({ url });
+    request.on("response", (response) => {
+      response.on("error", () => resolve(false));
+      resolve(response.statusCode === 200);
+    });
+    request.on("error", () => resolve(false));
+    request.end();
+  });
+}

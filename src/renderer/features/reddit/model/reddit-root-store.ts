@@ -1,7 +1,10 @@
 import { makeAutoObservable } from "mobx";
 
+import { type RedditResponseNewRecordsData } from "@shared/lib/types/electron-api";
+
 import { ItemsToSend } from "@renderer-features/model/items-to-send";
 
+import { RedditCollection } from "./reddit-collection";
 import { RedditSelectedStore } from "./reddit-selected";
 import { RedditSubscribeStore } from "./reddit-subscribes";
 
@@ -27,10 +30,17 @@ export class RedditRootStore {
    */
   redditSelectedStore: RedditSelectedStore;
 
+  redditCollection: RedditCollection;
+
   /**
    * Флаг, указывающий, что происходит групповая отправка
    */
   groupSend = false;
+
+  /**
+   * Флаг, указывающий, что происходит загрузка данных или выполнение другой асинхронной операции, связанной с Reddit
+   */
+  busy = false;
 
   /**
    * Создаёт экземпляр корневого хранилища.
@@ -38,11 +48,12 @@ export class RedditRootStore {
    * Инициализирует вложенные хранилища.
    */
   constructor() {
-    makeAutoObservable(this);
-
     this.itemsToSend = new ItemsToSend();
     this.redditSubscribeStore = new RedditSubscribeStore();
     this.redditSelectedStore = new RedditSelectedStore();
+    this.redditCollection = new RedditCollection();
+
+    makeAutoObservable(this);
   }
 
   /**
@@ -76,4 +87,35 @@ export class RedditRootStore {
       return regex.test(id) || regex.test(title);
     });
   }
+
+  /**
+   * Получает новые записи из выбранного канала Reddit.
+   */
+  redditResponseNewRecords = ({
+    after,
+    channel,
+    records,
+  }: RedditResponseNewRecordsData) => {
+    if (channel !== this.redditSelectedStore.selectedRedditChannel) return;
+
+    this.redditSelectedStore.setAfter(after);
+    this.redditCollection.addMediaRecords(records);
+    this.busy = false;
+  };
+
+  /**
+   * Запросить новые записи из выбранного канала Reddit.
+   */
+  redditReceiveNewRecords = () => {
+    if (!this.redditSelectedStore.selectedRedditChannel) return;
+
+    this.busy = true;
+    this.redditSelectedStore.setAfter(null);
+    this.redditCollection.clearCollection();
+
+    window.electronAPI.redditReceiveNewRecords({
+      after: this.redditSelectedStore.after,
+      channel: this.redditSelectedStore.selectedRedditChannel,
+    });
+  };
 }

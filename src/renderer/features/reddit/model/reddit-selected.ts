@@ -11,13 +11,20 @@ export class RedditSelectedStore {
 
   searchRedditChannel = "";
 
+  /**
+   * Параметр для получения новых записей. Указывает на последнюю полученную запись, после которой нужно получить новые.
+   */
+  after: string | null = null;
+
   // eslint-disable-next-line no-unused-vars
   constructor() {
     makeObservable(this, {
       // observable
+      after: observable,
       searchRedditChannel: observable,
       selectedRedditChannel: observable,
       // action
+      setAfter: action,
       setSearchRedditChannel: action,
       setSelectedRedditChannel: action,
       // computed
@@ -34,5 +41,13 @@ export class RedditSelectedStore {
 
   setSearchRedditChannel = (searchRedditChannel: string) => {
     this.searchRedditChannel = searchRedditChannel;
+  };
+
+  /**
+   * Установить параметр "after"
+   * @param after параметр "after"
+   */
+  setAfter = (after: string | null) => {
+    this.after = after;
   };
 }
