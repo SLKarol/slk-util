@@ -74,7 +74,7 @@ export class RedditCollection {
 
     window.electronAPI.telegramBotSendVideo({
       url: dataId,
-      urlPreview: mediaData.previewImages.src,
+      urlPreview: mediaData.previewImages?.src ?? "",
       sendAsFile,
       title: mediaData.title,
     });
@@ -104,9 +104,6 @@ export class RedditCollection {
     const mediaRecord = this.mediaRecords.get(idMediaRecord);
     if (!mediaRecord) return;
 
-    this.mediaRecords.set(idMediaRecord, {
-      ...mediaRecord,
-      title,
-    });
+    mediaRecord.title = title;
   };
 }

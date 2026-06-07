@@ -219,7 +219,8 @@ export async function parseSubmissionInfo(
   const videoParts = await getVideoUrl({ url, media: videoMedia });
 
   // В случае, если url содержит gif, то записать этот урл в preview Images
-  if (/.gif/i.test(url)) {
+  // В случае, если url содержит gif, то записать этот урл в preview Images
+  if (/.gif/i.test(url) && preview?.images?.[0]?.source) {
     preview.images[0].source.url = url;
   }
   const noMedia =

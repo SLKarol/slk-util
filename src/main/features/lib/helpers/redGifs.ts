@@ -22,7 +22,8 @@ export async function downloadRedGifsInfo(
   ];
   const arrayName = arrayUrl[0].split("/").reverse();
 
-  const { thumbnailUrl, height, width, contentUrl, name } = jsonData.video;
+  const { thumbnailUrl, height, width, contentUrl, name } =
+    jsonData.video ?? {};
 
   return {
     haveVideo: true,

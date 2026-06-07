@@ -86,7 +86,7 @@ export class Reddit {
     after?: string;
     before?: string;
   }) => {
-    if (!this.client) return { data: [], after: "", channel: "" };
+    if (!this.client) return { data: [], after: "", channel: params.channel };
 
     const { limit, channel, after, before } = params;
     const newSubbRecords = await this.client.getNew(channel, {
