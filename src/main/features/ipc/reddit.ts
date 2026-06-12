@@ -1,6 +1,12 @@
 import { type IpcMainEvent } from "electron";
+import { mkdir } from "fs/promises";
 
-import { getDefaultSettings } from "../lib/helpers";
+import {
+  decodeImageUrlTo64,
+  downloadAndCacheFile,
+  getDefaultSettings,
+  getImagesCollection,
+} from "../lib/helpers";
 import { Reddit } from "../Reddit";
 import { UserDataFileManager } from "../UserDataFileManager";
 
@@ -42,6 +48,13 @@ export const redditHandlers = {
   ) => {
     const settingsData = await settingsFile.readData();
 
+    let cacheDir = settingsData.cacheDir;
+    if (!("cacheDir" in settingsData) || !cacheDir) {
+      cacheDir = getDefaultSettings().cacheDir;
+      (settingsData as AppSettings).cacheDir = cacheDir;
+    }
+    await mkdir(cacheDir, { recursive: true });
+
     const limit = settingsData.reddit.redditLimitRecords;
     const afterParam = after ? after : undefined;
 
@@ -58,6 +71,55 @@ export const redditHandlers = {
       channel,
     });
 
-    // Получить постеры к каждой записи
+    try {
+      // Получить постеры к каждой записи
+      const promises = mySubReddits.data.map(
+        async ({ id, preview, collection, noMedia }) => {
+          if (noMedia) return null;
+          // Если запись из Reddit с альбомом:
+          if (collection) {
+            const loadedCollection = await getImagesCollection({
+              collection,
+              cacheDir,
+            });
+            return ipcMainEvent.reply(CHANNELS.REDDIT_RESPONSE_COLLECTION, {
+              id,
+              collection: loadedCollection,
+            });
+          }
+          // Иначе, если обычная запись без альбома:
+          if (preview && "images" in preview && preview.images.length) {
+            const [firstImage] = preview.images;
+            const {
+              source: { height, url, width },
+            } = firstImage;
+
+            const filePath = await downloadAndCacheFile({
+              url,
+              cacheDir,
+            });
+            const fileDecode = (await decodeImageUrlTo64(filePath)) ?? null;
+            if (fileDecode)
+              return ipcMainEvent.reply(CHANNELS.REDDIT_RESPONSE_PREVIEW, {
+                id,
+                preview: {
+                  decoded: fileDecode,
+                  src: url,
+                  height,
+                  width,
+                },
+              });
+          }
+          return null;
+        },
+      );
+      return await Promise.all(promises);
+    } catch (error) {
+      console.error("Error:", error);
+      ipcMainEvent.reply(CHANNELS.ERROR_MAIN, {
+        requestParam: CHANNELS.REDDIT_RECEIVE_NEW_RECORDS,
+        error,
+      });
+    }
   },
 };

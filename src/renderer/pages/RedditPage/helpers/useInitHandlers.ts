@@ -30,10 +30,22 @@ export const useInitHandlers = () => {
         redditResponseNewRecords(responseMyReddits);
       });
 
+    const unsubscribeRedditResponseCollection =
+      window.electronAPI.redditResponseCollection((redditCollectionPayload) => {
+        console.log(redditCollectionPayload);
+      });
+
+    const unsubscribeRedditResponsePreview =
+      window.electronAPI.redditResponsePreview((redditResponsePreview) => {
+        console.log(redditResponsePreview);
+      });
+
     // Функция очистки
     return () => {
       unsubscribeMyReddits();
       unsubscribeRedditResponseNewRecords();
+      unsubscribeRedditResponseCollection();
+      unsubscribeRedditResponsePreview();
     };
   }, []);
 };

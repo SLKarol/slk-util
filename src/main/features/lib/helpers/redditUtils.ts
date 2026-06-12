@@ -8,6 +8,8 @@ import {
   type VideoParts,
 } from "@shared/lib/types/media";
 
+import { decodeImageUrlTo64 } from "./decodeImageTo64";
+import { downloadAndCacheFile } from "./downloadFileToCacheDir";
 import { urlExists } from "./fetch";
 import { downloadGfycatInfo } from "./gfycat";
 import { downloadImgurInfo } from "./imgur";
@@ -339,4 +341,52 @@ export function checkHaveVideo(url: string, media: Media) {
     }
   }
   return false;
+}
+
+/**
+ * Загрузка изображений для коллекции/альбома
+ */
+export async function getImagesCollection({
+  cacheDir,
+  collection,
+}: {
+  cacheDir: string;
+  collection: MediaAlbum;
+}): Promise<MediaAlbum> {
+  // Получить ключи из объекта
+  const keys = Object.keys(collection);
+  // По этим ключам собрать данные по галереи
+  const data = await Promise.allSettled(
+    keys.map((k) =>
+      getMediaMetadataRecordContent({ cacheDir, collection: collection[k] }),
+    ),
+  );
+
+  const re = data.reduce((acc, record) => {
+    if (record.status === "rejected" || record.value === null) return acc;
+    acc[record.value.id] = record.value;
+    return acc;
+  }, {} as MediaAlbum);
+  return re;
+}
+
+/**
+ * Непосредственная запись base64 записи альбома
+ */
+async function getMediaMetadataRecordContent({
+  cacheDir,
+  collection: { url, ...props },
+}: {
+  cacheDir: string;
+  collection: MediaAlbumContent;
+}): Promise<MediaAlbumContent> {
+  const filePath = await downloadAndCacheFile({
+    url,
+    cacheDir,
+  });
+  const fileDecode = (await decodeImageUrlTo64(filePath)) ?? null;
+
+  if (fileDecode) return { ...props, url, data: fileDecode };
+
+  return { ...props, url };
 }

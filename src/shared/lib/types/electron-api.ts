@@ -1,5 +1,8 @@
 import { type HasPrevNextPage } from "@shared/lib/types/htmlPageInfo";
-import { type MediaSummaryPreview } from "@shared/lib/types/media";
+import {
+  type MediaAlbum,
+  type MediaSummaryPreview,
+} from "@shared/lib/types/media";
 
 import {
   type AppSettings,
@@ -290,12 +293,32 @@ export interface ElectronAPI {
     callback: (redditMySubscribe: RedditMySubscribe[]) => void,
   ) => () => void;
 
+  /**
+   * Запрос новых записей из реддита
+   */
   redditReceiveNewRecords: (props: RedditReceiveNewRecordsPayload) => void;
 
+  /**
+   * Получить новые записи из реддита
+   */
   redditResponseNewRecords: (
     callback: (
       redditResponseNewRecordsData: RedditResponseNewRecordsData,
     ) => void,
+  ) => () => void;
+
+  /**
+   * Отправить коллекцию медиа из реддита
+   */
+  redditResponseCollection: (
+    callback: (payload: SendRedditCollectionPayload) => void,
+  ) => () => void;
+
+  /**
+   * Отправить превью медиа из реддита
+   */
+  redditResponsePreview: (
+    callback: (payload: RedditResponsePreviewPayload) => void,
   ) => () => void;
 }
 
@@ -500,4 +523,19 @@ export interface RedditResponseNewRecordsData {
   records: MediaSummaryPreview[];
   after: string | null;
   channel: string;
+}
+
+export interface SendRedditCollectionPayload {
+  id: string;
+  collection: MediaAlbum;
+}
+
+export interface RedditResponsePreviewPayload {
+  id: string;
+  preview: {
+    decoded: string;
+    src: string;
+    height: number;
+    width: number;
+  };
 }

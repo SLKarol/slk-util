@@ -5,6 +5,8 @@ import {
   type ElectronAPI,
   type RedditMySubscribe,
   type RedditResponseNewRecordsData,
+  type RedditResponsePreviewPayload,
+  type SendRedditCollectionPayload,
 } from "@shared/lib/types/electron-api";
 
 /**
@@ -46,6 +48,38 @@ export const createRedditHandlers = () =>
       return () => {
         ipcRenderer.removeListener(
           CHANNELS.REDDIT_RESPONSE_NEW_RECORDS,
+          subscription,
+        );
+      };
+    },
+    redditResponseCollection: (callback) => {
+      // Создаём функцию‑обёртку для подписки
+      const subscription = (event: IpcRendererEvent, ...args: unknown[]) =>
+        callback(args[0] as SendRedditCollectionPayload);
+
+      // Подписываемся на событие
+      ipcRenderer.on(CHANNELS.REDDIT_RESPONSE_COLLECTION, subscription);
+
+      // Возвращаем функцию отписки
+      return () => {
+        ipcRenderer.removeListener(
+          CHANNELS.REDDIT_RESPONSE_COLLECTION,
+          subscription,
+        );
+      };
+    },
+    redditResponsePreview: (callback) => {
+      // Создаём функцию‑обёртку для подписки
+      const subscription = (event: IpcRendererEvent, ...args: unknown[]) =>
+        callback(args[0] as RedditResponsePreviewPayload);
+
+      // Подписываемся на событие
+      ipcRenderer.on(CHANNELS.REDDIT_RESPONSE_PREVIEW, subscription);
+
+      // Возвращаем функцию отписки
+      return () => {
+        ipcRenderer.removeListener(
+          CHANNELS.REDDIT_RESPONSE_PREVIEW,
           subscription,
         );
       };
