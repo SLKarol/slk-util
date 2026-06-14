@@ -9,6 +9,7 @@ export const useInitHandlers = () => {
   const {
     redditSubscribeStore: { setWorking, saveSubscribes },
     redditResponseNewRecords,
+    redditCollection: { updateMediaPreview },
   } = useRedditRootStore();
 
   // Настроить обработчики событий от главного процесса
@@ -37,7 +38,7 @@ export const useInitHandlers = () => {
 
     const unsubscribeRedditResponsePreview =
       window.electronAPI.redditResponsePreview((redditResponsePreview) => {
-        console.log(redditResponsePreview);
+        updateMediaPreview(redditResponsePreview);
       });
 
     // Функция очистки

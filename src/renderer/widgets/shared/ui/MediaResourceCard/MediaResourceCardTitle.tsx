@@ -14,7 +14,10 @@ type Props = {
    */
   mediaRecord: MediaRecordUi;
 
-  onChangeRecordTitle: (value: {
+  /**
+   * Функция, вызываемая при изменении названия медиазаписи.
+   */
+  onChangeRecordTitle?: (value: {
     idMediaRecord: string;
     title: string;
   }) => void;
@@ -33,13 +36,13 @@ export const MediaResourceCardTitle = ({
   const onClickAction = () => {
     if (!editMode) return toggleEditMode();
 
-    onChangeRecordTitle({ idMediaRecord: mediaRecord.id, title: editTitle });
+    onChangeRecordTitle?.({ idMediaRecord: mediaRecord.id, title: editTitle });
     toggleEditMode();
   };
 
   const onClickEraseTitle = () => {
     if (editMode) toggleEditMode();
-    onChangeRecordTitle({ idMediaRecord: mediaRecord.id, title: "" });
+    onChangeRecordTitle?.({ idMediaRecord: mediaRecord.id, title: "" });
   };
 
   return (

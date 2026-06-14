@@ -1,11 +1,12 @@
 import { type ChangeEventHandler, type MouseEventHandler } from "react";
-import { Card, Checkbox, Image, Text, Title } from "@mantine/core";
+import { Card, Checkbox, Text, Title } from "@mantine/core";
 
 import { type MediaRecordUi } from "@renderer-shared/types/media";
 
 import { MediaResourceCardDimension } from "./MediaResourceCardDimension";
 import { MediaResourceCardTitle } from "./MediaResourceCardTitle";
 import { MediaResourceCardToolbar } from "./MediaResourceCardToolbar";
+import { MediaResourceImage } from "./MediaResourceImage";
 
 import styles from "./MediaResourceCard.module.css";
 
@@ -35,7 +36,7 @@ type Props = {
    */
   onToggleSelect: ChangeEventHandler<HTMLInputElement, HTMLInputElement>;
 
-  onChangeRecordTitle: (value: {
+  onChangeRecordTitle?: (value: {
     idMediaRecord: string;
     title: string;
   }) => void;
@@ -66,7 +67,7 @@ export const MediaResourceCard = ({
       {mediaRecord.noMedia ? (
         <Text>Не содержит (или не найдены) медиа-ресурсы</Text>
       ) : !mediaRecord.haveVideo && mediaRecord.url ? (
-        <Image src={mediaRecord.url} title={mediaRecord.title} w="100%" />
+        <MediaResourceImage mediaRecord={mediaRecord} />
       ) : mediaRecord.haveVideo && mediaRecord.url ? (
         <video
           width="100%"

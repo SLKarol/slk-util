@@ -11,7 +11,7 @@ import styles from "./RedditGetNewRecords.module.css";
  */
 export const RedditGetNewRecords = observer(() => {
   const {
-    redditSelectedStore: { selectedRedditChannel },
+    redditUserSelectedStore: { selectedRedditChannel },
     redditReceiveNewRecords,
     busy,
   } = useRedditRootStore();

@@ -1,12 +1,12 @@
 import { makeAutoObservable } from "mobx";
 
 import { type RedditResponseNewRecordsData } from "@shared/lib/types/electron-api";
-
-import { ItemsToSend } from "@renderer-features/model/items-to-send";
+import { MediaRecordUi } from "@renderer-shared/types/media";
 
 import { RedditCollection } from "./reddit-collection";
-import { RedditSelectedStore } from "./reddit-selected";
+import { RedditSelectedMedia } from "./reddit-selected-media";
 import { RedditSubscribeStore } from "./reddit-subscribes";
+import { RedditUserSelectedStore } from "./reddit-user-selected";
 
 /**
  * Корневое хранилище приложения для управления состоянием работы с "Reddit".
@@ -16,11 +16,6 @@ import { RedditSubscribeStore } from "./reddit-subscribes";
  */
 export class RedditRootStore {
   /**
-   * Список материалов для отправки
-   */
-  itemsToSend: ItemsToSend;
-
-  /**
    * Каналы, на которые я подписан
    */
   redditSubscribeStore: RedditSubscribeStore;
@@ -28,9 +23,17 @@ export class RedditRootStore {
   /**
    * Стор для хранения парамтеров, выбранных пользователем
    */
-  redditSelectedStore: RedditSelectedStore;
+  redditUserSelectedStore: RedditUserSelectedStore;
 
+  /**
+   * Коллекция материалов Reddit-канала
+   */
   redditCollection: RedditCollection;
+
+  /**
+   * Список выбранных материалов
+   */
+  redditSelectedMedia: RedditSelectedMedia;
 
   /**
    * Флаг, указывающий, что происходит групповая отправка
@@ -48,10 +51,10 @@ export class RedditRootStore {
    * Инициализирует вложенные хранилища.
    */
   constructor() {
-    this.itemsToSend = new ItemsToSend();
     this.redditSubscribeStore = new RedditSubscribeStore();
-    this.redditSelectedStore = new RedditSelectedStore();
+    this.redditUserSelectedStore = new RedditUserSelectedStore();
     this.redditCollection = new RedditCollection();
+    this.redditSelectedMedia = new RedditSelectedMedia();
 
     makeAutoObservable(this);
   }
@@ -73,7 +76,7 @@ export class RedditRootStore {
    * @returns Отфильтрованный массив каналов, соответствующих критерию поиска
    */
   get findRedditChannels() {
-    const { searchRedditChannel } = this.redditSelectedStore;
+    const { searchRedditChannel } = this.redditUserSelectedStore;
     if (!searchRedditChannel) return this.redditSubscribeStore.subscribes;
 
     const query = searchRedditChannel.trim();
@@ -96,9 +99,9 @@ export class RedditRootStore {
     channel,
     records,
   }: RedditResponseNewRecordsData) => {
-    if (channel !== this.redditSelectedStore.selectedRedditChannel) return;
+    if (channel !== this.redditUserSelectedStore.selectedRedditChannel) return;
 
-    this.redditSelectedStore.setAfter(after);
+    this.redditUserSelectedStore.setAfter(after);
     this.redditCollection.addMediaRecords(records);
     this.busy = false;
   };
@@ -107,15 +110,28 @@ export class RedditRootStore {
    * Запросить новые записи из выбранного канала Reddit.
    */
   redditReceiveNewRecords = () => {
-    if (!this.redditSelectedStore.selectedRedditChannel) return;
+    if (!this.redditUserSelectedStore.selectedRedditChannel) return;
 
     this.busy = true;
-    this.redditSelectedStore.setAfter(null);
+    this.redditUserSelectedStore.setAfter(null);
     this.redditCollection.clearCollection();
 
     window.electronAPI.redditReceiveNewRecords({
-      after: this.redditSelectedStore.after,
-      channel: this.redditSelectedStore.selectedRedditChannel,
+      after: this.redditUserSelectedStore.after,
+      channel: this.redditUserSelectedStore.selectedRedditChannel,
     });
   };
+
+  /**
+   * Получить список материалов Reddit-канала с признаком выбранности
+   */
+  get mediaRecords() {
+    return Array.from(this.redditCollection.mediaRecords.entries()).map(
+      ([id, mediaRecord]) =>
+        ({
+          selected: this.redditSelectedMedia.selectedRecords.has(id),
+          ...mediaRecord,
+        }) as MediaRecordUi,
+    );
+  }
 }

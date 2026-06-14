@@ -2,8 +2,6 @@ import { net } from "electron";
 import fs from "fs";
 import { join } from "path";
 
-import { REQUEST_HEADERS } from "@main/shared/lib/constants";
-
 import { getCacheFileName } from "./getCacheFileName";
 import { getFileSize } from "./getFileSize";
 
@@ -39,12 +37,13 @@ export async function downloadFileToCacheDir({
   fullFileName,
   handleError,
 }: IDownloadFileToCacheDir) {
+  // const base64Content=await decodeImageUrlTo64(fileUrl);
+
   return new Promise((resolve, reject) => {
     // 1. Создаём запрос
     const request = net.request({
       method: "GET",
       url: fileUrl,
-      headers: REQUEST_HEADERS,
     });
 
     // 2. Обрабатываем ответ сервера

@@ -9,7 +9,7 @@ import { useRedditRootStore } from "@renderer/providers/reddit";
  */
 export const RedditSearchChannels = observer(() => {
   const {
-    redditSelectedStore: { searchRedditChannel, setSearchRedditChannel },
+    redditUserSelectedStore: { searchRedditChannel, setSearchRedditChannel },
   } = useRedditRootStore();
   return (
     <Flex align="center" gap="xs">

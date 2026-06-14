@@ -24,7 +24,10 @@ export const RedditMySubscribes = observer(
     const {
       findRedditChannels,
       redditSubscribeStore: { working },
-      redditSelectedStore: { selectedRedditChannel, setSelectedRedditChannel },
+      redditUserSelectedStore: {
+        selectedRedditChannel,
+        setSelectedRedditChannel,
+      },
     } = useRedditRootStore();
 
     // 1. Создаем маппинг id -> over18 внутри observer-компонента

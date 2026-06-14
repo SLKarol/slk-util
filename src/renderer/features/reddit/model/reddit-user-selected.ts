@@ -1,14 +1,17 @@
 import { action, makeObservable, observable } from "mobx";
 
 /**
- * Стор для хранения парамтеров, выбранных пользователем
+ * Стор для хранения параметров, выбранных пользователем
  */
-export class RedditSelectedStore {
+export class RedditUserSelectedStore {
   /**
    * id выбранного канала
    */
   selectedRedditChannel: string | null = null;
 
+  /**
+   * Параметр для поиска каналов. Содержит текст, который пользователь вводит для фильтрации списка каналов. Если пустой, отображаются все каналы.
+   */
   searchRedditChannel = "";
 
   /**

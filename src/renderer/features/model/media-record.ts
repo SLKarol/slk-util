@@ -2,7 +2,10 @@ import { notifications } from "@mantine/notifications";
 import { makeAutoObservable, runInAction } from "mobx";
 
 import { type Nullable } from "@shared/lib/types/common";
-import { type IreceiveYaPlakalTopicMedia } from "@shared/lib/types/electron-api";
+import {
+  type IreceiveYaPlakalTopicMedia,
+  RedditMediaPreviewContent,
+} from "@shared/lib/types/electron-api";
 import {
   type MediaAlbum,
   type MediaPreview,
@@ -140,5 +143,15 @@ export class MediaRecordStore implements MediaSummaryPreview {
     } catch (error) {
       notifications.show({ message: JSON.stringify(error) });
     }
+  };
+
+  /**
+   * Устанавливает данные для превью.
+   * @param param0 - Данные для превью
+   */
+  setPreview = ({ decoded, height, width }: RedditMediaPreviewContent) => {
+    this.url = decoded;
+    this.height = height;
+    this.width = width;
   };
 }

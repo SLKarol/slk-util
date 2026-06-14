@@ -1,6 +1,9 @@
 import { action, makeObservable, observable } from "mobx";
 
-import { type IreceiveYaPlakalTopicMedia } from "@shared/lib/types/electron-api";
+import {
+  type IreceiveYaPlakalTopicMedia,
+  type RedditResponsePreviewPayload,
+} from "@shared/lib/types/electron-api";
 import { type MediaSummaryPreview } from "@shared/lib/types/media";
 
 import { MediaRecordStore } from "@renderer-features/model/media-record";
@@ -26,6 +29,7 @@ export class RedditCollection {
       setRecordTitle: action,
       sendMediaToTelegram: action,
       setUrlMediaRecord: action,
+      updateMediaPreview: action,
       // computed
     });
   }
@@ -34,13 +38,12 @@ export class RedditCollection {
    * Добавить media-записи в коллекцию
    */
   addMediaRecords = (mediaInfo: Partial<MediaSummaryPreview>[]) => {
-    mediaInfo.forEach(({ url, ...mediaSummary }) => {
-      let keyMedia = url;
-      if (!keyMedia) {
-        keyMedia = mediaSummary.id;
-      }
-      if (keyMedia)
-        this.mediaRecords.set(keyMedia, new MediaRecordStore(mediaSummary));
+    mediaInfo.forEach((mediaRecord) => {
+      if (mediaRecord.id)
+        this.mediaRecords.set(
+          mediaRecord.id,
+          new MediaRecordStore(mediaRecord),
+        );
     });
   };
 
@@ -105,5 +108,17 @@ export class RedditCollection {
     if (!mediaRecord) return;
 
     mediaRecord.title = title;
+  };
+
+  /**
+   * Обновляет превью медиа-ресурса.
+   * @param param0 - Данные для обновления превью
+   */
+  updateMediaPreview = ({ id, preview }: RedditResponsePreviewPayload) => {
+    const mediaRecord = this.mediaRecords.get(id);
+
+    if (!mediaRecord) return;
+
+    mediaRecord.setPreview(preview);
   };
 }

@@ -71,11 +71,11 @@ export const redditHandlers = {
       channel,
     });
 
-    try {
-      // Получить постеры к каждой записи
-      const promises = mySubReddits.data.map(
-        async ({ id, preview, collection, noMedia }) => {
-          if (noMedia) return null;
+    // Получить постеры к каждой записи
+    const promises = mySubReddits.data.map(
+      async ({ id, preview, collection, noMedia }) => {
+        if (noMedia) return null;
+        try {
           // Если запись из Reddit с альбомом:
           if (collection) {
             const loadedCollection = await getImagesCollection({
@@ -99,27 +99,29 @@ export const redditHandlers = {
               cacheDir,
             });
             const fileDecode = (await decodeImageUrlTo64(filePath)) ?? null;
-            if (fileDecode)
+            if (fileDecode) {
               return ipcMainEvent.reply(CHANNELS.REDDIT_RESPONSE_PREVIEW, {
                 id,
                 preview: {
                   decoded: fileDecode,
-                  src: url,
+                  url,
                   height,
                   width,
                 },
               });
+            }
           }
           return null;
-        },
-      );
-      return await Promise.all(promises);
-    } catch (error) {
-      console.error("Error:", error);
-      ipcMainEvent.reply(CHANNELS.ERROR_MAIN, {
-        requestParam: CHANNELS.REDDIT_RECEIVE_NEW_RECORDS,
-        error,
-      });
-    }
+        } catch (error) {
+          console.error("Error:", error);
+          ipcMainEvent.reply(CHANNELS.ERROR_MAIN, {
+            requestParam: CHANNELS.REDDIT_RECEIVE_NEW_RECORDS,
+            error,
+          });
+        }
+      },
+    );
+
+    return await Promise.all(promises);
   },
 };
