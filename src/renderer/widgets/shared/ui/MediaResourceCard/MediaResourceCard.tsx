@@ -1,12 +1,13 @@
 import { type ChangeEventHandler, type MouseEventHandler } from "react";
-import { Card, Checkbox, Text, Title } from "@mantine/core";
+import { Card, Checkbox, Title } from "@mantine/core";
 
 import { type MediaRecordUi } from "@renderer-shared/types/media";
 
 import { MediaResourceCardDimension } from "./MediaResourceCardDimension";
+import { MediaResourceCardSelectDimension } from "./MediaResourceCardSelectDimension";
 import { MediaResourceCardTitle } from "./MediaResourceCardTitle";
 import { MediaResourceCardToolbar } from "./MediaResourceCardToolbar";
-import { MediaResourceImage } from "./MediaResourceImage";
+import { MediaResourceContent } from "./MediaResourceContent";
 
 import styles from "./MediaResourceCard.module.css";
 
@@ -64,25 +65,14 @@ export const MediaResourceCard = ({
       ) : (
         <Title order={5}>{mediaRecord.title}</Title>
       )}
-      {mediaRecord.noMedia ? (
-        <Text>Не содержит (или не найдены) медиа-ресурсы</Text>
-      ) : !mediaRecord.haveVideo && mediaRecord.url ? (
-        <MediaResourceImage mediaRecord={mediaRecord} />
-      ) : mediaRecord.haveVideo && mediaRecord.url ? (
-        <video
-          width="100%"
-          controls
-          poster={mediaRecord.previewDecode as string}
-        >
-          <source src={mediaRecord.url} />
-        </video>
-      ) : null}
+      <MediaResourceContent mediaRecord={mediaRecord} />
       <MediaResourceCardDimension mediaRecord={mediaRecord} />
       <MediaResourceCardToolbar
         mediaId={mediaRecord.id}
         onClickAction={onClickAction}
       />
-      {!mediaRecord.haveVideo && (
+      <MediaResourceCardSelectDimension mediaRecord={mediaRecord} />
+      {!mediaRecord.collection && !mediaRecord.haveVideo && (
         <Checkbox
           label="Добавить в список"
           checked={mediaRecord.selected}

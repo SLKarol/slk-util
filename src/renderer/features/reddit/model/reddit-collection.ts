@@ -3,6 +3,7 @@ import { action, makeObservable, observable } from "mobx";
 import {
   type IreceiveYaPlakalTopicMedia,
   type RedditResponsePreviewPayload,
+  type SendRedditCollectionPayload,
 } from "@shared/lib/types/electron-api";
 import { type MediaSummaryPreview } from "@shared/lib/types/media";
 
@@ -30,6 +31,7 @@ export class RedditCollection {
       sendMediaToTelegram: action,
       setUrlMediaRecord: action,
       updateMediaPreview: action,
+      redditResponseCollection: action,
       // computed
     });
   }
@@ -120,5 +122,19 @@ export class RedditCollection {
     if (!mediaRecord) return;
 
     mediaRecord.setPreview(preview);
+  };
+
+  /**
+   * Записывает коллекцию в mediaRecord
+   */
+  redditResponseCollection = ({
+    collection,
+    id,
+  }: SendRedditCollectionPayload) => {
+    const mediaRecord = this.mediaRecords.get(id);
+
+    if (!mediaRecord) return;
+
+    mediaRecord.setCollection(collection);
   };
 }

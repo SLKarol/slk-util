@@ -1,4 +1,5 @@
 import { type ChangeEventHandler, type MouseEventHandler } from "react";
+import { Fragment } from "react";
 import { observer } from "mobx-react-lite";
 
 import { useRedditRootStore } from "@renderer/providers/reddit";
@@ -36,7 +37,6 @@ export const RedditListMedia = observer(() => {
     <>
       {mediaRecords.map((mediaRecord) => (
         <MediaResourceCard
-          key={mediaRecord.id}
           mediaRecord={mediaRecord}
           onClickAction={onClickAction}
           onToggleSelect={onToggleSelect}

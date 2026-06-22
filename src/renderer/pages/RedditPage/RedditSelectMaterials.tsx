@@ -25,3 +25,4 @@ export const RedditSelectMaterials = () => {
     </>
   );
 };
+RedditSelectMaterials.displayName = "RedditSelectMaterials";

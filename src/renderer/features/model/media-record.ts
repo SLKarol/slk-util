@@ -1,5 +1,5 @@
 import { notifications } from "@mantine/notifications";
-import { makeAutoObservable, runInAction } from "mobx";
+import { action, makeObservable, observable, runInAction } from "mobx";
 
 import { type Nullable } from "@shared/lib/types/common";
 import {
@@ -19,7 +19,7 @@ import { getImageSizeFromDataURL } from "@renderer-shared/lib";
  * Предпросмотр медиа-ресурса.
  * Отвечает за содержание и отображение информации о медиа-ресурсе.
  */
-export class MediaRecordStore implements MediaSummaryPreview {
+export class MediaRecordStore {
   id: string;
   idVideoSource: string;
   title: string;
@@ -90,6 +90,7 @@ export class MediaRecordStore implements MediaSummaryPreview {
     width,
     urlTopic,
   }: Partial<MediaSummaryPreview>) {
+    this.collection = collection ?? null;
     this.id = id ?? "";
     this.idVideoSource = idVideoSource ?? "";
     this.title = title ?? "";
@@ -110,13 +111,42 @@ export class MediaRecordStore implements MediaSummaryPreview {
     this.url = url ?? null;
     this.created = created ?? null;
     this.subtitles = subtitles ?? null;
-    this.collection = collection ?? null;
     this.listFormats = listFormats ?? null;
     this.noMedia = noMedia ?? null;
     this.preview = preview ?? null;
     this.urlTopic = urlTopic ?? "";
 
-    makeAutoObservable(this);
+    // makeAutoObservable(this);
+    makeObservable(this, {
+      id: observable,
+      idVideoSource: observable,
+      title: observable,
+      previewImages: observable,
+      over18: observable,
+      haveVideo: observable,
+      videoParts: observable,
+      downloadedFileName: observable,
+      subReddit: observable,
+      width: observable,
+      height: observable,
+      permalink: observable,
+      url: observable,
+      created: observable,
+      subtitles: observable,
+      collection: observable,
+      listFormats: observable,
+      noMedia: observable,
+      preview: observable,
+      urlTopic: observable,
+      fileDecode: observable,
+      filePath: observable,
+      previewDecode: observable,
+      previewFilePath: observable,
+
+      setDecodeData: action,
+      setPreview: action,
+      setCollection: action,
+    });
   }
 
   /**
@@ -153,5 +183,16 @@ export class MediaRecordStore implements MediaSummaryPreview {
     this.url = decoded;
     this.height = height;
     this.width = width;
+  };
+
+  /**
+   * Задать коллекцию для медиа-записи.
+   */
+  setCollection = (collection: MediaAlbum) => {
+    Object.keys(collection).forEach((keyOfCollection) => {
+      if (this.collection && this.collection[keyOfCollection])
+        this.collection[keyOfCollection].data =
+          collection[keyOfCollection].data;
+    });
   };
 }
