@@ -320,6 +320,11 @@ export interface ElectronAPI {
   redditResponsePreview: (
     callback: (payload: RedditResponsePreviewPayload) => void,
   ) => () => void;
+
+  /**
+   * Скачать файл из интернета
+   */
+  downloadFile: (props: DownloadFileProps) => void;
 }
 
 /**
@@ -607,4 +612,11 @@ export interface RedditMediaPreviewContent {
    * Ширина изображения в пикселях.
    */
   width: number;
+}
+
+export interface DownloadFileProps {
+  /** URL-адрес файла */
+  url: string;
+  /** Имя файла (без расширения) */
+  name: string;
 }

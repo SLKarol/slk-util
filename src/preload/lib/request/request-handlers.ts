@@ -27,4 +27,5 @@ export const createRequestHandlers = () =>
         ipcRenderer.removeListener(CHANNELS.RECEIVE_TEXT, subscription);
       };
     },
+    downloadFile: (props) => ipcRenderer.send(CHANNELS.DOWNLOAD_FILE, props),
   }) as ElectronAPI;

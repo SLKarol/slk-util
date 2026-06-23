@@ -19,17 +19,30 @@ type Props = {
  */
 export const MediaResourceCardSelectDimension = observer(
   ({ mediaRecord }: Props) => {
-    const [urlDimension, setUrlDimension] = useState<string | null>();
+    const [urlDimension, setUrlDimension] = useState<string | null>(null);
 
     // Явно читаем observable-поле в реактивном контексте
     const images = mediaRecord.preview?.images;
 
     if (!images || !Array.isArray(images) || images.length === 0) return null;
 
-    const data = images[0].resolutions.map(({ height, url, width }) => ({
-      label: `${width}x${height}`,
-      value: url,
-    }));
+    const { title } = mediaRecord;
+
+    const data = mediaRecord.preview?.images[0].resolutions.map(
+      ({ height, url, width }) => ({
+        label: `${width}x${height}`,
+        value: url,
+      }),
+    );
+
+    const onClick = () => {
+      if (!urlDimension) return;
+
+      window.electronAPI.downloadFile({
+        name: title,
+        url: urlDimension,
+      });
+    };
 
     return (
       <Flex gap="xs" justify="center" align="center" direction="row">
@@ -41,7 +54,7 @@ export const MediaResourceCardSelectDimension = observer(
           onChange={setUrlDimension}
           mb="0.5rem"
         />
-        <ActionIcon disabled={!urlDimension} mt="1rem">
+        <ActionIcon disabled={!urlDimension} mt="1rem" onClick={onClick}>
           <IconDeviceFloppyFilled />
         </ActionIcon>
       </Flex>

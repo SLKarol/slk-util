@@ -146,6 +146,7 @@ export class MediaRecordStore {
       setDecodeData: action,
       setPreview: action,
       setCollection: action,
+      setTitle: action,
     });
   }
 
@@ -180,7 +181,7 @@ export class MediaRecordStore {
    * @param param0 - Данные для превью
    */
   setPreview = ({ decoded, height, width }: RedditMediaPreviewContent) => {
-    this.url = decoded;
+    this.fileDecode = decoded;
     this.height = height;
     this.width = width;
   };
@@ -194,5 +195,13 @@ export class MediaRecordStore {
         this.collection[keyOfCollection].data =
           collection[keyOfCollection].data;
     });
+  };
+
+  /**
+   * Устанавливает название медиа-записи.
+   * @param title Новое название
+   */
+  setTitle = (title: string) => {
+    this.title = title;
   };
 }

@@ -38,11 +38,9 @@ type Props = {
    */
   onToggleSelect: ChangeEventHandler<HTMLInputElement, HTMLInputElement>;
 
-  onChangeRecordTitle?: (value: {
-    idMediaRecord: string;
-    title: string;
-  }) => void;
-
+  /**
+   * Флаг, указывающий, выбран ли элемент.
+   */
   selected: boolean;
 };
 
@@ -53,20 +51,11 @@ type Props = {
  * Предоставляет возможность выбрать элемент для дальнейшей обработки через чекбокс.
  */
 export const MediaResourceCard = observer(
-  ({
-    mediaRecord,
-    onChangeRecordTitle,
-    onClickAction,
-    onToggleSelect,
-    selected,
-  }: Props) => {
+  ({ mediaRecord, onClickAction, onToggleSelect, selected }: Props) => {
     return (
       <Card shadow="sm" withBorder className={styles.card}>
         {mediaRecord.haveVideo ? (
-          <MediaResourceCardTitle
-            mediaRecord={mediaRecord}
-            onChangeRecordTitle={onChangeRecordTitle}
-          />
+          <MediaResourceCardTitle mediaRecord={mediaRecord} />
         ) : (
           <Title order={5}>{mediaRecord.title}</Title>
         )}

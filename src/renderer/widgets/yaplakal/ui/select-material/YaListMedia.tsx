@@ -20,7 +20,7 @@ export const YaListMedia = observer(() => {
   const {
     mediaRecords,
     toggleItemSelect,
-    collection: { sendMediaToTelegram, openTopicInBrowser, setRecordTitle },
+    collection: { sendMediaToTelegram, openTopicInBrowser },
   } = useYaPlakalRuRootStore();
   const clipboard = useClipboard({ timeout: 500 });
 
@@ -77,7 +77,6 @@ export const YaListMedia = observer(() => {
           mediaRecord={mediaRecord}
           onClickAction={onClickAction}
           onToggleSelect={onToggleSelect}
-          onChangeRecordTitle={setRecordTitle}
           selected={selected}
         />
       ))}

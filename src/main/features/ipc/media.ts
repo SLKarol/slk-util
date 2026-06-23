@@ -1,8 +1,12 @@
-import { type IpcMainEvent, shell } from "electron";
-import { access, copyFile } from "fs/promises";
+import { type IpcMainEvent, net, shell } from "electron";
+import { copyFile, writeFile } from "fs/promises";
 import { basename, join } from "path";
 
-import { getCacheFileName, getDefaultSettings } from "../lib/helpers";
+import {
+  fileExists,
+  getCacheFileName,
+  getDefaultSettings,
+} from "../lib/helpers";
 import { UserDataFileManager } from "../UserDataFileManager";
 
 import { CHANNELS } from "@shared/ipc/channels";
@@ -40,11 +44,28 @@ export const mediaHandlers = {
 
     const sourceFilePath = join(cacheDir, savedFileName);
     try {
-      await access(sourceFilePath); // проверяем, существует ли исходный файл
-      await copyFile(
-        sourceFilePath,
-        join(settingsData.folderForSaveFiles, fileName),
-      );
+      const fileExist = await fileExists(sourceFilePath);
+      if (fileExist)
+        await copyFile(
+          sourceFilePath,
+          join(settingsData.folderForSaveFiles, fileName),
+        );
+      else {
+        const fileResponse = await net.fetch(payload.url);
+        if (!fileResponse.ok) {
+          return ipcMainEvent.reply(CHANNELS.ERROR_MAIN, {
+            requestParam: CHANNELS.DOWNLOAD_FILE,
+            error: new Error(
+              `Ошибка сети: ${fileResponse.status} ${fileResponse.statusText}`,
+            ),
+          });
+        }
+        const fileBuffer = await fileResponse.arrayBuffer();
+        await writeFile(
+          join(settingsData.folderForSaveFiles, fileName),
+          Buffer.from(fileBuffer),
+        );
+      }
 
       // Send success notification using the proper IPC channel
       ipcMainEvent.reply(

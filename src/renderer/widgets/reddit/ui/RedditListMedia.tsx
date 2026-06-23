@@ -1,11 +1,23 @@
 import { type ChangeEventHandler, type MouseEventHandler } from "react";
 import { observer } from "mobx-react-lite";
+import { match, P } from "ts-pattern";
 
 import { useRedditRootStore } from "@renderer/providers/reddit";
+import {
+  MEDIA_ACTION_COPY_LINK,
+  MEDIA_ACTION_DOWNLOAD,
+  MEDIA_ACTION_DOWNLOAD_SEND_TELEGRAM,
+  MEDIA_ACTION_OPEN_IN_BROWSER,
+  MEDIA_ACTION_TELEGRAM,
+} from "@renderer/widgets/shared/lib/constants";
 import { MediaResourceCard } from "@renderer/widgets/shared/ui";
 
 export const RedditListMedia = observer(() => {
-  const { toggleItemSelect, mediaRecords } = useRedditRootStore();
+  const {
+    toggleItemSelect,
+    mediaRecords,
+    redditCollection: { saveMedia, sendMediaToTelegram },
+  } = useRedditRootStore();
 
   /**
    * Обработчик клика по кнопке действия на карточке медиаресурса.
@@ -16,6 +28,27 @@ export const RedditListMedia = observer(() => {
   const onClickAction: MouseEventHandler<HTMLButtonElement> = (mouseEvent) => {
     const dataId = mouseEvent.currentTarget.getAttribute("data-id");
     const dataAction = mouseEvent.currentTarget.getAttribute("data-action");
+
+    match([dataAction, dataId])
+      .with([MEDIA_ACTION_DOWNLOAD, P.string.minLength(1)], () => {
+        saveMedia(dataId as string);
+      })
+      .with([MEDIA_ACTION_TELEGRAM, P.string.minLength(1)], () => {
+        sendMediaToTelegram(dataId as string);
+      })
+      .with([MEDIA_ACTION_OPEN_IN_BROWSER, P.string.minLength(1)], () => {
+        console.log(MEDIA_ACTION_OPEN_IN_BROWSER, dataAction, dataId);
+      })
+      .with([MEDIA_ACTION_COPY_LINK, P.string.minLength(1)], () => {
+        console.log(MEDIA_ACTION_COPY_LINK, dataAction, dataId);
+      })
+      .with(
+        [MEDIA_ACTION_DOWNLOAD_SEND_TELEGRAM, P.string.minLength(1)],
+        () => {
+          sendMediaToTelegram(dataId as string, true);
+        },
+      )
+      .otherwise(() => null);
   };
 
   /**

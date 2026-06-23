@@ -9,40 +9,27 @@ import classes from "./MediaResourceCardTitle.module.css";
 type Props = {
   /**
    * Объект медиазаписи, отображаемой на карточке.
-   *
-   * Содержит информацию о заголовке, URL и других метаданных.
    */
   mediaRecord: MediaRecordStore;
-
-  /**
-   * Функция, вызываемая при изменении названия медиазаписи.
-   */
-  onChangeRecordTitle?: (value: {
-    idMediaRecord: string;
-    title: string;
-  }) => void;
 };
 
 /**
  * Компонент для вывода/редактирования заголовка медиаресурса.
  */
-export const MediaResourceCardTitle = ({
-  mediaRecord,
-  onChangeRecordTitle,
-}: Props) => {
+export const MediaResourceCardTitle = ({ mediaRecord }: Props) => {
   const [editMode, toggleEditMode] = useToggle([false, true]);
   const [editTitle, setEditTitle] = useInputState(mediaRecord.title ?? "");
 
   const onClickAction = () => {
     if (!editMode) return toggleEditMode();
 
-    onChangeRecordTitle?.({ idMediaRecord: mediaRecord.id, title: editTitle });
+    mediaRecord.setTitle(editTitle);
     toggleEditMode();
   };
 
   const onClickEraseTitle = () => {
     if (editMode) toggleEditMode();
-    onChangeRecordTitle?.({ idMediaRecord: mediaRecord.id, title: "" });
+    mediaRecord.setTitle("");
   };
 
   return (

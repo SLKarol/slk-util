@@ -32,6 +32,7 @@ export class RedditCollection {
       setUrlMediaRecord: action,
       updateMediaPreview: action,
       redditResponseCollection: action,
+      saveMedia: action,
       // computed
     });
   }
@@ -74,11 +75,11 @@ export class RedditCollection {
 
     if (!mediaData.haveVideo)
       return window.electronAPI.telegramBotSendPicture({
-        url: dataId,
+        url: mediaData.url ?? "",
       });
 
     window.electronAPI.telegramBotSendVideo({
-      url: dataId,
+      url: mediaData.url ?? "",
       urlPreview: mediaData.previewImages?.src ?? "",
       sendAsFile,
       title: mediaData.title,
@@ -136,5 +137,16 @@ export class RedditCollection {
     if (!mediaRecord) return;
 
     mediaRecord.setCollection(collection);
+  };
+
+  /**
+   * Сохраняет медиа-файл по его идентификатору.
+   * @param dataId - Идентификатор стора медиа-файла
+   */
+  saveMedia = (dataId: string) => {
+    const url = this.mediaRecords.get(dataId as string)?.url;
+    if (url) {
+      window.electronAPI.saveMediaFile({ url });
+    }
   };
 }

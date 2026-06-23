@@ -7,3 +7,4 @@ export * from "./getDefaultSettings";
 export * from "./getDirectorySize";
 export * from "./emptyDirectory";
 export * from "./redditUtils";
+export * from "./fileExist";
