@@ -19,6 +19,7 @@ export class ItemsToSend {
       // action
       deleteItem: action,
       setRecordTitle: action,
+      addItem: action,
       // computed
       countSelected: computed,
       mediaRecords: computed,
@@ -81,5 +82,9 @@ export class ItemsToSend {
       ...mediaRecord,
       title,
     });
+  };
+
+  addItem = (idMediaRecord: string, record: MediaRecordUi) => {
+    this.items.set(idMediaRecord, record);
   };
 }

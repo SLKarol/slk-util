@@ -1,16 +1,17 @@
 import { Text } from "@mantine/core";
+import { observer } from "mobx-react-lite";
 import { match, P } from "ts-pattern";
 
-import { type MediaRecordUi } from "@renderer-shared/types/media";
+import { type MediaRecordStore } from "@renderer-features/model/media-record";
 
 import { MediaResourceCollectionImages } from "./MediaResourceCollectionImages";
 import { MediaResourceImage } from "./MediaResourceImage";
 
 interface Props {
-  mediaRecord: MediaRecordUi;
+  mediaRecord: MediaRecordStore;
 }
 
-export const MediaResourceContent = ({ mediaRecord }: Props) => {
+export const MediaResourceContent = observer(({ mediaRecord }: Props) => {
   return match(mediaRecord)
     .with({ noMedia: true }, () => (
       <Text>Не содержит (или не найдены) медиа-ресурсы</Text>
@@ -34,6 +35,13 @@ export const MediaResourceContent = ({ mediaRecord }: Props) => {
     )
     .with(
       {
+        haveVideo: false,
+        fileDecode: P.when((s) => typeof s === "string" && s.length > 0),
+      },
+      () => <MediaResourceImage mediaRecord={mediaRecord} />,
+    )
+    .with(
+      {
         haveVideo: true,
         url: P.when((s) => typeof s === "string" && s.length > 0),
       },
@@ -48,4 +56,5 @@ export const MediaResourceContent = ({ mediaRecord }: Props) => {
       ),
     )
     .otherwise((): null => null);
-};
+});
+MediaResourceContent.displayName = "MediaResourceContent";

@@ -17,6 +17,7 @@ export class RedditSelectedMedia {
       // observable
       selectedRecords: observable,
       // action
+      deleteItem: action,
       clearSelected: action,
       openTopicInBrowser: action,
       sendMediaToTelegram: action,
@@ -62,5 +63,11 @@ export class RedditSelectedMedia {
     if (!mediaData) return;
 
     window.electronAPI.openUrlInBrowser(mediaData.urlTopic);
+  };
+
+  deleteItem = (idMediaRecord: string) => {
+    if (this.selectedRecords.has(idMediaRecord)) {
+      this.selectedRecords.delete(idMediaRecord);
+    }
   };
 }

@@ -75,18 +75,10 @@ export class YaPlakalRootStore {
    */
   get mediaRecords() {
     return Array.from(this.collection.mediaRecords.entries()).map(
-      ([url, mediaRecord]) =>
-        ({
-          id: url,
-          url: mediaRecord.fileDecode,
-          title: mediaRecord.title,
-          selected: this.itemsToSend.items.has(url),
-          previewDecode: mediaRecord.previewDecode,
-          haveVideo: mediaRecord.haveVideo,
-          urlTopic: mediaRecord.urlTopic,
-          width: mediaRecord.width,
-          height: mediaRecord.height,
-        }) as MediaRecordUi,
+      ([id, mediaRecord]) => ({
+        selected: this.itemsToSend.items.has(id),
+        mediaRecord,
+      }),
     );
   }
 

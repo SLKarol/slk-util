@@ -1,12 +1,11 @@
 import { type ChangeEventHandler, type MouseEventHandler } from "react";
-import { Fragment } from "react";
 import { observer } from "mobx-react-lite";
 
 import { useRedditRootStore } from "@renderer/providers/reddit";
 import { MediaResourceCard } from "@renderer/widgets/shared/ui";
 
 export const RedditListMedia = observer(() => {
-  const { mediaRecords } = useRedditRootStore();
+  const { toggleItemSelect, mediaRecords } = useRedditRootStore();
 
   /**
    * Обработчик клика по кнопке действия на карточке медиаресурса.
@@ -30,18 +29,23 @@ export const RedditListMedia = observer(() => {
     HTMLInputElement
   > = (changeEvent) => {
     const dataId = changeEvent.target.getAttribute("data-id");
-    // dataId && toggleItemSelect(dataId);
+
+    dataId && toggleItemSelect(dataId);
   };
 
   return (
     <>
-      {mediaRecords.map((mediaRecord) => (
-        <MediaResourceCard
-          mediaRecord={mediaRecord}
-          onClickAction={onClickAction}
-          onToggleSelect={onToggleSelect}
-        />
-      ))}
+      {mediaRecords.map(({ mediaRecord, selected }) => {
+        return (
+          <MediaResourceCard
+            key={mediaRecord.id}
+            mediaRecord={mediaRecord}
+            onClickAction={onClickAction}
+            onToggleSelect={onToggleSelect}
+            selected={selected}
+          />
+        );
+      })}
     </>
   );
 });

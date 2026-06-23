@@ -1,10 +1,11 @@
-import { makeAutoObservable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 
 import { type RedditResponseNewRecordsData } from "@shared/lib/types/electron-api";
 import { MediaRecordUi } from "@renderer-shared/types/media";
 
+import { ItemsToSend } from "@renderer-features/model/items-to-send";
+
 import { RedditCollection } from "./reddit-collection";
-import { RedditSelectedMedia } from "./reddit-selected-media";
 import { RedditSubscribeStore } from "./reddit-subscribes";
 import { RedditUserSelectedStore } from "./reddit-user-selected";
 
@@ -33,7 +34,7 @@ export class RedditRootStore {
   /**
    * Список выбранных материалов
    */
-  redditSelectedMedia: RedditSelectedMedia;
+  // redditSelectedMedia: RedditSelectedMedia;
 
   /**
    * Флаг, указывающий, что происходит групповая отправка
@@ -46,6 +47,11 @@ export class RedditRootStore {
   busy = false;
 
   /**
+   * Список материалов для отправки
+   */
+  itemsToSend: ItemsToSend;
+
+  /**
    * Создаёт экземпляр корневого хранилища.
    *
    * Инициализирует вложенные хранилища.
@@ -54,9 +60,23 @@ export class RedditRootStore {
     this.redditSubscribeStore = new RedditSubscribeStore();
     this.redditUserSelectedStore = new RedditUserSelectedStore();
     this.redditCollection = new RedditCollection();
-    this.redditSelectedMedia = new RedditSelectedMedia();
+    // ? Зачем это?
+    // this.redditSelectedMedia = new RedditSelectedMedia();
+    this.itemsToSend = new ItemsToSend();
 
-    makeAutoObservable(this);
+    makeObservable(this, {
+      redditSubscribeStore: observable,
+      redditUserSelectedStore: observable,
+      redditCollection: observable,
+      itemsToSend: observable,
+
+      redditResponseNewRecords: action,
+      redditReceiveNewRecords: action,
+      toggleItemSelect: action,
+
+      findRedditChannels: computed,
+      mediaRecords: computed,
+    });
   }
 
   /**
@@ -127,11 +147,29 @@ export class RedditRootStore {
    */
   get mediaRecords() {
     return Array.from(this.redditCollection.mediaRecords.entries()).map(
-      ([id, mediaRecord]) =>
-        ({
-          selected: this.redditSelectedMedia.selectedRecords.has(id),
-          ...mediaRecord,
-        }) as MediaRecordUi,
+      ([id, mediaRecord]) => ({
+        selected: this.itemsToSend.items.has(id),
+        mediaRecord,
+      }),
     );
   }
+
+  toggleItemSelect = (idMediaRecord: string) => {
+    if (this.itemsToSend.items.has(idMediaRecord)) {
+      this.itemsToSend.items.delete(idMediaRecord);
+      return;
+    }
+    const record = this.redditCollection.mediaRecords.get(idMediaRecord);
+    if (record)
+      this.itemsToSend.addItem(idMediaRecord, {
+        id: record.id,
+        title: record.title,
+        fileDecode: record.fileDecode,
+        filePath: record.filePath,
+        previewDecode: record.previewDecode,
+        previewFilePath: record.previewFilePath,
+        width: record.width,
+        height: record.height,
+      } as MediaRecordUi);
+  };
 }

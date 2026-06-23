@@ -1,7 +1,8 @@
 import { type ChangeEventHandler, type MouseEventHandler } from "react";
 import { Card, Checkbox, Title } from "@mantine/core";
+import { observer } from "mobx-react-lite";
 
-import { type MediaRecordUi } from "@renderer-shared/types/media";
+import { type MediaRecordStore } from "@renderer-features/model/media-record";
 
 import { MediaResourceCardDimension } from "./MediaResourceCardDimension";
 import { MediaResourceCardSelectDimension } from "./MediaResourceCardSelectDimension";
@@ -22,7 +23,7 @@ type Props = {
    *
    * Содержит информацию о заголовке, URL, статусе выбора и наличии медиаресурсов.
    */
-  mediaRecord: MediaRecordUi;
+  mediaRecord: MediaRecordStore;
   /**
    * Обработчик клика по кнопке действия.
    *
@@ -41,6 +42,8 @@ type Props = {
     idMediaRecord: string;
     title: string;
   }) => void;
+
+  selected: boolean;
 };
 
 /**
@@ -49,37 +52,43 @@ type Props = {
  * Отображает информацию о медиазаписи: заголовок, превью (если доступно) и панель инструментов.
  * Предоставляет возможность выбрать элемент для дальнейшей обработки через чекбокс.
  */
-export const MediaResourceCard = ({
-  mediaRecord,
-  onChangeRecordTitle,
-  onClickAction,
-  onToggleSelect,
-}: Props) => {
-  return (
-    <Card shadow="sm" withBorder className={styles.card}>
-      {mediaRecord.haveVideo ? (
-        <MediaResourceCardTitle
-          mediaRecord={mediaRecord}
-          onChangeRecordTitle={onChangeRecordTitle}
+export const MediaResourceCard = observer(
+  ({
+    mediaRecord,
+    onChangeRecordTitle,
+    onClickAction,
+    onToggleSelect,
+    selected,
+  }: Props) => {
+    return (
+      <Card shadow="sm" withBorder className={styles.card}>
+        {mediaRecord.haveVideo ? (
+          <MediaResourceCardTitle
+            mediaRecord={mediaRecord}
+            onChangeRecordTitle={onChangeRecordTitle}
+          />
+        ) : (
+          <Title order={5}>{mediaRecord.title}</Title>
+        )}
+        <MediaResourceContent mediaRecord={mediaRecord} />
+        <MediaResourceCardDimension mediaRecord={mediaRecord} />
+        <MediaResourceCardToolbar
+          mediaId={mediaRecord.id}
+          onClickAction={onClickAction}
         />
-      ) : (
-        <Title order={5}>{mediaRecord.title}</Title>
-      )}
-      <MediaResourceContent mediaRecord={mediaRecord} />
-      <MediaResourceCardDimension mediaRecord={mediaRecord} />
-      <MediaResourceCardToolbar
-        mediaId={mediaRecord.id}
-        onClickAction={onClickAction}
-      />
-      <MediaResourceCardSelectDimension mediaRecord={mediaRecord} />
-      {!mediaRecord.collection && !mediaRecord.haveVideo && (
-        <Checkbox
-          label="Добавить в список"
-          checked={mediaRecord.selected}
-          data-id={mediaRecord.id}
-          onChange={onToggleSelect}
-        />
-      )}
-    </Card>
-  );
-};
+        {mediaRecord.preview?.images && (
+          <MediaResourceCardSelectDimension mediaRecord={mediaRecord} />
+        )}
+        {!mediaRecord.collection && !mediaRecord.haveVideo && (
+          <Checkbox
+            label="Добавить в список"
+            checked={selected}
+            data-id={mediaRecord.id}
+            onChange={onToggleSelect}
+          />
+        )}
+      </Card>
+    );
+  },
+);
+MediaResourceCard.displayName = "MediaResourceCard";

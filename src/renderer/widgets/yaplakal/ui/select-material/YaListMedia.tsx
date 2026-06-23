@@ -71,13 +71,14 @@ export const YaListMedia = observer(() => {
 
   return (
     <>
-      {mediaRecords.map((mediaRecord) => (
+      {mediaRecords.map(({ mediaRecord, selected }) => (
         <MediaResourceCard
           key={mediaRecord.id}
           mediaRecord={mediaRecord}
           onClickAction={onClickAction}
           onToggleSelect={onToggleSelect}
           onChangeRecordTitle={setRecordTitle}
+          selected={selected}
         />
       ))}
     </>

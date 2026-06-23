@@ -2,7 +2,7 @@ import { ActionIcon, Group, TextInput, Title } from "@mantine/core";
 import { useInputState, useToggle } from "@mantine/hooks";
 import { IconDeviceFloppy, IconEdit, IconPencilX } from "@tabler/icons-react";
 
-import { type MediaRecordUi } from "@renderer-shared/types/media";
+import { type MediaRecordStore } from "@renderer-features/model/media-record";
 
 import classes from "./MediaResourceCardTitle.module.css";
 
@@ -12,7 +12,7 @@ type Props = {
    *
    * Содержит информацию о заголовке, URL и других метаданных.
    */
-  mediaRecord: MediaRecordUi;
+  mediaRecord: MediaRecordStore;
 
   /**
    * Функция, вызываемая при изменении названия медиазаписи.

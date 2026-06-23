@@ -1,6 +1,7 @@
 import { Text } from "@mantine/core";
+import { observer } from "mobx-react-lite";
 
-import { type MediaRecordUi } from "@renderer-shared/types/media";
+import { type MediaRecordStore } from "@renderer-features/model/media-record";
 
 type Props = {
   /**
@@ -8,20 +9,21 @@ type Props = {
    *
    * Содержит информацию о заголовке, URL, статусе выбора и наличии медиаресурсов.
    */
-  mediaRecord: MediaRecordUi;
+  mediaRecord: MediaRecordStore;
 };
 
 /**
  * Отобразить размеры медиа-ресурса
  */
-export const MediaResourceCardDimension = ({
-  mediaRecord: { height, width },
-}: Props) => {
-  if (width && height)
-    return (
-      <Text size="sm">
-        {width}x{height}
-      </Text>
-    );
-  return null;
-};
+export const MediaResourceCardDimension = observer(
+  ({ mediaRecord: { height, width } }: Props) => {
+    if (width && height)
+      return (
+        <Text size="sm">
+          {width}x{height}
+        </Text>
+      );
+    return null;
+  },
+);
+MediaResourceCardDimension.displayName = "MediaResourceCardDimension";
