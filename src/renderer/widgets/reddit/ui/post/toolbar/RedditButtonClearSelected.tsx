@@ -2,12 +2,12 @@ import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconEraser } from "@tabler/icons-react";
 import { observer } from "mobx-react-lite";
 
-import { useYaPlakalRuRootStore } from "@renderer/providers/ya-plakal/useYaplakalRootStore";
+import { useRedditRootStore } from "@renderer/providers/reddit";
 
-export const YaButtonClearSelected = observer(() => {
+export const RedditButtonClearSelected = observer(() => {
   const {
     itemsToSend: { clearItems },
-  } = useYaPlakalRuRootStore();
+  } = useRedditRootStore();
 
   return (
     <Tooltip label="Очистить выбранное">
@@ -17,4 +17,4 @@ export const YaButtonClearSelected = observer(() => {
     </Tooltip>
   );
 });
-YaButtonClearSelected.displayName = "YaButtonClearSelected";
+RedditButtonClearSelected.displayName = "RedditButtonClearSelected";

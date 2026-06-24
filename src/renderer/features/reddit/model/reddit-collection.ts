@@ -33,6 +33,7 @@ export class RedditCollection {
       updateMediaPreview: action,
       redditResponseCollection: action,
       saveMedia: action,
+      copyUrlToClipBoard: action,
       // computed
     });
   }
@@ -92,9 +93,11 @@ export class RedditCollection {
    * */
   openTopicInBrowser = (dataId: string) => {
     const mediaData = this.mediaRecords.get(dataId);
-    if (!mediaData) return;
+    if (!mediaData || !mediaData.permalink) return;
 
-    window.electronAPI.openUrlInBrowser(mediaData.urlTopic);
+    window.electronAPI.openUrlInBrowser(
+      `https://www.reddit.com${mediaData.permalink}`,
+    );
   };
 
   /**
@@ -148,5 +151,16 @@ export class RedditCollection {
     if (url) {
       window.electronAPI.saveMediaFile({ url });
     }
+  };
+
+  /**
+   * Открыть топик в браузере
+   * @param dataId Id записи
+   * */
+  copyUrlToClipBoard = (dataId: string) => {
+    const mediaData = this.mediaRecords.get(dataId);
+    if (!mediaData || !mediaData.url) return;
+
+    window.electronAPI.copyTextToClipBoard(mediaData.url);
   };
 }

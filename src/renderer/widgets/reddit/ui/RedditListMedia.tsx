@@ -16,7 +16,12 @@ export const RedditListMedia = observer(() => {
   const {
     toggleItemSelect,
     mediaRecords,
-    redditCollection: { saveMedia, sendMediaToTelegram },
+    redditCollection: {
+      saveMedia,
+      sendMediaToTelegram,
+      openTopicInBrowser,
+      copyUrlToClipBoard,
+    },
   } = useRedditRootStore();
 
   /**
@@ -37,10 +42,10 @@ export const RedditListMedia = observer(() => {
         sendMediaToTelegram(dataId as string);
       })
       .with([MEDIA_ACTION_OPEN_IN_BROWSER, P.string.minLength(1)], () => {
-        console.log(MEDIA_ACTION_OPEN_IN_BROWSER, dataAction, dataId);
+        openTopicInBrowser(dataId as string);
       })
       .with([MEDIA_ACTION_COPY_LINK, P.string.minLength(1)], () => {
-        console.log(MEDIA_ACTION_COPY_LINK, dataAction, dataId);
+        copyUrlToClipBoard(dataId as string);
       })
       .with(
         [MEDIA_ACTION_DOWNLOAD_SEND_TELEGRAM, P.string.minLength(1)],

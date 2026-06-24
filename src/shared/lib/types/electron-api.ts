@@ -325,6 +325,12 @@ export interface ElectronAPI {
    * Скачать файл из интернета
    */
   downloadFile: (props: DownloadFileProps) => void;
+
+  /**
+   * Скопировать текст в буфер обмена
+   * @param text текст
+   */
+  copyTextToClipBoard: (text: string) => void;
 }
 
 /**

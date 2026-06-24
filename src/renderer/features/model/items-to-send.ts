@@ -20,6 +20,7 @@ export class ItemsToSend {
       deleteItem: action,
       setRecordTitle: action,
       addItem: action,
+      clearItems: action,
       // computed
       countSelected: computed,
       mediaRecords: computed,
@@ -86,5 +87,12 @@ export class ItemsToSend {
 
   addItem = (idMediaRecord: string, record: MediaRecordUi) => {
     this.items.set(idMediaRecord, record);
+  };
+
+  /**
+   * Очищает коллекцию элементов для отправки.
+   */
+  clearItems = () => {
+    this.items.clear();
   };
 }

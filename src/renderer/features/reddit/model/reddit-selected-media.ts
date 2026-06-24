@@ -4,6 +4,7 @@ import { MediaRecordStore } from "@renderer-features/model/media-record";
 
 /**
  * Класс для хранения media-записей от Reddit.
+ * todo delete
  */
 export class RedditSelectedMedia {
   /**
