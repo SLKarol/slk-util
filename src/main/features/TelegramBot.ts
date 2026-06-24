@@ -159,7 +159,10 @@ export class TelegramBot {
           .then((response) => {
             return { id: response.photo[0].file_id, title, animation: false };
           })
-          .catch(() => false);
+          .catch((errorSend) => {
+            console.log("errorSend: ", errorSend);
+            return false;
+          });
       }),
     ).then((listImgs) => {
       const files: FileInTelegram[] = [];

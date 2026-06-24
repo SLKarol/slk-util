@@ -1,6 +1,9 @@
 import { action, computed, makeObservable, observable } from "mobx";
 
-import { type RedditResponseNewRecordsData } from "@shared/lib/types/electron-api";
+import {
+  type RedditResponseNewRecordsData,
+  type TelegramBotSendPicturePayload,
+} from "@shared/lib/types/electron-api";
 import { MediaRecordUi } from "@renderer-shared/types/media";
 
 import { ItemsToSend } from "@renderer-features/model/items-to-send";
@@ -73,6 +76,7 @@ export class RedditRootStore {
       redditResponseNewRecords: action,
       redditReceiveNewRecords: action,
       toggleItemSelect: action,
+      sendSelectedToTelegram: action,
 
       findRedditChannels: computed,
       mediaRecords: computed,
@@ -170,6 +174,20 @@ export class RedditRootStore {
         previewFilePath: record.previewFilePath,
         width: record.width,
         height: record.height,
+        url: record.url,
       } as MediaRecordUi);
+  };
+
+  /**
+   * Отправляет выбранные медиазаписи в Telegram.
+   */
+  sendSelectedToTelegram = () => {
+    const picturesToTelegram = [] as TelegramBotSendPicturePayload[];
+    this.itemsToSend.items.forEach((record) => {
+      if (record.url) {
+        picturesToTelegram.push({ url: record.url, title: record.title });
+      }
+    });
+    window.electronAPI.telegramBotSendGroup(picturesToTelegram);
   };
 }
