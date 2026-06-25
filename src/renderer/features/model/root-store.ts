@@ -1,3 +1,4 @@
+import { HolidaysStore } from "./holidays";
 import { TrackerStihiStore } from "./tracker-stihi-store";
 
 /**
@@ -9,7 +10,13 @@ export class RootStore {
    */
   trackerStihiStore: TrackerStihiStore;
 
+  /**
+   * Хранилище названий праздников
+   */
+  holidaysStore: HolidaysStore;
+
   constructor() {
     this.trackerStihiStore = new TrackerStihiStore();
+    this.holidaysStore = new HolidaysStore();
   }
 }

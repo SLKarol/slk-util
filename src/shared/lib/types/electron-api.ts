@@ -331,6 +331,14 @@ export interface ElectronAPI {
    * @param text текст
    */
   copyTextToClipBoard: (text: string) => void;
+
+  /** Запросить названия праздников  */
+  receiveNamesOfHolidays: () => void;
+
+  /** Получение названия праздников  */
+  responseNamesOfHolidays: (
+    callback: (holidays: string[]) => void,
+  ) => () => void;
 }
 
 /**

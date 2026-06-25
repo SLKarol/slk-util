@@ -1,4 +1,5 @@
 import { createErrorHandlers } from "@preload/lib/error/error-handler";
+import { createHolidaysHandlers } from "@preload/lib/holidays/holidays-handlers";
 import { createMediaHandlers } from "@preload/lib/media/media-handler";
 import { createMenuHandlers } from "@preload/lib/menu/menu-handlers.ts";
 import { createMessagesHandlers } from "@preload/lib/messages/messages-handlers";
@@ -21,3 +22,4 @@ export const errorAPI = createErrorHandlers();
 export const mediaAPI = createMediaHandlers();
 export const telegramAPI = createTelegramHandlers();
 export const redditAPI = createRedditHandlers();
+export const holidaysAPI = createHolidaysHandlers();

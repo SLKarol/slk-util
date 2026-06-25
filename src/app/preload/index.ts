@@ -1,5 +1,6 @@
 import {
   errorAPI,
+  holidaysAPI,
   mediaAPI,
   menuAPI,
   messagesAPI,
@@ -27,6 +28,7 @@ import { type ElectronAPI } from "@shared/lib/types/electron-api";
  */
 contextBridge.exposeInMainWorld("electronAPI", {
   ...errorAPI,
+  ...holidaysAPI,
   ...menuAPI,
   ...messagesAPI,
   ...requestsAPI,

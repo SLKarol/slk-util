@@ -1,6 +1,7 @@
 import { ipcMain } from "electron";
 
 import { banAuthorHandlers } from "@main/features/ipc/banAutor";
+import { holidaysHandlers } from "@main/features/ipc/holidays";
 import { mediaHandlers } from "@main/features/ipc/media";
 import { redditHandlers } from "@main/features/ipc/reddit";
 import { requestHandlers } from "@main/features/ipc/request";
@@ -50,6 +51,10 @@ export function registerHandlers() {
   });
 
   Object.entries(redditHandlers).forEach(([channel, handler]) => {
+    ipcMain.on(channel, handler);
+  });
+
+  Object.entries(holidaysHandlers).forEach(([channel, handler]) => {
     ipcMain.on(channel, handler);
   });
 }

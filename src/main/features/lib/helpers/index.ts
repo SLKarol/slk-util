@@ -8,3 +8,4 @@ export * from "./getDirectorySize";
 export * from "./emptyDirectory";
 export * from "./redditUtils";
 export * from "./fileExist";
+export * from "./getHolidaysToday";

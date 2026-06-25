@@ -251,4 +251,14 @@ export const CHANNELS = {
 
   /** Скачать файл из интернет */
   DOWNLOAD_FILE: "DOWNLOAD_FILE",
+
+  /**
+   * Запрос названий праздников
+   **/
+  RECEIVE_NAMES_OF_HOLIDAYS: "RECEIVE_NAMES_OF_HOLIDAYS",
+
+  /**
+   * Получение названий праздников
+   **/
+  RESPONSE_NAMES_OF_HOLIDAYS: "RESPONSE_NAMES_OF_HOLIDAYS",
 };
