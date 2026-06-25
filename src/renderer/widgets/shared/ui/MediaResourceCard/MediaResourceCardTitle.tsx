@@ -1,6 +1,7 @@
 import { ActionIcon, Group, TextInput, Title } from "@mantine/core";
 import { useInputState, useToggle } from "@mantine/hooks";
 import { IconDeviceFloppy, IconEdit, IconPencilX } from "@tabler/icons-react";
+import { observer } from "mobx-react-lite";
 
 import { type MediaRecordStore } from "@renderer-features/model/media-record";
 
@@ -16,7 +17,7 @@ type Props = {
 /**
  * Компонент для вывода/редактирования заголовка медиаресурса.
  */
-export const MediaResourceCardTitle = ({ mediaRecord }: Props) => {
+export const MediaResourceCardTitle = observer(({ mediaRecord }: Props) => {
   const [editMode, toggleEditMode] = useToggle([false, true]);
   const [editTitle, setEditTitle] = useInputState(mediaRecord.title ?? "");
 
@@ -49,4 +50,5 @@ export const MediaResourceCardTitle = ({ mediaRecord }: Props) => {
       </ActionIcon>
     </Group>
   );
-};
+});
+MediaResourceCardTitle.displayName = "MediaResourceCardTitle";

@@ -27,16 +27,6 @@ type Props = {
    * Вызывается при нажатии на кнопку в панели инструментов карточки.
    */
   onClickAction: MouseEventHandler<HTMLButtonElement>;
-
-  /**
-   * Обработчик изменения заголовка медиаресурса.
-   */
-  onChangeRecordTitle: (value: {
-    /** Id ресурса */
-    idMediaRecord: string;
-    /** Новое название */
-    title: string;
-  }) => void;
 };
 
 /**
@@ -49,14 +39,10 @@ type Props = {
 export const MediaResourceCardForPost = ({
   mediaRecord,
   onClickAction,
-  onChangeRecordTitle,
 }: Props) => {
   return (
     <Card shadow="sm" withBorder className={styles.card}>
-      <MediaResourceCardTitle
-        mediaRecord={mediaRecord}
-        onChangeRecordTitle={onChangeRecordTitle}
-      />
+      <MediaResourceCardTitle mediaRecord={mediaRecord} />
       <Image src={mediaRecord.url} title={mediaRecord.title} w="100%" />
       <MediaResourceCardDimension mediaRecord={mediaRecord} />
       <MediaResourceCardForPostToolbar

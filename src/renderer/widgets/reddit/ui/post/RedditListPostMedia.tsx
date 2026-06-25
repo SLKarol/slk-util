@@ -1,16 +1,13 @@
 import { type MouseEventHandler } from "react";
 import { observer } from "mobx-react-lite";
 
-import { useYaPlakalRuRootStore } from "@renderer/providers/ya-plakal/useYaplakalRootStore";
+import { useRedditRootStore } from "@renderer/providers/reddit";
 import { MediaResourceCardForPost } from "@renderer/widgets/shared/ui";
 
-/**
- * Компонент отображения списка медиаресурсов, выбранных для публикации в разделе "Ya plakal".
- */
-export const YaListPostMedia = observer(() => {
+export const RedditListPostMedia = observer(() => {
   const {
     itemsToSend: { mediaRecords, deleteItem },
-  } = useYaPlakalRuRootStore();
+  } = useRedditRootStore();
 
   /**
    * Обработчик клика по кнопке действия на карточке медиаресурса.
@@ -39,4 +36,4 @@ export const YaListPostMedia = observer(() => {
     </>
   );
 });
-YaListPostMedia.displayName = "YaListPostMedia";
+RedditListPostMedia.displayName = "RedditListPostMedia";
