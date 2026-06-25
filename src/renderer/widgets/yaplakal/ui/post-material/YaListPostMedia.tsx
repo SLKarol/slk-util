@@ -9,7 +9,7 @@ import { MediaResourceCardForPost } from "@renderer/widgets/shared/ui";
  */
 export const YaListPostMedia = observer(() => {
   const {
-    itemsToSend: { mediaRecords, deleteItem },
+    itemsToSend: { mediaRecords, deleteItem, setRecordTitle },
   } = useYaPlakalRuRootStore();
 
   /**
@@ -31,9 +31,10 @@ export const YaListPostMedia = observer(() => {
     <>
       {mediaRecords.map((mediaRecord) => (
         <MediaResourceCardForPost
-          key={mediaRecord.id}
+          key={`${mediaRecord.id}-${mediaRecord.url}`}
           mediaRecord={mediaRecord}
           onClickAction={onClickAction}
+          setRecordTitle={setRecordTitle}
         />
       ))}
     </>

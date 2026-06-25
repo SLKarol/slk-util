@@ -28,7 +28,7 @@ export const RedditListPostMedia = observer(() => {
     <>
       {mediaRecords.map((mediaRecord) => (
         <MediaResourceCardForPost
-          key={mediaRecord.id}
+          key={`${mediaRecord.id}-${mediaRecord.url}`}
           mediaRecord={mediaRecord}
           onClickAction={onClickAction}
         />

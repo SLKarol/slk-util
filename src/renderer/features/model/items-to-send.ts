@@ -34,17 +34,7 @@ export class ItemsToSend {
    * @computed
    */
   get mediaRecords() {
-    return Array.from(this.items.entries()).map(
-      ([url, mediaRecord]) =>
-        ({
-          id: url,
-          url: mediaRecord.fileDecode,
-          title: mediaRecord.title,
-          selected: true,
-          width: mediaRecord.width,
-          height: mediaRecord.height,
-        }) as MediaRecordUi,
-    );
+    return Array.from(this.items.values());
   }
 
   /**
@@ -79,10 +69,7 @@ export class ItemsToSend {
     const mediaRecord = this.items.get(idMediaRecord);
     if (!mediaRecord) return;
 
-    this.items.set(idMediaRecord, {
-      ...mediaRecord,
-      title,
-    });
+    mediaRecord.title = title;
   };
 
   addItem = (idMediaRecord: string, record: MediaRecordUi) => {

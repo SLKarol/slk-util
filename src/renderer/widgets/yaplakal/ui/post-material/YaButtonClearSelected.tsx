@@ -6,12 +6,16 @@ import { useYaPlakalRuRootStore } from "@renderer/providers/ya-plakal/useYaplaka
 
 export const YaButtonClearSelected = observer(() => {
   const {
-    itemsToSend: { clearItems },
+    itemsToSend: { clearItems, countSelected },
   } = useYaPlakalRuRootStore();
 
   return (
     <Tooltip label="Очистить выбранное">
-      <ActionIcon variant="filled" onClick={clearItems}>
+      <ActionIcon
+        variant="filled"
+        onClick={clearItems}
+        disabled={countSelected === 0}
+      >
         <IconEraser />
       </ActionIcon>
     </Tooltip>

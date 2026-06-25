@@ -1,5 +1,6 @@
 import { type MouseEventHandler } from "react";
 import { Card, Image } from "@mantine/core";
+import { observer } from "mobx-react-lite";
 
 import { type MediaRecordUi } from "@renderer-shared/types/media";
 
@@ -27,6 +28,17 @@ type Props = {
    * Вызывается при нажатии на кнопку в панели инструментов карточки.
    */
   onClickAction: MouseEventHandler<HTMLButtonElement>;
+
+  /**
+   * Функция для установки заголовка медиа-записи.
+   */
+  setRecordTitle?: ({
+    idMediaRecord,
+    title,
+  }: {
+    idMediaRecord: string;
+    title: string;
+  }) => void;
 };
 
 /**
@@ -36,19 +48,26 @@ type Props = {
  * не содержит чекбокса выбора — предназначена для уже выбранных элементов.
  * Включает панель инструментов.
  */
-export const MediaResourceCardForPost = ({
-  mediaRecord,
-  onClickAction,
-}: Props) => {
-  return (
-    <Card shadow="sm" withBorder className={styles.card}>
-      <MediaResourceCardTitle mediaRecord={mediaRecord} />
-      <Image src={mediaRecord.url} title={mediaRecord.title} w="100%" />
-      <MediaResourceCardDimension mediaRecord={mediaRecord} />
-      <MediaResourceCardForPostToolbar
-        mediaId={mediaRecord.id}
-        onClickAction={onClickAction}
-      />
-    </Card>
-  );
-};
+export const MediaResourceCardForPost = observer(
+  ({ mediaRecord, onClickAction, setRecordTitle }: Props) => {
+    return (
+      <Card shadow="sm" withBorder className={styles.card}>
+        <MediaResourceCardTitle
+          mediaRecord={mediaRecord}
+          setRecordTitle={setRecordTitle}
+        />
+        <Image
+          src={mediaRecord.fileDecode}
+          title={mediaRecord.title}
+          w="100%"
+        />
+        <MediaResourceCardDimension mediaRecord={mediaRecord} />
+        <MediaResourceCardForPostToolbar
+          mediaId={mediaRecord.id}
+          onClickAction={onClickAction}
+        />
+      </Card>
+    );
+  },
+);
+MediaResourceCardForPost.displayName = "MediaResourceCardForPost";
