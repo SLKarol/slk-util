@@ -1,3 +1,4 @@
+import { SelectHoliday } from "@renderer/widgets/holidays/ui";
 import {
   RedditCountSelected,
   RedditListPostMedia,
@@ -12,6 +13,7 @@ export const RedditPost = () => {
   return (
     <>
       <RedditCountSelected />
+      <SelectHoliday />
       <RedditToolbarSelected />
       <ListMedia>
         <RedditListPostMedia />

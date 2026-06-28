@@ -24,4 +24,6 @@ export const createHolidaysHandlers = () =>
         );
       };
     },
+    receiveNamesOfHolidays: () =>
+      ipcRenderer.send(CHANNELS.RECEIVE_NAMES_OF_HOLIDAYS),
   }) as ElectronAPI;

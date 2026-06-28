@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 
 import { useRedditRootStore } from "@renderer/providers/reddit";
+import { useRootStore } from "@renderer/providers/useRootStore";
 
 /**
  * Инициализация обработчиков событий от главного процесса
@@ -11,6 +12,10 @@ export const useInitHandlers = () => {
     redditResponseNewRecords,
     redditCollection: { redditResponseCollection, updateMediaPreview },
   } = useRedditRootStore();
+
+  const {
+    holidaysStore: { loadHolydays },
+  } = useRootStore();
 
   // Настроить обработчики событий от главного процесса
   useEffect(() => {
@@ -41,12 +46,20 @@ export const useInitHandlers = () => {
         updateMediaPreview(redditResponsePreview);
       });
 
+    window.electronAPI.receiveNamesOfHolidays();
+
+    const unsubscribeResponseNamesOfHolidays =
+      window.electronAPI.responseNamesOfHolidays((response) => {
+        loadHolydays(response);
+      });
+
     // Функция очистки
     return () => {
       unsubscribeMyReddits();
       unsubscribeRedditResponseNewRecords();
       unsubscribeRedditResponseCollection();
       unsubscribeRedditResponsePreview();
+      unsubscribeResponseNamesOfHolidays();
     };
   }, []);
 };

@@ -237,7 +237,10 @@ export interface ElectronAPI {
   /**
    * Отправить группу мультимедиа-ссылок через Telegram-бота.
    */
-  telegramBotSendGroup: (payload: TelegramBotSendPicturePayload[]) => void;
+  telegramBotSendGroup: (
+    pictures: TelegramBotSendPicturePayload[],
+    holidayName: string | null,
+  ) => void;
 
   /**
    * Отправить видео через Telegram-бота.

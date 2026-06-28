@@ -54,6 +54,7 @@ export const telegramHandlers = {
   [CHANNELS.TELEGRAM_BOT_SEND_GROUP]: async (
     ipcMainEvent: IpcMainEvent,
     mediaRecords: TelegramBotSendPicturePayload[],
+    holidayName: string | null = null,
   ) => {
     try {
       const settingsData = await settingsFile.readData();
