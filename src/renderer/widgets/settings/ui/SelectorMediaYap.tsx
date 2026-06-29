@@ -1,7 +1,7 @@
 import { ActionIcon, Flex, TextInput, Tooltip } from "@mantine/core";
 import { IconDeviceFloppyFilled } from "@tabler/icons-react";
 
-import { useEditSelectorMediaYap } from "./helpers";
+import { useEditSelectorMediaYap } from "../helpers";
 
 /**
  * Настройки / CSS селектор для извлечения медиа-данных страницы ЯП

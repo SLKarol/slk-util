@@ -6,7 +6,11 @@ import { IconDeviceFloppyFilled } from "@tabler/icons-react";
  */
 export const SaveSettings = () => {
   return (
-    <Button rightSection={<IconDeviceFloppyFilled size={14} />} type="submit">
+    <Button
+      rightSection={<IconDeviceFloppyFilled size={14} />}
+      type="submit"
+      ml="auto"
+    >
       Сохранить настройки
     </Button>
   );

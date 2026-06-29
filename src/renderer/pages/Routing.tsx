@@ -11,16 +11,12 @@ import { StihiRuRootProvider } from "@renderer/providers/stihi-ru/StihiRuProvide
 import { WireGuardTunnelRootProvider } from "@renderer/providers/wire-guard-tunnel/WireGuardTunnelProvider";
 import { YaPlakalProvider } from "@renderer/providers/ya-plakal/YaPlakalProvider";
 
-import { CacheDir } from "./CacheDir";
 import {
   REDDIT_TAB_PARAM_NAME,
   YAPLAKAL_TAB_PARAM_NAME,
 } from "./lib/routeConstants";
 import { RedditPage, RedditPageCurrentTab } from "./RedditPage";
-import { SettingsReddit } from "./Settings";
-import { SettingsFolderForSaveFiles } from "./SettingsFolderForSaveFiles";
-import { SettingsSelectorYap } from "./SettingsSelectorYap";
-import { SettingsTgBot } from "./SettingsTgBot/SettingsTgBot";
+import { SettingSelected, SettingsPage } from "./Settings";
 import { WireguardTunnel } from "./WireguardTunnel/WireguardTunnel";
 import { YaPage } from "./YaPage/YaPage";
 import { YaPageCurrentTab } from "./YaPage/YaPageCurrentTab";
@@ -56,14 +52,9 @@ export const Routing = () => {
               </WireGuardTunnelRootProvider>
             }
           />
-          <Route path="settingstgbot" element={<SettingsTgBot />} />
-          <Route
-            path="settingsDownloads"
-            element={<SettingsFolderForSaveFiles />}
-          />
-          <Route path="selectorYap" element={<SettingsSelectorYap />} />
-          <Route path="cacheDir" element={<CacheDir />} />
-          <Route path="settingsReddit" element={<SettingsReddit />} />
+          <Route path="settings" element={<SettingsPage />}>
+            <Route path=":setting" element={<SettingSelected />} />
+          </Route>
           <Route
             path="yaplakal"
             element={

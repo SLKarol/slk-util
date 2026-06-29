@@ -51,45 +51,10 @@ export const createAppMenu = (mainWindow: BrowserWindow | null) => {
       label: "Настройка",
       submenu: [
         {
-          label: "TG-bot",
+          label: "Настройка",
           click: () => {
             if (mainWindow) {
-              mainWindow.webContents.send(CHANNELS.NAVIGATE, "/settingstgbot");
-            }
-          },
-        },
-        {
-          label: "Загрузки",
-          click: () => {
-            if (mainWindow) {
-              mainWindow.webContents.send(
-                CHANNELS.NAVIGATE,
-                "/settingsDownloads",
-              );
-            }
-          },
-        },
-        {
-          label: "Каталог хранения временных файлов",
-          click: () => {
-            if (mainWindow) {
-              mainWindow.webContents.send(CHANNELS.NAVIGATE, "/cacheDir");
-            }
-          },
-        },
-        {
-          label: "CSS-Selector для ЯП",
-          click: () => {
-            if (mainWindow) {
-              mainWindow.webContents.send(CHANNELS.NAVIGATE, "/selectorYap");
-            }
-          },
-        },
-        {
-          label: "Reddit",
-          click: () => {
-            if (mainWindow) {
-              mainWindow.webContents.send(CHANNELS.NAVIGATE, "/settingsReddit");
+              mainWindow.webContents.send(CHANNELS.NAVIGATE, "/settings/");
             }
           },
         },

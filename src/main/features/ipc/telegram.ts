@@ -1,5 +1,6 @@
 import { type IpcMainEvent } from "electron";
 
+import { HOLIDAY_NAME_PATTERN } from "../lib/constants";
 import { downloadAndCacheFile, getDefaultSettings } from "../lib/helpers";
 import { TelegramBot } from "../TelegramBot";
 import { UserDataFileManager } from "../UserDataFileManager";
@@ -64,9 +65,14 @@ export const telegramHandlers = {
         return;
       }
 
+      const { templateHoliday } = settingsData;
       if (holidayName) {
+        const message = templateHoliday
+          ? templateHoliday.replace(HOLIDAY_NAME_PATTERN, holidayName)
+          : holidayName;
+
         await telegramBot.sendMessageToGroups({
-          message: holidayName,
+          message,
           tgGroups: settingsData.telegram.telegramGroups,
           waitSeconds: settingsData.telegram.waitSeconds,
         });

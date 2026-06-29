@@ -11,7 +11,7 @@ import {
 /**
  * Настройка каталога для кэширования данных
  */
-export const CacheDir = () => {
+export const SettingsCacheDir = () => {
   // Настроить обработчики событий загрузки настроек
   useEffect(() => {
     window.electronAPI.fetchSettings();

@@ -42,7 +42,7 @@ const SETTINGS_TELEGRAM = {
 };
 
 /**
- * Настройки приложения.
+ * Дефолтные настройки приложения.
  */
 export const SETTINGS_APP = {
   stihiRu: { login: "", password: "", cookies: [] as string[] },
@@ -59,4 +59,5 @@ export const SETTINGS_APP = {
     redditApiSecret: "",
     redditLimitRecords: 12,
   },
+  templateHoliday: "",
 };

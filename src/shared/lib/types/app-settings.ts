@@ -41,7 +41,15 @@ export interface AppSettings {
    */
   selectorMediaYap: string;
 
+  /**
+   * Настройки для интеграции с Reddit.
+   */
   reddit: AppSettingsReddit;
+
+  /**
+   * Шаблон текста, который будет отправлен в чат Telegram о сегодняшнем празднике.
+   */
+  templateHoliday: string;
 }
 
 /**
