@@ -44,6 +44,9 @@ export interface SendPictureToGroupsPayload {
    */
   tgAdmin: string;
 
+  /**
+   * пауза между отправками в группу (в секундах)
+   */
   waitSeconds: number;
 }
 
@@ -128,3 +131,20 @@ export type SendPicturesToGroup = {
    */
   delay: number;
 };
+
+export interface SendMessageToGroupsPayload {
+  /**
+   * Текст сообщения
+   */
+  message: string;
+
+  /**
+   * Список идентификаторов групп, куда нужно отправить сообщение
+   */
+  tgGroups: string[];
+
+  /**
+   * пауза между отправками в группу (в секундах)
+   */
+  waitSeconds: number;
+}

@@ -7,6 +7,7 @@ import {
   type CombineAnimationType,
   type FileInTelegram,
   type SendMediaRecordsGroupsPayload,
+  type SendMessageToGroupsPayload,
   type SendPicturesToGroup,
   type SendPictureToGroupsPayload,
   type SendVideoToGroupsPayload,
@@ -291,5 +292,21 @@ export class TelegramBot {
         );
       }
     }
+  }
+
+  /** Отправить сообщение в указанные группы Telegram. */
+  async sendMessageToGroups({
+    message,
+    tgGroups,
+    waitSeconds,
+  }: SendMessageToGroupsPayload) {
+    if (!this.telegraf) return false;
+
+    for (const group of tgGroups) {
+      await wait(waitSeconds);
+      await this.telegraf.telegram.sendMessage(group.trim(), message);
+    }
+
+    return true;
   }
 }

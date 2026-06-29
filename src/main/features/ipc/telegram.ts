@@ -63,6 +63,15 @@ export const telegramHandlers = {
         ipcMainEvent.reply(CHANNELS.SEND_POP_UP_ERROR, "Бот не запущен");
         return;
       }
+
+      if (holidayName) {
+        await telegramBot.sendMessageToGroups({
+          message: holidayName,
+          tgGroups: settingsData.telegram.telegramGroups,
+          waitSeconds: settingsData.telegram.waitSeconds,
+        });
+      }
+
       await telegramBot.sendMediaRecordsToGroups({
         tgAdmin: settingsData.telegram.telegramAdmin,
         tgGroups: settingsData.telegram.telegramGroups,
