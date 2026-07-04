@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, session } from "electron";
 import {
   installExtension,
   REACT_DEVELOPER_TOOLS,
@@ -87,7 +87,53 @@ app.whenReady().then(() => {
     installExtension(REACT_DEVELOPER_TOOLS)
       .then((ext) => console.log(`Added Extension:  ${ext.name}`))
       .catch((err) => console.log("An error occurred: ", err));
-});
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
+  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    const isDev = !app.isPackaged;
+
+    const csp = isDev
+      ? "default-src 'self'; " +
+        "script-src 'self' 'unsafe-eval' 'unsafe-inline'; " +
+        "style-src 'self' 'unsafe-inline'; " +
+        "img-src 'self' https: data:; " +
+        "media-src https: blob: data:; " +
+        "connect-src 'self' ws: http: https:;"
+      : "default-src 'self'; " +
+        "script-src 'self'; " +
+        "style-src 'self' 'unsafe-inline'; " +
+        "img-src 'self' https: data:; " +
+        "media-src https: blob: data:; " +
+        "connect-src 'self' https:;";
+
+    callback({
+      responseHeaders: {
+        ...details.responseHeaders,
+        "Content-Security-Policy": [csp],
+      },
+    });
+  });
+
+  // session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+  //   callback({
+  //     responseHeaders: {
+  //       ...details.responseHeaders,
+  //       "Content-Security-Policy": [
+  //         // Dev version
+  //         "default-src 'self'; " +
+  //           "script-src 'self' 'unsafe-eval' 'unsafe-inline'; " +
+  //           "style-src 'self' 'unsafe-inline'; " +
+  //           "img-src 'self' https: data:; " +
+  //           "media-src https: data: blob:; " +
+  //           "connect-src 'self' ws: http: https:;",
+  //         // Prod version
+  //         // "default-src 'self'; " +
+  //         //   "script-src 'self'; " +
+  //         //   "style-src 'self' 'unsafe-inline'; " +
+  //         //   "img-src 'self' https: data:; " +
+  //         //   "media-src https: blob: data:; " +
+  //         //   "connect-src 'self' https:;",
+  //       ],
+  //     },
+  //   });
+  // });
+});

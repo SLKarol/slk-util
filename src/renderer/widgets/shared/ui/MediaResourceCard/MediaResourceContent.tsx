@@ -18,6 +18,26 @@ export const MediaResourceContent = observer(({ mediaRecord }: Props) => {
     ))
     .with(
       {
+        videoParts: P.when(
+          (s) =>
+            s.urlVideo &&
+            s.urlVideo.length > 0 &&
+            typeof s.urlAudio === "undefined",
+        ),
+        collection: P.nullish,
+      },
+      () => (
+        <video
+          width="100%"
+          controls
+          poster={mediaRecord.previewDecode ?? undefined}
+        >
+          <source src={mediaRecord.videoParts.urlVideo} />
+        </video>
+      ),
+    )
+    .with(
+      {
         haveVideo: false,
         url: P.when((s) => typeof s === "string" && s.length > 0),
         collection: P.nonNullable,
@@ -29,6 +49,7 @@ export const MediaResourceContent = observer(({ mediaRecord }: Props) => {
     .with(
       {
         haveVideo: false,
+        videoParts: P.nullish,
         url: P.when((s) => typeof s === "string" && s.length > 0),
       },
       () => <MediaResourceImage mediaRecord={mediaRecord} />,

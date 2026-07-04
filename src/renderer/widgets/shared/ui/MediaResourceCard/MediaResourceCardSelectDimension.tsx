@@ -51,7 +51,7 @@ export const MediaResourceCardSelectDimension = observer(
           placeholder="Выбрать размер"
           data={data}
           value={urlDimension}
-          onChange={setUrlDimension}
+          onChange={(value) => setUrlDimension(value)}
           mb="0.5rem"
         />
         <ActionIcon disabled={!urlDimension} mt="1rem" onClick={onClick}>

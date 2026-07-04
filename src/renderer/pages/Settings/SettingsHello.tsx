@@ -1,5 +1,5 @@
 import { Text } from "@mantine/core";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 
 export const SettingsHello = () => {
   const { setting = "" } = useParams();

@@ -1,5 +1,5 @@
 import { Stack } from "@mantine/core";
-import { Link, useParams } from "react-router";
+import { Link, useParams } from "react-router-dom";
 
 import { SETTINGS_MENU } from "../lib/constants";
 

@@ -312,6 +312,13 @@ async function getVideoUrl(
   const fallbackUrl = media?.reddit_video?.fallback_url;
 
   if (fallbackUrl) {
+    if (
+      media.reddit_video &&
+      "has_audio" in media.reddit_video &&
+      !media.reddit_video.has_audio
+    ) {
+      return { urlVideo: fallbackUrl };
+    }
     const urlVideo = fallbackUrl.split("?")[0];
     const fileName = urlVideo.substring(urlVideo.lastIndexOf("/") + 1);
     if (!fileName.startsWith("DASH_")) {

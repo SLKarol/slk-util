@@ -74,17 +74,27 @@ export class RedditCollection {
     const mediaData = this.mediaRecords.get(dataId);
     if (!mediaData) return;
 
+    // Случай для reddit-video
+    if (mediaData.videoParts.urlVideo && !mediaData.videoParts.urlAudio)
+      return window.electronAPI.telegramBotSendVideo({
+        url: mediaData.videoParts.urlVideo,
+        urlPreview: mediaData.previewImages?.src ?? "",
+        sendAsFile,
+        title: mediaData.title,
+      });
+
     if (!mediaData.haveVideo)
       return window.electronAPI.telegramBotSendPicture({
         url: mediaData.url ?? "",
       });
 
-    window.electronAPI.telegramBotSendVideo({
-      url: mediaData.url ?? "",
-      urlPreview: mediaData.previewImages?.src ?? "",
-      sendAsFile,
-      title: mediaData.title,
-    });
+    if (mediaData.url)
+      window.electronAPI.telegramBotSendVideo({
+        url: mediaData.url,
+        urlPreview: mediaData.previewImages?.src ?? "",
+        sendAsFile,
+        title: mediaData.title,
+      });
   };
 
   /**

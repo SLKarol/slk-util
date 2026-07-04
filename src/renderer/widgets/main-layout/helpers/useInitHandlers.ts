@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { notifications } from "@mantine/notifications";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 import { useRootStore } from "@renderer/providers/useRootStore";
 

@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { Outlet } from "react-router";
+import { Outlet } from "react-router-dom";
 
 import { RedditPageTabs } from "@renderer/widgets/reddit/ui";
 

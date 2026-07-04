@@ -1,5 +1,5 @@
 import { Container } from "@mantine/core";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 
 import { REDDIT_TAB_PARAM_NAME } from "@pages/lib/routeConstants";
 

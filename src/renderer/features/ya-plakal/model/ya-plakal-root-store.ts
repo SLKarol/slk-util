@@ -121,6 +121,7 @@ export class YaPlakalRootStore {
         url: record.id,
         title: this.sendTitle ? record.title : "",
       })),
+      null,
     );
   };
 

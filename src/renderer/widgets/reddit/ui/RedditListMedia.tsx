@@ -53,7 +53,7 @@ export const RedditListMedia = observer(() => {
           sendMediaToTelegram(dataId as string, true);
         },
       )
-      .otherwise(() => null);
+      .otherwise((): null => null);
   };
 
   /**

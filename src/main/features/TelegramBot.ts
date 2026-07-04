@@ -276,21 +276,16 @@ export class TelegramBot {
       },
     );
     // В телеграмм-группы отправить ссылку на файл в облаке телеграмм
-    const {
-      video: { file_id: fileId },
-      message_id,
-    } = sendTgresult;
+    const { message_id } = sendTgresult;
 
     // Сделать копию в остальные группы
-    if (fileId) {
-      for (const group of tgGroups) {
-        await wait(2);
-        await this.telegraf.telegram.copyMessage(
-          group.trim(),
-          tgAdmin,
-          message_id,
-        );
-      }
+    for (const group of tgGroups) {
+      await wait(2);
+      await this.telegraf.telegram.copyMessage(
+        group.trim(),
+        tgAdmin,
+        message_id,
+      );
     }
   }
 

@@ -1,4 +1,4 @@
-import { MemoryRouter, Route, Routes } from "react-router";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 
 import { HomePage } from "@pages/Home/HomePage";
 import { StihiRu } from "@pages/StihiRu/StihiRu";
