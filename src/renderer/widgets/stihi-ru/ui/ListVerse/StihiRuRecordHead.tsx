@@ -28,6 +28,8 @@ export const StihiRuRecordHead = observer(({ poemHref }: Props) => {
   } = useStihiRuRootStore();
   const poem = poems.get(poemHref);
 
+  if (!poem) return null;
+
   return (
     <List.Item>
       <OpenPoem href={poemHref} title={poem.title} />
