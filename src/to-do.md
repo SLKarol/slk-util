@@ -9,16 +9,5 @@
 - reddit: Видео выводится обложкой. Научить воспроизводить. Ну или отправлять на адрес
 - Когда перехожу на вкладку "отправить" в реддите, варнинги идут
 - Выдать оповещение: что отправляется в телегу. Желательно ещё подержать какое-то время дизейбленным.
-
-Prop
-<meta
-  http-equiv="Content-Security-Policy"
-  content="
-    default-src 'self';
-    script-src 'self' 'unsafe-eval' 'unsafe-inline';
-    style-src 'self' 'unsafe-inline';
-    img-src 'self' data: https:;
-    media-src https:;
-    connect-src 'self' ws: http: https:;
-  "
-/>
+- Сделать получение следующих страниц в reddit
+- В reddit сделать индикатор загрузки
