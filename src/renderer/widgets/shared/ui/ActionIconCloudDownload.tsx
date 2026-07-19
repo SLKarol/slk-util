@@ -1,5 +1,5 @@
 import { ActionIcon } from "@mantine/core";
-import { IconWorldDownload } from "@tabler/icons-react";
+import { IconCloudDownload } from "@tabler/icons-react";
 
 type Props = {
   /**
@@ -15,10 +15,10 @@ type Props = {
 /**
  * Компонента "Скачать далее"
  */
-export const ActionIconWorldDownload = ({ disabled, onClick }: Props) => {
+export const ActionIconCloudDownload = ({ disabled, onClick }: Props) => {
   return (
     <ActionIcon variant="filled" onClick={onClick} disabled={disabled}>
-      <IconWorldDownload />
+      <IconCloudDownload />
     </ActionIcon>
   );
 };

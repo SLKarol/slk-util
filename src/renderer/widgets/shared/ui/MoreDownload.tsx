@@ -1,6 +1,6 @@
 import { Flex } from "@mantine/core";
 
-import { ActionIconWorldDownload } from "./ActionIconWorldDownload";
+import { ActionIconCloudDownload } from "./ActionIconCloudDownload";
 
 type Props = {
   /**
@@ -19,8 +19,8 @@ type Props = {
 export const MoreDownload = ({ disabled, onClick }: Props) => {
   return (
     <Flex justify="space-between" align="center">
-      <ActionIconWorldDownload disabled={disabled} onClick={onClick} />
-      <ActionIconWorldDownload disabled={disabled} onClick={onClick} />
+      <ActionIconCloudDownload disabled={disabled} onClick={onClick} />
+      <ActionIconCloudDownload disabled={disabled} onClick={onClick} />
     </Flex>
   );
 };

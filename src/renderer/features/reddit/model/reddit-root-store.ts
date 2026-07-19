@@ -79,6 +79,7 @@ export class RedditRootStore {
       toggleItemSelect: action,
       sendSelectedToTelegram: action,
       toggleSendHolidayName: action,
+      redditReceiveNextRecords: action,
 
       findRedditChannels: computed,
       mediaRecords: computed,
@@ -199,5 +200,16 @@ export class RedditRootStore {
 
   toggleSendHolidayName = () => {
     this.sendHolidayName = !this.sendHolidayName;
+  };
+
+  redditReceiveNextRecords = () => {
+    if (!this.redditUserSelectedStore.selectedRedditChannel) return;
+
+    this.busy = true;
+
+    window.electronAPI.redditReceiveNewRecords({
+      after: this.redditUserSelectedStore.after,
+      channel: this.redditUserSelectedStore.selectedRedditChannel,
+    });
   };
 }

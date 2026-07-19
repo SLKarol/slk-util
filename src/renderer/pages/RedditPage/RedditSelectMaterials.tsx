@@ -1,6 +1,7 @@
 import {
   RedditGetNewRecords,
   RedditListMedia,
+  RedditMoreNews,
   RedditMySubscribes,
   RedditSearchChannels,
 } from "@renderer/widgets/reddit/ui";
@@ -22,6 +23,7 @@ export const RedditSelectMaterials = () => {
       <ListMedia>
         <RedditListMedia />
       </ListMedia>
+      <RedditMoreNews />
     </>
   );
 };
