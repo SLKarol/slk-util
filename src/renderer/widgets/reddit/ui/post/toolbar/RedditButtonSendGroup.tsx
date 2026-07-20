@@ -6,10 +6,7 @@ import { useRedditRootStore } from "@renderer/providers/reddit";
 import { useRootStore } from "@renderer/providers/useRootStore";
 
 export const RedditButtonSendGroup = observer(() => {
-  const {
-    itemsToSend: { mediaRecords },
-    sendSelectedToTelegram,
-  } = useRedditRootStore();
+  const { sendSelectedToTelegram, busySendGroup } = useRedditRootStore();
 
   const {
     holidaysStore: { selectedHoliday },
@@ -21,11 +18,7 @@ export const RedditButtonSendGroup = observer(() => {
 
   return (
     <Tooltip label="Отправить выбранное">
-      <ActionIcon
-        variant="filled"
-        disabled={mediaRecords.length < 2}
-        onClick={onClick}
-      >
+      <ActionIcon variant="filled" disabled={busySendGroup} onClick={onClick}>
         <IconBrandTelegram />
       </ActionIcon>
     </Tooltip>

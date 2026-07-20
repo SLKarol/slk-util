@@ -7,8 +7,14 @@ export const RedditMoreNews = observer(() => {
   const {
     redditReceiveNextRecords,
     redditUserSelectedStore: { after },
+    busy,
   } = useRedditRootStore();
 
-  return <MoreDownload onClick={redditReceiveNextRecords} disabled={!after} />;
+  return (
+    <MoreDownload
+      onClick={redditReceiveNextRecords}
+      disabled={!after || busy}
+    />
+  );
 });
 RedditMoreNews.displayName = "RedditMoreNews";

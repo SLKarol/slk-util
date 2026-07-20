@@ -73,6 +73,7 @@ export class RedditRootStore {
       redditCollection: observable,
       itemsToSend: observable,
       sendHolidayName: observable,
+      groupSend: observable,
 
       redditResponseNewRecords: action,
       redditReceiveNewRecords: action,
@@ -81,6 +82,7 @@ export class RedditRootStore {
       toggleSendHolidayName: action,
       redditReceiveNextRecords: action,
 
+      busySendGroup: computed,
       findRedditChannels: computed,
       mediaRecords: computed,
     });
@@ -186,7 +188,9 @@ export class RedditRootStore {
    * @param {string} selectedHoliday - Название выбранного праздника
    */
   sendSelectedToTelegram = (selectedHoliday: string) => {
+    this.groupSend = true;
     const picturesToTelegram = [] as TelegramBotSendPicturePayload[];
+
     this.itemsToSend.items.forEach((record) => {
       if (record.url) {
         picturesToTelegram.push({ url: record.url, title: record.title });
@@ -212,4 +216,11 @@ export class RedditRootStore {
       channel: this.redditUserSelectedStore.selectedRedditChannel,
     });
   };
+
+  /**
+   * Идёт отправка в тг-группы картинок из reddit
+   */
+  get busySendGroup() {
+    return this.itemsToSend.mediaRecords.length < 2 || this.groupSend;
+  }
 }

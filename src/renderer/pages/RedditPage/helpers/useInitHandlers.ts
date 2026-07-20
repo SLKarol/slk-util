@@ -11,6 +11,7 @@ export const useInitHandlers = () => {
     redditSubscribeStore: { setWorking, saveSubscribes },
     redditResponseNewRecords,
     redditCollection: { redditResponseCollection, updateMediaPreview },
+    setGroupSendFalse,
   } = useRedditRootStore();
 
   const {
@@ -53,6 +54,12 @@ export const useInitHandlers = () => {
         loadHolydays(response);
       });
 
+    /** Сообщения из реддита отправлены */
+    const unsubscribeFinishSendGroup =
+      window.electronAPI.telegramBotSendGroupFinish(() => {
+        setGroupSendFalse();
+      });
+
     // Функция очистки
     return () => {
       unsubscribeMyReddits();
@@ -60,6 +67,7 @@ export const useInitHandlers = () => {
       unsubscribeRedditResponseCollection();
       unsubscribeRedditResponsePreview();
       unsubscribeResponseNamesOfHolidays();
+      unsubscribeFinishSendGroup();
     };
   }, []);
 };
