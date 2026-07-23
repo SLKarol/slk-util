@@ -8,8 +8,8 @@ import { type ElectronAPI } from "@shared/lib/types/electron-api";
  */
 export const createTelegramHandlers = () =>
   ({
-    telegramBotSendPicture: (url) =>
-      ipcRenderer.send(CHANNELS.TELEGRAM_BOT_SEND_PICTURE, url),
+    telegramBotSendPicture: (payload) =>
+      ipcRenderer.send(CHANNELS.TELEGRAM_BOT_SEND_PICTURE, payload),
     telegramBotSendGroup: (pictures, holidayName) =>
       ipcRenderer.send(CHANNELS.TELEGRAM_BOT_SEND_GROUP, pictures, holidayName),
     telegramBotSendVideo: (payload) =>

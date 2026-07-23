@@ -86,6 +86,7 @@ export class RedditCollection {
     if (!mediaData.haveVideo)
       return window.electronAPI.telegramBotSendPicture({
         url: mediaData.url ?? "",
+        title: mediaData.title,
       });
 
     if (mediaData.url)
