@@ -1,4 +1,4 @@
-import { clipboard, ipcRenderer, type IpcRendererEvent } from "electron";
+import { ipcRenderer, type IpcRendererEvent } from "electron";
 
 import { CHANNELS } from "@shared/ipc/channels";
 import { type ElectronAPI } from "@shared/lib/types/electron-api";
@@ -59,7 +59,7 @@ export const createSettingsHandlers = () =>
 
     clearCacheFolder: () => ipcRenderer.send(CHANNELS.CLEAR_CACHE_FOLDER),
 
-    copyTextToClipBoard: (text) => {
-      clipboard.writeText(text);
+    copyTextToClipBoard: (textToClipboard) => {
+      ipcRenderer.send(CHANNELS.WRITE_TEXT_TO_CLIPBOARD, textToClipboard);
     },
   }) as ElectronAPI;

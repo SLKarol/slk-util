@@ -1,4 +1,4 @@
-import { app, dialog, type IpcMainEvent } from "electron";
+import { app, clipboard, dialog, type IpcMainEvent } from "electron";
 
 import {
   emptyDirectory,
@@ -157,4 +157,7 @@ export const settingsHandlers = {
       ipcMainEvent.reply(CHANNELS.SEND_POP_UP_ERROR, "Ошибка при очистке кэша");
     }
   },
+
+  [CHANNELS.WRITE_TEXT_TO_CLIPBOARD]: (_: IpcMainEvent, textToCopy: string) =>
+    clipboard.writeText(textToCopy),
 };

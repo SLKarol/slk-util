@@ -261,4 +261,7 @@ export const CHANNELS = {
    * Получение названий праздников
    **/
   RESPONSE_NAMES_OF_HOLIDAYS: "RESPONSE_NAMES_OF_HOLIDAYS",
+
+  /** Запись текста в буфер обмена */
+  WRITE_TEXT_TO_CLIPBOARD: "WRITE_TEXT_TO_CLIPBOARD",
 };

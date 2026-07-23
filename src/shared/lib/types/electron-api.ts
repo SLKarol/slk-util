@@ -331,9 +331,9 @@ export interface ElectronAPI {
 
   /**
    * Скопировать текст в буфер обмена
-   * @param text текст
+   * @param textToClipboard текст для копирования
    */
-  copyTextToClipBoard: (text: string) => void;
+  copyTextToClipBoard: (textToClipboard: string) => void;
 
   /** Запросить названия праздников  */
   receiveNamesOfHolidays: () => void;
