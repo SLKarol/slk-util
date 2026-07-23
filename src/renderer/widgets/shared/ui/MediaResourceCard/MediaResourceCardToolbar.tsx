@@ -34,12 +34,18 @@ type Props = {
    * Определяет действие на основе атрибута `data-action`.
    */
   onClickAction: MouseEventHandler<HTMLButtonElement>;
+
+  isCollection?: boolean;
 };
 
 /**
  * Компонент панели инструментов для карточки медиаресурса.
  */
-export const MediaResourceCardToolbar = ({ mediaId, onClickAction }: Props) => {
+export const MediaResourceCardToolbar = ({
+  isCollection,
+  mediaId,
+  onClickAction,
+}: Props) => {
   return (
     <Flex gap="md" justify="center" align="center" direction="row" mt="0.5rem">
       <Tooltip label="Скачать">
@@ -60,7 +66,13 @@ export const MediaResourceCardToolbar = ({ mediaId, onClickAction }: Props) => {
           <IconClipboardCopy />
         </ActionIcon>
       </Tooltip>
-      <Tooltip label="Отправить ссылку в телеграм">
+      <Tooltip
+        label={
+          isCollection
+            ? "Отправить коллекцию в телеграм"
+            : "Отправить ссылку в телеграм"
+        }
+      >
         <ActionIcon
           data-id={mediaId}
           data-action={MEDIA_ACTION_TELEGRAM}
@@ -69,15 +81,17 @@ export const MediaResourceCardToolbar = ({ mediaId, onClickAction }: Props) => {
           <IconBrandTelegram />
         </ActionIcon>
       </Tooltip>
-      <Tooltip label="Скачать и отправить в телеграм">
-        <ActionIcon
-          data-id={mediaId}
-          data-action={MEDIA_ACTION_DOWNLOAD_SEND_TELEGRAM}
-          onClick={onClickAction}
-        >
-          <IconLocationDown />
-        </ActionIcon>
-      </Tooltip>
+      {!isCollection && (
+        <Tooltip label="Скачать и отправить в телеграм">
+          <ActionIcon
+            data-id={mediaId}
+            data-action={MEDIA_ACTION_DOWNLOAD_SEND_TELEGRAM}
+            onClick={onClickAction}
+          >
+            <IconLocationDown />
+          </ActionIcon>
+        </Tooltip>
+      )}
       <Tooltip label="Открыть в броузере">
         <ActionIcon
           data-id={mediaId}

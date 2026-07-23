@@ -64,6 +64,7 @@ export const MediaResourceCard = observer(
         <MediaResourceCardToolbar
           mediaId={mediaRecord.id}
           onClickAction={onClickAction}
+          isCollection={Boolean(mediaRecord.collection)}
         />
         {mediaRecord.preview?.images && (
           <MediaResourceCardSelectDimension mediaRecord={mediaRecord} />

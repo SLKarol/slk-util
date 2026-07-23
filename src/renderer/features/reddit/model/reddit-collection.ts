@@ -1,9 +1,10 @@
-import { action, makeObservable, observable } from "mobx";
+import { action, keys, makeObservable, observable } from "mobx";
 
 import {
   type IreceiveYaPlakalTopicMedia,
   type RedditResponsePreviewPayload,
   type SendRedditCollectionPayload,
+  type TelegramBotSendPicturePayload,
 } from "@shared/lib/types/electron-api";
 import { type MediaSummaryPreview } from "@shared/lib/types/media";
 
@@ -73,6 +74,20 @@ export class RedditCollection {
   sendMediaToTelegram = (dataId: string, sendAsFile?: boolean) => {
     const mediaData = this.mediaRecords.get(dataId);
     if (!mediaData) return;
+
+    if (mediaData.collection) {
+      const picturesToTelegram = [] as TelegramBotSendPicturePayload[];
+
+      keys(mediaData.collection).forEach((keyOfCollection) => {
+        picturesToTelegram.push({
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          url: mediaData.collection![keyOfCollection as string].url,
+          title: mediaData.title,
+        });
+      });
+
+      return window.electronAPI.telegramBotSendGroup(picturesToTelegram, null);
+    }
 
     // Случай для reddit-video
     if (mediaData.videoParts.urlVideo && !mediaData.videoParts.urlAudio)
