@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { notifications } from "@mantine/notifications";
 
+import { useRootStore } from "@renderer/providers/useRootStore";
 import { useYaPlakalRuRootStore } from "@renderer/providers/ya-plakal/useYaplakalRootStore";
 
 /**
@@ -13,6 +14,10 @@ export const useInitHandlers = () => {
     collection: { addMediaRecords, setUrlMediaRecord },
     setGroupSendFalse,
   } = useYaPlakalRuRootStore();
+
+  const {
+    mediaSendWatch: { setFileStatus },
+  } = useRootStore();
 
   // Настроить обработчики событий от главного процесса
   useEffect(() => {
@@ -43,12 +48,18 @@ export const useInitHandlers = () => {
         notifications.show({ message: "Рассылка завершилась." });
       });
 
+    const unsubscribeTelegramBotSendFileStatus =
+      window.electronAPI.telegramBotSendFileStatus((payload) =>
+        setFileStatus(payload),
+      );
+
     // Функция очистки
     return () => {
       unsubscribeTopic();
       unsubscribeTopicMedia();
       unsubscribeError();
       unsubscribeFinishSendGroup();
+      unsubscribeTelegramBotSendFileStatus();
     };
   }, []);
 };

@@ -193,7 +193,11 @@ export class RedditRootStore {
 
     this.itemsToSend.items.forEach((record) => {
       if (record.url) {
-        picturesToTelegram.push({ url: record.url, title: record.title });
+        picturesToTelegram.push({
+          url: record.url,
+          title: record.title,
+          id: record.id,
+        });
       }
     });
     window.electronAPI.telegramBotSendGroup(

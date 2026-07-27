@@ -16,6 +16,7 @@ export const useInitHandlers = () => {
 
   const {
     holidaysStore: { loadHolydays },
+    mediaSendWatch: { setFileStatus },
   } = useRootStore();
 
   // Настроить обработчики событий от главного процесса
@@ -60,6 +61,11 @@ export const useInitHandlers = () => {
         setGroupSendFalse();
       });
 
+    const unsubscribeTelegramBotSendFileStatus =
+      window.electronAPI.telegramBotSendFileStatus((payload) =>
+        setFileStatus(payload),
+      );
+
     // Функция очистки
     return () => {
       unsubscribeMyReddits();
@@ -68,6 +74,7 @@ export const useInitHandlers = () => {
       unsubscribeRedditResponsePreview();
       unsubscribeResponseNamesOfHolidays();
       unsubscribeFinishSendGroup();
+      unsubscribeTelegramBotSendFileStatus();
     };
   }, []);
 };

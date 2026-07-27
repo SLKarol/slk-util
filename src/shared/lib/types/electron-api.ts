@@ -9,6 +9,7 @@ import {
   type AppSettingsWireGuardTunnel,
 } from "./app-settings";
 import { type Nullable } from "./common";
+import { SendFileStatus } from "./sendFile";
 import { type WriteSettingsProps } from "./settings.type";
 import { type IStatusAutoReadStihi } from "./stihi.types";
 import { type IPRange } from "./tunnel";
@@ -342,6 +343,13 @@ export interface ElectronAPI {
   responseNamesOfHolidays: (
     callback: (holidays: string[]) => void,
   ) => () => void;
+
+  /**
+   * Отправка статуса отправляемого файла в tg
+   */
+  telegramBotSendFileStatus: (
+    callback: (payload: { id: string; status: SendFileStatus }) => void,
+  ) => () => void;
 }
 
 /**
@@ -504,6 +512,10 @@ export interface SaveMediaFilePayload {
 }
 
 export interface TelegramBotSendPicturePayload {
+  /**
+   * Id отправляемого файла
+   */
+  id: string;
   /** Подпись к картинке */
   title?: Nullable<string>;
   /** URL картинки */

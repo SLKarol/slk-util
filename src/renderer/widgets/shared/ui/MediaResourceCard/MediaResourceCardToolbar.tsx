@@ -1,42 +1,19 @@
-import { type MouseEventHandler } from "react";
 import { ActionIcon, Flex, Tooltip } from "@mantine/core";
 import {
-  IconBrandTelegram,
   IconClipboardCopy,
   IconDownload,
-  IconLocationDown,
   IconWorld,
 } from "@tabler/icons-react";
 
 import {
   MEDIA_ACTION_COPY_LINK,
   MEDIA_ACTION_DOWNLOAD,
-  MEDIA_ACTION_DOWNLOAD_SEND_TELEGRAM,
   MEDIA_ACTION_OPEN_IN_BROWSER,
-  MEDIA_ACTION_TELEGRAM,
 } from "../../lib/constants";
 
-/**
- * Свойства компонента `MediaResourceCardToolbar`.
- *
- * @interface Props
- */
-type Props = {
-  /**
-   * Уникальный идентификатор медиазаписи, к которой относится панель инструментов.
-   */
-  mediaId: string;
-
-  /**
-   * Обработчик клика по кнопке действия (например, скачивание или отправка в Telegram).
-   *
-   * Вызывается при нажатии на одну из иконок в панели инструментов.
-   * Определяет действие на основе атрибута `data-action`.
-   */
-  onClickAction: MouseEventHandler<HTMLButtonElement>;
-
-  isCollection?: boolean;
-};
+import { type MediaResourceCardToolbarProps } from "./MediaResourceCardToolbar.types";
+import { MediaResourceCardToolbarDownLoadSendTelegram } from "./MediaResourceCardToolbarDownLoadSendTelegram";
+import { MediaResourceCardToolbarTelegram } from "./MediaResourceCardToolbarTelegram";
 
 /**
  * Компонент панели инструментов для карточки медиаресурса.
@@ -45,7 +22,7 @@ export const MediaResourceCardToolbar = ({
   isCollection,
   mediaId,
   onClickAction,
-}: Props) => {
+}: MediaResourceCardToolbarProps) => {
   return (
     <Flex gap="md" justify="center" align="center" direction="row" mt="0.5rem">
       <Tooltip label="Скачать">
@@ -66,31 +43,16 @@ export const MediaResourceCardToolbar = ({
           <IconClipboardCopy />
         </ActionIcon>
       </Tooltip>
-      <Tooltip
-        label={
-          isCollection
-            ? "Отправить коллекцию в телеграм"
-            : "Отправить ссылку в телеграм"
-        }
-      >
-        <ActionIcon
-          data-id={mediaId}
-          data-action={MEDIA_ACTION_TELEGRAM}
-          onClick={onClickAction}
-        >
-          <IconBrandTelegram />
-        </ActionIcon>
-      </Tooltip>
+      <MediaResourceCardToolbarTelegram
+        mediaId={mediaId}
+        onClickAction={onClickAction}
+        isCollection={isCollection}
+      />
       {!isCollection && (
-        <Tooltip label="Скачать и отправить в телеграм">
-          <ActionIcon
-            data-id={mediaId}
-            data-action={MEDIA_ACTION_DOWNLOAD_SEND_TELEGRAM}
-            onClick={onClickAction}
-          >
-            <IconLocationDown />
-          </ActionIcon>
-        </Tooltip>
+        <MediaResourceCardToolbarDownLoadSendTelegram
+          mediaId={mediaId}
+          onClickAction={onClickAction}
+        />
       )}
       <Tooltip label="Открыть в броузере">
         <ActionIcon

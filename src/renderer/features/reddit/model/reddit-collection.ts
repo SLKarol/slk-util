@@ -6,7 +6,10 @@ import {
   type SendRedditCollectionPayload,
   type TelegramBotSendPicturePayload,
 } from "@shared/lib/types/electron-api";
-import { type MediaSummaryPreview } from "@shared/lib/types/media";
+import {
+  type MediaAlbum,
+  type MediaSummaryPreview,
+} from "@shared/lib/types/media";
 
 import { MediaRecordStore } from "@renderer-features/model/media-record";
 
@@ -79,33 +82,37 @@ export class RedditCollection {
       const picturesToTelegram = [] as TelegramBotSendPicturePayload[];
 
       keys(mediaData.collection).forEach((keyOfCollection) => {
-        picturesToTelegram.push({
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          url: mediaData.collection![keyOfCollection as string].url,
-          title: mediaData.title,
-        });
+        const { id, url } = (mediaData.collection as MediaAlbum)[
+          keyOfCollection as string
+        ];
+
+        picturesToTelegram.push({ id, url, title: mediaData.title });
       });
 
       return window.electronAPI.telegramBotSendGroup(picturesToTelegram, null);
     }
 
     // Случай для reddit-video
-    if (mediaData.videoParts.urlVideo && !mediaData.videoParts.urlAudio)
+    if (mediaData.videoParts.urlVideo && !mediaData.videoParts.urlAudio) {
       return window.electronAPI.telegramBotSendVideo({
+        id: mediaData.id,
         url: mediaData.videoParts.urlVideo,
         urlPreview: mediaData.previewImages?.src ?? "",
         sendAsFile,
         title: mediaData.title,
       });
+    }
 
     if (!mediaData.haveVideo)
       return window.electronAPI.telegramBotSendPicture({
+        id: mediaData.id,
         url: mediaData.url ?? "",
         title: mediaData.title,
       });
 
     if (mediaData.url)
       window.electronAPI.telegramBotSendVideo({
+        id: mediaData.id,
         url: mediaData.url,
         urlPreview: mediaData.previewImages?.src ?? "",
         sendAsFile,

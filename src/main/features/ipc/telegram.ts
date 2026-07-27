@@ -11,6 +11,7 @@ import {
   type TelegramBotSendPicturePayload,
   type TelegramBotSendVideoPayload,
 } from "@shared/lib/types/electron-api";
+import { SendFileStatus } from "@shared/lib/types/sendFile";
 
 const settingsFile = new UserDataFileManager<AppSettings>(
   "settings.json",
@@ -27,7 +28,7 @@ settingsFile.readData().then((settingsData) => {
 export const telegramHandlers = {
   [CHANNELS.TELEGRAM_BOT_SEND_PICTURE]: async (
     ipcMainEvent: IpcMainEvent,
-    { url, title }: TelegramBotSendPicturePayload,
+    { id, url, title }: TelegramBotSendPicturePayload,
   ) => {
     try {
       const settingsData = await settingsFile.readData();
@@ -36,6 +37,12 @@ export const telegramHandlers = {
         ipcMainEvent.reply(CHANNELS.SEND_POP_UP_ERROR, "Бот не запущен");
         return;
       }
+
+      ipcMainEvent.reply(CHANNELS.TELEGRAM_BOT_SEND_FILE_STATUS, {
+        id,
+        status: SendFileStatus.SENDING,
+      });
+
       await telegramBot.sendPictureToGroups({
         tgAdmin: settingsData.telegram.telegramAdmin,
         tgGroups: settingsData.telegram.telegramGroups,
@@ -43,11 +50,19 @@ export const telegramHandlers = {
         waitSeconds: settingsData.telegram.waitSeconds,
         url,
       });
+      ipcMainEvent.reply(CHANNELS.TELEGRAM_BOT_SEND_FILE_STATUS, {
+        id,
+        status: SendFileStatus.SENT,
+      });
     } catch (error) {
       console.error("Error:", error);
       ipcMainEvent.reply(CHANNELS.ERROR_MAIN, {
         channel: CHANNELS.TELEGRAM_BOT_SEND_PICTURE,
         error,
+      });
+      ipcMainEvent.reply(CHANNELS.TELEGRAM_BOT_SEND_FILE_STATUS, {
+        id,
+        status: SendFileStatus.ERROR,
       });
     }
   },
@@ -97,7 +112,7 @@ export const telegramHandlers = {
 
   [CHANNELS.TELEGRAM_BOT_SEND_VIDEO]: async (
     ipcMainEvent: IpcMainEvent,
-    { url, title, urlPreview, sendAsFile }: TelegramBotSendVideoPayload,
+    { id, url, title, urlPreview, sendAsFile }: TelegramBotSendVideoPayload,
   ) => {
     try {
       const settingsData = await settingsFile.readData();
@@ -108,6 +123,11 @@ export const telegramHandlers = {
         ipcMainEvent.reply(CHANNELS.SEND_POP_UP_ERROR, "Бот не запущен");
         return;
       }
+
+      ipcMainEvent.reply(CHANNELS.TELEGRAM_BOT_SEND_FILE_STATUS, {
+        id,
+        status: SendFileStatus.SENDING,
+      });
 
       let filePathHtml = "";
 
@@ -126,11 +146,19 @@ export const telegramHandlers = {
         urlPreview,
         sendAsFile,
       });
+      ipcMainEvent.reply(CHANNELS.TELEGRAM_BOT_SEND_FILE_STATUS, {
+        id,
+        status: SendFileStatus.SENT,
+      });
     } catch (error) {
       console.error("Error:", error);
       ipcMainEvent.reply(CHANNELS.ERROR_MAIN, {
         channel: CHANNELS.TELEGRAM_BOT_SEND_PICTURE,
         error,
+      });
+      ipcMainEvent.reply(CHANNELS.TELEGRAM_BOT_SEND_FILE_STATUS, {
+        id,
+        status: SendFileStatus.ERROR,
       });
     }
   },

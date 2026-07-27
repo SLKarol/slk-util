@@ -68,10 +68,12 @@ export class YaCollection {
 
     if (!mediaData.haveVideo)
       return window.electronAPI.telegramBotSendPicture({
+        id: mediaData.id,
         url: dataId,
       });
 
     window.electronAPI.telegramBotSendVideo({
+      id: mediaData.id,
       url: dataId,
       urlPreview: mediaData.previewImages.src,
       sendAsFile,

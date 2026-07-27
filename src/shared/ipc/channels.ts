@@ -264,4 +264,6 @@ export const CHANNELS = {
 
   /** Запись текста в буфер обмена */
   WRITE_TEXT_TO_CLIPBOARD: "WRITE_TEXT_TO_CLIPBOARD",
+
+  TELEGRAM_BOT_SEND_FILE_STATUS: "TELEGRAM_BOT_SEND_FILE_STATUS",
 };
