@@ -118,6 +118,7 @@ export class YaPlakalRootStore {
     this.groupSend = true;
     window.electronAPI.telegramBotSendGroup(
       this.itemsToSend.mediaRecords.map((record) => ({
+        id: record.id,
         url: record.id,
         title: this.sendTitle ? record.title : "",
       })),
