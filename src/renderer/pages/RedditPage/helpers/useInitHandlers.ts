@@ -49,7 +49,6 @@ export const useInitHandlers = () => {
       });
 
     window.electronAPI.receiveNamesOfHolidays();
-
     const unsubscribeResponseNamesOfHolidays =
       window.electronAPI.responseNamesOfHolidays((response) => {
         loadHolydays(response);

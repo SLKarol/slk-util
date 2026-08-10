@@ -1,3 +1,4 @@
+import { SelectHoliday } from "@renderer/widgets/holidays/ui";
 import { ListMedia } from "@renderer/widgets/shared/ui";
 import {
   YaCountSelected,
@@ -12,6 +13,7 @@ export const YaPost = () => {
   return (
     <>
       <YaCountSelected />
+      <SelectHoliday />
       <YaToolbarSelected />
       <ListMedia>
         <YaListPostMedia />

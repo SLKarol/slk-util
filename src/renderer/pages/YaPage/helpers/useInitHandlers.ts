@@ -16,6 +16,7 @@ export const useInitHandlers = () => {
   } = useYaPlakalRuRootStore();
 
   const {
+    holidaysStore: { loadHolydays },
     mediaSendWatch: { setFileStatus },
   } = useRootStore();
 
@@ -53,6 +54,12 @@ export const useInitHandlers = () => {
         setFileStatus(payload),
       );
 
+    window.electronAPI.receiveNamesOfHolidays();
+    const unsubscribeResponseNamesOfHolidays =
+      window.electronAPI.responseNamesOfHolidays((response) => {
+        loadHolydays(response);
+      });
+
     // Функция очистки
     return () => {
       unsubscribeTopic();
@@ -60,6 +67,7 @@ export const useInitHandlers = () => {
       unsubscribeError();
       unsubscribeFinishSendGroup();
       unsubscribeTelegramBotSendFileStatus();
+      unsubscribeResponseNamesOfHolidays();
     };
   }, []);
 };

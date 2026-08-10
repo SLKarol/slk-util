@@ -1,7 +1,6 @@
 import { Checkbox } from "@mantine/core";
 import { observer } from "mobx-react-lite";
 
-import { useRedditRootStore } from "@renderer/providers/reddit";
 import { useRootStore } from "@renderer/providers/useRootStore";
 
 /**
@@ -9,9 +8,8 @@ import { useRootStore } from "@renderer/providers/useRootStore";
  */
 export const SelectHolidayCheckbox = observer(() => {
   const {
-    holidaysStore: { selectedHoliday },
+    holidaysStore: { selectedHoliday, sendHolidayName, toggleSendHolidayName },
   } = useRootStore();
-  const { sendHolidayName, toggleSendHolidayName } = useRedditRootStore();
 
   return (
     <Checkbox

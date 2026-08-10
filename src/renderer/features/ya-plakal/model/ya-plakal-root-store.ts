@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx";
 
+import { type SendSelectedToTelegramParams } from "@renderer-shared/types/commonTypes";
 import { type MediaRecordUi } from "@renderer-shared/types/media";
 
 import { ItemsToSend } from "@renderer-features/model/items-to-send";
@@ -48,6 +49,11 @@ export class YaPlakalRootStore {
    * Флаг, указывающий, что будет для каждой отправлен заголовок
    */
   sendTitle = false;
+
+  /**
+   * Флаг, указывающий, что нужно отправлять название праздника
+   */
+  sendHolidayName = true;
 
   /**
    * Создаёт экземпляр корневого хранилища.
@@ -114,7 +120,10 @@ export class YaPlakalRootStore {
   /**
    * Отправляет выбранные медиазаписи в Telegram.
    */
-  sendSelectedToTelegram = () => {
+  sendSelectedToTelegram = ({
+    selectedHoliday,
+    sendHolidayName,
+  }: SendSelectedToTelegramParams) => {
     this.groupSend = true;
     window.electronAPI.telegramBotSendGroup(
       this.itemsToSend.mediaRecords.map((record) => ({
@@ -122,7 +131,7 @@ export class YaPlakalRootStore {
         url: record.id,
         title: this.sendTitle ? record.title : "",
       })),
-      null,
+      sendHolidayName ? selectedHoliday : null,
     );
   };
 

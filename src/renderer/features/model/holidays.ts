@@ -13,6 +13,11 @@ export class HolidaysStore {
    */
   indxRandom = -1;
 
+  /**
+   * Флаг, указывающий, что нужно отправлять название праздника
+   */
+  sendHolidayName = true;
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -37,5 +42,9 @@ export class HolidaysStore {
   changeRandomHolyday = () => {
     const max = this.holidays.length;
     this.indxRandom = max > 0 ? randomInt(0, max - 1) : -1;
+  };
+
+  toggleSendHolidayName = () => {
+    this.sendHolidayName = !this.sendHolidayName;
   };
 }

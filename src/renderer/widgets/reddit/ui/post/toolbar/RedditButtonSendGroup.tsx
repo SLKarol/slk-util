@@ -9,11 +9,11 @@ export const RedditButtonSendGroup = observer(() => {
   const { sendSelectedToTelegram, busySendGroup } = useRedditRootStore();
 
   const {
-    holidaysStore: { selectedHoliday },
+    holidaysStore: { selectedHoliday, sendHolidayName },
   } = useRootStore();
 
   const onClick = () => {
-    sendSelectedToTelegram(selectedHoliday);
+    sendSelectedToTelegram({ selectedHoliday, sendHolidayName });
   };
 
   return (

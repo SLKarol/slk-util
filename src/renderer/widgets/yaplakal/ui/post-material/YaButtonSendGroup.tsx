@@ -2,6 +2,7 @@ import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconBrandTelegram } from "@tabler/icons-react";
 import { observer } from "mobx-react-lite";
 
+import { useRootStore } from "@renderer/providers/useRootStore";
 import { useYaPlakalRuRootStore } from "@renderer/providers/ya-plakal/useYaplakalRootStore";
 
 /**
@@ -12,12 +13,21 @@ export const YaButtonSendGroup = observer(() => {
     itemsToSend: { mediaRecords },
     sendSelectedToTelegram,
   } = useYaPlakalRuRootStore();
+
+  const {
+    holidaysStore: { selectedHoliday, sendHolidayName },
+  } = useRootStore();
+
+  const onClick = () => {
+    sendSelectedToTelegram({ selectedHoliday, sendHolidayName });
+  };
+
   return (
     <Tooltip label="Отправить выбранное">
       <ActionIcon
         variant="filled"
         disabled={mediaRecords.length === 0}
-        onClick={sendSelectedToTelegram}
+        onClick={onClick}
       >
         <IconBrandTelegram />
       </ActionIcon>

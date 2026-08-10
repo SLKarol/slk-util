@@ -4,6 +4,7 @@ import {
   type RedditResponseNewRecordsData,
   type TelegramBotSendPicturePayload,
 } from "@shared/lib/types/electron-api";
+import { type SendSelectedToTelegramParams } from "@renderer-shared/types/commonTypes";
 import { MediaRecordUi } from "@renderer-shared/types/media";
 
 import { ItemsToSend } from "@renderer-features/model/items-to-send";
@@ -50,11 +51,6 @@ export class RedditRootStore {
   itemsToSend: ItemsToSend;
 
   /**
-   * Флаг, указывающий, что нужно отправлять название праздника
-   */
-  sendHolidayName = true;
-
-  /**
    * Создаёт экземпляр корневого хранилища.
    *
    * Инициализирует вложенные хранилища.
@@ -72,14 +68,12 @@ export class RedditRootStore {
       redditUserSelectedStore: observable,
       redditCollection: observable,
       itemsToSend: observable,
-      sendHolidayName: observable,
       groupSend: observable,
 
       redditResponseNewRecords: action,
       redditReceiveNewRecords: action,
       toggleItemSelect: action,
       sendSelectedToTelegram: action,
-      toggleSendHolidayName: action,
       redditReceiveNextRecords: action,
 
       busySendGroup: computed,
@@ -187,7 +181,10 @@ export class RedditRootStore {
    * Отправляет выбранные медиазаписи в Telegram.
    * @param {string} selectedHoliday - Название выбранного праздника
    */
-  sendSelectedToTelegram = (selectedHoliday: string) => {
+  sendSelectedToTelegram = ({
+    selectedHoliday,
+    sendHolidayName,
+  }: SendSelectedToTelegramParams) => {
     this.groupSend = true;
     const picturesToTelegram = [] as TelegramBotSendPicturePayload[];
 
@@ -202,12 +199,8 @@ export class RedditRootStore {
     });
     window.electronAPI.telegramBotSendGroup(
       picturesToTelegram,
-      this.sendHolidayName ? selectedHoliday : null,
+      sendHolidayName ? selectedHoliday : null,
     );
-  };
-
-  toggleSendHolidayName = () => {
-    this.sendHolidayName = !this.sendHolidayName;
   };
 
   redditReceiveNextRecords = () => {
