@@ -60,4 +60,14 @@ export const SETTINGS_APP = {
     redditLimitRecords: 12,
   },
   templateHoliday: "",
+  ollama: {
+    host: "",
+    model: {
+      holiday: "",
+    },
+  },
+
+  templatesPrompts: {
+    holiday: "",
+  },
 };

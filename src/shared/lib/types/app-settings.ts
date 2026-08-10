@@ -50,6 +50,16 @@ export interface AppSettings {
    * Шаблон текста, который будет отправлен в чат Telegram о сегодняшнем празднике.
    */
   templateHoliday: string;
+
+  /**
+   * Настройки Ollama. Объект содержит параметры модели и URL сервера
+   */
+  ollama: AppSettingsOllama;
+
+  /**
+   * Настройки шаблонных промтов. Объект содержит параметры для генерации текстов, связанных с праздниками.
+   */
+  templatesPrompts: TemplatePrompt;
 }
 
 /**
@@ -162,3 +172,33 @@ export interface AppSettingsReddit {
 }
 
 export type SettingsReddit = Omit<AppSettingsReddit, "redditLimitRecords">;
+
+/**
+ * Интерфейс, представляющий настройки для приложения Ollama.
+ */
+export interface AppSettingsOllama {
+  /**
+   * URL-адрес хоста для службы Ollama.
+   */
+  host: string;
+
+  /**
+   * Конфигурация модели, используемой Ollama.
+   */
+  model: {
+    /**
+     * Настройка праздника для модели.
+     */
+    holiday: string;
+  };
+}
+
+/**
+ * Интерфейс, представляющий шаблонный промт.
+ */
+export interface TemplatePrompt {
+  /**
+   * Настройка праздника для шаблона.
+   */
+  holiday: string;
+}

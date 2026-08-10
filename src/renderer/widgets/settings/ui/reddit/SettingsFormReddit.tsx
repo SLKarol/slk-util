@@ -56,7 +56,6 @@ export const SettingsFormReddit = ({ children }: PropsWithChildren) => {
     <SettingsRedditFormProvider form={form}>
       <form
         onSubmit={form.onSubmit((formValues) => {
-          console.log("formValues :>> ", formValues);
           window.electronAPI.saveSetting({
             key: "reddit",
             settings: formValues,
