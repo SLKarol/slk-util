@@ -15,6 +15,7 @@ import {
 import { SettingsCacheDir } from "./SettingsCacheDir";
 import { SettingsFolderForSaveFiles } from "./SettingsFolderForSaveFiles";
 import { SettingsOllama } from "./SettingsOllama";
+import { SettingsPromptTemplate } from "./SettingsPromptTemplate";
 import { SettingsReddit } from "./SettingsReddit";
 import { SettingsSelectorYap } from "./SettingsSelectorYap";
 import { SettingsTemplateHoliday } from "./SettingsTemplateHoliday";
@@ -34,6 +35,6 @@ export const SettingSelected = () => {
     .with(SETTINGS_REDDIT, () => <SettingsReddit />)
     .with(SETTINGS_TEMPLATE_HOLIDAY, () => <SettingsTemplateHoliday />)
     .with(SETTINGS_OLLAMA, () => <SettingsOllama />)
-    .with(SETTINGS_PROMPT, () => null)
+    .with(SETTINGS_PROMPT, () => <SettingsPromptTemplate />)
     .otherwise(() => <div>Unknown setting: {setting}</div>);
 };
