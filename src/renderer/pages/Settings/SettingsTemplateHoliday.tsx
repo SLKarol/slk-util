@@ -9,6 +9,8 @@ import {
 } from "@mantine/core";
 import { IconDeviceFloppyFilled } from "@tabler/icons-react";
 
+import { HOLIDAY_NAME_PATTERN } from "@shared/lib/constants";
+
 import { useEditTemplateHoliday } from "@renderer/widgets/settings/helpers";
 
 /**
@@ -28,7 +30,7 @@ export const SettingsTemplateHoliday = () => {
             onChange={setTemplateHoliday}
             flex={1}
             label="Шаблон текста о сегодняшнем празднике"
-            description="Название праздника задаётся как $HOLYDAY"
+            description={`Название праздника задаётся как ${HOLIDAY_NAME_PATTERN}`}
           />
           <Tooltip label="Сохранить">
             <ActionIcon variant="filled" onClick={onClickSaveTemplateHoliday}>

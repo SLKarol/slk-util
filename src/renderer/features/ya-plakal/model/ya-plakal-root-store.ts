@@ -123,16 +123,18 @@ export class YaPlakalRootStore {
   sendSelectedToTelegram = ({
     selectedHoliday,
     sendHolidayName,
+    shouldWriteAboutHolidayWithAI,
   }: SendSelectedToTelegramParams) => {
     this.groupSend = true;
-    window.electronAPI.telegramBotSendGroup(
-      this.itemsToSend.mediaRecords.map((record) => ({
+    window.electronAPI.telegramBotSendGroup({
+      pictures: this.itemsToSend.mediaRecords.map((record) => ({
         id: record.id,
         url: record.id,
         title: this.sendTitle ? record.title : "",
       })),
-      sendHolidayName ? selectedHoliday : null,
-    );
+      holidayName: sendHolidayName ? selectedHoliday : null,
+      shouldWriteAboutHolidayWithAI,
+    });
   };
 
   /**

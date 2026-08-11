@@ -11,8 +11,8 @@ export const createTelegramHandlers = () =>
   ({
     telegramBotSendPicture: (payload) =>
       ipcRenderer.send(CHANNELS.TELEGRAM_BOT_SEND_PICTURE, payload),
-    telegramBotSendGroup: (pictures, holidayName) =>
-      ipcRenderer.send(CHANNELS.TELEGRAM_BOT_SEND_GROUP, pictures, holidayName),
+    telegramBotSendGroup: (payload) =>
+      ipcRenderer.send(CHANNELS.TELEGRAM_BOT_SEND_GROUP, payload),
     telegramBotSendVideo: (payload) =>
       ipcRenderer.send(CHANNELS.TELEGRAM_BOT_SEND_VIDEO, payload),
     telegramBotChangeToken: (payload) =>

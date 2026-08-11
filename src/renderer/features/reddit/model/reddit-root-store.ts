@@ -184,6 +184,7 @@ export class RedditRootStore {
   sendSelectedToTelegram = ({
     selectedHoliday,
     sendHolidayName,
+    shouldWriteAboutHolidayWithAI,
   }: SendSelectedToTelegramParams) => {
     this.groupSend = true;
     const picturesToTelegram = [] as TelegramBotSendPicturePayload[];
@@ -197,10 +198,11 @@ export class RedditRootStore {
         });
       }
     });
-    window.electronAPI.telegramBotSendGroup(
-      picturesToTelegram,
-      sendHolidayName ? selectedHoliday : null,
-    );
+    window.electronAPI.telegramBotSendGroup({
+      pictures: picturesToTelegram,
+      holidayName: sendHolidayName ? selectedHoliday : null,
+      shouldWriteAboutHolidayWithAI,
+    });
   };
 
   redditReceiveNextRecords = () => {

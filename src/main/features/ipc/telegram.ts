@@ -1,13 +1,17 @@
 import { type IpcMainEvent } from "electron";
 
-import { HOLIDAY_NAME_PATTERN } from "../lib/constants";
-import { downloadAndCacheFile, getDefaultSettings } from "../lib/helpers";
+import {
+  downloadAndCacheFile,
+  getDefaultSettings,
+  getHolidayMessage,
+} from "../lib/helpers";
 import { TelegramBot } from "../TelegramBot";
 import { UserDataFileManager } from "../UserDataFileManager";
 
 import { CHANNELS } from "@shared/ipc/channels";
 import { type AppSettings } from "@shared/lib/types/app-settings";
 import {
+  type TelegramBotSendGroupPayload,
   type TelegramBotSendPicturePayload,
   type TelegramBotSendVideoPayload,
 } from "@shared/lib/types/electron-api";
@@ -69,8 +73,11 @@ export const telegramHandlers = {
 
   [CHANNELS.TELEGRAM_BOT_SEND_GROUP]: async (
     ipcMainEvent: IpcMainEvent,
-    mediaRecords: TelegramBotSendPicturePayload[],
-    holidayName: string | null = null,
+    {
+      holidayName = null,
+      pictures,
+      shouldWriteAboutHolidayWithAI,
+    }: TelegramBotSendGroupPayload,
   ) => {
     try {
       const settingsData = await settingsFile.readData();
@@ -80,14 +87,15 @@ export const telegramHandlers = {
         return;
       }
 
-      const { templateHoliday } = settingsData;
       if (holidayName) {
-        const message = templateHoliday
-          ? templateHoliday.replace(HOLIDAY_NAME_PATTERN, holidayName)
-          : holidayName;
+        const holidayMessage = await getHolidayMessage({
+          holidayName,
+          appSettings: settingsData,
+          shouldWriteAboutHolidayWithAI,
+        });
 
         await telegramBot.sendMessageToGroups({
-          message,
+          message: holidayMessage,
           tgGroups: settingsData.telegram.telegramGroups,
           waitSeconds: settingsData.telegram.waitSeconds,
         });
@@ -97,7 +105,7 @@ export const telegramHandlers = {
         tgAdmin: settingsData.telegram.telegramAdmin,
         tgGroups: settingsData.telegram.telegramGroups,
         waitSeconds: settingsData.telegram.waitSeconds,
-        mediaRecords,
+        mediaRecords: pictures,
       });
     } catch (error) {
       console.error("Error:", error);

@@ -15,11 +15,19 @@ export const YaButtonSendGroup = observer(() => {
   } = useYaPlakalRuRootStore();
 
   const {
-    holidaysStore: { selectedHoliday, sendHolidayName },
+    holidaysStore: {
+      selectedHoliday,
+      sendHolidayName,
+      shouldWriteAboutHolidayWithAI,
+    },
   } = useRootStore();
 
   const onClick = () => {
-    sendSelectedToTelegram({ selectedHoliday, sendHolidayName });
+    sendSelectedToTelegram({
+      selectedHoliday,
+      sendHolidayName,
+      shouldWriteAboutHolidayWithAI,
+    });
   };
 
   return (

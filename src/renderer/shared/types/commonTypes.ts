@@ -11,4 +11,9 @@ export interface SendSelectedToTelegramParams {
    * Выбранный праздник.
    */
   selectedHoliday: string;
+
+  /**
+   * Писать о празднике при помощи ИИ
+   */
+  shouldWriteAboutHolidayWithAI: boolean;
 }

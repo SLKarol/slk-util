@@ -85,8 +85,3 @@ export const MIME_TYPES = new Map<string, string>([
   ["mov", "video/quicktime"],
   ["webm", "video/webm"],
 ]);
-
-/**
- * Как будет обозначаться в шаблоне название праздника
- */
-export const HOLIDAY_NAME_PATTERN = "$HOLYDAY";

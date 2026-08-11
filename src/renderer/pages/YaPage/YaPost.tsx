@@ -1,4 +1,7 @@
-import { SelectHoliday } from "@renderer/widgets/holidays/ui";
+import {
+  SelectHoliday,
+  ShouldWriteAboutHolidayWithAICheckbox,
+} from "@renderer/widgets/holidays/ui";
 import { ListMedia } from "@renderer/widgets/shared/ui";
 import {
   YaCountSelected,
@@ -14,6 +17,7 @@ export const YaPost = () => {
     <>
       <YaCountSelected />
       <SelectHoliday />
+      <ShouldWriteAboutHolidayWithAICheckbox />
       <YaToolbarSelected />
       <ListMedia>
         <YaListPostMedia />

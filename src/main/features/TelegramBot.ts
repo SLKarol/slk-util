@@ -299,7 +299,9 @@ export class TelegramBot {
 
     for (const group of tgGroups) {
       await wait(waitSeconds);
-      await this.telegraf.telegram.sendMessage(group.trim(), message);
+      await this.telegraf.telegram.sendMessage(group.trim(), message, {
+        parse_mode: "Markdown",
+      });
     }
 
     return true;

@@ -1,4 +1,7 @@
-import { SelectHoliday } from "@renderer/widgets/holidays/ui";
+import {
+  SelectHoliday,
+  ShouldWriteAboutHolidayWithAICheckbox,
+} from "@renderer/widgets/holidays/ui";
 import {
   RedditCountSelected,
   RedditListPostMedia,
@@ -14,6 +17,7 @@ export const RedditPost = () => {
     <>
       <RedditCountSelected />
       <SelectHoliday />
+      <ShouldWriteAboutHolidayWithAICheckbox />
       <RedditToolbarSelected />
       <ListMedia>
         <RedditListPostMedia />

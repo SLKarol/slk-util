@@ -89,7 +89,11 @@ export class RedditCollection {
         picturesToTelegram.push({ id, url, title: mediaData.title });
       });
 
-      return window.electronAPI.telegramBotSendGroup(picturesToTelegram, null);
+      return window.electronAPI.telegramBotSendGroup({
+        holidayName: null,
+        pictures: picturesToTelegram,
+        shouldWriteAboutHolidayWithAI: false,
+      });
     }
 
     // Случай для reddit-video

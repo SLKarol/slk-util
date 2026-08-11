@@ -238,10 +238,7 @@ export interface ElectronAPI {
   /**
    * Отправить группу мультимедиа-ссылок через Telegram-бота.
    */
-  telegramBotSendGroup: (
-    pictures: TelegramBotSendPicturePayload[],
-    holidayName: string | null,
-  ) => void;
+  telegramBotSendGroup: (payload: TelegramBotSendGroupPayload) => void;
 
   /**
    * Отправить видео через Telegram-бота.
@@ -648,4 +645,25 @@ export interface DownloadFileProps {
   url: string;
   /** Имя файла (без расширения) */
   name: string;
+}
+
+/**
+ * Интерфейс для данных отправляемых в группу через Telegram бота.
+ */
+export interface TelegramBotSendGroupPayload {
+  /**
+   * Массив изображений для отправки.
+   */
+  pictures: TelegramBotSendPicturePayload[];
+
+  /**
+   * Название праздника.
+   * Если null, то название праздника не будет отправлено.
+   */
+  holidayName: string | null;
+
+  /**
+   * Флаг указывающий на необходимость использования ИИ для описания праздника.
+   */
+  shouldWriteAboutHolidayWithAI: boolean;
 }
