@@ -1,5 +1,4 @@
 import { type PropsWithChildren, useEffect } from "react";
-import { isUrl } from "@mantine/form";
 
 import {
   SettingsOllamaFormProvider,
@@ -13,9 +12,6 @@ export const SettingsFormOllama = ({ children }: PropsWithChildren) => {
   const form = useSettingsOllamaForm({
     mode: "uncontrolled",
     initialValues: { host: "", model: { holiday: "" } },
-    validate: {
-      host: isUrl("Введите полный адрес"),
-    },
   });
 
   useEffect(() => {
