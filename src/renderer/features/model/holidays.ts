@@ -63,6 +63,7 @@ export class HolidaysStore {
    */
   toggleSendHolidayName = () => {
     this.sendHolidayName = !this.sendHolidayName;
+    if (!this.sendHolidayName) this.shouldWriteAboutHolidayWithAI = false;
   };
 
   /**
