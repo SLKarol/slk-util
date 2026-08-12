@@ -59,8 +59,6 @@ export class RedditRootStore {
     this.redditSubscribeStore = new RedditSubscribeStore();
     this.redditUserSelectedStore = new RedditUserSelectedStore();
     this.redditCollection = new RedditCollection();
-    // ? Зачем это?
-    // this.redditSelectedMedia = new RedditSelectedMedia();
     this.itemsToSend = new ItemsToSend();
 
     makeObservable(this, {
@@ -69,6 +67,7 @@ export class RedditRootStore {
       redditCollection: observable,
       itemsToSend: observable,
       groupSend: observable,
+      busy: observable,
 
       redditResponseNewRecords: action,
       redditReceiveNewRecords: action,
