@@ -81,13 +81,12 @@ export const telegramHandlers = {
   ) => {
     try {
       const settingsData = await settingsFile.readData();
-      const botRunning = await telegramBot.checkIsRunning();
-      if (!botRunning) {
-        ipcMainEvent.reply(CHANNELS.SEND_POP_UP_ERROR, "Бот не запущен");
-        return;
-      }
 
       if (holidayName) {
+        ipcMainEvent.reply(
+          CHANNELS.SEND_POP_UP_MESSAGE,
+          "Отправка поздравления в телеграм...",
+        );
         const holidayMessage = await getHolidayMessage({
           holidayName,
           appSettings: settingsData,
@@ -100,7 +99,10 @@ export const telegramHandlers = {
           waitSeconds: settingsData.telegram.waitSeconds,
         });
       }
-
+      ipcMainEvent.reply(
+        CHANNELS.SEND_POP_UP_MESSAGE,
+        "Отправка картинок в телеграм...",
+      );
       await telegramBot.sendMediaRecordsToGroups({
         tgAdmin: settingsData.telegram.telegramAdmin,
         tgGroups: settingsData.telegram.telegramGroups,

@@ -8,6 +8,7 @@ import {
   type FileInTelegram,
   type SendMediaRecordsGroupsPayload,
   type SendMessageToGroupsPayload,
+  type SendPictureReturnFileIdPayload,
   type SendPicturesToGroup,
   type SendPictureToGroupsPayload,
   type SendVideoToGroupsPayload,
@@ -133,54 +134,24 @@ export class TelegramBot {
   }: SendMediaRecordsGroupsPayload) {
     if (!this.telegraf) return;
     // Отправить все файлы в админский чат и получить fileId
-    const savedFiles = await Promise.allSettled(
-      mediaRecords.map(({ title, url }) => {
-        // Получить из URL'a расширение файла
-        const ext = getExtFromUrl(url) ?? "";
 
-        if (ext === "gif") {
-          return this.telegraf?.telegram
-            .sendAnimation(tgAdmin, url, {
-              caption: title ?? undefined,
-              protect_content: false,
-              disable_notification: true,
-            })
-            .then((response) => {
-              return { id: response.animation.file_id, title, animation: true };
-            })
-            .catch(() => false);
-        }
+    const savedFiles: FileInTelegram[] = [];
+    for await (const mediaRecord of mediaRecords) {
+      wait(waitSeconds);
 
-        return this.telegraf?.telegram
-          .sendPhoto(tgAdmin, url, {
-            caption: title ?? undefined,
-            protect_content: false,
-            disable_notification: true,
-          })
-          .then((response) => {
-            return { id: response.photo[0].file_id, title, animation: false };
-          })
-          .catch((errorSend) => {
-            console.log("errorSend: ", errorSend);
-            return false;
-          });
-      }),
-    ).then((listImgs) => {
-      const files: FileInTelegram[] = [];
-      listImgs.forEach((imgResult) => {
-        if (
-          imgResult.status === "fulfilled" &&
-          typeof imgResult.value !== "boolean" &&
-          imgResult.value
-        ) {
-          files.push({
-            ...imgResult.value,
-            title: imgResult.value.title ?? "",
-          });
+      try {
+        const responseSendPictue = await this.sendPictureReturnFileId({
+          tgAdmin,
+          title: mediaRecord.title ?? "",
+          url: mediaRecord.url,
+        });
+        if (typeof responseSendPictue !== "boolean") {
+          savedFiles.push(responseSendPictue as FileInTelegram);
         }
-      });
-      return files;
-    });
+      } catch (sendError) {
+        console.log("sendError :>>", sendError);
+      }
+    }
 
     // 1. Отправить с GIF
     const dataWithGif = savedFiles.filter((d) => d.animation);
@@ -305,5 +276,50 @@ export class TelegramBot {
     }
 
     return true;
+  }
+
+  private async sendPictureReturnFileId({
+    title = "",
+    tgAdmin,
+    url,
+  }: SendPictureReturnFileIdPayload) {
+    // Получить из URL'a расширение файла
+    const ext = getExtFromUrl(url) ?? "";
+
+    if (ext === "gif") {
+      const sendAnimationResponse = await this.telegraf?.telegram.sendAnimation(
+        tgAdmin,
+        url,
+        {
+          caption: title ?? undefined,
+          protect_content: false,
+          disable_notification: true,
+        },
+      );
+      if (sendAnimationResponse)
+        return {
+          id: sendAnimationResponse.animation.file_id,
+          title,
+          animation: true,
+        };
+      else return false;
+    }
+
+    const sendPhotoResponse = await this.telegraf?.telegram.sendPhoto(
+      tgAdmin,
+      url,
+      {
+        caption: title ?? undefined,
+        protect_content: false,
+        disable_notification: true,
+      },
+    );
+    if (sendPhotoResponse)
+      return {
+        id: sendPhotoResponse.photo[0].file_id,
+        title,
+        animation: false,
+      };
+    else return false;
   }
 }

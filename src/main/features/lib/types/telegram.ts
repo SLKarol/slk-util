@@ -148,3 +148,9 @@ export interface SendMessageToGroupsPayload {
    */
   waitSeconds: number;
 }
+
+export interface SendPictureReturnFileIdPayload {
+  title: string | null;
+  tgAdmin: string;
+  url: string;
+}
