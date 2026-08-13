@@ -21,11 +21,11 @@ const settingsFile = new UserDataFileManager<AppSettings>(
   "settings.json",
   getDefaultSettings(),
 );
-const telegramBot = new TelegramBot();
+let telegramBot: TelegramBot;
 
 settingsFile.readData().then((settingsData) => {
   if (settingsData.telegram.telegramToken) {
-    telegramBot.changeToken(settingsData.telegram.telegramToken);
+    telegramBot = new TelegramBot(settingsData.telegram.telegramToken);
   }
 });
 
