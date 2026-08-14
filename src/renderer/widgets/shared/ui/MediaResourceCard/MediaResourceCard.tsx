@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 
 import { type MediaRecordStore } from "@renderer-features/model/media-record";
 
+import { MediaRecourceCarCreated } from "./MediaRecourceCarCreated";
 import { MediaResourceCardDimension } from "./MediaResourceCardDimension";
 import { MediaResourceCardSelectDimension } from "./MediaResourceCardSelectDimension";
 import { MediaResourceCardTitle } from "./MediaResourceCardTitle";
@@ -59,6 +60,7 @@ export const MediaResourceCard = observer(
         ) : (
           <Title order={5}>{mediaRecord.title}</Title>
         )}
+        <MediaRecourceCarCreated mediaRecord={mediaRecord} />
         <MediaResourceContent mediaRecord={mediaRecord} />
         <MediaResourceCardDimension mediaRecord={mediaRecord} />
         <MediaResourceCardToolbar

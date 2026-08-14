@@ -1,4 +1,7 @@
+import "dayjs/locale/ru";
+
 import dayjs from "dayjs";
+dayjs.locale("ru");
 
 /**
  * Преобразует строку с датой и временем в объект Date.
