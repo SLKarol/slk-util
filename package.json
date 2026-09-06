@@ -29,11 +29,11 @@
     "@electron-forge/plugin-webpack": "^7.11.2",
     "@electron/fuses": "^1.8.0",
     "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.5",
+    "@types/react-dom": "^19.2.7",
     "@types/whois-json": "^2.0.4",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
-    "@vercel/webpack-asset-relocator-loader": "^1.7.3",
+    "@vercel/webpack-asset-relocator-loader": "^1.11.0",
     "css-loader": "^6.11.0",
     "electron": "44.2.0",
     "electron-devtools-installer": "^4.0.0",
@@ -49,7 +49,7 @@
     "postcss-simple-vars": "^7.0.1",
     "prettier": "3.9.6",
     "style-loader": "^3.3.4",
-    "ts-loader": "^9.5.7",
+    "ts-loader": "^9.6.2",
     "typescript": "^5.9.3"
   },
   "dependencies": {
