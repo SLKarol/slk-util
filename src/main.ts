@@ -43,7 +43,7 @@ const createWindow = (windowState: State) => {
   createAppMenu(mainWindow);
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  if (isDevelopment) mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
