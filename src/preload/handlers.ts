@@ -1,15 +1,15 @@
-import { createErrorHandlers } from "@preload/lib/error/error-handler";
-import { createHolidaysHandlers } from "@preload/lib/holidays/holidays-handlers";
-import { createMediaHandlers } from "@preload/lib/media/media-handler";
-import { createMenuHandlers } from "@preload/lib/menu/menu-handlers.ts";
-import { createMessagesHandlers } from "@preload/lib/messages/messages-handlers";
-import { createRedditHandlers } from "@preload/lib/reddit/reddit-handlers";
-import { createRequestHandlers } from "@preload/lib/request/request-handlers";
-import { createSettingsHandlers } from "@preload/lib/settings/settings-handlers";
-import { createSettingsTunnelHandlers } from "@preload/lib/settings/settings-tunnel-handlers";
-import { createStihiRuHandlers } from "@preload/lib/stihiru/stihiru-handlers";
-import { createTelegramHandlers } from "@preload/lib/telegram";
-import { createYaPlakalHandlers } from "@preload/lib/yaplakal/yaplakal-handlers";
+import { createErrorHandlers } from "./lib/error/error-handler";
+import { createHolidaysHandlers } from "./lib/holidays/holidays-handlers";
+import { createMediaHandlers } from "./lib/media/media-handler";
+import { createMenuHandlers } from "./lib/menu/menu-handlers.ts";
+import { createMessagesHandlers } from "./lib/messages/messages-handlers";
+import { createRedditHandlers } from "./lib/reddit/reddit-handlers";
+import { createRequestHandlers } from "./lib/request/request-handlers";
+import { createSettingsHandlers } from "./lib/settings/settings-handlers";
+import { createSettingsTunnelHandlers } from "./lib/settings/settings-tunnel-handlers";
+import { createStihiRuHandlers } from "./lib/stihiru/stihiru-handlers";
+import { createTelegramHandlers } from "./lib/telegram";
+import { createYaPlakalHandlers } from "./lib/yaplakal/yaplakal-handlers";
 
 export const menuAPI = createMenuHandlers();
 export const requestsAPI = createRequestHandlers();

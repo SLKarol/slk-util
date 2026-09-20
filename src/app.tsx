@@ -1,7 +1,8 @@
+import React from "react";
 import { configure } from "mobx";
 import { createRoot } from "react-dom/client";
 
-import { App } from "@renderer/App";
+import { App } from "./ui/App";
 
 /** mobx configure */
 configure({

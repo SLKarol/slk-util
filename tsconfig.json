@@ -1,21 +1,18 @@
 {
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "target": "ES6",
-    "lib": [
-      "ES6",
-      "DOM"
-    ],
-    "allowJs": true,
+    "target": "ESNext",
     "module": "commonjs",
+    "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "noImplicitAny": true,
     "sourceMap": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "outDir": "dist",
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "jsx": "react-jsx",
     "paths": {
       "*": [
         "node_modules/*"
@@ -30,23 +27,20 @@
         "./src/shared/*"
       ],
       "@pages/*": [
-        "./src/renderer/pages/*"
+        "./src/ui/pages/*"
       ],
       "@renderer-features/*": [
-        "./src/renderer/features/*"
+        "./src/ui/features/*"
       ],
       "@renderer-shared/*": [
-        "./src/renderer/shared/*"
+        "./src/ui/shared/*"
       ],
       "@renderer/*": [
-        "./src/renderer/*"
+        "./src/ui/*"
       ],
       "@widgets/*": [
-        "./src/renderer/widgets/*"
+        "./src/ui/widgets/*"
       ],
     }
-  },
-  "include": [
-    "src/**/*",
-  ]
+  }
 }
