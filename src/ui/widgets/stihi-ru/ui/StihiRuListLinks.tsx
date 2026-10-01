@@ -26,7 +26,7 @@ export const StihiRuListLinks = observer(() => {
           data-index={indexSelectedLink}
           data-link={chap.href}
           variant={
-            indexSelectedLink === selectedLinkIndex ? "outline" : "white"
+            indexSelectedLink === selectedLinkIndex ? "outline" : "transparent"
           }
           onClick={onClick}
         >

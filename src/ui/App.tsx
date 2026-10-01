@@ -13,7 +13,7 @@ import { Routing } from "@pages/Routing";
  */
 export const App = () => {
   return (
-    <MantineProvider>
+    <MantineProvider defaultColorScheme="dark">
       <Notifications />
       <Routing />
     </MantineProvider>

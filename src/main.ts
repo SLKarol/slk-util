@@ -1,4 +1,4 @@
-import { app, BrowserWindow, session } from "electron";
+import { app, BrowserWindow, session, nativeTheme } from "electron";
 import path from "node:path";
 import started from "electron-squirrel-startup";
 import {
@@ -42,23 +42,11 @@ const createWindow = (windowState: State) => {
 
   createAppMenu(mainWindow);
 
+  nativeTheme.themeSource = "dark"; // Устанавливаем темную тему по умолчанию
+
   // Open the DevTools.
   if (isDevelopment) mainWindow.webContents.openDevTools();
 };
-
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on("ready", () => {
-  const mainWindowState = windowStateKeeper({
-    defaultWidth: 1000,
-    defaultHeight: 800,
-  });
-
-  createWindow(mainWindowState);
-  //! Регистрируем обработчики после создания окна
-  registerHandlers();
-});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -111,6 +99,15 @@ app.whenReady().then(() => {
       },
     });
   });
+
+  const mainWindowState = windowStateKeeper({
+    defaultWidth: 1000,
+    defaultHeight: 800,
+  });
+
+  createWindow(mainWindowState);
+  //! Регистрируем обработчики после создания окна
+  registerHandlers();
 
   // session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
   //   callback({
