@@ -110,7 +110,7 @@ export const initTelegramHandlers = async () => {
           });
 
           await telegramBot.sendMessageToGroups({
-            message: holidayMessage,
+            message: holidayMessage as string,
             tgGroups: settingsData.telegram.telegramGroups,
             waitSeconds: settingsData.telegram.waitSeconds,
           });

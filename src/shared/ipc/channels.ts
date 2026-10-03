@@ -265,5 +265,18 @@ export const CHANNELS = {
   /** Запись текста в буфер обмена */
   WRITE_TEXT_TO_CLIPBOARD: "WRITE_TEXT_TO_CLIPBOARD",
 
+  /**
+   * Отправка текущего статуса по работе с телеграмм
+   */
   TELEGRAM_BOT_SEND_FILE_STATUS: "TELEGRAM_BOT_SEND_FILE_STATUS",
+
+  /**
+   * Спросить модель ollama
+   */
+  OLLAMA_ASK_MODEL: "OLLAMA_ASK_MODEL",
+
+  /**
+   * Ответ Ollama
+   */
+  OLLAMA_RESPONSE: "OLLAMA_RESPONSE",
 };

@@ -13,6 +13,7 @@ import { SendFileStatus } from "./sendFile";
 import { type WriteSettingsProps } from "./settings.type";
 import { type IStatusAutoReadStihi } from "./stihi.types";
 import { type IPRange } from "./tunnel";
+import { type OllamaResponse, type OllamaAskProps } from "./ollama";
 
 /**
  * API для взаимодействия с Electron
@@ -347,6 +348,15 @@ export interface ElectronAPI {
   telegramBotSendFileStatus: (
     callback: (payload: { id: string; status: SendFileStatus }) => void,
   ) => () => void;
+
+  /**
+   * Запросить модель ollama
+   * @param payload параметры запроса
+   */
+  receiveOllamaModel: (payload: OllamaAskProps) => void;
+
+  /** Получение названия праздников  */
+  responseOllamaModel: (callback: (data: OllamaResponse) => void) => () => void;
 }
 
 /**
