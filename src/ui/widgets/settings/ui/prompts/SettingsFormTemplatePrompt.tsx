@@ -12,7 +12,13 @@ import {
 export const SettingsFormTemplatePrompt = ({ children }: PropsWithChildren) => {
   const form = useSettingsTemplatePromptForm({
     mode: "uncontrolled",
-    initialValues: { holiday: "" },
+    initialValues: {
+      holiday: "",
+      reviewOfNeuroPoems: "",
+      reviewOfPoems: "",
+      reviewOfPoorPoems: "",
+      myMindAboutPoems: "",
+    },
     validate: {
       holiday: isNotEmpty("Введите промпт, пожалуйста"),
     },
@@ -24,6 +30,10 @@ export const SettingsFormTemplatePrompt = ({ children }: PropsWithChildren) => {
     const unsubscribe = window.electronAPI.onReceiveSetting((settings) => {
       form.setValues({
         holiday: settings.templatesPrompts?.holiday ?? "",
+        reviewOfNeuroPoems: settings.templatesPrompts?.reviewOfNeuroPoems ?? "",
+        reviewOfPoems: settings.templatesPrompts?.reviewOfPoems ?? "",
+        reviewOfPoorPoems: settings.templatesPrompts?.reviewOfPoorPoems ?? "",
+        myMindAboutPoems: settings.templatesPrompts?.myMindAboutPoems ?? "",
       });
     });
     return unsubscribe;

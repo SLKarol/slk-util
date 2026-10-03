@@ -12,6 +12,7 @@ export const InputOllamaModelHoliday = () => {
     <TextInput
       label="Какая модель используется для генерации поздравления"
       key={form.key("model.holiday")}
+      mb="2rem"
       {...form.getInputProps("model.holiday")}
     />
   );

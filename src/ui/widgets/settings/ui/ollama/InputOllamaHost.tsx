@@ -12,6 +12,7 @@ export const InputOllamaHost = () => {
     <TextInput
       label="URL API сервера"
       key={form.key("host")}
+      mb="2rem"
       {...form.getInputProps("host")}
     />
   );

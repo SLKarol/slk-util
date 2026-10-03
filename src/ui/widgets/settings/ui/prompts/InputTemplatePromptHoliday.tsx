@@ -15,7 +15,9 @@ export const InputTemplatePromptHoliday = () => {
       label={`Введите промпт для генерации праздничного текста. Сам праздник обозначьте ${HOLIDAY_NAME_PATTERN}`}
       key={form.key("holiday")}
       autosize
-      minRows={4}
+      minRows={8}
+      maxRows={16}
+      mb="2rem"
       {...form.getInputProps("holiday")}
     />
   );

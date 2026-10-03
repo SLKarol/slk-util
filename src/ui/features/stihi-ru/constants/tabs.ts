@@ -12,3 +12,8 @@ export const BANNED_TAB_NAME = "banned";
  * Название вкладки "Зайти на страницу".
  */
 export const ENTER_PAGE_TAB_NAME = "enterPage";
+
+/**
+ * Название вкладки "Написать отзыв".
+ */
+export const WRITE_REVIEW = "writeReview";

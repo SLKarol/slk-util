@@ -64,10 +64,15 @@ export const SETTINGS_APP = {
     host: "",
     model: {
       holiday: "",
+      reviewOfPoems: "",
     },
   },
 
   templatesPrompts: {
     holiday: "",
+    myMindAboutPoems: "",
+    reviewOfPoems: "",
+    reviewOfPoorPoems: "",
+    reviewOfNeuroPoems: "",
   },
 };

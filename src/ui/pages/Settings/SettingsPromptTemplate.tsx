@@ -2,6 +2,9 @@ import { Container, Flex } from "@mantine/core";
 
 import {
   InputTemplatePromptHoliday,
+  InputTemplatePromptPoems,
+  InputTemplatePromptPoemsMyMind,
+  InputTemplatePromptPoemsNeuro,
   SettingsFormTemplatePrompt,
 } from "@renderer/widgets/settings/ui";
 import { SaveSettings } from "@renderer/widgets/shared/ui";
@@ -14,6 +17,9 @@ export const SettingsPromptTemplate = () => {
     <Container size="lg" pb="1rem">
       <SettingsFormTemplatePrompt>
         <InputTemplatePromptHoliday />
+        <InputTemplatePromptPoems />
+        <InputTemplatePromptPoemsMyMind />
+        <InputTemplatePromptPoemsNeuro />
         <Flex gap="1rem">
           <SaveSettings />
         </Flex>

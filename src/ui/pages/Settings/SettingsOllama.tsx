@@ -3,6 +3,7 @@ import { Container, Flex } from "@mantine/core";
 import {
   InputOllamaHost,
   InputOllamaModelHoliday,
+  InputOllamaModelPoems,
   SettingsFormOllama,
 } from "@renderer/widgets/settings/ui";
 import { SaveSettings } from "@renderer/widgets/shared/ui";
@@ -16,6 +17,7 @@ export const SettingsOllama = () => {
       <SettingsFormOllama>
         <InputOllamaHost />
         <InputOllamaModelHoliday />
+        <InputOllamaModelPoems />
         <Flex gap="1rem">
           <SaveSettings />
         </Flex>

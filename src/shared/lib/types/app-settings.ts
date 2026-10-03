@@ -190,6 +190,11 @@ export interface AppSettingsOllama {
      * Настройка праздника для модели.
      */
     holiday: string;
+
+    /**
+     * Пишет промпты на стихи
+     */
+    reviewOfPoems: string;
   };
 }
 
@@ -201,4 +206,24 @@ export interface TemplatePrompt {
    * Настройка праздника для шаблона.
    */
   holiday: string;
+
+  /**
+   * Промпт на мои мысли о стихах
+   */
+  myMindAboutPoems: string;
+
+  /**
+   * Промпт на стихи
+   */
+  reviewOfPoems: string;
+
+  /**
+   * Промпт на отзыв на плохие стихи
+   */
+  reviewOfPoorPoems: string;
+
+  /**
+   * Промпт на нейротворчество
+   */
+  reviewOfNeuroPoems: string;
 }

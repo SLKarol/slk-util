@@ -4,6 +4,7 @@ import {
   BANNED_TAB_NAME,
   ENTER_PAGE_TAB_NAME,
   MAIN_TAB_NAME,
+  WRITE_REVIEW,
 } from "../constants/tabs";
 
 import { type StihiRuRootStore } from "./stihi-ru-root-store";
@@ -32,6 +33,10 @@ export class StihiRuTabsStore {
       { id: BANNED_TAB_NAME, readonly: true, title: "Заблокированные" },
     ],
     [MAIN_TAB_NAME, { id: MAIN_TAB_NAME, readonly: true, title: "Главная" }],
+    [
+      WRITE_REVIEW,
+      { id: WRITE_REVIEW, readonly: true, title: "Написать отзыв" },
+    ],
   ]);
 
   /**

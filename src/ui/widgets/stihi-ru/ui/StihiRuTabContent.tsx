@@ -4,6 +4,7 @@ import {
   BANNED_TAB_NAME,
   ENTER_PAGE_TAB_NAME,
   MAIN_TAB_NAME,
+  WRITE_REVIEW,
 } from "@renderer-features/stihi-ru/constants/tabs";
 
 import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRootStore";
@@ -11,6 +12,7 @@ import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRoot
 import { StihiRuEnterPage } from "./EnterPage/StihiRuEnterPage";
 import { StihiRuBanned } from "./StihiRuBanned/StihiRuBanned";
 import { StihiRuMain } from "./StihiRuMain";
+import { WriteReviewPage } from "./WriteReviewPage/WriteReviewPage";
 
 /**
  * Компонент отображения содержимого активной вкладки виджета stihi.ru.
@@ -23,6 +25,7 @@ export const StihiRuTabContent = observer(() => {
   if (selectedTab === BANNED_TAB_NAME) return <StihiRuBanned />;
   if (selectedTab === MAIN_TAB_NAME) return <StihiRuMain />;
   if (selectedTab === ENTER_PAGE_TAB_NAME) return <StihiRuEnterPage />;
+  if (selectedTab === WRITE_REVIEW) return <WriteReviewPage />;
 
   return null;
 });
