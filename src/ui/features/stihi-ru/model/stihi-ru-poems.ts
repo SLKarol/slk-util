@@ -105,7 +105,7 @@ export class StihiRuPoemsStore {
     this.poems.forEach(({ authorId, invite, href }) => {
       if (
         invite &&
-        !this.stihiRuRootStore.stihiRuBanAuthrorsStore.list.has(authorId)
+        !this.stihiRuRootStore.stihiRuBanAuthorsStore.list.has(authorId)
       )
         poemHrefs.push(href);
     });
@@ -132,7 +132,7 @@ export class StihiRuPoemsStore {
     const filteredPoems = poemsArray.filter(
       ({ invite, authorId }) =>
         !invite &&
-        !this.stihiRuRootStore.stihiRuBanAuthrorsStore.list.has(authorId),
+        !this.stihiRuRootStore.stihiRuBanAuthorsStore.list.has(authorId),
     );
 
     return filteredPoems.sort(sortPoemsDescData).map((p: SihiPoem) => p.href);

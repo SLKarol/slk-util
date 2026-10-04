@@ -1,3 +1,5 @@
+import { type ExtractTagPayload } from "./string.types";
+
 /**
  * Формирует правильную подпись к числу: N символ / символа / символов.
  *
@@ -37,3 +39,14 @@ export function formatCount(
   // Остальные (5–9, 0 и т. д.) → форма «много»
   return `${count} ${many}`;
 }
+
+/**
+ * Извлекает текст из HTML-тега.
+ *
+ * @param payload - объект с тегом и текстом
+ * @returns текст внутри HTML-тега или null, если тег не найден
+ */
+export const extractTag = ({ tag, text }: ExtractTagPayload) => {
+  const match = text.match(new RegExp(`<${tag}>([\\s\\S]*?)</${tag}>`));
+  return match ? match[1] : null;
+};

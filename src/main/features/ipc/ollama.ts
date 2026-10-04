@@ -24,21 +24,22 @@ export const ollamaHandlers = {
     );
     const settingsData = await settingsFile.readData();
     const { ollama } = settingsData;
-    ipcMainEvent.reply(CHANNELS.SEND_POP_UP_MESSAGE, "Генерация ответа...");
 
     try {
       const ollamaEntity = new Ollama({ host: ollama.host });
 
+      ipcMainEvent.reply(CHANNELS.SEND_POP_UP_MESSAGE, "Генерация ответа...");
       const response = await ollamaEntity.generate({
         model,
         prompt,
         stream: false, // Для получения полного ответа сразу
       });
 
-      ipcMainEvent.reply(CHANNELS.RESPONSE_NAMES_OF_HOLIDAYS, {
+      ipcMainEvent.reply(CHANNELS.OLLAMA_RESPONSE, {
         idPrompt,
-        response,
+        response: response.response ?? "",
       });
+      ipcMainEvent.reply(CHANNELS.SEND_POP_UP_MESSAGE, "Ответ передан.");
     } catch (error) {
       console.error("Error:", error);
       ipcMainEvent.reply(CHANNELS.ERROR_MAIN, {

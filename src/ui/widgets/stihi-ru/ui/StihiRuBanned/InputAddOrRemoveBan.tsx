@@ -21,7 +21,7 @@ export const InputAddOrRemoveBan = ({ operationAdd }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const {
-    stihiRuBanAuthrorsStore: { addAuthor, removeAuthor },
+    stihiRuBanAuthorsStore: { addAuthor, removeAuthor },
   } = useStihiRuRootStore();
 
   const onClick = () => {

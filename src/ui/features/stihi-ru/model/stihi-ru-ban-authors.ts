@@ -6,7 +6,7 @@ import type { StihiRuRootStore } from "./stihi-ru-root-store";
 /**
  * Хранилище для управления списком забаненных авторов на сайте "Стихи.ру".
  */
-export class StihiRuBanAuthrorsStore {
+export class StihiRuBanAuthorsStore {
   /**
    * Список забаненных авторов
    */

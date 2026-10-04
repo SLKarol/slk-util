@@ -9,7 +9,7 @@ import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRoot
 export const ListVerseCheckBan = observer(() => {
   const {
     stihiRuPoemsStore: { showBanned, toggleShowBanned },
-    stihiRuBanAuthrorsStore: { haveBadAuthors },
+    stihiRuBanAuthorsStore: { haveBadAuthors },
   } = useStihiRuRootStore();
   return (
     <Checkbox

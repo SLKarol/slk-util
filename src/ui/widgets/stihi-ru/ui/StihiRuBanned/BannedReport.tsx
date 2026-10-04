@@ -12,7 +12,7 @@ import classes from "./StihiRuBanned.module.css";
  */
 export const BannedReport = observer(() => {
   const {
-    stihiRuBanAuthrorsStore: { countBadAuthors },
+    stihiRuBanAuthorsStore: { countBadAuthors },
   } = useStihiRuRootStore();
   return (
     <Card withBorder radius="md" p="xl" className={classes.card}>

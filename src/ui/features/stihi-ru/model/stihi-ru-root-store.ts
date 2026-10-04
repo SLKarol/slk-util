@@ -1,7 +1,8 @@
 import { StihiRuCalendarStore } from "./calendar";
 import { HistorySelectedPartsStore } from "./history-selected-parts";
 import { StihiRuListChapersStore } from "./list-chapters";
-import { StihiRuBanAuthrorsStore } from "./stihi-ru-ban-authors";
+import { ReactionPoemsStore } from "./reaction-poems";
+import { StihiRuBanAuthorsStore } from "./stihi-ru-ban-authors";
 import { StihiRuPoemsStore } from "./stihi-ru-poems";
 import { StihiRuTabsStore } from "./stihi-ru-tabs";
 import { StihiRuUiStore } from "./stihi-ru-ui";
@@ -52,12 +53,17 @@ export class StihiRuRootStore {
   /**
    * Экземпляр хранилища запрещённых авторов.
    */
-  stihiRuBanAuthrorsStore: StihiRuBanAuthrorsStore;
+  stihiRuBanAuthorsStore: StihiRuBanAuthorsStore;
 
   /**
    * Экземпляр хранилища пользовательского интерфейса.
    */
   stihiRuUiStore: StihiRuUiStore;
+
+  /**
+   * Экземпляр хранилища реакций на произведение
+   */
+  reactionPoems: ReactionPoemsStore;
 
   /**
    * Создаёт экземпляр корневого хранилища.
@@ -75,7 +81,8 @@ export class StihiRuRootStore {
     this.stihiRuPoemsStore = new StihiRuPoemsStore(this);
     this.historySelectedPartsStore = new HistorySelectedPartsStore(this);
     this.stihiRuTabsStore = new StihiRuTabsStore(this);
-    this.stihiRuBanAuthrorsStore = new StihiRuBanAuthrorsStore(this);
+    this.stihiRuBanAuthorsStore = new StihiRuBanAuthorsStore(this);
     this.stihiRuUiStore = new StihiRuUiStore();
+    this.reactionPoems = new ReactionPoemsStore();
   }
 }

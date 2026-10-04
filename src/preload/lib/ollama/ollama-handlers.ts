@@ -11,6 +11,7 @@ export const createOllamaHandlers = () =>
   ({
     receiveOllamaModel: (payload) =>
       ipcRenderer.send(CHANNELS.OLLAMA_ASK_MODEL, payload),
+
     responseOllamaModel: (callback: (data: OllamaResponse) => void) => {
       // Создаём функцию‑обёртку для подписки
       const subscription = (event: IpcRendererEvent, ...args: unknown[]) =>

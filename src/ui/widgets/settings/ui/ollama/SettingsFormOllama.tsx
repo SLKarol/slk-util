@@ -11,7 +11,7 @@ import {
 export const SettingsFormOllama = ({ children }: PropsWithChildren) => {
   const form = useSettingsOllamaForm({
     mode: "uncontrolled",
-    initialValues: { host: "", model: { holiday: "" } },
+    initialValues: { host: "", model: { holiday: "", reviewOfPoems: "" } },
   });
 
   useEffect(() => {
@@ -20,7 +20,10 @@ export const SettingsFormOllama = ({ children }: PropsWithChildren) => {
     const unsubscribe = window.electronAPI.onReceiveSetting((settings) => {
       form.setValues({
         host: settings.ollama?.host ?? "",
-        model: { holiday: settings.ollama?.model?.holiday ?? "" },
+        model: {
+          holiday: settings.ollama?.model?.holiday ?? "",
+          reviewOfPoems: settings.ollama?.model?.reviewOfPoems ?? "",
+        },
       });
     });
     return unsubscribe;

@@ -1,8 +1,8 @@
 import { Flex } from "@mantine/core";
 
 import { PromptResultToolbar } from "./PromptResultToolbar";
-import { PromptResultMind } from "./PromptResultMind";
-import { ReactionText } from "./ReactionText";
+import { PromptResultThought } from "./PromptResultThought";
+import { PromptResultOutput } from "./PromptResultOutput";
 
 /**
  * Контейнер вывода результата промпта
@@ -10,9 +10,9 @@ import { ReactionText } from "./ReactionText";
 export const PromptResult = () => {
   return (
     <Flex gap="xs" justify="flex-start" align="flex-start" direction="column">
-      <PromptResultMind />
+      <PromptResultThought />
       <PromptResultToolbar />
-      <ReactionText />
+      <PromptResultOutput />
     </Flex>
   );
 };

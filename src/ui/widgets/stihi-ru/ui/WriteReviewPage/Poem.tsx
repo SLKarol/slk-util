@@ -1,3 +1,4 @@
+import { CopyPrompt } from "./CopyPrompt";
 import { GenerateReaction } from "./GenerateReaction";
 import { MyMind } from "./MyMind";
 import styles from "./Poem.module.css";
@@ -11,7 +12,10 @@ export const Poem = () => {
     <div className={styles.container}>
       <TextPoem />
       <MyMind />
-      <GenerateReaction />
+      <div className={styles.toolbar}>
+        <GenerateReaction />
+        <CopyPrompt />
+      </div>
     </div>
   );
 };

@@ -13,7 +13,7 @@ interface Props {
  */
 export const StihiRuButtonBanAuthor = observer(({ poemHref }: Props) => {
   const {
-    stihiRuBanAuthrorsStore: { list, addOrRemoveBadAuthorByPoemHref },
+    stihiRuBanAuthorsStore: { list, addOrRemoveBadAuthorByPoemHref },
     stihiRuPoemsStore: { poems },
   } = useStihiRuRootStore();
 

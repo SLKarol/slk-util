@@ -18,13 +18,17 @@ export const useInitHandlers = () => {
   const {
     listChaptersStore: { handleChaptersData },
     stihiRuPoemsStore: { handlePoemsData },
-    stihiRuBanAuthrorsStore: { loadArrayBadAuthors },
+    stihiRuBanAuthorsStore: { loadArrayBadAuthors },
     stihiRuUiStore: { setBrowserProcessName },
+    reactionPoems: { onReceiveSetting, onResponseOllamaModel },
   } = useStihiRuRootStore();
 
   // Настроить обработчики событий запросов к сети
   useEffect(() => {
-    const unsubscribe = window.electronAPI.onReceiveText(
+    window.electronAPI.fetchBanAuthors();
+    window.electronAPI.fetchSettings();
+
+    const unsubscribeOnReceiveText = window.electronAPI.onReceiveText(
       ({ requestParam, textContent }: ReceiveText) => {
         if (checkUrlStihiList(requestParam as string)) {
           handleChaptersData(
@@ -36,40 +40,35 @@ export const useInitHandlers = () => {
         }
       },
     );
-    return unsubscribe;
-  }, []);
-
-  // Настроить обработчики событий загрузки забаненных авторов
-  useEffect(() => {
-    window.electronAPI.fetchBanAuthors();
-
-    const unsubscribe = window.electronAPI.onReceiveBanAuthors((authors) => {
-      loadArrayBadAuthors(authors);
-    });
-    return unsubscribe;
-  }, []);
-
-  // Настроить обработчики событий загрузки настроек
-  useEffect(() => {
-    window.electronAPI.fetchSettings();
-
-    const unsubscribe = window.electronAPI.onReceiveSetting((settings) => {
-      setBrowserProcessName(settings.browserProcessName);
-    });
-    return unsubscribe;
-  }, []);
-
-  // Настроить обработчики событий сообщений об опрации над автором
-  useEffect(() => {
-    const unsubscribe = window.electronAPI.onReceiveOperationAuthor(
-      ({ add, author }) => {
+    const unsubscribeOnReceiveBanAuthors =
+      window.electronAPI.onReceiveBanAuthors((authors) => {
+        loadArrayBadAuthors(authors);
+      });
+    const unsubscribeOnReceiveSetting = window.electronAPI.onReceiveSetting(
+      (settings) => {
+        setBrowserProcessName(settings.browserProcessName);
+        onReceiveSetting(settings);
+      },
+    );
+    const unsubscribeOnReceiveOperationAuthor =
+      window.electronAPI.onReceiveOperationAuthor(({ add, author }) => {
         notifications.show({
           title: add ? "Автор добавлен" : "Автор удалён",
           message: `${author} ${add ? "добавлен" : "удалён"} в(из) бан`,
         });
-      },
-    );
+      });
 
-    return unsubscribe;
+    const unsubscribeOnResponseOllamaModel =
+      window.electronAPI.responseOllamaModel((data) => {
+        onResponseOllamaModel(data);
+      });
+
+    return () => {
+      unsubscribeOnReceiveText();
+      unsubscribeOnReceiveBanAuthors();
+      unsubscribeOnReceiveSetting();
+      unsubscribeOnReceiveOperationAuthor();
+      unsubscribeOnResponseOllamaModel();
+    };
   }, []);
 };

@@ -8,11 +8,11 @@ type Props = {
 };
 
 /**
- * Картинка? что автор забанен
+ * Картинка, что автор забанен
  */
 export const StihiRuRecordHeadPic = observer(({ authorId }: Props) => {
   const {
-    stihiRuBanAuthrorsStore: { list },
+    stihiRuBanAuthorsStore: { list },
   } = useStihiRuRootStore();
   if (list.has(authorId)) return <IconBan size={14} />;
 
