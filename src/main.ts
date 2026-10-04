@@ -26,7 +26,7 @@ const createWindow = (windowState: State) => {
     width: windowState.width,
     height: windowState.height,
     webPreferences: {
-      preload: path.join(__dirname, "./preload.js"),
+      preload: path.join(__dirname, "preload.cjs"),
     },
   });
   windowState.manage(mainWindow);
