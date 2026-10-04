@@ -20,13 +20,18 @@ export const useInitHandlers = () => {
     stihiRuPoemsStore: { handlePoemsData },
     stihiRuBanAuthorsStore: { loadArrayBadAuthors },
     stihiRuUiStore: { setBrowserProcessName },
-    reactionPoems: { onReceiveSetting, onResponseOllamaModel },
+    reactionPoems: {
+      onReceiveSetting,
+      onResponseOllamaModel,
+      processOllamaModelListResponse,
+    },
   } = useStihiRuRootStore();
 
   // Настроить обработчики событий запросов к сети
   useEffect(() => {
     window.electronAPI.fetchBanAuthors();
     window.electronAPI.fetchSettings();
+    window.electronAPI.listInstalledOllamaModels();
 
     const unsubscribeOnReceiveText = window.electronAPI.onReceiveText(
       ({ requestParam, textContent }: ReceiveText) => {
@@ -63,12 +68,18 @@ export const useInitHandlers = () => {
         onResponseOllamaModel(data);
       });
 
+    const unsubscribeOnResponseListOllamaModels =
+      window.electronAPI.processOllamaModelListResponse((listModels) => {
+        processOllamaModelListResponse(listModels);
+      });
+
     return () => {
       unsubscribeOnReceiveText();
       unsubscribeOnReceiveBanAuthors();
       unsubscribeOnReceiveSetting();
       unsubscribeOnReceiveOperationAuthor();
       unsubscribeOnResponseOllamaModel();
+      unsubscribeOnResponseListOllamaModels();
     };
   }, []);
 };

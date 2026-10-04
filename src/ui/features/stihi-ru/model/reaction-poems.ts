@@ -1,5 +1,6 @@
 import { action, computed, makeObservable, observable } from "mobx";
 import { notifications } from "@mantine/notifications";
+import { type ModelResponse } from "ollama";
 
 import {
   type AppSettingsOllama,
@@ -13,6 +14,7 @@ import {
 } from "@shared/lib/constants";
 import { OllamaResponse } from "@shared/lib/types/ollama";
 import { extractTag } from "@renderer-shared/lib";
+import { OllamaModelsStore } from "@renderer-features/model/ollama-models";
 
 export class ReactionPoemsStore {
   /** тип реакции */
@@ -37,14 +39,6 @@ export class ReactionPoemsStore {
   promptResultOutput = "";
 
   /**
-   * Настройки подключения к ollama
-   */
-  settingsOllama: AppSettingsOllama = {
-    host: "",
-    model: { holiday: "", reviewOfPoems: "" },
-  };
-
-  /**
    * Настройки промптов
    */
   templatesPrompt: TemplatePrompt = {
@@ -60,7 +54,14 @@ export class ReactionPoemsStore {
    */
   generatingReaction = false;
 
+  /**
+   * Список моделей ollama
+   */
+  ollamaModels: OllamaModelsStore;
+
   constructor() {
+    this.ollamaModels = new OllamaModelsStore();
+
     makeObservable(this, {
       // observable
       generatingReaction: observable,
@@ -117,7 +118,7 @@ export class ReactionPoemsStore {
    * @param param0 Настройки приложения
    */
   onReceiveSetting = ({ ollama, templatesPrompts }: AppSettings) => {
-    this.settingsOllama = { ...ollama };
+    this.ollamaModels.setSelectedModel(ollama.model.reviewOfPoems);
     this.templatesPrompt = { ...templatesPrompts };
   };
 
@@ -125,10 +126,7 @@ export class ReactionPoemsStore {
    * Запуск промпта получить текст отклика
    */
   generateReaction = () => {
-    if (
-      this.settingsOllama.host.length === 0 ||
-      this.settingsOllama.model.reviewOfPoems.length === 0
-    )
+    if (this.ollamaModels.selectedModel.length === 0)
       return notifications.show({
         message: "Не заданы настройки ollama!",
         color: "red",
@@ -156,9 +154,9 @@ export class ReactionPoemsStore {
     this.promptResultThought = "";
     this.promptResultOutput = "";
 
-    window.electronAPI.receiveOllamaModel({
+    window.electronAPI.fetchOllamaModelWithPrompt({
       idPrompt: "reactionPoems",
-      model: this.settingsOllama.model.reviewOfPoems,
+      model: this.ollamaModels.selectedModel,
       prompt: this.prompt,
     });
   };
@@ -196,4 +194,11 @@ export class ReactionPoemsStore {
 
     return prompt;
   }
+
+  /**
+   * Запомнить список моделей
+   */
+  processOllamaModelListResponse = (listModels: ModelResponse[]) => {
+    this.ollamaModels.setOllamaModels(listModels);
+  };
 }

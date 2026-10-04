@@ -10,7 +10,7 @@ import { stihiRuHandlers } from "@main/features/ipc/stihiRu";
 import { initTelegramHandlers } from "@main/features/ipc/telegram";
 import { wireGuardTunnelHandlers } from "@main/features/ipc/wireGuardTunnel";
 import { yapHandlers } from "@main/features/ipc/yaplakal";
-import { ollamaHandlers } from "@main/features/ipc/ollama";
+import { initOllamaHandlers } from "@main/features/ipc/ollama";
 
 /**
  * Регистрация обработчиков ipc.
@@ -61,6 +61,7 @@ export async function registerHandlers() {
   });
 
   // Записать в electronAPI обработчики запросов к ollama
+  const ollamaHandlers = await initOllamaHandlers();
   Object.entries(ollamaHandlers).forEach(([channel, handler]) => {
     ipcMain.on(channel, handler);
   });

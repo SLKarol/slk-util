@@ -1,3 +1,5 @@
+import { type ModelResponse } from "ollama";
+
 import { type HasPrevNextPage } from "@shared/lib/types/htmlPageInfo";
 import {
   type MediaAlbum,
@@ -350,13 +352,21 @@ export interface ElectronAPI {
   ) => () => void;
 
   /**
-   * Запросить модель ollama
+   * Обратиться к модели ollama с промптом
    * @param payload параметры запроса
    */
-  receiveOllamaModel: (payload: OllamaAskProps) => void;
+  fetchOllamaModelWithPrompt: (payload: OllamaAskProps) => void;
 
   /** Получение названия праздников  */
   responseOllamaModel: (callback: (data: OllamaResponse) => void) => () => void;
+
+  /** Запросить у ollama список установленных моделей */
+  listInstalledOllamaModels: () => void;
+
+  /** Получение от ollama списка моделей */
+  processOllamaModelListResponse: (
+    callback: (data: ModelResponse[]) => void,
+  ) => () => void;
 }
 
 /**

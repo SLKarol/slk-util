@@ -279,4 +279,10 @@ export const CHANNELS = {
    * Ответ Ollama
    */
   OLLAMA_RESPONSE: "OLLAMA_RESPONSE",
+
+  /** Запрос списка моделей ollama */
+  OLLAMA_RECEIVE_MODELS: "OLLAMA_RECEIVE_MODELS",
+
+  /** Ответ списка моделей ollama */
+  OLLAMA_RESPONSE_MODELS: "OLLAMA_RESPONSE_MODELS",
 };
