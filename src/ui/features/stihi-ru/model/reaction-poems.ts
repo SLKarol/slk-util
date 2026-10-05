@@ -170,9 +170,14 @@ export class ReactionPoemsStore {
     if (idPrompt !== "reactionPoems") return;
 
     this.generatingReaction = false;
-    this.promptResultThought =
-      extractTag({ tag: "thought", text: response }) ?? "";
-    this.promptResultOutput = `#reaction\n${extractTag({ tag: "output", text: response })}`;
+    if (response.includes("<thought>"))
+      this.promptResultThought =
+        extractTag({ tag: "thought", text: response }) ?? "";
+    else this.promptResultThought = "";
+
+    if (response.includes("<output>"))
+      this.promptResultOutput = `#reaction\n${extractTag({ tag: "output", text: response })}`;
+    else this.promptResultOutput = response;
   };
 
   /**
