@@ -226,4 +226,9 @@ export interface TemplatePrompt {
    * Промпт на нейротворчество
    */
   reviewOfNeuroPoems: string;
+
+  /**
+   * Список открывающих фраз для обзора на закос под стихи
+   */
+  listOpenersPoemReview: string[];
 }

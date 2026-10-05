@@ -3,11 +3,11 @@ import { notifications } from "@mantine/notifications";
 import { type ModelResponse } from "ollama";
 
 import {
-  type AppSettingsOllama,
   type AppSettings,
   TemplatePrompt,
 } from "@shared/lib/types/app-settings";
 import {
+  OPENER_POEM_REVIEW,
   POEM_MY_MIND_PATTERN,
   POEM_PATTERN,
   PROMPT_MY_MIND,
@@ -47,6 +47,7 @@ export class ReactionPoemsStore {
     reviewOfNeuroPoems: "",
     reviewOfPoems: "",
     reviewOfPoorPoems: "",
+    listOpenersPoemReview: [],
   };
 
   /**
@@ -186,11 +187,28 @@ export class ReactionPoemsStore {
         : this.templatesPrompt.reviewOfNeuroPoems;
     let prompt = mainPrompt.replace(POEM_PATTERN, this.textOfPoem);
 
+    if (
+      this.templatesPrompt.listOpenersPoemReview?.length > 0 &&
+      prompt.includes(OPENER_POEM_REVIEW)
+    ) {
+      const opener =
+        this.templatesPrompt.listOpenersPoemReview[
+          Math.floor(
+            Math.random() * this.templatesPrompt.listOpenersPoemReview.length,
+          )
+        ];
+
+      prompt = prompt.replace(
+        OPENER_POEM_REVIEW,
+        `Возможный зачин (можешь использовать его или выбрать другой): ${opener} ...`,
+      );
+    } else prompt = prompt.replace(OPENER_POEM_REVIEW, "");
+
     if (this.myIdea.trim().length > 0) {
       prompt = prompt
         .replace(PROMPT_MY_MIND, this.templatesPrompt.myMindAboutPoems)
         .replace(POEM_MY_MIND_PATTERN, this.myIdea);
-    }
+    } else prompt = prompt.replace(PROMPT_MY_MIND, "");
 
     return prompt;
   }

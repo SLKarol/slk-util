@@ -20,3 +20,6 @@ export const POEM_NEURO_PATTERN = "$POEM_NEURO_PATTERN";
 
 /** Промпт моих мыслей о стихах */
 export const PROMPT_MY_MIND = "$PROMPT_MY_MIND";
+
+/** С каких слов начинается реакция на стихи */
+export const OPENER_POEM_REVIEW = "$OPENER_POEM_REVIEW";

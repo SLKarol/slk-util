@@ -74,5 +74,6 @@ export const SETTINGS_APP = {
     reviewOfPoems: "",
     reviewOfPoorPoems: "",
     reviewOfNeuroPoems: "",
+    listOpenersPoemReview: ["Мне показалось"],
   },
 };
