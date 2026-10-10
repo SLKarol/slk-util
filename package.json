@@ -15,7 +15,7 @@
   "keywords": [],
   "author": {
     "name": "Stanislav Karol",
-    "email": "SKarol@systematic.ru"
+    "email": "slsinitsin@gmail.com"
   },
   "license": "MIT",
   "devDependencies": {
@@ -33,7 +33,7 @@
     "@types/react-dom": "^19.3.0",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
-    "electron": "44.5.1",
+    "electron": "44.7.0",
     "electron-devtools-installer": "^4.0.0",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.1.8",
@@ -47,12 +47,12 @@
     "vite": "^5.4.21"
   },
   "dependencies": {
-    "@mantine/carousel": "^9.7.0",
-    "@mantine/core": "^9.7.0",
-    "@mantine/dates": "^9.7.0",
-    "@mantine/form": "^9.7.0",
-    "@mantine/hooks": "^9.7.0",
-    "@mantine/notifications": "^9.7.0",
+    "@mantine/carousel": "^9.7.1",
+    "@mantine/core": "^9.7.1",
+    "@mantine/dates": "^9.7.1",
+    "@mantine/form": "^9.7.1",
+    "@mantine/hooks": "^9.7.1",
+    "@mantine/notifications": "^9.7.1",
     "@tabler/icons-react": "^3.49.0",
     "cidr-tools": "^13.0.4",
     "dayjs": "^1.11.23",
@@ -71,6 +71,6 @@
     "snoowrap": "^1.23.0",
     "telegraf": "^4.16.3",
     "ts-pattern": "^5.9.0",
-    "uuid": "^14.0.2"
+    "uuid": "^14.0.3"
   }
 }
