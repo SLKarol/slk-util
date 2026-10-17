@@ -14,7 +14,10 @@ const config: ForgeConfig = {
   },
   rebuildConfig: {},
   makers: [
-    new MakerSquirrel({}),
+    new MakerSquirrel({
+      name: "SlkUtils", // Имя для ярлыка и реестра Windows
+      setupExe: "SlkUtilsSetup.exe",
+    }),
     new MakerZIP({}, ["darwin"]),
     new MakerRpm({}),
     new MakerDeb({}),

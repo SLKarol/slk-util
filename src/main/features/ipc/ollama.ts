@@ -1,4 +1,4 @@
-import { type IpcMainEvent } from "electron";
+import { type IpcMainEvent, Notification } from "electron";
 import { Ollama } from "ollama";
 
 import { CHANNELS } from "@shared/ipc/channels";
@@ -18,18 +18,12 @@ export const initOllamaHandlers = async () => {
 
   return {
     /**
-     * Обработчик запроса на получение списка праздников на текущий день.
+     * Обработчик запроса к модели ollama.
      */
     [CHANNELS.OLLAMA_ASK_MODEL]: async (
       ipcMainEvent: IpcMainEvent,
       { idPrompt, model, prompt }: OllamaAskProps,
     ) => {
-      const settingsFile = new UserDataFileManager<AppSettings>(
-        "settings.json",
-        getDefaultSettings(),
-      );
-      const settingsData = await settingsFile.readData();
-
       try {
         ipcMainEvent.reply(CHANNELS.SEND_POP_UP_MESSAGE, "Генерация ответа...");
         const response = await ollamaEntity.generate({
@@ -43,6 +37,11 @@ export const initOllamaHandlers = async () => {
           response: response.response ?? "",
         });
         ipcMainEvent.reply(CHANNELS.SEND_POP_UP_MESSAGE, "Ответ передан.");
+        new Notification({
+          title: "SlkUtils",
+          body: `Ответ от модели ${model} получен`,
+          silent: true,
+        }).show();
       } catch (error) {
         console.error("Error:", error);
         ipcMainEvent.reply(CHANNELS.ERROR_MAIN, {

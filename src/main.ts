@@ -15,6 +15,8 @@ if (started) {
   app.quit();
 }
 
+app.setAppUserModelId("SlkUtils");
+
 const isDevelopment =
   process.env.NODE_ENV === "development" || process.env.DEBUG_PROD === "true";
 
