@@ -15,8 +15,7 @@ export const TextPoem = observer(() => {
     <Textarea
       placeholder="Текст"
       label="Текст произведения"
-      autosize
-      minRows={4}
+      rows={8}
       w="100%"
       value={textOfPoem}
       onChange={(inputEvent) => setTextOfPoem(inputEvent.target.value)}

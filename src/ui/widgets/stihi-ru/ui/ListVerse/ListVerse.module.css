@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-sm);
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.headerPoems {
+  display: flex;
+  gap: var(--mantine-spacing-sm);
+}
+.poems {
+  overflow-y: auto;
+  padding-right: var(--mantine-spacing-sm);
+  display: flex;
+  gap: var(--mantine-spacing-sm);
+}
+
+.flexGrow {
+  flex-grow: 1;
+}

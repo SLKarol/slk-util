@@ -1,4 +1,4 @@
-import { Flex } from "@mantine/core";
+import { Flex, Title } from "@mantine/core";
 import { observer } from "mobx-react-lite";
 
 import { ListVerseButtonOpenAll } from "../buttons/ListVerseButtonOpenAll";
@@ -10,6 +10,8 @@ import { ListVerseCheckBan } from "./ListVerseCheckBan";
 import { StihiRuInvites } from "./StihiRuInvites";
 import { StihiRuListListNew } from "./StihiRuListListNew";
 
+import styles from "./ListVerse.module.css";
+
 /**
  * Блок со списком произведений
  */
@@ -20,17 +22,25 @@ export const ListVerse = observer(() => {
 
   if (hasPoems)
     return (
-      <Flex direction="column" gap="sm">
+      <div className={styles.container}>
         <ListVerseCheckBan />
         <div>
           <ListVerseButtonOpenAll />
           <CheckBoxIncludeInvite />
         </div>
-        <Flex gap="sm">
+        <div className={styles.headerPoems}>
+          <Title order={3} className={styles.flexGrow}>
+            Новые произведения
+          </Title>
+          <Title order={3} className={styles.flexGrow}>
+            Авторы приглашают
+          </Title>
+        </div>
+        <div className={styles.poems}>
           <StihiRuListListNew />
           <StihiRuInvites />
-        </Flex>
-      </Flex>
+        </div>
+      </div>
     );
 
   return null;

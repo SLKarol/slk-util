@@ -3,12 +3,12 @@ import { observer } from "mobx-react-lite";
 
 import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRootStore";
 
-import styles from "./StihiRuListRandomeNumber.module.css";
+import styles from "./StihiRuListSelectedNumbers.module.css";
 
 /**
- * Список случайных номеров произведений
+ * Список выбранных номеров произведений
  */
-export const StihiRuListRandomeNumber = observer(() => {
+export const StihiRuListSelectedNumbers = observer(() => {
   const {
     historySelectedPartsStore: { selectedDatesReverse },
   } = useStihiRuRootStore();
@@ -28,4 +28,4 @@ export const StihiRuListRandomeNumber = observer(() => {
     </Stack>
   );
 });
-StihiRuListRandomeNumber.displayName = "StihiRuListRandomeNumber";
+StihiRuListSelectedNumbers.displayName = "StihiRuListSelectedNumbers";

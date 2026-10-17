@@ -15,8 +15,7 @@ export const MyMind = observer(() => {
     <Textarea
       label="Моя мысль по всему прочитанному тексту"
       placeholder="Моя мысль по всему прочитанному тексту. Не обязательный элемент."
-      autosize
-      minRows={4}
+      rows={6}
       w="100%"
       value={myIdea}
       onChange={(inputEvent) => setMyIdea(inputEvent.target.value)}

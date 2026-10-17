@@ -6,28 +6,24 @@ import { StihiRuButtonLoadSelected } from "./buttons/StihiRuButtonLoadSelected";
 import { ListVerse } from "./ListVerse/ListVerse";
 import { StihiRuCalendar } from "./StihiRuCalendar";
 import { StihiRuListLinks } from "./StihiRuListLinks";
-import { StihiRuListRandomeNumber } from "./StihiRuListRandomeNumber";
+import { StihiRuListSelectedNumbers } from "./StihiRuListSelectedNumbers";
 
 import styles from "./StihiRuMain.module.css";
 
 export const StihiRuMain = () => {
   return (
-    <>
-      <Flex>
-        <div>
-          <StihiRuCalendar />
-          <StihiRuButtonLoadList />
-        </div>
-        <StihiRuListLinks />
-      </Flex>
-      <Flex gap="md" mt="lg">
+    <div className={styles.container}>
+      <div>
+        <StihiRuCalendar />
+        <StihiRuButtonLoadList />
+      </div>
+      <StihiRuListLinks />
+      <div className={styles.buttons}>
         <StihiRuButtonGetRandom />
         <StihiRuButtonLoadSelected />
-      </Flex>
-      <div className={styles.listPoems}>
-        <StihiRuListRandomeNumber />
-        <ListVerse />
       </div>
-    </>
+      <StihiRuListSelectedNumbers />
+      <ListVerse />
+    </div>
   );
 };

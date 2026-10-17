@@ -1,7 +1,16 @@
-.listPoems {
-  width: 100%;
-  padding: 1rem;
+.container {
   display: grid;
-  grid-template-columns: 19rem 1fr;
-  column-gap: 0.5rem;
+  grid-template-rows: 20rem auto 1fr;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem;
+  height: calc(100vh - 3rem);
+  max-height: 100vh;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.buttons {
+  grid-column: 2;
+  display: flex;
+  gap: 1rem;
 }

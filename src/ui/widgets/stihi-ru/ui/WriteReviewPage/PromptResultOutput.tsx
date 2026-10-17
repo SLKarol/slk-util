@@ -15,8 +15,7 @@ export const PromptResultOutput = observer(() => {
   return (
     <Textarea
       placeholder="Сгенерированный отклик"
-      autosize
-      minRows={4}
+      rows={8}
       bottomSection={
         <Text size="xs" c="dimmed">
           {formatCount(promptResultOutput.length, [

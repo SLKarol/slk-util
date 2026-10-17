@@ -5,4 +5,5 @@
   align-items: center;
   justify-items: center;
   row-gap: 0.1rem;
+  overflow-y: auto;
 }
