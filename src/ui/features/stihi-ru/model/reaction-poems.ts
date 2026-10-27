@@ -15,6 +15,7 @@ import {
 import { OllamaResponse } from "@shared/lib/types/ollama";
 import { extractTag } from "@renderer-shared/lib";
 import { OllamaModelsStore } from "@renderer-features/model/ollama-models";
+import { SelectedEntityIdStore } from "@renderer-features/model/selected-entity-id";
 
 export class ReactionPoemsStore {
   /** тип реакции */
@@ -60,8 +61,14 @@ export class ReactionPoemsStore {
    */
   ollamaModels: OllamaModelsStore;
 
+  /**
+   * Выбранная модель
+   */
+  selectedModel: SelectedEntityIdStore;
+
   constructor() {
     this.ollamaModels = new OllamaModelsStore();
+    this.selectedModel = new SelectedEntityIdStore();
 
     makeObservable(this, {
       // observable
@@ -119,7 +126,7 @@ export class ReactionPoemsStore {
    * @param param0 Настройки приложения
    */
   onReceiveSetting = ({ ollama, templatesPrompts }: AppSettings) => {
-    this.ollamaModels.setSelectedModel(ollama.model.reviewOfPoems);
+    this.selectedModel.setSelectedEntityId(ollama.model.reviewOfPoems);
     this.templatesPrompt = { ...templatesPrompts };
   };
 
@@ -127,7 +134,7 @@ export class ReactionPoemsStore {
    * Запуск промпта получить текст отклика
    */
   generateReaction = () => {
-    if (this.ollamaModels.selectedModel.length === 0)
+    if (this.selectedModel.selectedEntityId.length === 0)
       return notifications.show({
         message: "Не заданы настройки ollama!",
         color: "red",
@@ -157,7 +164,7 @@ export class ReactionPoemsStore {
 
     window.electronAPI.fetchOllamaModelWithPrompt({
       idPrompt: "reactionPoems",
-      model: this.ollamaModels.selectedModel,
+      model: this.selectedModel.selectedEntityId,
       prompt: this.prompt,
     });
   };

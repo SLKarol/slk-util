@@ -10,17 +10,12 @@ export class OllamaModelsStore {
    */
   ollamaModels: ModelResponse[] = [];
 
-  /** Выбранная модель */
-  selectedModel = "";
-
   constructor() {
     makeObservable(this, {
       // observable
       ollamaModels: observable,
-      selectedModel: observable,
       // action
       setOllamaModels: action,
-      setSelectedModel: action,
       // computed
       ollamaModelsUi: computed,
     });
@@ -32,14 +27,6 @@ export class OllamaModelsStore {
    */
   setOllamaModels = (ollamaModels: ModelResponse[]) => {
     this.ollamaModels = ollamaModels;
-  };
-
-  /**
-   * Установить выбранную модель
-   * @param selectedModel - Выбранная юзером модель
-   */
-  setSelectedModel = (selectedModel: string) => {
-    this.selectedModel = selectedModel;
   };
 
   /**

@@ -9,7 +9,8 @@ import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRoot
 export const SelectModel = observer(() => {
   const {
     reactionPoems: {
-      ollamaModels: { ollamaModelsUi, setSelectedModel, selectedModel },
+      ollamaModels: { ollamaModelsUi },
+      selectedModel: { selectedEntityId, setSelectedEntityId },
     },
   } = useStihiRuRootStore();
 
@@ -17,8 +18,8 @@ export const SelectModel = observer(() => {
     <Select
       label="Выберите модель ollama"
       data={ollamaModelsUi}
-      value={selectedModel || null}
-      onChange={(value) => setSelectedModel(value ?? "")}
+      value={selectedEntityId || null}
+      onChange={(value) => setSelectedEntityId(value ?? "")}
     />
   );
 });
