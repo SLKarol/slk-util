@@ -31,26 +31,31 @@ export const createAppMenu = (mainWindow: BrowserWindow | null) => {
   const menuTemplate = [
     {
       label: "Страница",
-      submenu: ["main", "stihiru", "wireguardtunnel", "separator", "quit"].map(
-        (menuName) => {
-          if (menuName in URL_PATH) return menuFromContant(menuName);
-          if (menuName === "main")
-            return {
-              label: "Главная",
-              click: () => {
-                if (mainWindow) {
-                  mainWindow.webContents.send(CHANNELS.NAVIGATE, "/");
-                }
-              },
-            };
-          if (menuName === "separator") return { type: "separator" }; // Горизонтальная черта (не на macOS)
-          if (menuName === "quit")
-            return { role: "quit", label: "Выход", accelerator: "Ctrl+q" }; // Пункт «Выход» (не на macOS)
+      submenu: [
+        "main",
+        "stihiru",
+        "ollama",
+        "wireguardtunnel",
+        "separator",
+        "quit",
+      ].map((menuName) => {
+        if (menuName in URL_PATH) return menuFromContant(menuName);
+        if (menuName === "main")
+          return {
+            label: "Главная",
+            click: () => {
+              if (mainWindow) {
+                mainWindow.webContents.send(CHANNELS.NAVIGATE, "/");
+              }
+            },
+          };
+        if (menuName === "separator") return { type: "separator" }; // Горизонтальная черта (не на macOS)
+        if (menuName === "quit")
+          return { role: "quit", label: "Выход", accelerator: "Ctrl+q" }; // Пункт «Выход» (не на macOS)
 
-          console.error(`Неизвестный пункт меню: ${menuName}`);
-          return null;
-        },
-      ),
+        console.error(`Неизвестный пункт меню: ${menuName}`);
+        return null;
+      }),
     },
     {
       label: "Настройка",

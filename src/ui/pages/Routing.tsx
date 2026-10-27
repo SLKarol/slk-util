@@ -20,6 +20,7 @@ import { SettingSelected, SettingsPage } from "./Settings";
 import { WireguardTunnel } from "./WireguardTunnel/WireguardTunnel";
 import { YaPage } from "./YaPage/YaPage";
 import { YaPageCurrentTab } from "./YaPage/YaPageCurrentTab";
+import { OllamaPage } from "./Ollama";
 import { URL_PATH } from "@shared/lib/urlPath";
 
 /**
@@ -82,6 +83,7 @@ export const Routing = () => {
               element={<RedditPageCurrentTab />}
             />
           </Route>
+          <Route path={URL_PATH.ollama.routePath} element={<OllamaPage />} />
         </Route>
       </Routes>
     </MemoryRouter>

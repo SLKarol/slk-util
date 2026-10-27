@@ -280,9 +280,21 @@ export const CHANNELS = {
    */
   OLLAMA_RESPONSE: "OLLAMA_RESPONSE",
 
-  /** Запрос списка моделей ollama */
+  /** Список моделей ollama */
   OLLAMA_RECEIVE_MODELS: "OLLAMA_RECEIVE_MODELS",
 
   /** Ответ списка моделей ollama */
   OLLAMA_RESPONSE_MODELS: "OLLAMA_RESPONSE_MODELS",
+
+  /** Запрос на загрузку/обновление модели ollama */
+  OLLAMA_PULL_MODEL: "OLLAMA_PULL_MODEL",
+
+  /** Прогресс загрузки модели ollama */
+  OLLAMA_PULL_MODEL_PROGRESS: "OLLAMA_PULL_MODEL_PROGRESS",
+
+  /** Загрузка модели ollama завершена */
+  OLLAMA_PULL_MODEL_COMPLETE: "OLLAMA_PULL_COMPLETE",
+
+  /** Ошибка загрузки модели ollama */
+  OLLAMA_PULL_MODEL_ERROR: "OLLAMA_PULL_ERROR",
 };

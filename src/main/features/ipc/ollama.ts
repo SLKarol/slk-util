@@ -16,6 +16,9 @@ export const initOllamaHandlers = async () => {
   const settingsData = await settingsFile.readData();
   const ollamaEntity = new Ollama({ host: settingsData.ollama.host });
 
+  // Активные загрузки моделей для возможности отмены
+  const activeModelPulls = new Map<string, boolean>(); // modelName -> AbortController
+
   return {
     /**
      * Обработчик запроса к модели ollama.
