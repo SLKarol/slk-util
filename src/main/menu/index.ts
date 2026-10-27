@@ -13,43 +13,38 @@ import { URL_PATH } from "@shared/lib/urlPath";
  * @param mainWindow процесс главного окна
  */
 export const createAppMenu = (mainWindow: BrowserWindow | null) => {
+  const menuFromContant = (pageName: string) => ({
+    label: URL_PATH[pageName].label,
+    click: () => {
+      if (mainWindow) {
+        mainWindow.webContents.send(CHANNELS.NAVIGATE, URL_PATH[pageName].url);
+      }
+    },
+  });
+
   const menuTemplate = [
     {
       label: "Страница",
-      submenu: [
-        {
-          label: "Главная",
-          click: () => {
-            if (mainWindow) {
-              mainWindow.webContents.send(CHANNELS.NAVIGATE, "/");
-            }
-          },
+      submenu: ["main", "stihiru", "wireguardtunnel", "separator", "quit"].map(
+        (menuName) => {
+          if (menuName in URL_PATH) return menuFromContant(menuName);
+          if (menuName === "main")
+            return {
+              label: "Главная",
+              click: () => {
+                if (mainWindow) {
+                  mainWindow.webContents.send(CHANNELS.NAVIGATE, "/");
+                }
+              },
+            };
+          if (menuName === "separator") return { type: "separator" }; // Горизонтальная черта (не на macOS)
+          if (menuName === "quit")
+            return { role: "quit", label: "Выход", accelerator: "Ctrl+q" }; // Пункт «Выход» (не на macOS)
+
+          console.error(`Неизвестный пункт меню: ${menuName}`);
+          return null;
         },
-        {
-          label: URL_PATH.stihiru.label,
-          click: () => {
-            if (mainWindow) {
-              mainWindow.webContents.send(
-                CHANNELS.NAVIGATE,
-                URL_PATH.stihiru.url,
-              );
-            }
-          },
-        },
-        {
-          label: URL_PATH.wireguardtunnel.label,
-          click: () => {
-            if (mainWindow) {
-              mainWindow.webContents.send(
-                CHANNELS.NAVIGATE,
-                URL_PATH.wireguardtunnel.url,
-              );
-            }
-          },
-        },
-        { type: "separator" }, // Горизонтальная черта (не на macOS)
-        { role: "quit", label: "Выход", accelerator: "Ctrl+q" }, // Пункт «Выход» (не на macOS)
-      ],
+      ),
     },
     {
       label: "Настройка",
@@ -69,30 +64,7 @@ export const createAppMenu = (mainWindow: BrowserWindow | null) => {
     },
     {
       label: "Рассылка",
-      submenu: [
-        {
-          label: URL_PATH.yaplakal.label,
-          click: () => {
-            if (mainWindow) {
-              mainWindow.webContents.send(
-                CHANNELS.NAVIGATE,
-                URL_PATH.yaplakal.url,
-              );
-            }
-          },
-        },
-        {
-          label: URL_PATH.reddit.label,
-          click: () => {
-            if (mainWindow) {
-              mainWindow.webContents.send(
-                CHANNELS.NAVIGATE,
-                URL_PATH.reddit.url,
-              );
-            }
-          },
-        },
-      ],
+      submenu: ["yaplakal", "reddit"].map(menuFromContant),
     },
   ] as (MenuItemConstructorOptions | MenuItem)[];
 
