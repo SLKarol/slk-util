@@ -6,6 +6,7 @@ import {
 } from "electron";
 
 import { CHANNELS } from "@shared/ipc/channels";
+import { URL_PATH } from "@shared/lib/urlPath";
 
 /**
  * Создать меню для приложения
@@ -25,20 +26,23 @@ export const createAppMenu = (mainWindow: BrowserWindow | null) => {
           },
         },
         {
-          label: "Stihi.Ru",
-          click: () => {
-            if (mainWindow) {
-              mainWindow.webContents.send(CHANNELS.NAVIGATE, "/stihiru");
-            }
-          },
-        },
-        {
-          label: "Настройки тунеля для WireGuard",
+          label: URL_PATH.stihiru.label,
           click: () => {
             if (mainWindow) {
               mainWindow.webContents.send(
                 CHANNELS.NAVIGATE,
-                "/wireguardtunnel",
+                URL_PATH.stihiru.url,
+              );
+            }
+          },
+        },
+        {
+          label: URL_PATH.wireguardtunnel.label,
+          click: () => {
+            if (mainWindow) {
+              mainWindow.webContents.send(
+                CHANNELS.NAVIGATE,
+                URL_PATH.wireguardtunnel.url,
               );
             }
           },
@@ -51,10 +55,13 @@ export const createAppMenu = (mainWindow: BrowserWindow | null) => {
       label: "Настройка",
       submenu: [
         {
-          label: "Настройка",
+          label: URL_PATH.settings.label,
           click: () => {
             if (mainWindow) {
-              mainWindow.webContents.send(CHANNELS.NAVIGATE, "/settings/");
+              mainWindow.webContents.send(
+                CHANNELS.NAVIGATE,
+                URL_PATH.settings.url,
+              );
             }
           },
         },
@@ -64,21 +71,24 @@ export const createAppMenu = (mainWindow: BrowserWindow | null) => {
       label: "Рассылка",
       submenu: [
         {
-          label: "ЯПлакал",
+          label: URL_PATH.yaplakal.label,
           click: () => {
             if (mainWindow) {
               mainWindow.webContents.send(
                 CHANNELS.NAVIGATE,
-                "/yaplakal/select",
+                URL_PATH.yaplakal.url,
               );
             }
           },
         },
         {
-          label: "Reddit",
+          label: URL_PATH.reddit.label,
           click: () => {
             if (mainWindow) {
-              mainWindow.webContents.send(CHANNELS.NAVIGATE, "/reddit/select");
+              mainWindow.webContents.send(
+                CHANNELS.NAVIGATE,
+                URL_PATH.reddit.url,
+              );
             }
           },
         },

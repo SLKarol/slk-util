@@ -20,6 +20,7 @@ import { SettingSelected, SettingsPage } from "./Settings";
 import { WireguardTunnel } from "./WireguardTunnel/WireguardTunnel";
 import { YaPage } from "./YaPage/YaPage";
 import { YaPageCurrentTab } from "./YaPage/YaPageCurrentTab";
+import { URL_PATH } from "@shared/lib/urlPath";
 
 /**
  * Настройка роутинга
@@ -37,7 +38,7 @@ export const Routing = () => {
         >
           <Route index element={<HomePage />} />
           <Route
-            path="stihiru"
+            path={URL_PATH.stihiru.routePath}
             element={
               <StihiRuRootProvider>
                 <StihiRu />
@@ -45,18 +46,18 @@ export const Routing = () => {
             }
           />
           <Route
-            path="wireguardtunnel"
+            path={URL_PATH.wireguardtunnel.routePath}
             element={
               <WireGuardTunnelRootProvider>
                 <WireguardTunnel />
               </WireGuardTunnelRootProvider>
             }
           />
-          <Route path="settings" element={<SettingsPage />}>
+          <Route path={URL_PATH.settings.routePath} element={<SettingsPage />}>
             <Route path=":setting" element={<SettingSelected />} />
           </Route>
           <Route
-            path="yaplakal"
+            path={URL_PATH.yaplakal.routePath}
             element={
               <YaPlakalProvider>
                 <YaPage />
@@ -69,7 +70,7 @@ export const Routing = () => {
             />
           </Route>
           <Route
-            path="reddit"
+            path={URL_PATH.reddit.routePath}
             element={
               <RedditProvider>
                 <RedditPage />
