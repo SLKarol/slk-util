@@ -13,6 +13,11 @@ import { URL_PATH } from "@shared/lib/urlPath";
  * @param mainWindow процесс главного окна
  */
 export const createAppMenu = (mainWindow: BrowserWindow | null) => {
+  /**
+   * Создать пункт меню на основе переданного ключа из URL_PATH
+   * @param pageName ключ из URL_PATH
+   * @returns
+   */
   const menuFromContant = (pageName: string) => ({
     label: URL_PATH[pageName].label,
     click: () => {
@@ -22,6 +27,7 @@ export const createAppMenu = (mainWindow: BrowserWindow | null) => {
     },
   });
 
+  /** Шаблон меню */
   const menuTemplate = [
     {
       label: "Страница",
