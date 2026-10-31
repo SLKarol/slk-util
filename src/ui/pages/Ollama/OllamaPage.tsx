@@ -2,7 +2,7 @@ import { Container, Flex, Stack, Title } from "@mantine/core";
 
 import { useInitHandlers } from "./helpers/useInitHandlers";
 import {
-  OllamaModelsTable,
+  OllamaModelsList,
   OllamaModelsToolbar,
 } from "@renderer/widgets/ollama/ui";
 
@@ -18,7 +18,7 @@ export const OllamaPage = () => {
         <Stack flex={1} gap="xs">
           <Title order={5}>Локально установленные модели</Title>
           <OllamaModelsToolbar />
-          <OllamaModelsTable />
+          <OllamaModelsList />
         </Stack>
         <Stack flex={1} gap="xs">
           <Title order={5}>Логи работы</Title>

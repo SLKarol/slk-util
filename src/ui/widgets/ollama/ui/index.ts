@@ -1,2 +1,2 @@
 export * from "./OllamaModelsToolbar";
-export * from "./OllamaModelsTable";
+export * from "./OllamaModelsList";

@@ -76,4 +76,5 @@ export const SETTINGS_APP = {
     reviewOfNeuroPoems: "",
     listOpenersPoemReview: ["Мне показалось"],
   },
+  ollamaModelPropertiesVisibility: ["size"],
 };
