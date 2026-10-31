@@ -5,9 +5,8 @@ import {
   Text,
   Stack,
   Group,
-  Checkbox,
   Badge,
-  MantineProvider,
+  type MantineTheme,
 } from "@mantine/core";
 import {
   IconDatabase,
@@ -18,8 +17,8 @@ import {
 } from "@tabler/icons-react";
 
 import { type ModelInfo } from "@renderer-features/ollama/lib/types";
-
 import classes from "./OllamaModelCard.module.css";
+import { OllamaModelCheckSelect } from "./OllamaModelCard/OllamaModelCheckSelect";
 
 interface Props {
   /**
@@ -42,9 +41,10 @@ export const OllamaModelCard = ({ model }: Props) => {
         <Text fw={700} size="md" className={classes.title}>
           {model.name}
         </Text>
-        <MantineProvider theme={theme} defaultColorScheme="dark">
-          <Checkbox label="Обновить" className={classes.checkbox} />
-        </MantineProvider>
+        <OllamaModelCheckSelect
+          theme={theme as unknown as MantineTheme}
+          modelName={model.name ?? ""}
+        />
       </Group>
 
       <Stack gap="xs">

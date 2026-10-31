@@ -9,15 +9,13 @@ import {
 import classes from "./OllamaModelsToolbar.module.css";
 
 /**
- * Обновить список ollama-models
+ * Тулбар для списка моделей ollama
  */
 export const OllamaModelsToolbar = () => {
   return (
     <Toolbar withBorder={false} className={classes.toolbar}>
       <OllamaToolbarRefresh />
-      <Toolbar.Toggle>
-        <OllamaToolbarCheckAll />
-      </Toolbar.Toggle>
+      <OllamaToolbarCheckAll />
       <Toolbar.Divider m="4px" />
       <Toolbar.Toggle>
         <OllamaToolbarReload />

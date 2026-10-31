@@ -1,4 +1,4 @@
-import { Tooltip } from "@mantine/core";
+import { Toolbar, Tooltip } from "@mantine/core";
 import { IconSelectAll } from "@tabler/icons-react";
 
 /**
@@ -6,8 +6,11 @@ import { IconSelectAll } from "@tabler/icons-react";
  */
 export const OllamaToolbarCheckAll = () => {
   return (
-    <Tooltip label="Выбрать всё из списка моделей">
-      <IconSelectAll />
-    </Tooltip>
+    <Toolbar.Toggle>
+      <Tooltip label="Выбрать всё из списка моделей">
+        <IconSelectAll />
+      </Tooltip>
+    </Toolbar.Toggle>
   );
 };
+OllamaToolbarCheckAll.displayName = "OllamaToolbarCheckAll";

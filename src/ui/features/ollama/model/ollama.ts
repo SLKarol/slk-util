@@ -3,6 +3,7 @@ import { type ModelResponse } from "ollama";
 import dayjs from "dayjs";
 
 import { OllamaModelsStore } from "@renderer-features/model/ollama-models";
+import { SelectEntitiesStore } from "@renderer-features/model/select-entites";
 import { type ModelInfo } from "../lib/types";
 import { formatBytes } from "@renderer-shared/lib";
 
@@ -12,8 +13,14 @@ export class OllamaStore {
    */
   ollamaModels: OllamaModelsStore;
 
+  /**
+   * Выбранные модели
+   */
+  selectedModels: SelectEntitiesStore;
+
   constructor() {
     this.ollamaModels = new OllamaModelsStore();
+    this.selectedModels = new SelectEntitiesStore();
 
     makeObservable(this, {
       // observable
