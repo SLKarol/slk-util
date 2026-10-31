@@ -14,9 +14,7 @@ import classes from "./OllamaModelsToolbar.module.css";
 export const OllamaModelsToolbar = () => {
   return (
     <Toolbar withBorder={false} className={classes.toolbar}>
-      <Toolbar.Toggle>
-        <OllamaToolbarRefresh />
-      </Toolbar.Toggle>
+      <OllamaToolbarRefresh />
       <Toolbar.Toggle>
         <OllamaToolbarCheckAll />
       </Toolbar.Toggle>

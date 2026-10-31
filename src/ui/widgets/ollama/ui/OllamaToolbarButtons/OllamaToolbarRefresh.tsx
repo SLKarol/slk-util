@@ -1,4 +1,4 @@
-import { Tooltip } from "@mantine/core";
+import { Toolbar, Tooltip } from "@mantine/core";
 import { IconRefresh } from "@tabler/icons-react";
 
 /**
@@ -6,8 +6,10 @@ import { IconRefresh } from "@tabler/icons-react";
  */
 export const OllamaToolbarRefresh = () => {
   return (
-    <Tooltip label="Обновить список установленных моделей">
-      <IconRefresh />
-    </Tooltip>
+    <Toolbar.Toggle onClick={window.electronAPI.listInstalledOllamaModels}>
+      <Tooltip label="Обновить список установленных моделей">
+        <IconRefresh />
+      </Tooltip>
+    </Toolbar.Toggle>
   );
 };
