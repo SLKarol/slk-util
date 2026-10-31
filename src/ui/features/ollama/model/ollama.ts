@@ -25,6 +25,7 @@ export class OllamaStore {
     makeObservable(this, {
       // observable
       // action
+      checkAllModels: action,
       // computed
       listInstalledOllamaModels: computed,
     });
@@ -48,7 +49,7 @@ export class OllamaStore {
       const minutesDiff = target.diff(now, "minute");
 
       return {
-        name: model.name,
+        name: model.model,
         modifiedAt: dayjs(model.modified_at).format("DD.MM.YYYY HH:mm"),
         size: formatBytes(model.size),
         family: model.details.family,
@@ -60,4 +61,14 @@ export class OllamaStore {
       } as Partial<ModelInfo>;
     });
   }
+
+  /**
+   * Отметить все установленные модели
+   */
+  checkAllModels = () => {
+    const listModels = this.ollamaModels.ollamaModels.map(
+      (model) => model.model,
+    );
+    this.selectedModels.setSelectedEntities(listModels);
+  };
 }
