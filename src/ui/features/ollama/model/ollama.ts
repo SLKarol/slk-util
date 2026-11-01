@@ -26,6 +26,7 @@ export class OllamaStore {
       // observable
       // action
       checkAllModels: action,
+      updateSelectedModels: action,
       // computed
       listInstalledOllamaModels: computed,
     });
@@ -71,4 +72,9 @@ export class OllamaStore {
     );
     this.selectedModels.setSelectedEntities(listModels);
   };
+
+  /**
+   * Обновить выбранные модели  
+   */
+  updateSelectedModels = () => {};
 }

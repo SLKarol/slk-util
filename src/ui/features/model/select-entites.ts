@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from "mobx";
+import { action, makeObservable, observable, computed } from "mobx";
 
 /**
  * Хранилище для управления выбранными сущностями.
@@ -17,6 +17,7 @@ export class SelectEntitiesStore {
       toggleEntity: action,
       setSelectedEntities: action,
       clearSelection: action,
+      haveCheckedEntities: computed,
     });
   }
 
@@ -49,4 +50,12 @@ export class SelectEntitiesStore {
   clearSelection = () => {
     this.selectedEntities.clear();
   };
+
+  /**
+   * Есть выбранные сущности?
+   * @returns true, если есть хотя бы один выбранный сущность, иначе false
+   */
+  get haveCheckedEntities() {
+    return this.selectedEntities.size > 0;
+  }
 }

@@ -17,9 +17,7 @@ export const OllamaModelsToolbar = () => {
       <OllamaToolbarRefresh />
       <OllamaToolbarCheckAll />
       <Toolbar.Divider m="4px" />
-      <Toolbar.Toggle>
-        <OllamaToolbarReload />
-      </Toolbar.Toggle>
+      <OllamaToolbarReload />
     </Toolbar>
   );
 };
