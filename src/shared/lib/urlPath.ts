@@ -36,5 +36,5 @@ export const URL_PATH = Object.freeze({
     label: "ЯПлакал",
   },
   reddit: { routePath: "reddit", url: "/reddit/select", label: "Reddit" },
-  ollama: { routePath: "ollama", url: "/ollama", label: "Ollama/Модели" },
+  ollama: { routePath: "ollama", url: "/ollama", label: "Модели Ollama" },
 } as UrlPath);

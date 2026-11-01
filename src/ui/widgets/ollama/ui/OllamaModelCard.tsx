@@ -18,7 +18,7 @@ import {
 
 import { type ModelInfo } from "@renderer-features/ollama/lib/types";
 import classes from "./OllamaModelCard.module.css";
-import { OllamaModelCheckSelect } from "./OllamaModelCard/OllamaModelCheckSelect";
+import { OllamaModelCheck } from "./OllamaModelCard/OllamaModelCheck";
 
 interface Props {
   /**
@@ -41,7 +41,7 @@ export const OllamaModelCard = ({ model }: Props) => {
         <Text fw={700} size="md" className={classes.title}>
           {model.name}
         </Text>
-        <OllamaModelCheckSelect
+        <OllamaModelCheck
           theme={theme as unknown as MantineTheme}
           modelName={model.name ?? ""}
         />

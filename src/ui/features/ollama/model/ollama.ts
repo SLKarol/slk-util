@@ -26,6 +26,7 @@ export class OllamaStore {
       // observable
       // action
       checkAllModels: action,
+      onCheckModel: action,
       updateSelectedModels: action,
       // computed
       listInstalledOllamaModels: computed,
@@ -76,5 +77,81 @@ export class OllamaStore {
   /**
    * Обновить выбранные модели  
    */
-  updateSelectedModels = () => {};
+  updateSelectedModels = () => {
+    const modelsToUpdate: Set<string> = new Set();
+
+    // Перебираем выбранные модели и определяем, какие из них нужно обновить
+    this.selectedModels.selectedEntities.forEach((modelName) => {
+      const model = this.ollamaModels.ollamaModels.find(
+        (m) => m.model === modelName,
+      );
+      if (!model) return;
+
+      const parentModel = model.details.parent_model;
+      //Если родительская модель пустая, то можно просто обновить
+      if (!parentModel) {
+        modelsToUpdate.add(model.model);
+        return;
+      }
+
+      // Если есть некая родительская модель и она не из числа установленных, то тоже её обновляем
+      if (
+        parentModel &&
+        !this.ollamaModels.ollamaModels.find((m) => m.model === parentModel)
+      ) {
+        modelsToUpdate.add(model.name);
+        return;
+      }
+    });
+
+    console.table(Array.from(modelsToUpdate));
+  };
+
+  onCheckModel = (modelName: string) => {
+    const clickedModel = this.ollamaModels.ollamaModels.find(
+      (m) => m.model === modelName,
+    );
+    if (!clickedModel) return;
+
+    /**
+     * Если у модели есть родительская модель,
+     * то запомнить её и найти точно такие же модели,
+     * которые имеют ту же родительскую модель, и отметить их все.
+     */
+    const parentModel = clickedModel.details.parent_model;
+
+    /**
+     * Модели, у которых точно такой же родитель
+     */
+    const modelsWithSameParent = this.ollamaModels.ollamaModels.reduce(
+      (acc: string[], model) => {
+        // Модели, у которых точно такой же родитель
+        if (parentModel && model.details.parent_model === parentModel) {
+          acc.push(model.model);
+          return acc;
+        }
+
+        // Модели, чьих он родитель
+        if (!parentModel && model.details.parent_model === clickedModel.model) {
+          acc.push(model.model);
+          return acc;
+        }
+
+        // Модель, кто родитель
+        if (model.model === parentModel) {
+          acc.push(model.model);
+          return acc;
+        }
+
+        return acc;
+      },
+      [],
+    );
+    if (!modelsWithSameParent.includes(modelName))
+      modelsWithSameParent.push(modelName);
+
+    modelsWithSameParent.forEach((modelName) => {
+      this.selectedModels.toggleEntity(modelName);
+    });
+  };
 }
