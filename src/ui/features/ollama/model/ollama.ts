@@ -6,6 +6,7 @@ import { OllamaModelsStore } from "@renderer-features/model/ollama-models";
 import { SelectEntitiesStore } from "@renderer-features/model/select-entites";
 import { type ModelInfo } from "../lib/types";
 import { formatBytes } from "@renderer-shared/lib";
+import { OllamaUpdateLogsStore } from "./ollama-update-log";
 
 export class OllamaStore {
   /**
@@ -18,9 +19,15 @@ export class OllamaStore {
    */
   selectedModels: SelectEntitiesStore;
 
+  /**
+   * Лог обновления моделей Ollama
+   */
+  ollamaUpdateLogs: OllamaUpdateLogsStore;
+
   constructor() {
     this.ollamaModels = new OllamaModelsStore();
     this.selectedModels = new SelectEntitiesStore();
+    this.ollamaUpdateLogs = new OllamaUpdateLogsStore();
 
     makeObservable(this, {
       // observable
@@ -104,7 +111,8 @@ export class OllamaStore {
       }
     });
 
-    console.table(Array.from(modelsToUpdate));
+    this.ollamaUpdateLogs.startUpdating();
+    window.electronAPI.ollamaUpdateModels(Array.from(modelsToUpdate));
   };
 
   onCheckModel = (modelName: string) => {

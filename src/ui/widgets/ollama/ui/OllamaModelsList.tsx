@@ -11,7 +11,7 @@ export const OllamaModelsList = observer(() => {
   const { listInstalledOllamaModels } = useOllamaStore();
 
   return (
-    <Stack gap="xs">
+    <Stack gap="xs" h="66.67vh" style={{ overflowY: "auto" }}>
       {listInstalledOllamaModels.map((model) => (
         <OllamaModelCard key={model.name} model={model} />
       ))}

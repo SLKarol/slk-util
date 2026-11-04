@@ -2,7 +2,11 @@ import { type IpcMainEvent, Notification } from "electron";
 import { Ollama } from "ollama";
 
 import { CHANNELS } from "@shared/ipc/channels";
-import { type OllamaAskProps } from "@shared/lib/types/ollama";
+import {
+  OllamaUpdateStatus,
+  type OllamaAskProps,
+  type OllamaUpdateRecordLog,
+} from "@shared/lib/types/ollama";
 import { UserDataFileManager } from "../UserDataFileManager";
 import { type AppSettings } from "@shared/lib/types/app-settings";
 import { getDefaultSettings } from "../lib/helpers";
@@ -15,9 +19,6 @@ export const initOllamaHandlers = async () => {
   );
   const settingsData = await settingsFile.readData();
   const ollamaEntity = new Ollama({ host: settingsData.ollama.host });
-
-  // Активные загрузки моделей для возможности отмены
-  const activeModelPulls = new Map<string, boolean>(); // modelName -> AbortController
 
   return {
     /**
@@ -65,6 +66,56 @@ export const initOllamaHandlers = async () => {
           error,
         });
       }
+    },
+
+    [CHANNELS.OLLAMA_UPDATE_MODELS]: async (
+      ipcMainEvent: IpcMainEvent,
+      modelNames: string[],
+    ) => {
+      for (const model of modelNames) {
+        try {
+          ipcMainEvent.reply(CHANNELS.OLLAMA_UPDATE_MODELS_PROGRESS, {
+            model,
+            level: OllamaUpdateStatus.info,
+            message: `Старт: ${model}`,
+            dateTime: new Date().toISOString(),
+          } as OllamaUpdateRecordLog);
+
+          const stream = await ollamaEntity.pull({ model, stream: true });
+
+          for await (const processResponse of stream) {
+            ipcMainEvent.reply(CHANNELS.OLLAMA_UPDATE_MODELS_PROGRESS, {
+              model,
+              status: processResponse.status,
+              completed: processResponse.completed ?? 0,
+              total: processResponse.total ?? 0,
+              percent: processResponse.total
+                ? (processResponse.completed / processResponse.total) * 100
+                : null,
+              dateTime: new Date().toISOString(),
+              level: OllamaUpdateStatus.data,
+            } as OllamaUpdateRecordLog);
+          }
+          ipcMainEvent.reply(CHANNELS.OLLAMA_UPDATE_MODELS_PROGRESS, {
+            model,
+            level: OllamaUpdateStatus.success,
+            message: `Готово: ${model}`,
+            dateTime: new Date().toISOString(),
+          } as OllamaUpdateRecordLog);
+        } catch (errorOllama) {
+          console.error("Error:", errorOllama);
+          ipcMainEvent.reply(CHANNELS.OLLAMA_UPDATE_MODELS_PROGRESS, {
+            model,
+            level: OllamaUpdateStatus.error,
+            message: (errorOllama as Error).message,
+            dateTime: new Date().toISOString(),
+          } as OllamaUpdateRecordLog);
+        }
+      }
+      ipcMainEvent.reply(
+        CHANNELS.OLLAMA_UPDATE_MODELS_COMPLETE,
+        new Date().toISOString(),
+      );
     },
   };
 };

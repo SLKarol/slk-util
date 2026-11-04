@@ -4,6 +4,7 @@ import { useInitHandlers } from "./helpers/useInitHandlers";
 import {
   OllamaModelsList,
   OllamaModelsToolbar,
+  OllamaUpdateLog,
 } from "@renderer/widgets/ollama/ui";
 
 /**
@@ -22,8 +23,7 @@ export const OllamaPage = () => {
         </Stack>
         <Stack flex={1} gap="xs">
           <Title order={5}>Логи работы</Title>
-          <div>Toolbars Output</div>
-          <div>Output</div>
+          <OllamaUpdateLog />
         </Stack>
       </Flex>
     </Container>

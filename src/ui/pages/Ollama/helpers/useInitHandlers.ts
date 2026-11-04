@@ -6,7 +6,10 @@ import { useOllamaStore } from "@renderer/providers/ollama/";
  * Инициализация обработчиков событий от главного процесса
  */
 export const useInitHandlers = () => {
-  const { processOllamaModelListResponse } = useOllamaStore();
+  const {
+    processOllamaModelListResponse,
+    ollamaUpdateLogs: { processIncomingLog, stopUpdating },
+  } = useOllamaStore();
 
   // Настроить обработчики событий запросов к сети
   useEffect(() => {
@@ -17,8 +20,20 @@ export const useInitHandlers = () => {
         processOllamaModelListResponse(listModels);
       });
 
+    const unsubscribeOnOllamaUpdateModelsProgress =
+      window.electronAPI.ollamaUpdateModelsProgress((progress) => {
+        processIncomingLog(progress);
+      });
+
+    const unsubscribeOnOllamaUpdateModelsComplete =
+      window.electronAPI.ollamaUpdateModelsComplete(() => {
+        stopUpdating();
+      });
+
     return () => {
       unsubscribeOnResponseListOllamaModels();
+      unsubscribeOnOllamaUpdateModelsProgress();
+      unsubscribeOnOllamaUpdateModelsComplete();
     };
   }, []);
 };

@@ -297,4 +297,13 @@ export const CHANNELS = {
 
   /** Ошибка загрузки модели ollama */
   OLLAMA_PULL_MODEL_ERROR: "OLLAMA_PULL_ERROR",
+
+  /** Запрос на обновление списка моделей */
+  OLLAMA_UPDATE_MODELS: "OLLAMA_UPDATE_MODELS",
+
+  /** Прогресс обновления моделей */
+  OLLAMA_UPDATE_MODELS_PROGRESS: "OLLAMA_UPDATE_MODELS_PROGRESS",
+
+  /** Обновление моделей завершено */
+  OLLAMA_UPDATE_MODELS_COMPLETE: "OLLAMA_UPDATE_MODELS_COMPLETE",
 };

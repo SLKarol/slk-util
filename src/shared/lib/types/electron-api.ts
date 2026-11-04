@@ -15,7 +15,11 @@ import { SendFileStatus } from "./sendFile";
 import { type WriteSettingsProps } from "./settings.type";
 import { type IStatusAutoReadStihi } from "./stihi.types";
 import { type IPRange } from "./tunnel";
-import { type OllamaResponse, type OllamaAskProps } from "./ollama";
+import {
+  type OllamaResponse,
+  type OllamaAskProps,
+  type OllamaUpdateRecordLog,
+} from "./ollama";
 
 /**
  * API для взаимодействия с Electron
@@ -367,6 +371,26 @@ export interface ElectronAPI {
   processOllamaModelListResponse: (
     callback: (data: ModelResponse[]) => void,
   ) => () => void;
+
+  /**
+   * Обновить список моделей ollama
+   * @param modelNames список моделей ollama, которые нужно обновить
+   */
+  ollamaUpdateModels: (modelNames: string[]) => void;
+
+  /**
+   * Прогресс обновления модели ollama
+   * @param callback коллбэк-функция, которая будет вызвана при получении прогресса обновления модели ollama
+   */
+  ollamaUpdateModelsProgress: (
+    callback: (data: OllamaUpdateRecordLog) => void,
+  ) => () => void;
+
+  /**
+   * Окончание обновления моделей ollama
+   * @param callback коллбэк-функция, которая будет вызвана при завершении обновления моделей ollama
+   */
+  ollamaUpdateModelsComplete: (callback: () => void) => () => void;
 }
 
 /**

@@ -48,4 +48,39 @@ export const createOllamaHandlers = () =>
         );
       };
     },
+
+    ollamaUpdateModels: (models) =>
+      ipcRenderer.send(CHANNELS.OLLAMA_UPDATE_MODELS, models),
+
+    ollamaUpdateModelsProgress: (callback: (progress: unknown) => void) => {
+      // Создаём функцию‑обёртку для подписки
+      const subscription = (event: IpcRendererEvent, ...args: unknown[]) =>
+        callback(args[0]);
+      // Подписываемся на событие
+      ipcRenderer.on(CHANNELS.OLLAMA_UPDATE_MODELS_PROGRESS, subscription);
+
+      // Возвращаем функцию отписки
+      return () => {
+        ipcRenderer.removeListener(
+          CHANNELS.OLLAMA_UPDATE_MODELS_PROGRESS,
+          subscription,
+        );
+      };
+    },
+
+    ollamaUpdateModelsComplete: (callback: (data: unknown) => void) => {
+      // Создаём функцию‑обёртку для подписки
+      const subscription = (event: IpcRendererEvent, ...args: unknown[]) =>
+        callback(args[0] as unknown);
+      // Подписываемся на событие
+      ipcRenderer.on(CHANNELS.OLLAMA_UPDATE_MODELS_COMPLETE, subscription);
+
+      // Возвращаем функцию отписки
+      return () => {
+        ipcRenderer.removeListener(
+          CHANNELS.OLLAMA_UPDATE_MODELS_COMPLETE,
+          subscription,
+        );
+      };
+    },
   }) as ElectronAPI;
