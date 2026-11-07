@@ -15,7 +15,7 @@ export const StihiRuListSelectedNumbers = observer(() => {
   return (
     <Stack flex={1} gap="xs" className={styles.padding}>
       <Title order={4}>История выбранных разделов</Title>
-      <List listStyleType="none">
+      <List listStyleType="none" className={styles.list}>
         {selectedDatesReverse.map((sihiChapter, indexSihiChapter) => (
           <List.Item
             key={sihiChapter.idHistory}
