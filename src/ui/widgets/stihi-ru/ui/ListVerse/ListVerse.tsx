@@ -9,6 +9,7 @@ import { useStihiRuRootStore } from "@renderer/providers/stihi-ru/useStihiRuRoot
 import { ListVerseCheckBan } from "./ListVerseCheckBan";
 import { StihiRuInvites } from "./StihiRuInvites";
 import { StihiRuListListNew } from "./StihiRuListListNew";
+import { StihiRuListPoemsLoading } from "./StihiRuListPoemsLoading";
 
 import styles from "./ListVerse.module.css";
 
@@ -17,7 +18,7 @@ import styles from "./ListVerse.module.css";
  */
 export const ListVerse = observer(() => {
   const {
-    stihiRuPoemsStore: { hasPoems },
+    stihiRuPoemsStore: { hasPoems, loading },
   } = useStihiRuRootStore();
 
   if (hasPoems)
@@ -36,6 +37,7 @@ export const ListVerse = observer(() => {
             Авторы приглашают
           </Title>
         </div>
+        <StihiRuListPoemsLoading />
         <div className={styles.poems}>
           <StihiRuListListNew />
           <StihiRuInvites />

@@ -67,6 +67,7 @@ export class StihiRuPoemsStore {
     );
 
     this.loading = true;
+    this.poems.clear();
     const url = `https://www.stihi.ru${match[0]}`;
     window.electronAPI.fetchText(url);
   };
