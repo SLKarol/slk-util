@@ -112,17 +112,22 @@ export class StihiRuListChapersStore {
   }
 
   /**
-   * Выбирает случайную главу из загруженного списка.
-   *
-   * Устанавливает `selectedLinkIndex` в случайное значение в допустимом диапазоне.
+   * Выбрать случайную главу из списка глав.
+   * Поиск(выбор) осуществляется случайным образом из списка глав, не включая уже выбранные главы.
+   * Если список глав пустой, выбранная глава не меняется.
    *
    * @returns {void}
    *
    * @action
    */
   selectRandomChapter = () => {
-    const randomIndex = Math.floor(Math.random() * this.chapters.length);
+    const { selectedDates } = this.stihiRuRootStore.historySelectedPartsStore;
 
+    const nonSelectedChapters = this.chapters.filter(
+      (chapter) => !selectedDates.some((sd) => sd.href === chapter.href),
+    );
+
+    const randomIndex = Math.floor(Math.random() * nonSelectedChapters.length);
     this.selectedLinkIndex = randomIndex;
   };
 
