@@ -31,7 +31,7 @@ export const StihiRuRecordHead = observer(({ poemHref }: Props) => {
   if (!poem) return null;
 
   return (
-    <List.Item>
+    <List.Item className={styles.listItem}>
       <OpenPoem href={poemHref} title={poem.title} />
       <span className={styles.authorContainer}>
         <span>(</span>

@@ -7,3 +7,7 @@
   row-gap: 0.1rem;
   overflow-y: auto;
 }
+
+.container button {
+  cursor: pointer;
+}

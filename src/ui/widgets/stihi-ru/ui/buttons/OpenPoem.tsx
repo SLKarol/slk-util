@@ -1,9 +1,9 @@
 import { Button } from "@mantine/core";
 
-import styles from "@widgets/stihi-ru/ui/ListVerse/StihiRuRecordHead.module.css";
-
 interface OpenPoemProps {
+  /*_ Ссылка на внешний ресурс _*/
   href: string;
+  /*_ Заголовок для отображения ссылки _*/
   title: string;
 }
 
@@ -19,7 +19,6 @@ export const OpenPoem = ({ href, title }: OpenPoemProps) => {
     <Button
       variant="transparent"
       color="indigo"
-      className={styles.button}
       onClick={onClickTitle}
       pl={0}
       pr={0}
