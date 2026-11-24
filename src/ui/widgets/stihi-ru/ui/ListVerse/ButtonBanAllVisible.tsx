@@ -17,7 +17,7 @@ export const ButtonBanAllVisible = observer(() => {
     <Tooltip label="Отправить в бан всех видимых Поэтов в списке">
       <ActionIcon
         variant="filled"
-        disabled={newPoems.length === 0 || invites.length === 0}
+        disabled={newPoems.length === 0}
         onClick={banAllVisibleAuthors}
       >
         <IconBan />
