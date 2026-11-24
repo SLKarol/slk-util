@@ -20,3 +20,9 @@
 .flexGrow {
   flex-grow: 1;
 }
+
+.toolBar {
+  display: flex;
+  gap: var(--mantine-spacing-sm);
+  align-items: center;
+}

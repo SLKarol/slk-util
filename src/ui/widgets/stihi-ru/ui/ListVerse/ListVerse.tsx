@@ -12,6 +12,7 @@ import { StihiRuListListNew } from "./StihiRuListListNew";
 import { StihiRuListPoemsLoading } from "./StihiRuListPoemsLoading";
 
 import styles from "./ListVerse.module.css";
+import { ButtonBanAllVisible } from "./ButtonBanAllVisible";
 
 /**
  * Блок со списком произведений
@@ -24,7 +25,10 @@ export const ListVerse = observer(() => {
   if (hasPoems)
     return (
       <div className={styles.container}>
-        <ListVerseCheckBan />
+        <div className={styles.toolBar}>
+          <ListVerseCheckBan />
+          <ButtonBanAllVisible />
+        </div>
         <div>
           <ListVerseButtonOpenAll />
           <CheckBoxIncludeInvite />

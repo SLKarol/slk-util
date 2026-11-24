@@ -1,3 +1,5 @@
+import { action, makeObservable } from "mobx";
+
 import { StihiRuCalendarStore } from "./calendar";
 import { HistorySelectedPartsStore } from "./history-selected-parts";
 import { StihiRuListChapersStore } from "./list-chapters";
@@ -69,6 +71,10 @@ export class StihiRuRootStore {
    * Создаёт экземпляр корневого хранилища.
    */
   constructor() {
+    makeObservable(this, {
+      banAllVisibleAuthors: action,
+    });
+
     /**
      * Экземпляр хранилища календаря.
      *
@@ -85,4 +91,17 @@ export class StihiRuRootStore {
     this.stihiRuUiStore = new StihiRuUiStore();
     this.reactionPoems = new ReactionPoemsStore();
   }
+
+  /**
+   * Метод для добавления всех авторов в бан
+   */
+  banAllVisibleAuthors = () => {
+    const { poems } = this.stihiRuPoemsStore;
+    const { addAuthor, list } = this.stihiRuBanAuthorsStore;
+    poems.forEach(({ authorId }) => {
+      if (!list.has(authorId)) {
+        addAuthor(authorId);
+      }
+    });
+  };
 }

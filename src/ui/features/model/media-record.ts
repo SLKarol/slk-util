@@ -116,7 +116,6 @@ export class MediaRecordStore {
     this.preview = preview ?? null;
     this.urlTopic = urlTopic ?? "";
 
-    // makeAutoObservable(this);
     makeObservable(this, {
       id: observable,
       idVideoSource: observable,
