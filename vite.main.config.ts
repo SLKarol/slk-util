@@ -10,4 +10,10 @@ export default defineConfig({
       "@shared": path.resolve(import.meta.dirname, "src/shared"),
     },
   },
+  build: {
+    rollupOptions: {
+      // Исключаем нативный C++ модуль из бандла, оставляя обычный require('better-sqlite3')
+      external: ["better-sqlite3"],
+    },
+  },
 });

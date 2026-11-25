@@ -9,6 +9,7 @@ import windowStateKeeper, { State } from "electron-window-state";
 
 import { createAppMenu } from "./main/menu";
 import { registerHandlers } from "@main/features/handlers";
+import { closeDatabase } from "@main/shared/db";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
@@ -57,6 +58,11 @@ app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
   }
+});
+
+// Закрываем соединение с SQLite и сбрасываем WAL-журнал перед выходом из приложения
+app.on("will-quit", () => {
+  closeDatabase();
 });
 
 app.on("activate", () => {
@@ -110,28 +116,4 @@ app.whenReady().then(() => {
   createWindow(mainWindowState);
   //! Регистрируем обработчики после создания окна
   registerHandlers();
-
-  // session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
-  //   callback({
-  //     responseHeaders: {
-  //       ...details.responseHeaders,
-  //       "Content-Security-Policy": [
-  //         // Dev version
-  //         "default-src 'self'; " +
-  //           "script-src 'self' 'unsafe-eval' 'unsafe-inline'; " +
-  //           "style-src 'self' 'unsafe-inline'; " +
-  //           "img-src 'self' https: data:; " +
-  //           "media-src https: data: blob:; " +
-  //           "connect-src 'self' ws: http: https:;",
-  //         // Prod version
-  //         // "default-src 'self'; " +
-  //         //   "script-src 'self'; " +
-  //         //   "style-src 'self' 'unsafe-inline'; " +
-  //         //   "img-src 'self' https: data:; " +
-  //         //   "media-src https: blob: data:; " +
-  //         //   "connect-src 'self' https:;",
-  //       ],
-  //     },
-  //   });
-  // });
 });

@@ -1,15 +1,9 @@
 import { dialog, type IpcMainEvent } from "electron";
 import { writeFile } from "fs/promises";
 
-import { UserDataFileManager } from "../UserDataFileManager";
-
+import { bannedAuthorRepository } from "@main/entities/banned-author";
 import { CHANNELS } from "@shared/ipc/channels";
 import { type ReceiveOperationAuthor } from "@shared/lib/types/electron-api";
-
-const banAuthorSettings = new UserDataFileManager<string[]>(
-  "banAuthor.json",
-  [],
-);
 
 /**
  * Объект, содержащий обработчики IPC-событий для работы с заблокированными авторами.
@@ -21,9 +15,10 @@ export const banAuthorHandlers = {
   /**
    * Обработчик запроса на получение списка заблокированных авторов.
    */
-  [CHANNELS.GET_BAN_AUTHORS]: async (ipcMainEvent: IpcMainEvent) => {
+  [CHANNELS.GET_BAN_AUTHORS]: (ipcMainEvent: IpcMainEvent) => {
     try {
-      const bannedAuthors = await banAuthorSettings.readData();
+      // B-tree PRIMARY KEY в таблице WITHOUT ROWID уже возвращает записи в отсортированном виде
+      const bannedAuthors = bannedAuthorRepository.getAll();
       ipcMainEvent.reply(CHANNELS.RECEIVE_BAN_AUTHORS, bannedAuthors);
     } catch (error) {
       console.error("Error:", error);
@@ -37,11 +32,9 @@ export const banAuthorHandlers = {
   /**
    * Обработчик для добавления автора в список заблокированных.
    */
-  [CHANNELS.ADD_BAN_AUTHOR]: async (event: IpcMainEvent, author: string) => {
+  [CHANNELS.ADD_BAN_AUTHOR]: (event: IpcMainEvent, author: string) => {
     try {
-      const bannedAuthors = await banAuthorSettings.readData();
-      bannedAuthors.push(author);
-      await banAuthorSettings.writeData(bannedAuthors.sort());
+      bannedAuthorRepository.add(author);
       event.reply(CHANNELS.RECEIVE_ON_OPERATION_AUTHOR, {
         add: true,
         author,
@@ -49,7 +42,7 @@ export const banAuthorHandlers = {
     } catch (error) {
       console.error("Error:", error);
       event.reply(CHANNELS.ERROR_MAIN, {
-        requestParam: CHANNELS.GET_BAN_AUTHORS,
+        requestParam: CHANNELS.ADD_BAN_AUTHOR,
         error,
       });
     }
@@ -58,12 +51,9 @@ export const banAuthorHandlers = {
   /**
    * Обработчик для удаления автора из списка заблокированных.
    */
-  [CHANNELS.REMOVE_BAN_AUTHOR]: async (event: IpcMainEvent, author: string) => {
+  [CHANNELS.REMOVE_BAN_AUTHOR]: (event: IpcMainEvent, author: string) => {
     try {
-      const bannedAuthors = await banAuthorSettings.readData();
-      const setBannedAuthors = new Set(bannedAuthors);
-      setBannedAuthors.delete(author);
-      await banAuthorSettings.writeData(Array.from(setBannedAuthors).sort());
+      bannedAuthorRepository.remove(author);
       event.reply(CHANNELS.RECEIVE_ON_OPERATION_AUTHOR, {
         add: false,
         author,
@@ -71,7 +61,7 @@ export const banAuthorHandlers = {
     } catch (error) {
       console.error("Error:", error);
       event.reply(CHANNELS.ERROR_MAIN, {
-        requestParam: CHANNELS.GET_BAN_AUTHORS,
+        requestParam: CHANNELS.REMOVE_BAN_AUTHOR,
         error,
       });
     }
@@ -89,12 +79,14 @@ export const banAuthorHandlers = {
         { name: "Все файлы", extensions: ["*"] },
       ],
     });
+
     // Проверяем, не отменил ли пользователь выбор
     if (result.canceled) {
       return false;
     }
+
     try {
-      const bannedAuthors = await banAuthorSettings.readData();
+      const bannedAuthors = bannedAuthorRepository.getAll();
       const newArray = bannedAuthors.map(
         (author) => `##li:has(a[href="/avtor/${author}"])`,
       );
